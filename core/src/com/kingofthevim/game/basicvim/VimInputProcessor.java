@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 
+//TODO use this to handle all input
+//TODO LATER make abstract and subdivde between VIM modes
 public class VimInputProcessor extends InputAdapter  {
 
     VimInputProcessor(Pointer aPointer){

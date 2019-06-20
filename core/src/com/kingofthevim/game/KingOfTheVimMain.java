@@ -10,50 +10,41 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.kingofthevim.game.basicvim.Pointer;
+import com.kingofthevim.game.states.GameStateManager;
+import com.kingofthevim.game.states.MenuState;
 
 public class KingOfTheVimMain extends ApplicationAdapter {
 
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 800;
+    //TODO Fixed right now for easier borders
+	public static final int WIDTH = 990;
+	public static final int HEIGHT = 990;
 
-	public static final String TITLE = "Flappy Bird";
+	public static final String TITLE = "King of the VIM";
 
 	private SpriteBatch batch;
-	private Pointer pointer;
+	private GameStateManager gsm;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		pointer = new Pointer(0, 0);
+		gsm = new GameStateManager();
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		gsm.push(new MenuState(gsm));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		pointer.updateMotion();
-		if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-			pointer.setRightMove(true);
-		} else{
-			pointer.setRightMove(false);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-			pointer.setLeftMove(true);
-		} else{
-			pointer.setLeftMove(false);
-		}
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.render(batch);
 
-
-		batch.begin();
-		batch.draw(pointer.getTexture(), (int)pointer.getX(), (int)pointer.getY());
-		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
+	    super.dispose();
 		batch.dispose();
-		pointer.dispose();
 	}
 }
