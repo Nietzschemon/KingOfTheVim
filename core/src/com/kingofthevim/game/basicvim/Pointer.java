@@ -14,6 +14,9 @@ public class Pointer extends InputAdapter {
     boolean upMove;
     boolean downMove;
 
+    private static int row;
+    private static int rowCell;
+
     private Vector2 position;
 
     // to check colition
@@ -57,35 +60,42 @@ public class Pointer extends InputAdapter {
         return texture;
     }
 
-    public Pointer(int x, int y){
+    //TODO x and y need to be automatically determined by row/rowcell
+    public Pointer(int x, int y, int row0, int rowCell0){
 
         position = new Vector2(x, y);
 
         texture = new Texture("markers/MarkerPurple.png");
 
         bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
-
+        row = row0;
+        rowCell = rowCell0;
     }
 
     // sends the delta time to our game world.
     // right now just a movement limiter
+    // and row(cell)-corrector
     public void update(float dt){
 
         if(position.x < 0)
         {
             position.x = 0;
+            rowCell = 0;
         }
-        if(position.x > KingOfTheVimMain.WIDTH - 33)
+        if(position.x > KingOfTheVimMain.WIDTH - 33)//char width
         {
             position.x = KingOfTheVimMain.WIDTH - 33;
+            rowCell -= 1;
         }
 
         if(position.y < 0)
         {
             position.y = 0;
+            row -= 1;
         }
-        if(position.y > KingOfTheVimMain.HEIGHT - 66){
+        if(position.y > KingOfTheVimMain.HEIGHT - 66){//char height
             position.y = KingOfTheVimMain.HEIGHT - 66;
+            row = 0;
         }
 
     }
@@ -96,20 +106,26 @@ public class Pointer extends InputAdapter {
         if (leftMove)
         {
             position.x -= bounds.width;
+            rowCell -= 1;
         }
         if (rightMove)
         {
             position.x += bounds.width;
+            rowCell += 1;
         }
         if(upMove)
         {
             position.y += bounds.height;
+            row -= 1;
         }
         if(downMove)
         {
            position.y -= bounds.height;
+            row += 1;
         }
 
+        System.out.println("row: " + row + "\nRowChar: " + rowCell);
+        System.out.println("x: " + getX() + "\ny: " + getY());
 
         bounds.setPosition(position.x, position.y);
     }

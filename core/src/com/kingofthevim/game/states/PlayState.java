@@ -17,7 +17,8 @@ public class PlayState extends State{
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        pointer = new Pointer(33, 66);
+        //TODO ta bort magiska nummer
+        pointer = new Pointer(0, 66, 13, 0);
 
         //TODO use for bigger texts and levels
         //use also for zooming in bigger levels
@@ -26,11 +27,13 @@ public class PlayState extends State{
         letters = new Array<Letter>();
 
         for(int i = 1; i <= 5; i++){
-            letters.add(new Letter(i * (33 + 33), 0, 33, 66));
+            letters.add(new Letter(i * 66, 0, 33, 66)); //66 for width + space
         }
 
-
     }
+
+    //TODO kolla var den är och gör logiken på det.
+    //TODO låt
 
     @Override
     public void handleInput() {
