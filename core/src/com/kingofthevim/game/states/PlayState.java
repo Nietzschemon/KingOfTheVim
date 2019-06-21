@@ -15,6 +15,16 @@ public class PlayState extends State{
 
     private Array<Letter> letters;
 
+
+
+    //////////////////////////////////
+    //TODO make positions the only location metric
+    // ALL other things should follow automaticly from that
+    // such as SIZE of things and their X and Y
+    /////////////////////////////////////////////////////////
+    private int letterWidth = 33;
+    private int letterHeight = 66;
+
     public PlayState(GameStateManager gsm) {
         super(gsm);
         //TODO ta bort magiska nummer
@@ -27,7 +37,7 @@ public class PlayState extends State{
         letters = new Array<Letter>();
 
         for(int i = 1; i <= 5; i++){
-            letters.add(new Letter(i * 66, 0, 33, 66)); //66 for width + space
+            letters.add(new Letter(i * letterHeight, 0, letterWidth, letterHeight, "fontTest/X.png")); //66 for width + space
         }
 
     }

@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Random;
-
 public class Letter {
 
-    public static int tube_with;
-    public static int tube_height;
+    // static as to not accidentally create different sizes
+    public static int letter_with;
+    public static int letter_height;
 
+
+    //TODO might need to have a static array of the letters loaded in for performance rather that it being elsewhere?
     //TODO make static and reuse texture for text.
     //TODO LATER make letterArray of all letters so they can be called and handles by LetterManger
     // Pictures
@@ -28,14 +29,22 @@ public class Letter {
 
     //TODO texture is fonttest are 33 width and 66 height
     //TODO LATER remove this and put in LetterManager
-    public Letter(float x, float y, int width, int height){
+    /**
+     * Constructs and places letter on map
+     * @param x the x position
+     * @param y the y position
+     * @param width width of font
+     * @param height height of font
+     * @param filePath filePath to font letter
+     */
+    public Letter(float x, float y, int width, int height, String filePath){
         //TODO make a variable
-        texture = new Texture("fontTest/A.png");
+        texture = new Texture(filePath);
 
         position = new Vector2(x, y);
 
-        tube_with = width;
-        tube_height = height;
+        letter_with = width;
+        letter_height = height;
 
         //TODO Dont getWidth and hight. Make fixed for performance in LetterManager.
         //Sets the bounds with image postion and size
