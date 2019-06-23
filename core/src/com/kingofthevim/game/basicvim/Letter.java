@@ -20,13 +20,6 @@ public class Letter {
     //position on axis
     private Vector2 position;
 
-    //Colition box
-    //TODO LATER make the LetterManager handle the coaliton box
-    // and only asign it to idiviual letters if needed.
-    // ALTERNATIVE since the number of positions per line
-    // is fixed a array of chars might be all that is needed.
-    private Rectangle bounds;
-
     //TODO texture is fonttest are 33 width and 66 height
     //TODO LATER remove this and put in LetterManager
     /**
@@ -48,30 +41,25 @@ public class Letter {
         letter_height = height;
 
         //TODO Dont getWidth and hight. Make fixed for performance in LetterManager.
-        //Sets the bounds with image postion and size
-        bounds = new Rectangle(position.x, position.y, width, height);
     }
 
     /**
      *
      * @param x
      * @param y
-     * @param font
+     * @param letter
      * @param width
      * @param height
      */
-    public Letter(float x, float y, Texture font, int width, int height){
+    public Letter(float x, float y, Texture letter, int width, int height){
 
-        texture = font;
+        texture = letter;
 
         position = new Vector2(x, y);
 
         letter_with = width;
         letter_height = height;
 
-        //TODO Dont getWidth and hight. Make fixed for performance in LetterManager.
-        //Sets the bounds with image postion and size
-        bounds = new Rectangle(position.x, position.y, width, height);
     }
 
     public Texture getTexture() {
@@ -84,12 +72,6 @@ public class Letter {
 
     public void reposition(float x, float y){
         position.set(x, y);
-        bounds.setPosition(position.x, position.y);
-    }
-
-    // whats on the box.
-    public boolean collides(Rectangle pointer){
-        return pointer.overlaps(bounds);
     }
 
     public void dispose(){

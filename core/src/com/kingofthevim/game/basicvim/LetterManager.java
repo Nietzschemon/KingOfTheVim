@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import java.util.Map;
 
+
 //TODO LATER use properties to store the file paths.
 // https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
 
@@ -23,8 +24,8 @@ public class LetterManager {
     //TODO row/colum converter should just place in array of objects
     public LetterManager(int rowN, int columN, String word){
 
-        letterArray = new Array<>();
         fontCollection = new HashMap<>();
+        letterArray = new Array<>();
 
         getTextures();
         setWord(word);
@@ -37,7 +38,7 @@ public class LetterManager {
         for(int i = 0; i <= word.length()-1; i++){
             char charKey = word.charAt(i);
             System.out.println("char: " + charKey);
-            matrix[row][colum+i] = new Letter(fontCollection.get(charKey));
+            cellMatrix[row][colum+i].setLetter(fontCollection.get(charKey));
          */
 
         for(int i = 0; i <= word.length()-1; i++){
@@ -53,8 +54,7 @@ public class LetterManager {
     }
 
 
-    //TODO get row N from Colum N to colum N
-
+    //TODO find a better way to add these than this
     private void getTextures(){
 
         //TODO fix bash-script to make pngs for these signs
@@ -150,5 +150,4 @@ public class LetterManager {
         fontCollection.put('2', new Texture("fontTest/2.png"));
         fontCollection.put('1', new Texture("fontTest/1.png"));
     }
-
 }

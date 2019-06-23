@@ -13,7 +13,7 @@ public abstract class State {
     protected State(GameStateManager gsm){
         this.gsm = gsm;
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
+        cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
     }
 
     public abstract void handleInput();

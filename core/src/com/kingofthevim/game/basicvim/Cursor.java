@@ -8,23 +8,35 @@ import com.kingofthevim.game.KingOfTheVimMain;
 
 //TODO make pointer dependent on keeping within the cell array
 // in this way the levels can variate in size more easily, as
-// the x and y can be calculated by the position in the "matrix"
-public class Pointer extends InputAdapter {
+// the x and y can be calculated by the position in the "cellMatrix"
+public class Cursor extends InputAdapter {
 
+    //TODO fix so cursor works within matrix
+    VimWorldMatrix matrix;
 
     private boolean leftMove;
     private boolean rightMove;
     private boolean upMove;
     private boolean downMove;
 
-    private static int row;
-    private static int rowCell;
+    private int rowMax;
+    private int rowCellMax;
+    private static int currRow;
+    private static int currRowCell;
 
     private Vector2 position;
 
     // to check collision
     private Rectangle bounds;
     private Texture texture;
+
+    public int getRow(){
+        return currRow;
+    }
+
+    public int getRowCell(){
+        return currRowCell;
+    }
 
 
     public double getX(){
@@ -63,41 +75,46 @@ public class Pointer extends InputAdapter {
         return texture;
     }
 
-    //TODO x and y need to be automatically determined by row/rowcell
-    public Pointer(int x, int y, int row0, int rowCell0){
+
+    //TODO x and y need to be automatically determined by currRow/rowcell
+    public Cursor(int x, int y, int row0, int rowCell0){
 
         position = new Vector2(x, y);
 
         texture = new Texture("markers/MarkerPurple.png");
 
         bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
-        row = row0;
-        rowCell = rowCell0;
+        currRow = row0;
+        currRowCell = rowCell0;
     }
 
+
+
+    public Cursor(int startRow, int startRowCell, VimWorldMatrix vimMatrix){
+
+        matrix = vimMatrix;
+
+    }
     // right now just a movement limiter
-    // and row(cell)-corrector
+    // and currRow(cell)-corrector
     public void update(){
 
-        if(position.x < 0)
-        {
+        if(position.x < 0){
             position.x = 0;
-            rowCell = 0;
+            currRowCell = 0;
         }
-        if(position.x > KingOfTheVimMain.WIDTH - 33)//char width
-        {
+        if(position.x > KingOfTheVimMain.WIDTH - 33){//char width
             position.x = KingOfTheVimMain.WIDTH - 33;
-            rowCell -= 1;
+            currRowCell -= 1;
         }
 
-        if(position.y < 0)
-        {
+        if(position.y < 0){
             position.y = 0;
-            row -= 1;
+            currRow = 0;
         }
         if(position.y > KingOfTheVimMain.HEIGHT - 66){//char height
             position.y = KingOfTheVimMain.HEIGHT - 66;
-            row = 0;
+            currRow -= 1;
         }
 
     }
@@ -108,22 +125,22 @@ public class Pointer extends InputAdapter {
         if (leftMove)
         {
             position.x -= bounds.width;
-            rowCell -= 1;
+            currRowCell -= 1;
         }
         if (rightMove)
         {
             position.x += bounds.width;
-            rowCell += 1;
+            currRowCell += 1;
         }
         if(upMove)
         {
             position.y += bounds.height;
-            row -= 1;
+            currRow += 1;
         }
         if(downMove)
         {
            position.y -= bounds.height;
-            row += 1;
+            currRow -= 1;
         }
 
         bounds.setPosition(position.x, position.y);
@@ -131,7 +148,7 @@ public class Pointer extends InputAdapter {
 
 
         if(leftMove || rightMove || upMove || downMove){
-            System.out.println("\n\nrow: " + row + "\ncolumn: " + rowCell);
+            System.out.println("\n\ncurrRow: " + currRow + "\ncolumn: " + currRowCell);
             System.out.println("x: " + getX() + "\ny: " + getY());
         }
     }

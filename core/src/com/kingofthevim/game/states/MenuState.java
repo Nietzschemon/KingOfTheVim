@@ -1,6 +1,7 @@
 package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.KingOfTheVimMain;
@@ -9,14 +10,19 @@ public class MenuState extends State{
 
     Texture playBtn;
 
+    //TODO write real menu
     public MenuState(GameStateManager gsm) {
         super(gsm);
         playBtn = new Texture("fontTest/P.png");
     }
 
+    //clicks Playbutton
     @Override
     public void handleInput() {
-        if(Gdx.input.justTouched()){ //always check if the user has one anything
+        if(Gdx.input.justTouched()
+                || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
+                || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+
             gsm.set(new PlayState(gsm));
         }
     }
