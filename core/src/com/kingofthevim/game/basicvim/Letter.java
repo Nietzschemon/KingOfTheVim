@@ -41,6 +41,29 @@ public class Letter {
         //TODO make a variable
         texture = new Texture(filePath);
 
+
+        position = new Vector2(x, y);
+
+        letter_with = width;
+        letter_height = height;
+
+        //TODO Dont getWidth and hight. Make fixed for performance in LetterManager.
+        //Sets the bounds with image postion and size
+        bounds = new Rectangle(position.x, position.y, width, height);
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param font
+     * @param width
+     * @param height
+     */
+    public Letter(float x, float y, Texture font, int width, int height){
+
+        texture = font;
+
         position = new Vector2(x, y);
 
         letter_with = width;
@@ -59,7 +82,6 @@ public class Letter {
         return position;
     }
 
-    // puts tubes passed in front
     public void reposition(float x, float y){
         position.set(x, y);
         bounds.setPosition(position.x, position.y);

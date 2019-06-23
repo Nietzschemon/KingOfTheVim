@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.Letter;
+import com.kingofthevim.game.basicvim.LetterManager;
 import com.kingofthevim.game.basicvim.Pointer;
 
 public class PlayState extends State{
@@ -15,8 +16,6 @@ public class PlayState extends State{
 
     private Array<Letter> letters;
 
-
-
     //////////////////////////////////
     //TODO make positions the only location metric
     // ALL other things should follow automaticly from that
@@ -24,6 +23,8 @@ public class PlayState extends State{
     /////////////////////////////////////////////////////////
     private int letterWidth = 33;
     private int letterHeight = 66;
+
+    private LetterManager ltxMgr;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -34,16 +35,10 @@ public class PlayState extends State{
         //use also for zooming in bigger levels
         cam.setToOrtho(false, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        letters = new Array<Letter>();
-
-        for(int i = 1; i <= 5; i++){
-            letters.add(new Letter(i * letterHeight, 0, letterWidth, letterHeight, "fontTest/X.png")); //66 for width + space
-        }
+        ltxMgr = new LetterManager(1, 2, "CBC");//MÅSTE va ABC
+        letters = ltxMgr.getLine();
 
     }
-
-    //TODO kolla var den är och gör logiken på det.
-    //TODO låt
 
     @Override
     public void handleInput() {
@@ -74,7 +69,7 @@ public class PlayState extends State{
     @Override
     public void update(float dt) {
         handleInput(); //
-        pointer.update(dt);
+        pointer.update();
 
         //TODO The cam should be able to follow the y axis OR the x axis
         //cam.position.x = pointer.getPosition().x + 80;

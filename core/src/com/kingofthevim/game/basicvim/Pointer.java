@@ -6,20 +6,23 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.kingofthevim.game.KingOfTheVimMain;
 
+//TODO make pointer dependent on keeping within the cell array
+// in this way the levels can variate in size more easily, as
+// the x and y can be calculated by the position in the "matrix"
 public class Pointer extends InputAdapter {
 
 
-    boolean leftMove;
-    boolean rightMove;
-    boolean upMove;
-    boolean downMove;
+    private boolean leftMove;
+    private boolean rightMove;
+    private boolean upMove;
+    private boolean downMove;
 
     private static int row;
     private static int rowCell;
 
     private Vector2 position;
 
-    // to check colition
+    // to check collision
     private Rectangle bounds;
     private Texture texture;
 
@@ -72,10 +75,9 @@ public class Pointer extends InputAdapter {
         rowCell = rowCell0;
     }
 
-    // sends the delta time to our game world.
     // right now just a movement limiter
     // and row(cell)-corrector
-    public void update(float dt){
+    public void update(){
 
         if(position.x < 0)
         {
@@ -124,10 +126,14 @@ public class Pointer extends InputAdapter {
             row += 1;
         }
 
-        System.out.println("row: " + row + "\nRowChar: " + rowCell);
-        System.out.println("x: " + getX() + "\ny: " + getY());
-
         bounds.setPosition(position.x, position.y);
+        update();
+
+
+        if(leftMove || rightMove || upMove || downMove){
+            System.out.println("\n\nrow: " + row + "\ncolumn: " + rowCell);
+            System.out.println("x: " + getX() + "\ny: " + getY());
+        }
     }
 
 
