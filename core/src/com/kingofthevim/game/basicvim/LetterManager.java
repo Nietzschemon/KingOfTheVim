@@ -18,12 +18,10 @@ public class LetterManager extends VimWorldMatrix{
     // We only need one of these
     private static Map<Character, Texture> fontCollection;
 
-    private Array<Letter> letterArray;
 
     public LetterManager(){
 
         fontCollection = new HashMap<>();
-        letterArray = new Array<>();
 
         getTextures();
     }
@@ -49,27 +47,23 @@ public class LetterManager extends VimWorldMatrix{
 
     }
 
-    public Array<Letter> getLine(){
-
-        return letterArray;
-    }
 
 
     //TODO find a better way to add these than this
     private void getTextures(){
 
         //TODO fix bash-script to make pngs for these signs
-        //fontCollection.put('?', new Texture("fontTest/?.png"));
-        //fontCollection.put(':', new Texture("fontTest/:.png"));
-        //fontCollection.put('.', new Texture("fontTest/..png"));
-        //fontCollection.put('/', new Texture("fontTest//.png"));
-        //fontCollection.put('*', new Texture("fontTest/*.png"));
-        //fontCollection.put('@', new Texture("fontTest/@.png"));
+        fontCollection.put('?', new Texture("fontTest/questionmark.png"));
+        fontCollection.put(':', new Texture("fontTest/colon.png"));
+        fontCollection.put('.', new Texture("fontTest/dot.png"));
+        fontCollection.put('/', new Texture("fontTest/forwardslash.png"));
+        fontCollection.put('*', new Texture("fontTest/star.png"));
+        fontCollection.put('@', new Texture("fontTest/atsign.png"));
 
         //TODO skapa script som fixar de relativa sökvägarna.
         fontCollection.put('!', new Texture("fontTest/!.png"));
         fontCollection.put(';', new Texture("fontTest/;.png"));
-        fontCollection.put(',', new Texture("fontTest/,.png"));
+        fontCollection.put(',', new Texture("fontTest/comma.png"));
         fontCollection.put('|', new Texture("fontTest/|.png"));
         fontCollection.put('>', new Texture("fontTest/>.png"));
         fontCollection.put('<', new Texture("fontTest/<.png"));

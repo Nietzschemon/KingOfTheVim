@@ -20,7 +20,6 @@ public class PlayState extends State{
 
     private VimWorldMatrix vimMatrix;
 
-    private Array<Letter> letters;
 
     private int letterWidth = 33;
     private int letterHeight = 66;
@@ -38,11 +37,9 @@ public class PlayState extends State{
         vimMatrix = new VimWorldMatrix();
         cursor = new Cursor( 1, 0);
 
-        //ltxMgr = new LetterManager(1, 2, "It was hell");//MÅSTE va ABC
         ltxMgr = new LetterManager();
 
-        ltxMgr.setWord("Test", 2, 4);
-        //letters = ltxMgr.getLine();
+        ltxMgr.setWord("Test this!?/^~@", 2, 4);
 
     }
 
@@ -74,7 +71,7 @@ public class PlayState extends State{
 
     @Override
     public void update(float dt) {
-        handleInput(); //
+        handleInput();
         cursor.update();
 
         //TODO The cam should be able to follow the y axis OR the x axis
@@ -110,13 +107,6 @@ public class PlayState extends State{
                 }
             }
         }
-        // draws letters every cykle
-        /*
-        for(Letter letter : letters) {
-            sb.draw(letter.getTexture(), letter.getPosition().x, letter.getPosition().y);
-        }
-
-         */
 
         sb.end();
     }
@@ -124,11 +114,6 @@ public class PlayState extends State{
     @Override
     public void dispose() {
         cursor.dispose();
-        /*
-        for(Letter letter : letters)
-            letter.dispose();
-
-         */
 
         for(Cell[] cellRow : vimMatrix.getCellMatrix()){
 

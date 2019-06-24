@@ -108,17 +108,17 @@ public class Cursor extends VimWorldMatrix {
     // and currRow(cell)-corrector
     public void update(){
 
-        if(position.x < 0){
+        if(currRowCell < 0){
             position.x = 0;
             currRowCell = 0;
         }
-        if(position.x > KingOfTheVimMain.WIDTH - 33){//char width
-            position.x = KingOfTheVimMain.WIDTH - 33;
+        if(currRowCell > colunmTotal){
+            position.x = KingOfTheVimMain.WIDTH - fontWidth;//char width
             currRowCell -= 1;
         }
 
         if(currRow < 0){
-            position.y = KingOfTheVimMain.HEIGHT - 66;//char height
+            position.y = KingOfTheVimMain.HEIGHT - fontHeight;//char height
             currRow = 0;
         }
         if(currRow > rowTotal){

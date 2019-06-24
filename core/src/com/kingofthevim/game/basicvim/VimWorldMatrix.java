@@ -5,25 +5,27 @@ import com.kingofthevim.game.KingOfTheVimMain;
 
 /**
  * This organizes the world cells into the VIM world. It sets the
- * number of cells and their sizes. All VIM actions are limitid to
- * happen within the bounds set here by iteraction with the cellMatrix
+ * number of cells and their sizes. All VIM actions are limited to
+ * happen within the bounds set here by interaction with the cellMatrix
  */
-public class VimWorldMatrix implements VimMatrix {
+public class VimWorldMatrix {
 
-    protected static int rowTotal;
-    protected static int colunmTotal;
+    static int rowTotal;
+    static int colunmTotal;
+    static int fontHeight = 66;
+    static int fontWidth = 33;
 
-    protected static Cell[][] cellMatrix;
+    static Cell[][] cellMatrix;
 
     //TODO Make a class that sets everything as below
     // that takes font-width/height as a parameters
     public VimWorldMatrix(){
-        rowTotal = (KingOfTheVimMain.HEIGHT/66) - 1;
-        colunmTotal = (KingOfTheVimMain.WIDTH/33) - 1;
+        rowTotal = (KingOfTheVimMain.HEIGHT/fontHeight) - 1;
+        colunmTotal = (KingOfTheVimMain.WIDTH/fontWidth) - 1;
 
 
         cellMatrix = new Cell[rowTotal][colunmTotal];
-        setCellSize(33, 66);
+        setCellSize(fontWidth, fontHeight);
 
         System.out.println("\nVimMatrix size - rows: " + rowTotal + " - columns: " + colunmTotal);
     }
