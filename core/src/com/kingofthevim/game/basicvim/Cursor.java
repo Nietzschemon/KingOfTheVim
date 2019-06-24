@@ -2,25 +2,28 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.kingofthevim.game.KingOfTheVimMain;
 
+import java.lang.reflect.Array;
+
+//TODO TEXTURES look into TextureAtlas and sprites to see if the
+// visual effect in spacemacs of a combination of the cursor and
+// a letter in spacemacs can be achieved.
+
 //TODO make pointer dependent on keeping within the cell array
 // in this way the levels can variate in size more easily, as
 // the x and y can be calculated by the position in the "cellMatrix"
-public class Cursor extends InputAdapter {
+public class Cursor extends VimWorldMatrix {
 
     //TODO fix so cursor works within matrix
-    VimWorldMatrix matrix;
-
     private boolean leftMove;
     private boolean rightMove;
     private boolean upMove;
     private boolean downMove;
 
-    private int rowMax;
-    private int rowCellMax;
     private static int currRow;
     private static int currRowCell;
 
@@ -76,8 +79,20 @@ public class Cursor extends InputAdapter {
     }
 
 
-    //TODO x and y need to be automatically determined by currRow/rowcell
+    public Cursor(int startRow, int startRowCell){
+
+        position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
+
+        texture = new Texture("markers/MarkerPurple.png");
+
+        bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        currRow = startRow;
+        currRowCell = startRowCell;
+
+    }
+
     public Cursor(int x, int y, int row0, int rowCell0){
+        super();
 
         position = new Vector2(x, y);
 
@@ -89,12 +104,6 @@ public class Cursor extends InputAdapter {
     }
 
 
-
-    public Cursor(int startRow, int startRowCell, VimWorldMatrix vimMatrix){
-
-        matrix = vimMatrix;
-
-    }
     // right now just a movement limiter
     // and currRow(cell)-corrector
     public void update(){
@@ -108,12 +117,12 @@ public class Cursor extends InputAdapter {
             currRowCell -= 1;
         }
 
-        if(position.y < 0){
-            position.y = 0;
+        if(currRow < 0){
+            position.y = KingOfTheVimMain.HEIGHT - 66;//char height
             currRow = 0;
         }
-        if(position.y > KingOfTheVimMain.HEIGHT - 66){//char height
-            position.y = KingOfTheVimMain.HEIGHT - 66;
+        if(currRow > rowTotal){
+            position.y = 0;
             currRow -= 1;
         }
 
@@ -135,12 +144,12 @@ public class Cursor extends InputAdapter {
         if(upMove)
         {
             position.y += bounds.height;
-            currRow += 1;
+            currRow -= 1;
         }
         if(downMove)
         {
            position.y -= bounds.height;
-            currRow -= 1;
+            currRow += 1;
         }
 
         bounds.setPosition(position.x, position.y);

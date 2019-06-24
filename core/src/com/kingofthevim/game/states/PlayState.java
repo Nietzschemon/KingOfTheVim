@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 import com.kingofthevim.game.KingOfTheVimMain;
-import com.kingofthevim.game.basicvim.Cursor;
-import com.kingofthevim.game.basicvim.Letter;
-import com.kingofthevim.game.basicvim.LetterManager;
-import com.kingofthevim.game.basicvim.VimWorld;
+import com.kingofthevim.game.basicvim.*;
 
 public class PlayState extends State{
 
@@ -21,7 +18,7 @@ public class PlayState extends State{
 
     private Cursor cursor;
 
-    private VimWorld vimWorld;
+    private VimWorldMatrix vimMatrix;
 
     private Array<Letter> letters;
 
@@ -33,16 +30,19 @@ public class PlayState extends State{
     public PlayState(GameStateManager gsm) {
         super(gsm);
         //TODO ta bort magiska nummer
-        cursor = new Cursor(0, 66, 1, 0);
 
         //TODO use for bigger texts and levels
         //use also for zooming in bigger levels
-        cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
+        cam.setToOrtho(false, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        ltxMgr = new LetterManager(1, 2, "CBC");//MÅSTE va ABC
-        letters = ltxMgr.getLine();
+        vimMatrix = new VimWorldMatrix();
+        cursor = new Cursor( 1, 0);
 
-        vimWorld = new VimWorld(letterWidth, letterHeight);
+        //ltxMgr = new LetterManager(1, 2, "It was hell");//MÅSTE va ABC
+        ltxMgr = new LetterManager();
+
+        ltxMgr.setWord("Test", 2, 4);
+        //letters = ltxMgr.getLine();
 
     }
 
@@ -99,10 +99,24 @@ public class PlayState extends State{
 
         sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
 
+        for(Cell[] cellRow : vimMatrix.getCellMatrix()){
+
+            for(Cell cell : cellRow){
+
+                if(cell.getCellLook() != null){
+                    sb.draw(cell.getCellLook(),
+                            cell.getCartesianPosition().x,
+                            cell.getCartesianPosition().y);
+                }
+            }
+        }
         // draws letters every cykle
+        /*
         for(Letter letter : letters) {
             sb.draw(letter.getTexture(), letter.getPosition().x, letter.getPosition().y);
         }
+
+         */
 
         sb.end();
     }
@@ -110,9 +124,19 @@ public class PlayState extends State{
     @Override
     public void dispose() {
         cursor.dispose();
+        /*
         for(Letter letter : letters)
             letter.dispose();
 
+         */
+
+        for(Cell[] cellRow : vimMatrix.getCellMatrix()){
+
+            for(Cell cell : cellRow){
+
+                cell.dispose();
+            }
+        }
         System.out.println("Play State Disposed");
     }
 

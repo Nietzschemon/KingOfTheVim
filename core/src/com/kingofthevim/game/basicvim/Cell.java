@@ -8,10 +8,8 @@ import java.util.Map;
 
 /**
  * Class for sending, keeping and manipulating data on a
- * certain point on the grid. A VIM-world objects always
+ * certain point on the grid. VIM-world objects always
  * interact with the world through these.
- *
- * This
  */
 public class Cell {
 
@@ -23,13 +21,11 @@ public class Cell {
     private boolean isBad;
 
 
-
     Cell( float x, float y){
 
         cartesianPosition = new Vector2();
         cartesianPosition.x = x;
-        cartesianPosition.x = y;
-
+        cartesianPosition.y = y;
 
     }
 
@@ -57,5 +53,10 @@ public class Cell {
     public void setCartesianPosition(float x, float y) {
         this.cartesianPosition.x = x;
         this.cartesianPosition.y = y;
+    }
+
+
+    public void dispose(){
+        cellLook.dispose();
     }
 }

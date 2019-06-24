@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.KingOfTheVimMain;
 
 /**
@@ -7,12 +8,26 @@ import com.kingofthevim.game.KingOfTheVimMain;
  * number of cells and their sizes. All VIM actions are limitid to
  * happen within the bounds set here by iteraction with the cellMatrix
  */
-public abstract class VimWorldMatrix {
+public class VimWorldMatrix implements VimMatrix {
 
-    private int rowTotal;
-    private int colunmTotal;
+    protected static int rowTotal;
+    protected static int colunmTotal;
 
-    private Cell[][] cellMatrix;
+    protected static Cell[][] cellMatrix;
+
+    //TODO Make a class that sets everything as below
+    // that takes font-width/height as a parameters
+    public VimWorldMatrix(){
+        rowTotal = (KingOfTheVimMain.HEIGHT/66) - 1;
+        colunmTotal = (KingOfTheVimMain.WIDTH/33) - 1;
+
+
+        cellMatrix = new Cell[rowTotal][colunmTotal];
+        setCellSize(33, 66);
+
+        System.out.println("\nVimMatrix size - rows: " + rowTotal + " - columns: " + colunmTotal);
+    }
+
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
@@ -38,18 +53,34 @@ public abstract class VimWorldMatrix {
 
     private void setCellSize(int width, int height){
 
+        //makes the inverted axis work with the row
+        // ordering in the array.
+        int cellYfix = rowTotal;
+
         for (int i = 0; i < rowTotal; i++) {
 
             for (int j = 0; j < colunmTotal; j++) {
 
-                cellMatrix[i][j] = new Cell(j * width, i * height);
+                cellMatrix[i][j] = new Cell(j * width, cellYfix * height);
 
-                System.out.println("cellX: " + (j * width) + "cellY: " + (i * height));
+                //TODO ändra så y 800 börjar på x 0
+                System.out.println("cellX: " + (j * width) + " cellY: " + (cellYfix * height));
             }
+            cellYfix--;
         }
     }
 
 
+    //TODO make get changed textures method for performance
+    public Texture[] getMatrixTextures(){
+
+        return null;
+    }
+
+    public Cell[] getRow(int row){
+
+        return cellMatrix[row];
+    }
 
     public Cell[][] getCellMatrix() {
         return cellMatrix;

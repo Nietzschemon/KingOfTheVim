@@ -13,39 +13,40 @@ import java.util.Map;
 
 //TODO LATER use properties to store the file paths.
 // https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
-
-public class LetterManager {
+public class LetterManager extends VimWorldMatrix{
 
     // We only need one of these
     private static Map<Character, Texture> fontCollection;
 
     private Array<Letter> letterArray;
 
-    //TODO row/colum converter should just place in array of objects
-    public LetterManager(int rowN, int columN, String word){
+    public LetterManager(){
 
         fontCollection = new HashMap<>();
         letterArray = new Array<>();
 
         getTextures();
-        setWord(word);
     }
 
-    private void setWord(String word){
+    //private void setWordProperties(int row, int rowCell, boolean isBad, boolean isGood)
+    //public void setPropertiesAllChars(char[] propertiesChar, PropObject prop)
 
-        //TODO make commented loop work
-        /*
-        for(int i = 0; i <= word.length()-1; i++){
-            char charKey = word.charAt(i);
-            System.out.println("char: " + charKey);
-            cellMatrix[row][colum+i].setLetter(fontCollection.get(charKey));
-         */
+    public void setWord(String word, int row, int startCell){
 
-        for(int i = 0; i <= word.length()-1; i++){
-            char charKey = word.charAt(i);
-            System.out.println("char: " + charKey);
-            letterArray.add(new Letter((i+1) * 66, 0, fontCollection.get(charKey), 33, 66));
+        if(word.length() + startCell > cellMatrix[row].length){
+            throw new IndexOutOfBoundsException("word will be outside cell matrix");
         }
+
+        for(int i = 0; i <= word.length()-1; i++) {
+            char charKey = word.charAt(i);
+
+            System.out.println("char: " + charKey +
+                    " in cellMatrix[" + row + "][" + (startCell + i) + "]");
+
+            cellMatrix[row][startCell + i].setCellLook(fontCollection.get(charKey), charKey);
+
+        }
+
     }
 
     public Array<Letter> getLine(){
