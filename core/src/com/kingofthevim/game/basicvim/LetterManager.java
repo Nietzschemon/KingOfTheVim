@@ -20,6 +20,7 @@ public class LetterManager extends VimWorldMatrix{
 
 
     public LetterManager(){
+        super(rowTotal, colunmTotal);
 
         fontCollection = new HashMap<>();
 
@@ -29,20 +30,47 @@ public class LetterManager extends VimWorldMatrix{
     //private void setWordProperties(int row, int rowCell, boolean isBad, boolean isGood)
     //public void setPropertiesAllChars(char[] propertiesChar, PropObject prop)
 
-    public void setWord(String word, int row, int startCell){
+    /**
+     * Writes a string at the given location.
+     * @param string The string to be written
+     * @param row At what row the string should be written
+     * @param startCell At what cell in the row the string should start from
+     * @param overwriteExisting If existing chars should be jumped or written over
+     */
+    public void setString(String string, int row, int startCell, boolean overwriteExisting){
 
-        if(word.length() + startCell > cellMatrix[row].length){
+        if(string.length() + startCell > cellMatrix[row].length){
             throw new IndexOutOfBoundsException("word will be outside cell matrix");
         }
 
-        for(int i = 0; i <= word.length()-1; i++) {
-            char charKey = word.charAt(i);
+        int iterations = string.length()-1;
+        int charNum = 0;
+
+
+        for(int i = 0; i <= iterations; i++) {
+            char charKey = string.charAt(charNum);
 
             System.out.println("char: " + charKey +
                     " in cellMatrix[" + row + "][" + (startCell + i) + "]");
 
-            cellMatrix[row][startCell + i].setCellLook(fontCollection.get(charKey), charKey);
+            //overwrite existing cell
 
+            if(cellMatrix[row][startCell + i].getCellLook() != null
+            && ! overwriteExisting){
+                System.out.println("There is already a char there!");
+                iterations++;
+                continue;
+            }
+
+            cellMatrix[row][startCell + i].setCellLook(fontCollection.get(charKey), charKey);
+            charNum++;
+        }
+    }
+
+    public void setStringArray(String[] stringArray, int startRow, boolean overwriteExisting){
+
+        for (int i = 0; i < stringArray.length; i++) {
+            setString(stringArray[i], startRow + i, 0, overwriteExisting);
         }
 
     }
@@ -50,20 +78,18 @@ public class LetterManager extends VimWorldMatrix{
 
 
     //TODO find a better way to add these than this
-    private void getTextures(){
+    //TODO skapa script som fixar de relativa sökvägarna.
+    private static void getTextures(){
 
-        //TODO fix bash-script to make pngs for these signs
         fontCollection.put('?', new Texture("fontTest/questionmark.png"));
         fontCollection.put(':', new Texture("fontTest/colon.png"));
         fontCollection.put('.', new Texture("fontTest/dot.png"));
         fontCollection.put('/', new Texture("fontTest/forwardslash.png"));
         fontCollection.put('*', new Texture("fontTest/star.png"));
         fontCollection.put('@', new Texture("fontTest/atsign.png"));
-
-        //TODO skapa script som fixar de relativa sökvägarna.
-        fontCollection.put('!', new Texture("fontTest/!.png"));
-        fontCollection.put(';', new Texture("fontTest/;.png"));
         fontCollection.put(',', new Texture("fontTest/comma.png"));
+        fontCollection.put('!', new Texture("fontTest/exclamation.png"));
+        fontCollection.put(';', new Texture("fontTest/;.png"));
         fontCollection.put('|', new Texture("fontTest/|.png"));
         fontCollection.put('>', new Texture("fontTest/>.png"));
         fontCollection.put('<', new Texture("fontTest/<.png"));

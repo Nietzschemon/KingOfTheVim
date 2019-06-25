@@ -3,7 +3,6 @@ package com.kingofthevim.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.*;
@@ -24,7 +23,11 @@ public class PlayState extends State{
     private int letterWidth = 33;
     private int letterHeight = 66;
 
-    private LetterManager ltxMgr;
+    private LetterManager line;
+    private LetterManager otherLine;
+
+
+    private String[] testStringArray = {"aaaa", "bbbbb", "cccc", "ddddd", "eeeee", "fff", "GGgGgG"};
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -32,14 +35,21 @@ public class PlayState extends State{
 
         //TODO use for bigger texts and levels
         //use also for zooming in bigger levels
-        cam.setToOrtho(false, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
+        cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        vimMatrix = new VimWorldMatrix();
-        cursor = new Cursor( 1, 0);
+        vimMatrix = new VimWorldMatrix(7,15);
+        cursor = new Cursor( 2, 0);
 
-        ltxMgr = new LetterManager();
+        line = new LetterManager();
+        otherLine = new LetterManager();
 
-        ltxMgr.setWord("Test this!?/^~@", 2, 4);
+
+        line.setStringArray(testStringArray, 0, false);
+
+
+        //line.setString("ABCDEFG", 2, 0, false);
+
+        //otherLine.setString("XXXX", 2, 2, false);
 
     }
 
@@ -52,16 +62,19 @@ public class PlayState extends State{
         } else{
             cursor.setRightMove(false);
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
             cursor.setLeftMove(true);
         } else{
             cursor.setLeftMove(false);
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             cursor.setDownMove(true);
         } else{
             cursor.setDownMove(false);
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
             cursor.setUpMove(true);
         } else{

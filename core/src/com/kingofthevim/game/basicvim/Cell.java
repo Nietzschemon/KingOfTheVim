@@ -17,6 +17,8 @@ public class Cell {
     private char cellChar;
     private Texture cellLook;
     private Vector2 cartesianPosition;
+
+    //TODO change out for enum and more states
     private boolean isGood;
     private boolean isBad;
 
@@ -34,6 +36,7 @@ public class Cell {
     }
 
     public void setCellLook(Texture cellLook, char cellChar) {
+        this.cellChar = cellChar;
         this.cellLook = cellLook;
     }
 

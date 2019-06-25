@@ -19,6 +19,7 @@ public class VimWorldMatrix {
 
     //TODO Make a class that sets everything as below
     // that takes font-width/height as a parameters
+    /*
     public VimWorldMatrix(){
         rowTotal = (KingOfTheVimMain.HEIGHT/fontHeight) - 1;
         colunmTotal = (KingOfTheVimMain.WIDTH/fontWidth) - 1;
@@ -27,29 +28,39 @@ public class VimWorldMatrix {
         cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);
 
-        System.out.println("\nVimMatrix size - rows: " + rowTotal + " - columns: " + colunmTotal);
+        System.out.println("\nVimMatrix size - rows: " + rowTotal
+                + " - columns: " + colunmTotal
+                + " - Cell width: " + fontWidth
+                + " - Cell Height: " + fontHeight);
     }
+
+     */
 
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
-    VimWorldMatrix(int fontWidth, int fontHeight){
-
-        rowTotal = (KingOfTheVimMain.HEIGHT/fontHeight) - 1;
-        colunmTotal = (KingOfTheVimMain.WIDTH/fontWidth) - 1;
-
+    public VimWorldMatrix(int rowTotal, int colunmTotal){
+        VimWorldMatrix.rowTotal = rowTotal;
+        VimWorldMatrix.colunmTotal = colunmTotal;
 
         cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);
 
-        System.out.println("\nVimMatrix size - rows: " + rowTotal + " - columns: " + colunmTotal);
+        System.out.println("\nVimMatrix size - rows: " + rowTotal
+                + " - columns: " + colunmTotal
+                + " - Cell width: " + fontWidth
+                + " - Cell Height: " + fontHeight);
     }
 
-    VimWorldMatrix(int fontWidth, int fontHeight, int rowTotal, int colunmTotal){
+    public VimWorldMatrix(int fontWidth, int fontHeight, int rowTotal, int colunmTotal){
 
         cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);
 
+        System.out.println("\nVimMatrix size - rows: " + rowTotal
+                + " - columns: " + colunmTotal
+                + " - Cell width: " + fontWidth
+                + " - Cell Height: " + fontHeight);
     }
 
 
@@ -63,10 +74,11 @@ public class VimWorldMatrix {
 
             for (int j = 0; j < colunmTotal; j++) {
 
-                cellMatrix[i][j] = new Cell(j * width, cellYfix * height);
+                cellMatrix[i][j] = new Cell(j * width,
+                        i * height);
 
                 //TODO ändra så y 800 börjar på x 0
-                System.out.println("cellX: " + (j * width) + " cellY: " + (cellYfix * height));
+                System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }
             cellYfix--;
         }

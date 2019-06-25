@@ -24,8 +24,8 @@ public class Cursor extends VimWorldMatrix {
     private boolean upMove;
     private boolean downMove;
 
-    private static int currRow;
-    private static int currRowCell;
+    private int currRow;
+    private int currRowCell;
 
     private Vector2 position;
 
@@ -80,6 +80,7 @@ public class Cursor extends VimWorldMatrix {
 
 
     public Cursor(int startRow, int startRowCell){
+        super(rowTotal, colunmTotal);
 
         position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
 
@@ -92,7 +93,7 @@ public class Cursor extends VimWorldMatrix {
     }
 
     public Cursor(int x, int y, int row0, int rowCell0){
-        super();
+        super(rowTotal, colunmTotal);
 
         position = new Vector2(x, y);
 
@@ -104,52 +105,86 @@ public class Cursor extends VimWorldMatrix {
     }
 
 
-    // right now just a movement limiter
-    // and currRow(cell)-corrector
+    //TODO write method for updating position
+    //right now just a movement limiter
+    //and currRow(cell)-corrector
     public void update(){
 
         if(currRowCell < 0){
-            position.x = 0;
             currRowCell = 0;
+
+            //TODO write method for updating position
+            position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
         }
-        if(currRowCell > colunmTotal){
-            position.x = KingOfTheVimMain.WIDTH - fontWidth;//char width
-            currRowCell -= 1;
+        if(currRowCell > colunmTotal-1){
+            currRowCell = colunmTotal-1;
+            position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
         }
 
         if(currRow < 0){
-            position.y = KingOfTheVimMain.HEIGHT - fontHeight;//char height
             currRow = 0;
+            position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
         }
-        if(currRow > rowTotal){
-            position.y = 0;
-            currRow -= 1;
+
+        if(currRow > rowTotal-1){
+            currRow = rowTotal-1;
+            position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
         }
 
     }
 
 
+    private boolean isLegitHorizontalMove(int move){
+
+        if(currRowCell+move < 0
+        || currRowCell+move > colunmTotal){
+            return false;
+        }
+        return cellMatrix[currRow][currRowCell + move].getCellLook() != null;
+    }
+
+    /**
+     * Checks if veritical move is possible from the
+     * current place
+     * @param move number of steps
+     * @return True if possible, false if not
+     */
+    private boolean isLegitVerticalMove(int move){
+
+        if(currRow+move < 0
+                || currRow+move > rowTotal-1){
+            return false;
+        }
+        return cellMatrix[currRow + move][currRowCell].getCellLook() != null;
+    }
+
+
+
     public void updateMotion()
     {
-        if (leftMove)
+        if (leftMove
+        && isLegitHorizontalMove(-1))
         {
             position.x -= bounds.width;
             currRowCell -= 1;
         }
-        if (rightMove)
+        if (rightMove
+        && isLegitHorizontalMove(1))
         {
             position.x += bounds.width;
             currRowCell += 1;
         }
-        if(upMove)
+        if(upMove
+        && isLegitVerticalMove(+1))
         {
             position.y += bounds.height;
-            currRow -= 1;
+            currRow += 1;
         }
-        if(downMove)
+        if(downMove
+        && isLegitVerticalMove(-1))
         {
            position.y -= bounds.height;
-            currRow += 1;
+            currRow -= 1;
         }
 
         bounds.setPosition(position.x, position.y);
@@ -157,8 +192,10 @@ public class Cursor extends VimWorldMatrix {
 
 
         if(leftMove || rightMove || upMove || downMove){
-            System.out.println("\n\ncurrRow: " + currRow + "\ncolumn: " + currRowCell);
-            System.out.println("x: " + getX() + "\ny: " + getY());
+
+            System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
+            //System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
+            //System.out.println("x: " + getX() + "\ny: " + getY());
         }
     }
 
