@@ -17,25 +17,6 @@ public class VimWorldMatrix {
 
     static Cell[][] cellMatrix;
 
-    //TODO Make a class that sets everything as below
-    // that takes font-width/height as a parameters
-    /*
-    public VimWorldMatrix(){
-        rowTotal = (KingOfTheVimMain.HEIGHT/fontHeight) - 1;
-        colunmTotal = (KingOfTheVimMain.WIDTH/fontWidth) - 1;
-
-
-        cellMatrix = new Cell[rowTotal][colunmTotal];
-        setCellSize(fontWidth, fontHeight);
-
-        System.out.println("\nVimMatrix size - rows: " + rowTotal
-                + " - columns: " + colunmTotal
-                + " - Cell width: " + fontWidth
-                + " - Cell Height: " + fontHeight);
-    }
-
-     */
-
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
@@ -66,24 +47,16 @@ public class VimWorldMatrix {
 
     private void setCellSize(int width, int height){
 
-        //makes the inverted axis work with the row
-        // ordering in the array.
-        int cellYfix = rowTotal;
-
         for (int i = 0; i < rowTotal; i++) {
 
             for (int j = 0; j < colunmTotal; j++) {
 
-                cellMatrix[i][j] = new Cell(j * width,
-                        i * height);
+                cellMatrix[i][j] = new Cell(j * width,i * height);
 
-                //TODO ändra så y 800 börjar på x 0
                 System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }
-            cellYfix--;
         }
     }
-
 
     //TODO make get changed textures method for performance
     public Texture[] getMatrixTextures(){

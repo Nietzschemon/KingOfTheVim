@@ -62,4 +62,20 @@ public class Cell {
     public void dispose(){
         cellLook.dispose();
     }
+
+    public boolean isBad() {
+        return isBad;
+    }
+
+    public void setBad(boolean bad) {
+        isBad = bad;
+    }
+
+    public boolean isGood() {
+        return isGood;
+    }
+
+    public void setGood(boolean good) {
+        isGood = good;
+    }
 }

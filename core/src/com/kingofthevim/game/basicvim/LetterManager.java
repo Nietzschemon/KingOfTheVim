@@ -18,6 +18,12 @@ public class LetterManager extends VimWorldMatrix{
     // We only need one of these
     private static Map<Character, Texture> fontCollection;
 
+    // For larger movements and other things
+    private static char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+
 
     public LetterManager(){
         super(rowTotal, colunmTotal);
@@ -73,6 +79,39 @@ public class LetterManager extends VimWorldMatrix{
             setString(stringArray[i], startRow + i, 0, overwriteExisting);
         }
 
+    }
+
+    public void setGoodLetters(String string){
+
+        for (int i = 0; i < cellMatrix.length ; i++) {
+
+            for (int j = 0; j < cellMatrix[i].length ; j++) {
+
+                for (int k = 0; k < string.length() ; k++) {
+
+                    if(cellMatrix[i][j].getCellChar() == string.charAt(k) ){
+
+                        cellMatrix[i][j].setGood(true);
+                    }
+                }
+            }
+        }
+    }
+    public void setBadLetters(String string){
+
+        for (int i = 0; i < cellMatrix.length ; i++) {
+
+            for (int j = 0; j < cellMatrix[i].length ; j++) {
+
+                for (int k = 0; k < string.length() ; k++) {
+
+                    if(cellMatrix[i][j].getCellChar() == string.charAt(k) ){
+
+                        cellMatrix[i][j].setBad(true);
+                    }
+                }
+            }
+        }
     }
 
 

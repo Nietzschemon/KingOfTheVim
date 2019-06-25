@@ -9,25 +9,15 @@ import com.kingofthevim.game.basicvim.*;
 
 public class PlayState extends State{
 
-    //////////////////////////////////////////////////////////
-    //TODO make positions the only location metric          //
-    // ALL other things should follow automaticly from that //
-    // such as SIZE of things and their X and Y             //
-    //////////////////////////////////////////////////////////
-
     private Cursor cursor;
 
     private VimWorldMatrix vimMatrix;
-
-
-    private int letterWidth = 33;
-    private int letterHeight = 66;
 
     private LetterManager line;
     private LetterManager otherLine;
 
 
-    private String[] testStringArray = {"aaaa", "bbbbb", "cccc", "ddddd", "eeeee", "fff", "GGgGgG"};
+    private String[] testStringArray = {" aaa", "b b    bb", "cccc", "ddddd", "eeeee", "fff", "GGgGgG"};
 
     public PlayState(GameStateManager gsm) {
         super(gsm);

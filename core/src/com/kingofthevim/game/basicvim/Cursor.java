@@ -12,13 +12,8 @@ import java.lang.reflect.Array;
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
 // a letter in spacemacs can be achieved.
-
-//TODO make pointer dependent on keeping within the cell array
-// in this way the levels can variate in size more easily, as
-// the x and y can be calculated by the position in the "cellMatrix"
 public class Cursor extends VimWorldMatrix {
 
-    //TODO fix so cursor works within matrix
     private boolean leftMove;
     private boolean rightMove;
     private boolean upMove;
@@ -33,22 +28,6 @@ public class Cursor extends VimWorldMatrix {
     private Rectangle bounds;
     private Texture texture;
 
-    public int getRow(){
-        return currRow;
-    }
-
-    public int getRowCell(){
-        return currRowCell;
-    }
-
-
-    public double getX(){
-        return position.x;
-    }
-
-    public double getY(){
-        return position.y;
-    }
 
     public Vector2 getPosition(){
         return position;
@@ -105,7 +84,6 @@ public class Cursor extends VimWorldMatrix {
     }
 
 
-    //TODO write method for updating position
     //right now just a movement limiter
     //and currRow(cell)-corrector
     public void update(){
@@ -159,6 +137,11 @@ public class Cursor extends VimWorldMatrix {
     }
 
 
+    public void moveCursorTo(int row, int rowCell){
+        currRow = row;
+        currRowCell = rowCell;
+        position = cellMatrix[currRow][currRowCell].getCartesianPosition();
+    }
 
     public void updateMotion()
     {
@@ -193,8 +176,8 @@ public class Cursor extends VimWorldMatrix {
 
         if(leftMove || rightMove || upMove || downMove){
 
-            System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
-            //System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
+            //System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
+            System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
             //System.out.println("x: " + getX() + "\ny: " + getY());
         }
     }
