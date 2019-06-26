@@ -25,6 +25,7 @@ public class VimWorldMatrix {
         VimWorldMatrix.colunmTotal = colunmTotal;
 
         cellMatrix = new Cell[rowTotal][colunmTotal];
+
         setCellSize(fontWidth, fontHeight);
 
         System.out.println("\nVimMatrix size - rows: " + rowTotal
@@ -33,7 +34,11 @@ public class VimWorldMatrix {
                 + " - Cell Height: " + fontHeight);
     }
 
-    public VimWorldMatrix(int fontWidth, int fontHeight, int rowTotal, int colunmTotal){
+    public VimWorldMatrix(int rowTotal, int colunmTotal, int fontWidth, int fontHeight){
+        VimWorldMatrix.rowTotal = rowTotal;
+        VimWorldMatrix.colunmTotal = colunmTotal;
+        VimWorldMatrix.fontWidth = fontWidth;
+        VimWorldMatrix.fontHeight = fontHeight;
 
         cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);
@@ -45,7 +50,7 @@ public class VimWorldMatrix {
     }
 
 
-    private void setCellSize(int width, int height){
+    private static void setCellSize(int width, int height){
 
         for (int i = 0; i < rowTotal; i++) {
 

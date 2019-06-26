@@ -19,8 +19,9 @@ public class Cell {
     private Vector2 cartesianPosition;
 
     //TODO change out for enum and more states
-    private boolean isGood;
-    private boolean isBad;
+    private boolean isGood = false;
+    private boolean isBad = false;
+    private boolean isBackground = false;
 
 
     Cell( float x, float y){
@@ -38,6 +39,12 @@ public class Cell {
     public void setCellLook(Texture cellLook, char cellChar) {
         this.cellChar = cellChar;
         this.cellLook = cellLook;
+    }
+
+    public void setCellLook(Texture cellLook, char cellChar, boolean isBackground) {
+        this.cellChar = cellChar;
+        this.cellLook = cellLook;
+        this.isBackground = isBackground;
     }
 
     public char getCellChar() {
@@ -77,5 +84,13 @@ public class Cell {
 
     public void setGood(boolean good) {
         isGood = good;
+    }
+
+    public boolean isBackground() {
+        return isBackground;
+    }
+
+    public void setBackground(boolean background) {
+        isBackground = background;
     }
 }

@@ -13,8 +13,8 @@ public class PlayState extends State{
 
     private VimWorldMatrix vimMatrix;
 
-    private LetterManager line;
-    private LetterManager otherLine;
+    private LetterManager backgroundText;
+    private LetterManager laborintText;
 
 
     private String[] testStringArray = {" aaa", "b b    bb", "cccc", "ddddd", "eeeee", "fff", "GGgGgG"};
@@ -27,20 +27,32 @@ public class PlayState extends State{
         //use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        vimMatrix = new VimWorldMatrix(7,15);
+        vimMatrix = new VimWorldMatrix(12,26, 22, 44);
         cursor = new Cursor( 2, 0);
 
-        line = new LetterManager();
-        otherLine = new LetterManager();
+        //backgroundText.setString("ABCDEFG", 2, 0, false);
+        loadLevelText();
+
+        backgroundText.setBadLetters("qwerty");
+        backgroundText.setGoodLetters("bG");
+    }
+
+    public void loadLevelText(){
+        String[] conversionArray;
+
+        backgroundText = new LetterManager();
+        laborintText = new LetterManager();
+        conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found\n" +
+                "himself transformed in his bed into a horrible vermin.  He lay on\n" +
+                "his armour-like back, and if he lifted his head a little he could\n" +
+                "see his brown belly, slightly domed and divided by arches into stiff\n" +
+                "sections.  The bedding was hardly able to cover it and seemed ready\n" +
+                "to slide off any moment.  His many legs, pitifully thin compared\n" +
+                "with the size of the rest of him, waved about helplessly as he\n" +
+                "looked.\n");
 
 
-        line.setStringArray(testStringArray, 0, false);
-
-
-        //line.setString("ABCDEFG", 2, 0, false);
-
-        //otherLine.setString("XXXX", 2, 2, false);
-
+        backgroundText.setStringArray(conversionArray, 0, false);
     }
 
     @Override

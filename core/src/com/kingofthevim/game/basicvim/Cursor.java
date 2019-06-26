@@ -63,7 +63,7 @@ public class Cursor extends VimWorldMatrix {
 
         position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
 
-        texture = new Texture("markers/MarkerPurple.png");
+        texture = new Texture("markers/marker_44purple.png");
 
         bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         currRow = startRow;
@@ -76,7 +76,7 @@ public class Cursor extends VimWorldMatrix {
 
         position = new Vector2(x, y);
 
-        texture = new Texture("markers/MarkerPurple.png");
+        texture = new Texture("markers/marker_44purple.png");
 
         bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
         currRow = row0;
@@ -136,6 +136,22 @@ public class Cursor extends VimWorldMatrix {
         return cellMatrix[currRow + move][currRowCell].getCellLook() != null;
     }
 
+    private boolean isGoodLetter(){
+        if(cellMatrix[currRow][currRowCell].isGood()){
+            System.out.println("GOOD!");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBadLetter() {
+        if (cellMatrix[currRow][currRowCell].isBad()){
+            System.out.println("BAD!");
+        return true;
+    }
+        return false;
+    }
+
 
     public void moveCursorTo(int row, int rowCell){
         currRow = row;
@@ -176,6 +192,8 @@ public class Cursor extends VimWorldMatrix {
 
         if(leftMove || rightMove || upMove || downMove){
 
+            isBadLetter();
+            isGoodLetter();
             //System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
             System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
             //System.out.println("x: " + getX() + "\ny: " + getY());

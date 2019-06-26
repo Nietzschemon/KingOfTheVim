@@ -13,7 +13,7 @@ public class MenuState extends State{
     //TODO write real menu
     public MenuState(GameStateManager gsm) {
         super(gsm);
-        playBtn = new Texture("fontTest/P.png");
+        playBtn = new Texture("fonts/size_H44_W22/O_44white.png");
     }
 
     //clicks Playbutton
