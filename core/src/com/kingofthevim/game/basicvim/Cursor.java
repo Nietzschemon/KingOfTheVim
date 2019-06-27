@@ -137,22 +137,23 @@ public class Cursor extends VimWorldMatrix {
     }
 
     private boolean isGoodLetter(){
-        if(cellMatrix[currRow][currRowCell].isGood()){
+        if(cellMatrix[currRow][currRowCell].getLetterType() == LetterType.YELLOW){
             System.out.println("GOOD!");
             return true;
         }
         return false;
-    }
-
+    }//TODO change these TWO into ONE
     private boolean isBadLetter() {
-        if (cellMatrix[currRow][currRowCell].isBad()){
+        if (cellMatrix[currRow][currRowCell].getLetterType() == LetterType.GRAY){
             System.out.println("BAD!");
         return true;
     }
         return false;
     }
 
-
+    //TODO fix bug that takes the texture after reset with the cursor
+    // MAKE the above method reset the cursor by disposing it in the renderer
+    // in playstate
     public void moveCursorTo(int row, int rowCell){
         currRow = row;
         currRowCell = rowCell;

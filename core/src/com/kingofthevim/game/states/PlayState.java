@@ -27,14 +27,15 @@ public class PlayState extends State{
         //use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        vimMatrix = new VimWorldMatrix(12,26, 22, 44);
+        vimMatrix = new VimWorldMatrix(22,45, 22, 44);
         cursor = new Cursor( 2, 0);
 
         //backgroundText.setString("ABCDEFG", 2, 0, false);
         loadLevelText();
 
-        backgroundText.setBadLetters("qwerty");
-        backgroundText.setGoodLetters("bG");
+        laborintText.setString("Test the laborint", 2, 0, true, LetterType.WHITE );
+
+        laborintText.setLetterType("ob", LetterType.RED);
     }
 
     public void loadLevelText(){
@@ -49,10 +50,32 @@ public class PlayState extends State{
                 "sections.  The bedding was hardly able to cover it and seemed ready\n" +
                 "to slide off any moment.  His many legs, pitifully thin compared\n" +
                 "with the size of the rest of him, waved about helplessly as he\n" +
-                "looked.\n");
+                "looked.\n" +
+                "\n" +
+                "\"What's happened to me?\" he thought.  It wasn't a dream.  His room,\n" +
+                "a proper human room although a little too small, lay peacefully\n" +
+                "between its four familiar walls.  A collection of textile samples\n" +
+                "lay spread out on the table - Samsa was a travelling salesman - and\n" +
+                "above it there hung a picture that he had recently cut out of an\n" +
+                "illustrated magazine and housed in a nice, gilded frame.  It showed\n" +
+                "a lady fitted out with a fur hat and fur boa who sat upright,\n" +
+                "raising a heavy fur muff that covered the whole of her lower arm\n" +
+                "towards the viewer.\n" +
+                "\n" +
+                "Gregor then turned to look out the window at the dull weather.\n" +
+                "Drops of rain could be heard hitting the pane, which made him feel\n" +
+                "quite sad.  \"How about if I sleep a little bit longer and forget all\n" +
+                "this nonsense\", he thought, but that was something he was unable to\n" +
+                "do because he was used to sleeping on his right, and in his present\n" +
+                "state couldn't get into that position.  However hard he threw\n" +
+                "himself onto his right, he always rolled back to where he was.  He\n" +
+                "must have tried it a hundred times, shut his eyes so that he\n" +
+                "wouldn't have to look at the floundering legs, and only stopped when\n" +
+                "he began to feel a mild, dull pain there that he had never felt\n" +
+                "before.\n");
 
 
-        backgroundText.setStringArray(conversionArray, 0, false);
+        backgroundText.setStringArray(conversionArray, 0, false, LetterType.GRAY);
     }
 
     @Override

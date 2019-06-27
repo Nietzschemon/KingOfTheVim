@@ -3,9 +3,6 @@ package com.kingofthevim.game.basicvim;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Class for sending, keeping and manipulating data on a
  * certain point on the grid. VIM-world objects always
@@ -17,11 +14,7 @@ public class Cell {
     private char cellChar;
     private Texture cellLook;
     private Vector2 cartesianPosition;
-
-    //TODO change out for enum and more states
-    private boolean isGood = false;
-    private boolean isBad = false;
-    private boolean isBackground = false;
+    private Enum<LetterType> letterType = LetterType.GRAY;
 
 
     Cell( float x, float y){
@@ -36,15 +29,10 @@ public class Cell {
         return cellLook;
     }
 
-    public void setCellLook(Texture cellLook, char cellChar) {
+    public void setCellLook(Texture cellLook, char cellChar, Enum<LetterType> type) {
         this.cellChar = cellChar;
         this.cellLook = cellLook;
-    }
-
-    public void setCellLook(Texture cellLook, char cellChar, boolean isBackground) {
-        this.cellChar = cellChar;
-        this.cellLook = cellLook;
-        this.isBackground = isBackground;
+        this.letterType = type;
     }
 
     public char getCellChar() {
@@ -70,27 +58,21 @@ public class Cell {
         cellLook.dispose();
     }
 
-    public boolean isBad() {
-        return isBad;
+    public Enum<LetterType> getLetterType() {
+        return letterType;
     }
 
-    public void setBad(boolean bad) {
-        isBad = bad;
+    //TODO make enum automaticly switch font color
+    public void setLetterType(Enum<LetterType> letterType) {
+        this.letterType = letterType;
     }
 
-    public boolean isGood() {
-        return isGood;
+    public void setLetterType(Enum<LetterType> letterType, Texture cellLook) {
+        this.letterType = letterType;
+        this.cellLook = cellLook;
     }
 
-    public void setGood(boolean good) {
-        isGood = good;
-    }
+    public static class Font{
 
-    public boolean isBackground() {
-        return isBackground;
-    }
-
-    public void setBackground(boolean background) {
-        isBackground = background;
     }
 }

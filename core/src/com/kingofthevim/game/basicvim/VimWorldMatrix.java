@@ -14,12 +14,29 @@ public class VimWorldMatrix {
     static int colunmTotal;
     static int fontHeight = 66;
     static int fontWidth = 33;
+    private enum Font {
+        SIZE64,
+        SIZE42
+    }
 
     static Cell[][] cellMatrix;
 
-
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
+    private VimWorldMatrix(){
+        VimWorldMatrix.rowTotal =
+        VimWorldMatrix.colunmTotal = colunmTotal;
+
+        cellMatrix = new Cell[rowTotal][colunmTotal];
+
+        setCellSize(fontWidth, fontHeight);
+
+        System.out.println("\nVimMatrix size - rows: " + rowTotal
+                + " - columns: " + colunmTotal
+                + " - Cell width: " + fontWidth
+                + " - Cell Height: " + fontHeight);
+    }
+
     public VimWorldMatrix(int rowTotal, int colunmTotal){
         VimWorldMatrix.rowTotal = rowTotal;
         VimWorldMatrix.colunmTotal = colunmTotal;
