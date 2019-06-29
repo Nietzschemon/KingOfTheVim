@@ -7,42 +7,124 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.*;
 
-public class PlayState extends State{
+import java.util.ArrayList;
+
+public class Level1 extends State{
+
+    private final int rowTotal = 22;
+    private final int columnTotal = 45;
+    private final int fontWidth = 22;
+    private final int fontHeight = 44;
+    private final int cursorStartRow = 2;
+    private final int cursorStartColumn = 0;
 
     private Cursor cursor;
 
     private VimWorldMatrix vimMatrix;
 
     private LetterManager backgroundText;
-    private LetterManager laborintText;
+    private LetterManager labyrinthText;
 
 
-    private String[] testStringArray = {" aaa", "b b    bb", "cccc", "ddddd", "eeeee", "fff", "GGgGgG"};
-
-    public PlayState(GameStateManager gsm) {
+    public Level1(GameStateManager gsm) {
         super(gsm);
-        //TODO ta bort magiska nummer
 
-        //TODO use for bigger texts and levels
-        //use also for zooming in bigger levels
+        //TODO use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-        vimMatrix = new VimWorldMatrix(22,45, 22, 44);
-        cursor = new Cursor( 2, 0);
+        vimMatrix = new VimWorldMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
 
-        //backgroundText.setString("ABCDEFG", 2, 0, false);
-        loadLevelText();
+        backgroundText = new LetterManager(vimMatrix);
+        labyrinthText = new LetterManager(vimMatrix);
 
-        laborintText.setString("Test the laborint", 2, 0, true, LetterType.WHITE );
+        loadBackgroundText();
 
-        laborintText.setLetterType("ob", LetterType.RED);
+        labyrinthText.setHorizontalString("Test", 2, 0, true, LetterType.WHITE );
+        labyrinthText.setVerticalString("Das", 3, 3, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("VIM", 5, 4, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("controls", 4, 6, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("and", 5, 13, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("be", 4, 15, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("terribly", 3, 16, true, LetterType.WHITE);
+        labyrinthText.setVerticalString("amazed", 4, 23, true, LetterType.WHITE);
+
+
+        //labyrinthText.setNotationString("sfsf sd <vt> da vfd sdsd g</vt> dsad <vt> dsadvf </vt> <hr43> dasd </hr> <vt2> fas did </vt>");
+
+
+        labyrinthText.setLetterType("ob", LetterType.RED, false);
+        labyrinthText.setLetterType("X", LetterType.YELLOW, false);
     }
 
-    public void loadLevelText(){
+
+
+    @Override
+    public void render(SpriteBatch sb) {
+
+        // Shows sprite-batch where to draw things on screen.
+        sb.setProjectionMatrix(cam.combined);
+        sb.begin();
+
+        if(cursor.isOnGray()){
+           cursor.dispose();
+           cursor = new Cursor(vimMatrix, 2, 0);
+        }else{
+            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+        }
+
+
+
+        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
+
+            for(Cell cell : cellRow){
+
+                if(cell.getCellLook() != null){
+                    sb.draw(cell.getCellLook(),
+                            cell.getCartesianPosition().x,
+                            cell.getCartesianPosition().y);
+                }
+            }
+        }
+
+        sb.end();
+    }
+
+    @Override
+    public void update(float dt) {
+        handleInput();
+        cursor.update();
+
+        //TODO The cam should be able to follow the y axis OR the x axis
+        //cam.position.x = cursor.getPosition().x + 80;
+
+
+        ////TODO reset cursor if it falls of.
+        //if(cursor.getPosition() logic for on gray letters)
+        //gsm.set(new MenuState(gsm));
+
+        //Tells GDX that cam been repositioned.
+        cam.update();
+
+    }
+    @Override
+    public void dispose() {
+        cursor.dispose();
+
+        for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
+
+            for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
+
+                vimMatrix.getCellMatrix().get(i).get(j).dispose();
+
+            }
+        }
+        System.out.println("Play State Disposed");
+    }
+
+    public void loadBackgroundText(){
         String[] conversionArray;
 
-        backgroundText = new LetterManager();
-        laborintText = new LetterManager();
         conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found\n" +
                 "himself transformed in his bed into a horrible vermin.  He lay on\n" +
                 "his armour-like back, and if he lifted his head a little he could\n" +
@@ -75,7 +157,7 @@ public class PlayState extends State{
                 "before.\n");
 
 
-        backgroundText.setStringArray(conversionArray, 0, false, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, LetterType.GRAY);
     }
 
     @Override
@@ -106,61 +188,4 @@ public class PlayState extends State{
             cursor.setUpMove(false);
         }
     }
-
-    @Override
-    public void update(float dt) {
-        handleInput();
-        cursor.update();
-
-        //TODO The cam should be able to follow the y axis OR the x axis
-        //cam.position.x = cursor.getPosition().x + 80;
-
-
-        ////TODO reset cursor if it falls of.
-        //if(cursor.getPosition() logic for on gray letters)
-            //gsm.set(new MenuState(gsm));
-
-        //Tells GDX that cam been repositioned.
-        cam.update();
-
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-
-        // Shows sprite-batch where to draw things on screen.
-        sb.setProjectionMatrix(cam.combined);
-        sb.begin();
-
-        sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
-
-        for(Cell[] cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
-
-        sb.end();
-    }
-
-    @Override
-    public void dispose() {
-        cursor.dispose();
-
-        for(Cell[] cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                cell.dispose();
-            }
-        }
-        System.out.println("Play State Disposed");
-    }
-
 }

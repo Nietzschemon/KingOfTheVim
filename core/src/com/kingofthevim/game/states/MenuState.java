@@ -23,7 +23,7 @@ public class MenuState extends State{
                 || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
                 || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 
-            gsm.set(new PlayState(gsm));
+            gsm.set(new Level1(gsm));
         }
     }
 

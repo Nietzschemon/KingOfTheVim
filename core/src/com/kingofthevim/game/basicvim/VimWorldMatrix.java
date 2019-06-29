@@ -1,7 +1,8 @@
 package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.kingofthevim.game.KingOfTheVimMain;
+
+import java.util.ArrayList;
 
 /**
  * This organizes the world cells into the VIM world. It sets the
@@ -19,7 +20,11 @@ public class VimWorldMatrix {
         SIZE42
     }
 
-    static Cell[][] cellMatrix;
+
+    //TODO make VimWorld auto-assign x and y by Cell.x and .y
+    static ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
+    //static Cell[][] cellMatrix;
+
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
@@ -27,7 +32,7 @@ public class VimWorldMatrix {
         VimWorldMatrix.rowTotal =
         VimWorldMatrix.colunmTotal = colunmTotal;
 
-        cellMatrix = new Cell[rowTotal][colunmTotal];
+        //cellMatrix = new Cell[rowTotal][colunmTotal];
 
         setCellSize(fontWidth, fontHeight);
 
@@ -41,7 +46,7 @@ public class VimWorldMatrix {
         VimWorldMatrix.rowTotal = rowTotal;
         VimWorldMatrix.colunmTotal = colunmTotal;
 
-        cellMatrix = new Cell[rowTotal][colunmTotal];
+        //cellMatrix = new Cell[rowTotal][colunmTotal];
 
         setCellSize(fontWidth, fontHeight);
 
@@ -57,7 +62,7 @@ public class VimWorldMatrix {
         VimWorldMatrix.fontWidth = fontWidth;
         VimWorldMatrix.fontHeight = fontHeight;
 
-        cellMatrix = new Cell[rowTotal][colunmTotal];
+        //cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);
 
         System.out.println("\nVimMatrix size - rows: " + rowTotal
@@ -71,9 +76,13 @@ public class VimWorldMatrix {
 
         for (int i = 0; i < rowTotal; i++) {
 
+            cellMatrix.add(new ArrayList<Cell>());
+
             for (int j = 0; j < colunmTotal; j++) {
 
-                cellMatrix[i][j] = new Cell(j * width,i * height);
+                //cellMatrix[i][j] = new Cell(j * width,i * height);
+
+                cellMatrix.get(i).add(new Cell(j * width, i * height));
 
                 System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }
@@ -86,13 +95,14 @@ public class VimWorldMatrix {
         return null;
     }
 
-    public Cell[] getRow(int row){
+    public ArrayList getRow(int row){
 
-        return cellMatrix[row];
+        return cellMatrix.get(row);
     }
 
-    public Cell[][] getCellMatrix() {
+    public ArrayList<ArrayList<Cell>> getCellMatrix() {
         return cellMatrix;
     }
+
 
 }

@@ -1,18 +1,15 @@
 package com.kingofthevim.game.basicvim;
 
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.kingofthevim.game.KingOfTheVimMain;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
 // a letter in spacemacs can be achieved.
-public class Cursor extends VimWorldMatrix {
+public class Cursor  {
 
     private boolean leftMove;
     private boolean rightMove;
@@ -27,6 +24,11 @@ public class Cursor extends VimWorldMatrix {
     // to check collision
     private Rectangle bounds;
     private Texture texture;
+
+
+    private int rowTotal;
+    private int colunmTotal;
+    private ArrayList<ArrayList<Cell>> cellMatrix;
 
 
     public Vector2 getPosition(){
@@ -58,10 +60,15 @@ public class Cursor extends VimWorldMatrix {
     }
 
 
-    public Cursor(int startRow, int startRowCell){
-        super(rowTotal, colunmTotal);
+    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell){
 
-        position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
+        cellMatrix = vimMatrix.getCellMatrix();
+        rowTotal = VimWorldMatrix.rowTotal;
+        colunmTotal = VimWorldMatrix.colunmTotal;
+
+        //position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
+
+        position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
 
         texture = new Texture("markers/marker_44purple.png");
 
@@ -71,9 +78,11 @@ public class Cursor extends VimWorldMatrix {
 
     }
 
-    public Cursor(int x, int y, int row0, int rowCell0){
-        super(rowTotal, colunmTotal);
+    public Cursor(VimWorldMatrix vimMatrix, int x, int y, int row0, int rowCell0){
 
+        cellMatrix = vimMatrix.getCellMatrix();
+        rowTotal = VimWorldMatrix.rowTotal;
+        colunmTotal = VimWorldMatrix.colunmTotal;
         position = new Vector2(x, y);
 
         texture = new Texture("markers/marker_44purple.png");
@@ -92,21 +101,25 @@ public class Cursor extends VimWorldMatrix {
             currRowCell = 0;
 
             //TODO write method for updating position
-            position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
+            //position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
+            position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
         }
         if(currRowCell > colunmTotal-1){
             currRowCell = colunmTotal-1;
-            position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
+            //position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
+            position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
         }
 
         if(currRow < 0){
             currRow = 0;
-            position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
+            //position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
+            position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
         }
 
         if(currRow > rowTotal-1){
             currRow = rowTotal-1;
-            position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
+            //position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
+            position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
         }
 
     }
@@ -118,7 +131,8 @@ public class Cursor extends VimWorldMatrix {
         || currRowCell+move > colunmTotal){
             return false;
         }
-        return cellMatrix[currRow][currRowCell + move].getCellLook() != null;
+        //return cellMatrix[currRow][currRowCell + move].getCellLook() != null;
+        return cellMatrix.get(currRow).get(currRowCell + move).getCellLook() != null;
     }
 
     /**
@@ -133,23 +147,28 @@ public class Cursor extends VimWorldMatrix {
                 || currRow+move > rowTotal-1){
             return false;
         }
-        return cellMatrix[currRow + move][currRowCell].getCellLook() != null;
+        //return cellMatrix[currRow + move][currRowCell].getCellLook() != null;
+        return cellMatrix.get(currRow + move).get(currRowCell).getCellLook() != null;
     }
 
     private boolean isGoodLetter(){
-        if(cellMatrix[currRow][currRowCell].getLetterType() == LetterType.YELLOW){
+        if(cellMatrix.get(currRow).get(currRowCell).getLetterType() == LetterType.YELLOW){
             System.out.println("GOOD!");
             return true;
         }
         return false;
-    }//TODO change these TWO into ONE
-    private boolean isBadLetter() {
-        if (cellMatrix[currRow][currRowCell].getLetterType() == LetterType.GRAY){
-            System.out.println("BAD!");
-        return true;
     }
+
+    public boolean isOnGray() {
+        if (cellMatrix.get(currRow).get(currRowCell).getLetterType() == LetterType.GRAY){
+            System.out.println("It on gray letter \"" + cellMatrix.get(currRow).get(currRowCell).getCellChar() + "\"");
+
+
+            return true;
+        }
         return false;
     }
+
 
     //TODO fix bug that takes the texture after reset with the cursor
     // MAKE the above method reset the cursor by disposing it in the renderer
@@ -157,7 +176,6 @@ public class Cursor extends VimWorldMatrix {
     public void moveCursorTo(int row, int rowCell){
         currRow = row;
         currRowCell = rowCell;
-        position = cellMatrix[currRow][currRowCell].getCartesianPosition();
     }
 
     public void updateMotion()
@@ -193,8 +211,9 @@ public class Cursor extends VimWorldMatrix {
 
         if(leftMove || rightMove || upMove || downMove){
 
-            isBadLetter();
+            isOnGray();
             isGoodLetter();
+
             //System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
             System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
             //System.out.println("x: " + getX() + "\ny: " + getY());
