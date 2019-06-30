@@ -15,7 +15,7 @@ public class Level1 extends State{
     private final int columnTotal = 45;
     private final int fontWidth = 22;
     private final int fontHeight = 44;
-    private final int cursorStartRow = 2;
+    private final int cursorStartRow = 0;
     private final int cursorStartColumn = 0;
 
     private Cursor cursor;
@@ -40,6 +40,8 @@ public class Level1 extends State{
 
         loadBackgroundText();
 
+
+        /* // "old" way of creating levels
         labyrinthText.setHorizontalString("Test", 2, 0, true, LetterType.WHITE );
         labyrinthText.setVerticalString("Das", 3, 3, true, LetterType.WHITE);
         labyrinthText.setHorizontalString("VIM", 5, 4, true, LetterType.WHITE);
@@ -50,11 +52,41 @@ public class Level1 extends State{
         labyrinthText.setVerticalString("amazed", 4, 23, true, LetterType.WHITE);
 
 
-        //labyrinthText.setNotationString("sfsf sd <vt> da vfd sdsd g</vt> dsad <vt> dsadvf </vt> <hr43> dasd </hr> <vt2> fas did </vt>");
+         */
 
 
-        labyrinthText.setLetterType("ob", LetterType.RED, false);
-        labyrinthText.setLetterType("X", LetterType.YELLOW, false);
+        labyrinthText.createMap("<rg>Example</rg>" +
+                        "<dw>of</dw>"+
+                        "<rg>A</rg>"+
+                        "<dw>level</dw>"+
+                        "<rg>BUILT</rg>"+
+                        "<up>-with</up>"+
+                        "<rg>LEVEL-TAGS</rg>"+
+                        "<dw>and</dw>"+
+                        "<rg>OF</rg>"+
+                        "<dw>cursor</dw>"+
+                        "<lf>-RESET</lf>"+
+                        "<dw>as</dw>" +
+                        "<lf>-WELL</lf>"+
+                        "<dw>as</dw>" +
+                        "<rg>BACKGROUND-TEXT</rg>"+
+                        "<dw>and</dw>" +
+                        "<lf>COLORED-LETTERS</lf>"
+                , true);
+
+                /*
+                        "<rg>also</rg>"+
+                        "<rg>forget</rg>"+
+                        "<rg>the</rg>"+
+                        "<rg>colored</rg>"+
+                        "<rg>letters</rg>",
+                 true);
+
+                 */
+
+        // All letters in the matrix are set to the lettertype of those in the string
+        labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
+        labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
     }
 
 
@@ -68,7 +100,7 @@ public class Level1 extends State{
 
         if(cursor.isOnGray()){
            cursor.dispose();
-           cursor = new Cursor(vimMatrix, 2, 0);
+           cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }

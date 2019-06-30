@@ -40,111 +40,120 @@ public class LetterManager {
     //private void setWordProperties(int row, int rowCell, boolean isBad, boolean isGood)
     //public void setPropertiesAllChars(char[] propertiesChar, PropObject prop)
 
-    //Pattern bla = Pattern.compile("<S>");
-    //Match ds.;
-    public static void printMatches(String text, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(text);
-        // Check all occurrences
-        while (matcher.find()) {
-            System.out.print("Start index: " + matcher.start());
-            System.out.print(" End index: " + matcher.end());
-            System.out.println(" Found: " + matcher.group());
+
+    /*
+    Syntax <direction> <color>  words <<thing>> wor</color>ds </direction>
+
+    direction - up <up>, down <dw>, right <rg> or left <lf> to counted from the end of
+                the last string entered. Also coulmn and row can
+                be addressed with <cl> and <rw>
+
+    color     - The game colors of letters with their properties red <r>,
+                white <w>, yellow <y> and grey <g>.
+
+    thing     - a game object to leave at the current cell. (e.g. a dynamite)
+
+
+    overriding the default starting posistion of the tag
+    is done with + or - and a number in the start tag <tag+/-N>
+
+     */
+
+    //TODO stupid long method to just get the map-automation done. CHANGE!!!
+    public void createMap(String tagString, boolean overwrite){
+
+        LinkedHashMap<String, String> impMap = new LinkedHashMap<>();
+        ArrayList<String> tagSetsArray = new ArrayList<>();
+
+        // counted from where the end of the last string was set
+        int currRow = 0;
+        int currCol = 0;
+
+        // whole  start and close tag-combo
+        Pattern wholeTagString = Pattern.compile(
+                        "(<rw[-+]{0,1}(\\d){0,2}>(.+?)</rw>)" + // row
+                        "|(<cl[-+]{0,1}(\\d){0,2}>(.+?)</cl>)" + // column
+                        "|(<up[-+]{0,1}(\\d){0,2}>(.+?)</up>)" + // up (duh)
+                        "|(<dw[-+]{0,1}(\\d){0,2}>(.+?)</dw>)" +// down
+                        "|(<lf[-+]{0,1}(\\d){0,2}>(.+?)</lf>)" +// left
+                        "|(<rg[-+]{0,1}(\\d){0,2}>(.+?)</rg>)");// right
+
+        // detects if start tags contain extra info to override default
+        Pattern extraInfoTags = Pattern.compile(
+                        "(<rw[-+]{1}(\\d){1,2}>)" +
+                        "|(<cl[-+]{1}(\\d){1,2}>)" +
+                        "|(<up[-+]{1}(\\d){1,2}>)" +
+                        "|(<dw[-+]{1}(\\d){1,2}>)" +
+                        "|(<lf[-+]{1}(\\d){1,2}>)" +
+                        "|(<rg[-+]{1}(\\d){1,2}>)");
+
+        // any start tag
+        Pattern startTags = Pattern.compile(
+                        "(<rw[-+]{0,1}(\\d){0,2}>)" +
+                        "|(<cl[-+]{0,1}(\\d){0,2}>)" +
+                        "|(<up[-+]{0,1}(\\d){0,2}>)" +
+                        "|(<dw[-+]{0,1}(\\d){0,2}>)" +
+                        "|(<lf[-+]{0,1}(\\d){0,2}>)" +
+                        "|(<rg[-+]{0,1}(\\d){0,2}>)");
+
+        Pattern endTags = Pattern.compile(
+                        "(</rw>)" +
+                        "|(</cl>)" +
+                        "|(</up>)" +
+                        "|(</dw>)" +
+                        "|(</lf>)" +
+                        "|(</rg>)");
+
+        Matcher tagSetMatcher = wholeTagString.matcher(tagString);
+        Matcher overrideTagMatcher = extraInfoTags.matcher(tagString);
+        Matcher startTagMatcher = startTags.matcher(tagString);
+        Matcher endTagMatcher = endTags.matcher(tagString);
+
+        while (tagSetMatcher.find()){
+
+            tagSetsArray.add(tagSetMatcher.group());
+        }
+
+        System.out.println("TagSetsArray: " + tagSetsArray);
+
+        for (String string : tagSetsArray){
+
+            if(overrideTagMatcher.find()){
+                //TODO logic to parse override
+            }
+
+            //TODO check for color tags here and put posisions in array to
+            // be used with method at end of for loop
+
+            if(startTagMatcher.find()){ //remove tags and add to cellMatrix
+
+                String endString = string.substring(4, string.length() - 5);
+
+                System.out.println("curr word " + endString + " at row " + currRow + " colum " + currCol);
+
+                if(string.substring(0, 4).equals("<up>")){
+
+                    currRow = currRow - endString.length() + 1; // to make it go "up"
+                    setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                }
+                if(string.substring(0, 4).equals("<dw>")){
+
+                    setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    currRow += endString.length();
+                }
+                if(string.substring(0, 4).equals("<lf>")){
+                    currCol = currCol - endString.length() + 1; // to make it go "up"
+                    setHorizontalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                }
+                if(string.substring(0, 4).equals("<rg>")){
+
+                    setHorizontalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    currCol += endString.length();
+                }
+            }
         }
     }
 
-
-    private HashMap<String, String> makeStringDirectionMap(String levelString){
-        HashMap<String, String> directionMap = new HashMap<>();
-
-        Pattern vertical = Pattern.compile("[VERT]");
-        Pattern horizontal = Pattern.compile("[HORI]");
-
-        Matcher vertMatch = vertical.matcher(levelString);
-        Matcher horiMatch = horizontal.matcher(levelString);
-
-        int startIndex = levelString.indexOf("<")+1;
-        int endIndex = levelString.indexOf(">");
-
-        Matcher isMatch;
-
-
-        return null;
-    }
-
-        /* better for human notation to use [UPP] [DOWN] [LEFT] and [RIGHT]
-        use integers to indent with negative one moving it back and positive
-        moving it forward. I.E. [UPP-2] or [UPP+2]
-        The editor can use [DOWN] and [LEFT] with above number notation exclusively */
-        //Todo sett public when done
-    private void setHumanNotationstring(String string){
-
-        //TODO set tag in beginnig, remove it in the loop and add at once to
-        // cell matrix. i.e [up+2] words words [down-1] words  (use small letters
-        // ease of writing).
-
-    }
-
-    //Todo sett public when done
-    private void loadLevelFromFile(Stream stream){
-
-    }
-
-    //Todo sett public when done
-    private void loadLevelFromEscapeString(String string){
-
-        String exemple = " \n" +
-                "Dag 6\n" +
-                "    - Skapa metoder för att enklare kunna skapa banor\n" +
-                "      - För att skapa en eller flera horisontella eller vertikala rader\n" +
-                "    - Skrev en notation för att kunna skriva banor snabbt för hand och senare editor.\n" +
-                "      - Notationen är ett simpelt tag-system likt HTML eller XML och fungerar genom regulära uttryck\n" +
-                "      - Tog ett tag att få till ett propert regulärt uttryck för detta.\n";
-    }
-
-
-    //TODO make private and part of formatedLevelString() method
-    //TODO make newline remover for regular expression to work proper
-    public void setNotationString(String string){
-
-        //TODO make pattern set to match and just have one array that cuts
-        // up the strings and let the order in the array keep the order
-        // in which the adding the strings and the ordering numbers in the
-        // tags should be interpreted.
-        ArrayList<String> horVertStrings = new ArrayList<>();
-
-        Pattern horVert = Pattern.compile("(<vt[-+]{0,1}(\\d){0,2}>[\\w\\s]*</vt>)|(<hr[-+]{0,1}(\\d){0,2}>[\\w\\s]*</hr>)");
-
-        Matcher horVertMatch = horVert.matcher(string);
-
-        while (horVertMatch.find()){
-            System.out.println("HorVert: " + horVertMatch.start());
-            System.out.println("HorVert: " + horVertMatch.end());
-
-            horVertStrings.add(string.substring(horVertMatch.start(),
-                    horVertMatch.end()));
-        }
-
-        System.out.println("ARRAY Combo: " + horVertStrings);
-
-
-        for (int i = 0; i < horVertStrings.size(); i++) {
-
-
-        }
-    }
-
-    public void setFormatedLevelString(String levelString){
-
-        int[] startIndex = new int[levelString.length()/2];
-        int[] endIndex = new int[levelString.length()/2];
-
-        int startIndexCount = 0;
-        int endIndexCount = 0;
-
-            System.out.println("indexOf >   " + levelString.indexOf(">"));
-
-    }
 
     public void setVerticalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
 
@@ -163,6 +172,7 @@ public class LetterManager {
 
             System.out.println("row: " + startRow + "  - startcell " + (startCell + i));
 
+            //TODO make so that letters of the same type are NEVER overwritten
             if(cellMatrix.get(startRow + i).get(startCell).getCellLook() != null
                     && ! overwriteExisting){
                 System.out.println("There is already a char there!");
@@ -310,4 +320,90 @@ public class LetterManager {
             }
         }
     }
+
+
+    //TODO finish this method and use it in method above to make it simpler
+    private void setLetterType(String string, LetterType type, boolean includeGray, int startRow, int endRow, int startColumn, int endColumn){
+
+        for (int i = 0; i < cellMatrix.size() ; i++) {
+
+            for (int j = 0; j < cellMatrix.get(i).size() ; j++) {
+
+                for (int k = 0; k < string.length() ; k++) {
+
+                    if(cellMatrix.get(i).get(j).getCellChar() == string.charAt(k) ){
+                        cellMatrix.get(i).get(j).setLetterType(string.charAt(k), type, includeGray);
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+    ///////////////////////// Ideas and non functioning functions /////////////////////////
+
+
+
+
+    //TODO this dosnt work properly with an identical pattern the horVert
+    // variable in setNotationstring() as parameter
+    private int checkNumOfPattern(String stringToCheck, String patternToFind){
+
+        Pattern pattern = Pattern.compile(patternToFind);
+
+        Matcher patternMatcher = pattern.matcher(stringToCheck);
+
+        int numOfMatches = 0;
+
+        while (patternMatcher.find()) {
+            System.out.println("patterns found: " + patternMatcher.find());
+
+            numOfMatches++;
+            System.out.println("num of patters found " + numOfMatches);
+        }
+        return numOfMatches;
+    }
+
+
+    /**
+     * Creates a string array with one element per
+     * new line.
+     *
+     * Mainly useful for creating custom backgrounds
+     * by editing them slightly in a text editor and
+     * then copying them directly into the method as
+     * a string.
+     * @param string newline separated string.
+     */
+    //Todo sett public when done
+    private void loadLevelFromEscapeString(String string){
+
+        String[] testArray = new String[colunmTotal];
+
+        String exemple = " \n" +
+                "Dag 6\n" +
+                "    - Skapa metoder för att enklare kunna skapa banor\n" +
+                "      - För att skapa en eller flera horisontella eller vertikala rader\n" +
+                "    - Skrev en notation för att kunna skriva banor snabbt för hand och senare editor.\n" +
+                "      - Notationen är ett simpelt tag-system likt HTML eller XML och fungerar genom regulära uttryck\n" +
+                "      - Tog ett tag att få till ett propert regulärt uttryck för detta.\n";
+
+        System.out.println(string.indexOf("\n"));
+
+        for (int i = 0; i < string.length(); i++) {
+
+        }
+
+    }
+
+    //Todo sett public when done
+    private void loadLevelFromFile(Stream stream){
+
+    }
+
 }
