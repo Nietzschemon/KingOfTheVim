@@ -25,7 +25,7 @@ public class Cell {
     private char cellChar;
     private Texture cellLook;
     private Vector2 cartesianPosition;
-    private LetterType letterType = LetterType.GRAY;
+    private LetterType letterType = LetterType.EMPATHY;
 
 
     Cell( float x, float y){

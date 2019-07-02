@@ -11,10 +11,26 @@ import java.util.ArrayList;
 // a letter in spacemacs can be achieved.
 public class Cursor  {
 
-    private boolean leftMove;
-    private boolean rightMove;
-    private boolean upMove;
-    private boolean downMove;
+
+
+
+
+    // char movement booleans
+    private boolean moveLeft_char;
+    private boolean moveRight_char;
+    private boolean moveUp_line;
+    private boolean moveDown_line;
+
+    //TODO fix all so word_bgn and word_end, WORD_bgn, WORD_end
+    //word movement booleans
+    private boolean moveLeft_word;
+    private boolean moveRight_word_bgn;
+    private boolean moveRight_word_end;
+
+
+    //Todo WORD movement booleans
+    //private boolean leftWORDMove;
+    //private boolean rightWORDMove;
 
     private int currRow;
     private int currRowCell;
@@ -35,25 +51,42 @@ public class Cursor  {
         return position;
     }
 
-    public void setLeftMove(boolean t)
+
+
+
+    public void setMoveLeft_word(boolean t)
     {
-        if(rightMove && t) rightMove = false;
-        leftMove = t;
+        if(moveRight_word_bgn && t) moveRight_word_bgn = false;
+        moveLeft_word = t;
     }
-    public void setRightMove(boolean t)
+
+    public void setMoveRight_word_bgn(boolean t)
     {
-        if(leftMove && t) leftMove = false;
-        rightMove = t;
+        if(moveLeft_word && t) moveLeft_word = false;
+        moveRight_word_bgn = t;
     }
-    public void setUpMove(boolean t)
+
+    public void setMoveLeft_Char(boolean t)
     {
-        if(upMove && t) upMove = false;
-        downMove = t;
+        if(moveRight_char && t) moveRight_char = false;
+        moveLeft_char = t;
     }
-    public void setDownMove(boolean t)
+
+    public void setMoveRight_Char(boolean t)
     {
-        if(downMove && t) downMove = false;
-        upMove = t;
+        if(moveLeft_char && t) moveLeft_char = false;
+        moveRight_char = t;
+    }
+
+    public void setMoveUp_Line(boolean t)
+    {
+        if(moveUp_line && t) moveUp_line = false;
+        moveDown_line = t;
+    }
+    public void setMoveDown_Line(boolean t)
+    {
+        if(moveDown_line && t) moveDown_line = false;
+        moveUp_line = t;
     }
     public Texture getTexture(){
         return texture;
@@ -66,7 +99,6 @@ public class Cursor  {
         rowTotal = VimWorldMatrix.rowTotal;
         colunmTotal = VimWorldMatrix.colunmTotal;
 
-        //position = new Vector2(cellMatrix[startRow][startRowCell].getCartesianPosition());
 
         position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
 
@@ -93,34 +125,34 @@ public class Cursor  {
     }
 
 
+    //TODO fix unneccery (dublicate?) code between here (update()) and move()
     //right now just a movement limiter
     //and currRow(cell)-corrector
     public void update(){
 
+        /*
         if(currRowCell < 0){
             currRowCell = 0;
 
             //TODO write method for updating position
-            //position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
             position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
         }
         if(currRowCell > colunmTotal-1){
             currRowCell = colunmTotal-1;
-            //position.x = cellMatrix[currRow][currRowCell].getCartesianPosition().x;
             position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
         }
 
         if(currRow < 0){
             currRow = 0;
-            //position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
             position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
         }
 
         if(currRow > rowTotal-1){
             currRow = rowTotal-1;
-            //position.y = cellMatrix[currRow][currRowCell].getCartesianPosition().y;
             position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
         }
+        */
+
 
     }
 
@@ -131,8 +163,9 @@ public class Cursor  {
         || currRowCell+move > colunmTotal){
             return false;
         }
-        //return cellMatrix[currRow][currRowCell + move].getCellLook() != null;
-        return cellMatrix.get(currRow).get(currRowCell + move).getCellLook() != null;
+
+        //return cellMatrix.get(currRow).get(currRowCell + move).getCellLook() != null;
+        return true;
     }
 
     /**
@@ -147,58 +180,60 @@ public class Cursor  {
                 || currRow+move > rowTotal-1){
             return false;
         }
-        //return cellMatrix[currRow + move][currRowCell].getCellLook() != null;
-        return cellMatrix.get(currRow + move).get(currRowCell).getCellLook() != null;
+
+        //return cellMatrix.get(currRow + move).get(currRowCell).getCellLook() != null;
+        return true;
     }
 
-    private boolean isGoodLetter(){
-        if(cellMatrix.get(currRow).get(currRowCell).getLetterType() == LetterType.YELLOW){
-            System.out.println("GOOD!");
-            return true;
+    public boolean isOnLetter(char letter){
+        if(cellMatrix.get(currRow).get(currRowCell).getCellChar() == letter){
+            System.out.println("is on letter \"" + letter + "\"");
         }
-        return false;
+        return cellMatrix.get(currRow).get(currRowCell).getCellChar() == letter;
     }
 
-    public boolean isOnGray() {
-        if (cellMatrix.get(currRow).get(currRowCell).getLetterType() == LetterType.GRAY){
-            System.out.println("It on gray letter \"" + cellMatrix.get(currRow).get(currRowCell).getCellChar() + "\"");
-
-
-            return true;
+    public boolean isOnType(LetterType type){
+        if(cellMatrix.get(currRow).get(currRowCell).getLetterType() == type){
+            System.out.println("is on type \"" + type + "\"");
         }
-        return false;
+        return cellMatrix.get(currRow).get(currRowCell).getLetterType() == type;
     }
 
 
-    //TODO fix bug that takes the texture after reset with the cursor
-    // MAKE the above method reset the cursor by disposing it in the renderer
-    // in playstate
-    public void moveCursorTo(int row, int rowCell){
-        currRow = row;
-        currRowCell = rowCell;
-    }
-
-    public void updateMotion()
+    public void move()
     {
-        if (leftMove
+        if (moveLeft_word
+                && isLegitHorizontalMove(-1))
+        {
+            position.x -= bounds.width;
+            currRowCell -= 1;
+        }
+        if (moveRight_word_bgn
+                && isLegitHorizontalMove(1))
+        {
+            position.x += bounds.width;
+            currRowCell += 1;
+        }
+
+        if (moveLeft_char
         && isLegitHorizontalMove(-1))
         {
             position.x -= bounds.width;
             currRowCell -= 1;
         }
-        if (rightMove
+        if (moveRight_char
         && isLegitHorizontalMove(1))
         {
             position.x += bounds.width;
             currRowCell += 1;
         }
-        if(upMove
+        if(moveUp_line
         && isLegitVerticalMove(+1))
         {
             position.y += bounds.height;
             currRow += 1;
         }
-        if(downMove
+        if(moveDown_line
         && isLegitVerticalMove(-1))
         {
            position.y -= bounds.height;
@@ -209,14 +244,12 @@ public class Cursor  {
         update();
 
 
-        if(leftMove || rightMove || upMove || downMove){
+        if(moveLeft_char || moveRight_char || moveUp_line || moveDown_line){
 
-            isOnGray();
-            isGoodLetter();
+            //isOnLetter('a');
+            //isOnType(LetterType.RED);
 
-            //System.out.println(cellMatrix[currRow][currRowCell].getCellChar());
-            System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
-            //System.out.println("x: " + getX() + "\ny: " + getY());
+            //System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
         }
     }
 

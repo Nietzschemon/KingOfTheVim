@@ -20,11 +20,7 @@ public class VimWorldMatrix {
         SIZE42
     }
 
-
-    //TODO make VimWorld auto-assign x and y by Cell.x and .y
     static ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
-    //static Cell[][] cellMatrix;
-
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
@@ -72,6 +68,7 @@ public class VimWorldMatrix {
     }
 
 
+    //TODO look into column count vs filled column discrepancy
     private static void setCellSize(int width, int height){
 
         for (int i = 0; i < rowTotal; i++) {
@@ -80,24 +77,13 @@ public class VimWorldMatrix {
 
             for (int j = 0; j < colunmTotal; j++) {
 
-                //cellMatrix[i][j] = new Cell(j * width,i * height);
 
                 cellMatrix.get(i).add(new Cell(j * width, i * height));
 
                 System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }
         }
-    }
 
-    //TODO make get changed textures method for performance
-    public Texture[] getMatrixTextures(){
-
-        return null;
-    }
-
-    public ArrayList getRow(int row){
-
-        return cellMatrix.get(row);
     }
 
     public ArrayList<ArrayList<Cell>> getCellMatrix() {

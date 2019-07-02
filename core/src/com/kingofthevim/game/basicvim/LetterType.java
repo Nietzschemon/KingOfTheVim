@@ -5,5 +5,6 @@ public enum LetterType {
     GRAY,
     WHITE,
     BLACK,
-    YELLOW
+    YELLOW,
+    EMPATHY
 }

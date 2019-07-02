@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Level1 extends State{
 
     private final int rowTotal = 22;
-    private final int columnTotal = 45;
+    private final int columnTotal = 44;
     private final int fontWidth = 22;
     private final int fontHeight = 44;
     private final int cursorStartRow = 0;
@@ -32,6 +32,7 @@ public class Level1 extends State{
         //TODO use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
+
         vimMatrix = new VimWorldMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
 
@@ -40,8 +41,25 @@ public class Level1 extends State{
 
         loadBackgroundText();
 
+        labyrinthText.setHorizontalString("X", 0,0,true,LetterType.WHITE);
 
-        /* // "old" way of creating levels
+
+
+        labyrinthText.createMap("<rg>O1234a5X</rg>" +
+                                            "<dw>O12a3456X</dw>" +
+                                            "<rg>O12345X</rg>" +
+                                            "<up+01>O12X</up>");
+
+        // All letters in the matrix are set to the lettertype of those in the string
+
+        labyrinthText.setLetterType("O", LetterType.RED, false);
+        labyrinthText.setLetterType("X", LetterType.YELLOW, false);
+        //labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
+        //labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
+
+        // LEVEL EXEMPEL
+         // "old" way of creating levels
+        /*
         labyrinthText.setHorizontalString("Test", 2, 0, true, LetterType.WHITE );
         labyrinthText.setVerticalString("Das", 3, 3, true, LetterType.WHITE);
         labyrinthText.setHorizontalString("VIM", 5, 4, true, LetterType.WHITE);
@@ -50,10 +68,6 @@ public class Level1 extends State{
         labyrinthText.setHorizontalString("be", 4, 15, true, LetterType.WHITE);
         labyrinthText.setHorizontalString("terribly", 3, 16, true, LetterType.WHITE);
         labyrinthText.setVerticalString("amazed", 4, 23, true, LetterType.WHITE);
-
-
-         */
-
 
         labyrinthText.createMap("<rg>Example</rg>" +
                         "<dw>of</dw>"+
@@ -74,7 +88,9 @@ public class Level1 extends State{
                         "<lf>COLORED-LETTERS</lf>"
                 , true);
 
-                /*
+       labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
+        labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
+
                         "<rg>also</rg>"+
                         "<rg>forget</rg>"+
                         "<rg>the</rg>"+
@@ -82,11 +98,10 @@ public class Level1 extends State{
                         "<rg>letters</rg>",
                  true);
 
-                 */
+         */
 
-        // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
-        labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
+
+
     }
 
 
@@ -98,14 +113,18 @@ public class Level1 extends State{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        if(cursor.isOnGray()){
+        /* //TODO create and put this into resetCursorMethod()
+        if(cursor.isOnType(LetterType.GRAY)){
            cursor.dispose();
            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }
 
+         */
 
+
+        sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
 
@@ -194,30 +213,43 @@ public class Level1 extends State{
 
     @Override
     public void handleInput() {
-        //TODO Använd för att ta ett kommando. Ha "IsPressed" för att "hålla in" knappen
-        cursor.updateMotion();
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            cursor.setRightMove(true);
+
+        cursor.move();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+            cursor.setMoveRight_word_bgn(true);
         } else{
-            cursor.setRightMove(false);
+            cursor.setMoveRight_word_bgn(false);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
+            cursor.setMoveLeft_word(true);
+        } else{
+            cursor.setMoveLeft_word(false);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            cursor.setMoveRight_Char(true);
+        } else{
+            cursor.setMoveRight_Char(false);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-            cursor.setLeftMove(true);
+            cursor.setMoveLeft_Char(true);
         } else{
-            cursor.setLeftMove(false);
+            cursor.setMoveLeft_Char(false);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            cursor.setDownMove(true);
+            cursor.setMoveDown_Line(true);
         } else{
-            cursor.setDownMove(false);
+            cursor.setMoveDown_Line(false);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            cursor.setUpMove(true);
+            cursor.setMoveUp_Line(true);
         } else{
-            cursor.setUpMove(false);
+            cursor.setMoveUp_Line(false);
         }
     }
 }
