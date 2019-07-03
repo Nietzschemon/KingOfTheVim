@@ -1,10 +1,13 @@
 package com.kingofthevim.game.basicvim;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
@@ -182,6 +185,7 @@ public class Cursor  {
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
 
+    //TODO make sensitive to special signs
     private int traverseWordBeginning(){
         int count = 0;
 
@@ -207,13 +211,104 @@ public class Cursor  {
         // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
         // stops at ; and special signs. numbers and words are treated the same
 
+        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
+
+        char prevChar = currChar;
+
+        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+
+            char cellChar = cellMatrix.get(currRow).get(i).getCellChar();
+
+
+            if(count > 0)prevChar = cellMatrix.get(currRow).get(i - 1).getCellChar();
+
+
+            count++;
+
+            System.out.println("CHAR: " + cellChar);
+
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+
+                System.out.println("SHIFT PRESS AND COUNT IS " + count);
+
+                if((cellChar == ' '
+                        && prevChar != ' ')
+                        && count > 2){
+                    break;
+                }
+            }
+            else {
+
+                if( isLetterChar(prevChar)
+                && cellChar == ' '
+                && count > 2){
+
+                    break;
+                }
+
+                if( isLetterChar(prevChar)
+                        && isSymbol(cellChar)
+                        && count > 2){
+
+                    break;
+                }
+
+                if( isLetterChar(currChar)
+                        && isSymbol(cellChar)
+                        ){
+
+                    return count - 1;
+                }
+
+            }
+
+            //"ay - yank into register a
+            //*ap - paste from register a
+
+        }
+        System.out.println("Count: " + (count));
+
+        if(currColumn + count >= colunmTotal){
+            return count - 1;
+        }
+
+        return count - 2;
+    }
+
+    /**
+     * Checks if char is a symbol and thus should only
+     * be traversed by WORD-movements. Space is not
+     * included
+     * @param character char to check
+     * @return true if char is a symbol
+     */
+    private boolean isSymbol(char character ){
+        return ((character >= '!' && character <= '/')
+                || (character >= ':' && character <= '@')
+                || (character >= '[' && character <= '_')
+                || (character >= '{' && character <= '~'));
+    }
+
+    private boolean isLetterChar(char character ){
+        return ((character >= '0' && character <= '9')
+                || (character >= 'a' && character <= 'z')
+                || (character >= 'A' && character <= 'Z'));
+    }
+
+    //TODO make sensative for special signs
+    private int traversePreviousWord(){
+        int count = 0;
+
+        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
+        // stops at ; and special signs. numbers and words are treated the same
+
         for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
 
             count++;
 
 
             if(cellMatrix.get(currRow).get(i).getCellChar() == ' '
-            && count > 2){
+                    && count > 2){
                 break;
             }
         }
@@ -226,18 +321,27 @@ public class Cursor  {
         return count - 2;
     }
 
-
     public void move()
     {
-        //standard char move
+        //standard char/line move
         int move = 1;
 
-        if (moveLeft_word
-                && isLegitHorizontalMove(-1))
-        {
-            position.x -= bounds.width;
-            currColumn -= 1;
+
+
+        if (moveLeft_word){
+
+            /*
+            move = traverseWordBeginning();
+
+            //TODO watch out for double negatives
+            if(isLegitHorizontalMove(move)){
+                position.x = position.x - (bounds.width * move);
+                currColumn -= move;
+            }
+
+             */
         }
+
         if (moveRight_word_bgn){
 
             move = traverseWordBeginning();
@@ -248,39 +352,60 @@ public class Cursor  {
             }
         }
 
-        if (moveRight_word_end){
+        if (moveRight_word_end
+        && currColumn != colunmTotal){
 
             move = traverseWordEnd();
+            System.out.println("Move: " + move + "\n");
 
+            //TODO if move returns one this will not  work
             if(isLegitHorizontalMove(move)){
+
                 position.x = position.x + (bounds.width * move);
                 currColumn += move;
+
+                /*
+                if(move <= 2){
+                    position.x += bounds.width;
+                    currColumn += 1;
+                }
+                if(move == 200){
+                    position.x = position.x + (bounds.width * move);
+                    currColumn += move;
+                }
+                else {
+                    move -= 2;
+                    position.x = position.x + (bounds.width * move);
+                    currColumn += move;
+                }
+
+                 */
             }
         }
 
         if (moveLeft_char
-        && isLegitHorizontalMove(-1))
+        && isLegitHorizontalMove(-move))
         {
             position.x -= bounds.width;
-            currColumn -= 1;
+            currColumn -= move;
         }
         if (moveRight_char
-        && isLegitHorizontalMove(1))
+        && isLegitHorizontalMove(move))
         {
             position.x += bounds.width;
-            currColumn += 1;
+            currColumn += move;
         }
         if(moveUp_line
-        && isLegitVerticalMove(+1))
+        && isLegitVerticalMove(+move))
         {
             position.y += bounds.height;
-            currRow += 1;
+            currRow += move;
         }
         if(moveDown_line
-        && isLegitVerticalMove(-1))
+        && isLegitVerticalMove(-move))
         {
            position.y -= bounds.height;
-            currRow -= 1;
+            currRow -= move;
         }
 
         bounds.setPosition(position.x, position.y);

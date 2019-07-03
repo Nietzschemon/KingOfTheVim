@@ -45,9 +45,9 @@ public class Level1 extends State{
 
 
 
-        labyrinthText.createMap("<rg>O1234a5X</rg>" +
-                                            "<dw>O12a3456X</dw>" +
-                                            "<rg>O12345X</rg>" +
+        labyrinthText.createMap("<rg>O123<45X</rg>" +
+                                            "<dw>O123456X</dw>" +
+                                            "<rg>O1234<5X</rg>" +
                                             "<up+01>O12X</up>");
 
         // All letters in the matrix are set to the lettertype of those in the string

@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -216,6 +217,8 @@ public class Cell {
             blackFont.put('3', new Texture("fonts/size_H44_W22/3_44black.png"));
             blackFont.put('2', new Texture("fonts/size_H44_W22/2_44black.png"));
             blackFont.put('1', new Texture("fonts/size_H44_W22/1_44black.png"));
+            blackFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44black.png"));
+            blackFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44black.png"));
 
         }
         private static void getRedTextures(){
@@ -308,6 +311,8 @@ public class Cell {
             redFont.put('3', new Texture("fonts/size_H44_W22/3_44red.png"));
             redFont.put('2', new Texture("fonts/size_H44_W22/2_44red.png"));
             redFont.put('1', new Texture("fonts/size_H44_W22/1_44red.png"));
+            redFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44red.png"));
+            redFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44red.png"));
         }
 
         private static void getGrayTextures(){
@@ -400,6 +405,8 @@ public class Cell {
             grayFont.put('3', new Texture("fonts/size_H44_W22/3_44gray.png"));
             grayFont.put('2', new Texture("fonts/size_H44_W22/2_44gray.png"));
             grayFont.put('1', new Texture("fonts/size_H44_W22/1_44gray.png"));
+            grayFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44gray.png"));
+            grayFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44gray.png"));
 
         }
         private static void getYellowTextures(){
@@ -492,6 +499,8 @@ public class Cell {
             yellowFont.put('3', new Texture("fonts/size_H44_W22/3_44yellow.png"));
             yellowFont.put('2', new Texture("fonts/size_H44_W22/2_44yellow.png"));
             yellowFont.put('1', new Texture("fonts/size_H44_W22/1_44yellow.png"));
+            yellowFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44yellow.png"));
+            yellowFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44yellow.png"));
         }
 
         private static void getWhiteTextures(){
@@ -585,6 +594,8 @@ public class Cell {
             whiteFont.put('3', new Texture("fonts/size_H44_W22/3_44white.png"));
             whiteFont.put('2', new Texture("fonts/size_H44_W22/2_44white.png"));
             whiteFont.put('1', new Texture("fonts/size_H44_W22/1_44white.png"));
+            whiteFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44white.png"));
+            whiteFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44white.png"));
         }
 
     }
