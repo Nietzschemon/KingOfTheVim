@@ -144,7 +144,7 @@ public class Level1 extends State{
     @Override
     public void update(float dt) {
         handleInput();
-        cursor.update();
+        //cursor.update();
 
         //TODO The cam should be able to follow the y axis OR the x axis
         //cam.position.x = cursor.getPosition().x + 80;

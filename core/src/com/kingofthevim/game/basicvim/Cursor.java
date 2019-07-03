@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
@@ -33,7 +35,7 @@ public class Cursor  {
     //private boolean rightWORDMove;
 
     private int currRow;
-    private int currRowCell;
+    private int currColumn;
 
     private Vector2 position;
 
@@ -53,6 +55,7 @@ public class Cursor  {
 
 
 
+    //<editor-fold desc="Setters">
 
     public void setMoveLeft_word(boolean t)
     {
@@ -88,6 +91,9 @@ public class Cursor  {
         if(moveDown_line && t) moveDown_line = false;
         moveUp_line = t;
     }
+
+    //</editor-fold desc="bla">
+
     public Texture getTexture(){
         return texture;
     }
@@ -106,7 +112,7 @@ public class Cursor  {
 
         bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         currRow = startRow;
-        currRowCell = startRowCell;
+        currColumn = startRowCell;
 
     }
 
@@ -121,50 +127,23 @@ public class Cursor  {
 
         bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
         currRow = row0;
-        currRowCell = rowCell0;
+        currColumn = rowCell0;
     }
 
 
-    //TODO fix unneccery (dublicate?) code between here (update()) and move()
-    //right now just a movement limiter
-    //and currRow(cell)-corrector
     public void update(){
-
-        /*
-        if(currRowCell < 0){
-            currRowCell = 0;
-
-            //TODO write method for updating position
-            position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
-        }
-        if(currRowCell > colunmTotal-1){
-            currRowCell = colunmTotal-1;
-            position.x = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().x;
-        }
-
-        if(currRow < 0){
-            currRow = 0;
-            position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
-        }
-
-        if(currRow > rowTotal-1){
-            currRow = rowTotal-1;
-            position.y = cellMatrix.get(currRow).get(currRowCell).getCartesianPosition().y;
-        }
-        */
-
 
     }
 
 
     private boolean isLegitHorizontalMove(int move){
 
-        if(currRowCell+move < 0
-        || currRowCell+move > colunmTotal){
+        if(currColumn +move < 0
+        || currColumn +move > colunmTotal){
             return false;
         }
 
-        //return cellMatrix.get(currRow).get(currRowCell + move).getCellLook() != null;
+        //return cellMatrix.get(currRow).get(currColumn + move).getCellLook() != null;
         return true;
     }
 
@@ -181,51 +160,76 @@ public class Cursor  {
             return false;
         }
 
-        //return cellMatrix.get(currRow + move).get(currRowCell).getCellLook() != null;
+        //return cellMatrix.get(currRow + move).get(currColumn).getCellLook() != null;
         return true;
     }
 
     public boolean isOnLetter(char letter){
-        if(cellMatrix.get(currRow).get(currRowCell).getCellChar() == letter){
+        if(cellMatrix.get(currRow).get(currColumn).getCellChar() == letter){
             System.out.println("is on letter \"" + letter + "\"");
         }
-        return cellMatrix.get(currRow).get(currRowCell).getCellChar() == letter;
+        return cellMatrix.get(currRow).get(currColumn).getCellChar() == letter;
     }
 
     public boolean isOnType(LetterType type){
-        if(cellMatrix.get(currRow).get(currRowCell).getLetterType() == type){
+        if(cellMatrix.get(currRow).get(currColumn).getLetterType() == type){
             System.out.println("is on type \"" + type + "\"");
         }
-        return cellMatrix.get(currRow).get(currRowCell).getLetterType() == type;
+        return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
+    }
+
+    private int traverseWord(){
+        int count = 0;
+
+        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
+        // stops at ; and special signs. numbers and words are treated the same
+
+        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+
+            count++;
+
+            if(cellMatrix.get(currRow).get(i).getCellChar() == ' '){
+                break;
+            }
+        }
+        System.out.println("Count: " + count);
+
+        return count;
     }
 
 
     public void move()
     {
+        //standard char move
+        int move = 1;
+
         if (moveLeft_word
                 && isLegitHorizontalMove(-1))
         {
             position.x -= bounds.width;
-            currRowCell -= 1;
+            currColumn -= 1;
         }
-        if (moveRight_word_bgn
-                && isLegitHorizontalMove(1))
-        {
-            position.x += bounds.width;
-            currRowCell += 1;
+        if (moveRight_word_bgn){
+
+            move = traverseWord();
+
+            if(isLegitHorizontalMove(move)){
+                position.x = position.x + (bounds.width * move); //TODO that this dosent push of center
+                currColumn += move;
+            }
         }
 
         if (moveLeft_char
         && isLegitHorizontalMove(-1))
         {
             position.x -= bounds.width;
-            currRowCell -= 1;
+            currColumn -= 1;
         }
         if (moveRight_char
         && isLegitHorizontalMove(1))
         {
             position.x += bounds.width;
-            currRowCell += 1;
+            currColumn += 1;
         }
         if(moveUp_line
         && isLegitVerticalMove(+1))
@@ -241,15 +245,16 @@ public class Cursor  {
         }
 
         bounds.setPosition(position.x, position.y);
-        update();
+        //update();
 
 
-        if(moveLeft_char || moveRight_char || moveUp_line || moveDown_line){
+        if(moveLeft_char || moveRight_char || moveUp_line || moveDown_line
+        || moveLeft_word || moveRight_word_bgn || moveRight_word_end){
 
             //isOnLetter('a');
             //isOnType(LetterType.RED);
 
-            //System.out.println("\n\ncurrRow: " + currRow + " - column: " + currRowCell);
+            System.out.println("\ncurrRow: " + currRow + " - column: " + currColumn + " x: " + position.x + " y: " + position.y);
         }
     }
 
