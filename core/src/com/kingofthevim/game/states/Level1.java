@@ -221,6 +221,11 @@ public class Level1 extends State{
         } else{
             cursor.setMoveRight_word_bgn(false);
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
+            cursor.setMoveRight_word_end(true);
+        } else{
+            cursor.setMoveRight_word_end(false);
+        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
             cursor.setMoveLeft_word(true);

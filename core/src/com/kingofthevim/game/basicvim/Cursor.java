@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
@@ -67,6 +65,12 @@ public class Cursor  {
     {
         if(moveLeft_word && t) moveLeft_word = false;
         moveRight_word_bgn = t;
+    }
+
+    public void setMoveRight_word_end(boolean t)
+    {
+        if(moveLeft_word && t) moveLeft_word = false;
+        moveRight_word_end = t;
     }
 
     public void setMoveLeft_Char(boolean t)
@@ -178,7 +182,7 @@ public class Cursor  {
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
 
-    private int traverseWord(){
+    private int traverseWordBeginning(){
         int count = 0;
 
         // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
@@ -197,6 +201,31 @@ public class Cursor  {
         return count;
     }
 
+    private int traverseWordEnd(){
+        int count = 0;
+
+        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
+        // stops at ; and special signs. numbers and words are treated the same
+
+        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+
+            count++;
+
+
+            if(cellMatrix.get(currRow).get(i).getCellChar() == ' '
+            && count > 2){
+                break;
+            }
+        }
+        System.out.println("Count: " + (count - 2));
+
+        if(currColumn + count >= colunmTotal){
+            return count;
+        }
+
+        return count - 2;
+    }
+
 
     public void move()
     {
@@ -211,10 +240,20 @@ public class Cursor  {
         }
         if (moveRight_word_bgn){
 
-            move = traverseWord();
+            move = traverseWordBeginning();
 
             if(isLegitHorizontalMove(move)){
-                position.x = position.x + (bounds.width * move); //TODO that this dosent push of center
+                position.x = position.x + (bounds.width * move);
+                currColumn += move;
+            }
+        }
+
+        if (moveRight_word_end){
+
+            move = traverseWordEnd();
+
+            if(isLegitHorizontalMove(move)){
+                position.x = position.x + (bounds.width * move);
                 currColumn += move;
             }
         }
