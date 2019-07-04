@@ -39,16 +39,28 @@ public class Level1 extends State{
         backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);
 
-        loadBackgroundText();
+        //loadBackgroundText();
 
-        labyrinthText.setHorizontalString("X", 0,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word word word word", 0,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true,LetterType.WHITE);
 
 
 
+        /*
         labyrinthText.createMap("<rg>O123<45X</rg>" +
                                             "<dw>O123456X</dw>" +
                                             "<rg>O1234<5X</rg>" +
                                             "<up+01>O12X</up>");
+
+         */
 
         // All letters in the matrix are set to the lettertype of those in the string
 
@@ -56,50 +68,6 @@ public class Level1 extends State{
         labyrinthText.setLetterType("X", LetterType.YELLOW, false);
         //labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
         //labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
-
-        // LEVEL EXEMPEL
-         // "old" way of creating levels
-        /*
-        labyrinthText.setHorizontalString("Test", 2, 0, true, LetterType.WHITE );
-        labyrinthText.setVerticalString("Das", 3, 3, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("VIM", 5, 4, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("controls", 4, 6, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("and", 5, 13, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("be", 4, 15, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("terribly", 3, 16, true, LetterType.WHITE);
-        labyrinthText.setVerticalString("amazed", 4, 23, true, LetterType.WHITE);
-
-        labyrinthText.createMap("<rg>Example</rg>" +
-                        "<dw>of</dw>"+
-                        "<rg>A</rg>"+
-                        "<dw>level</dw>"+
-                        "<rg>BUILT</rg>"+
-                        "<up>-with</up>"+
-                        "<rg>LEVEL-TAGS</rg>"+
-                        "<dw>and</dw>"+
-                        "<rg>OF</rg>"+
-                        "<dw>cursor</dw>"+
-                        "<lf>-RESET</lf>"+
-                        "<dw>as</dw>" +
-                        "<lf>-WELL</lf>"+
-                        "<dw>as</dw>" +
-                        "<rg>BACKGROUND-TEXT</rg>"+
-                        "<dw>and</dw>" +
-                        "<lf>COLORED-LETTERS</lf>"
-                , true);
-
-       labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
-        labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
-
-                        "<rg>also</rg>"+
-                        "<rg>forget</rg>"+
-                        "<rg>the</rg>"+
-                        "<rg>colored</rg>"+
-                        "<rg>letters</rg>",
-                 true);
-
-         */
-
 
 
     }
@@ -176,36 +144,17 @@ public class Level1 extends State{
     public void loadBackgroundText(){
         String[] conversionArray;
 
-        conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found" +
-                "himself transformed in his bed into a horrible vermin.  He lay on" +
-                "his armour-like back, and if he lifted his head a little he could" +
-                "see his brown belly, slightly domed and divided by arches into stiff" +
-                "sections.  The bedding was hardly able to cover it and seemed ready" +
-                "to slide off any moment.  His many legs, pitifully thin compared" +
-                "with the size of the rest of him, waved about helplessly as he" +
-                "looked." +
-                "" +
-                "\"What's happened to me?\" he thought.  It wasn't a dream.  His room," +
-                "a proper human room although a little too small, lay peacefully" +
-                "between its four familiar walls.  A collection of textile samples" +
-                "lay spread out on the table - Samsa was a travelling salesman - and" +
-                "above it there hung a picture that he had recently cut out of an" +
-                "illustrated magazine and housed in a nice, gilded frame.  It showed" +
-                "a lady fitted out with a fur hat and fur boa who sat upright," +
-                "raising a heavy fur muff that covered the whole of her lower arm" +
-                "towards the viewer." +
-                "" +
-                "Gregor then turned to look out the window at the dull weather." +
-                "Drops of rain could be heard hitting the pane, which made him feel" +
-                "quite sad.  \"How about if I sleep a little bit longer and forget all" +
-                "this nonsense\", he thought, but that was something he was unable to" +
-                "do because he was used to sleeping on his right, and in his present" +
-                "state couldn't get into that position.  However hard he threw" +
-                "himself onto his right, he always rolled back to where he was.  He" +
-                "must have tried it a hundred times, shut his eyes so that he" +
-                "wouldn't have to look at the floundering legs, and only stopped when" +
-                "he began to feel a mild, dull pain there that he had never felt" +
-                "before.");
+        conversionArray = backgroundText.makeStringArray(
+                "word word word word" +
+                "word. word. word. word." +
+                ".word. .word. .word. .word." +
+                "..wo!rd. .wo!rd. .wo!rd. wo!rd.  " +
+                "!!!word !!word !!word !word " +
+                "{{word} {word} {word} word} " +
+                "word () word () word () ord () " +
+                "!!!word!!!! !!!!word!!!! !!!!word!!!! !!!word!!!! " +
+                "word.0!) word.0!) word.0!) word.0!)" +
+                "word    word    word    word");
 
 
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, LetterType.GRAY);
@@ -258,3 +207,57 @@ public class Level1 extends State{
         }
     }
 }
+
+/*
+
+                       /////////////////////// VIM word-object variations ///////////////
+
+        labyrinthText.setHorizontalString("word word word word", 0,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true,LetterType.WHITE);
+
+
+
+                       //////////////////////// PROSE FOR TEST //////////////////////
+
+        conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found" +
+                "himself transformed in his bed into a horrible vermin.  He lay on" +
+                "his armour-like back, and if he lifted his head a little he could" +
+                "see his brown belly, slightly domed and divided by arches into stiff" +
+                "sections.  The bedding was hardly able to cover it and seemed ready" +
+                "to slide off any moment.  His many legs, pitifully thin compared" +
+                "with the size of the rest of him, waved about helplessly as he" +
+                "looked." +
+                "" +
+                "\"What's happened to me?\" he thought.  It wasn't a dream.  His room," +
+                "a proper human room although a little too small, lay peacefully" +
+                "between its four familiar walls.  A collection of textile samples" +
+                "lay spread out on the table - Samsa was a travelling salesman - and" +
+                "above it there hung a picture that he had recently cut out of an" +
+                "illustrated magazine and housed in a nice, gilded frame.  It showed" +
+                "a lady fitted out with a fur hat and fur boa who sat upright," +
+                "raising a heavy fur muff that covered the whole of her lower arm" +
+                "towards the viewer." +
+                "" +
+                "Gregor then turned to look out the window at the dull weather." +
+                "Drops of rain could be heard hitting the pane, which made him feel" +
+                "quite sad.  \"How about if I sleep a little bit longer and forget all" +
+                "this nonsense\", he thought, but that was something he was unable to" +
+                "do because he was used to sleeping on his right, and in his present" +
+                "state couldn't get into that position.  However hard he threw" +
+                "himself onto his right, he always rolled back to where he was.  He" +
+                "must have tried it a hundred times, shut his eyes so that he" +
+                "wouldn't have to look at the floundering legs, and only stopped when" +
+                "he began to feel a mild, dull pain there that he had never felt" +
+                "before.");
+
+
+
+ */

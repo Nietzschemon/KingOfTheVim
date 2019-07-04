@@ -189,15 +189,85 @@ public class Cursor  {
     private int traverseWordBeginning(){
         int count = 0;
 
+        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
+
+        char prevChar = currChar;
+
+        char cellChar = currChar;
+
         for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+
+            cellChar = cellMatrix.get(currRow).get(i).getCellChar();
+
+            if(count > 0)prevChar = cellMatrix.get(currRow).get(i - 1).getCellChar();
+
 
             count++;
 
-            if(cellMatrix.get(currRow).get(i).getCellChar() == ' '){
-                break;
+            System.out.println("CHAR: " + cellChar);
+
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+
+                if((cellChar == ' '
+                        && prevChar != ' ')){
+                    break;
+                }
             }
+            else {
+
+                if( isLetterChar(prevChar)
+                        && cellChar == ' '){
+
+                    break;
+                }
+
+                if( isSymbol(prevChar)
+                        && cellChar == ' '){
+
+                    break;
+                }
+
+                if( isSymbol(prevChar)
+                        && isLetterChar(cellChar)){
+
+                    return count - 1;
+                }
+
+                if( isLetterChar(prevChar)
+                        && isSymbol(cellChar)){
+
+                    return count - 1;
+                }
+
+                // sdd."sdsd's
+                if( isLetterChar(currChar)
+                        && isSymbol(cellChar)){
+
+                    return count - 1;
+                }
+
+            }
+
+
+            // fsf helooked."What's happend
+
         }
-        System.out.println("Count: " + count);
+        System.out.println("Count: " + (count));
+
+        if(currColumn + count >= colunmTotal){
+
+
+            // if at space at end of row or
+            // space before word at end of row
+            if(currColumn + count >= colunmTotal
+            && currChar == ' '
+            && currColumn != colunmTotal - 1){
+
+                return 1;
+            }
+
+            return 0;
+        }
 
         return count;
     }
@@ -253,7 +323,7 @@ public class Cursor  {
 
             }
 
- 
+
 
         }
         System.out.println("Count: " + (count));
@@ -295,47 +365,61 @@ public class Cursor  {
             }
             else {
 
-                if( isLetterChar(prevChar)
-                        && cellChar == ' '
-                        && count > 2){
+                if(wordMovmentRules(cellChar, prevChar)
+                && count > 2){
 
                     break;
                 }
 
-                if( isLetterChar(prevChar)
-                        && isSymbol(cellChar)
-                        && count > 2){
-
-                    break;
-                }
-
-                if( isLetterChar(currChar)
-                        && isSymbol(cellChar)
-                ){
-
-                    return count - 1;
-                }
             }
         }
 
         System.out.println("Count: " + (count) + "\n");
-        if(currColumn - count - 2 <= 0
-        && ( isSymbol(prevChar) && isSymbol(cellChar)
-        || isLetterChar(prevChar) && isLetterChar(cellChar)
-        )){
-            //|| isLetterChar(prevChar) && cellChar == ' ')
-            return count - 1;
+
+
+        if(currColumn < 2
+        && (isSymbol(prevChar) && isSymbol(currChar)
+        || (isLetterChar(prevChar) && isLetterChar(currChar)))){
+
+            if(currColumn < 1
+                    && (isSymbol(prevChar) && isSymbol(currChar)
+                    || (isLetterChar(prevChar) && isLetterChar(currChar)))){
+
+                //undersök om problemet kan lösas genom att minska count limit
+                return 0;
+            }
+
+            return 1;
         }
 
         return count - 2;
     }
 
-    private boolean wordMovmentRules(char cursorChar, char currCellChar, char prevCellChar){
+    // TODO move if-logic from word-movemnet methods here
+    private boolean wordMovmentRules(char currCellChar, char prevCellChar){
+        if( isLetterChar(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
 
-        return true;
+        if( isSymbol(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
+
+        if( isSymbol(prevCellChar)
+                && isLetterChar(currCellChar)){
+            return true;
+        }
+
+        if( isLetterChar(prevCellChar)
+                && isSymbol(currCellChar)){
+            return true;
+        }
+
+        return false;
     }
 
-    // fdf<asdf, fdf dfs, dfsdf,fdf df
 
     public void move()
     {
@@ -346,7 +430,6 @@ public class Cursor  {
 
             move = traversePreviousWord();
 
-            System.out.println("Move: " + move + "\n");
 
             if(isLegitHorizontalMove( - move )){
                 position.x = position.x - (bounds.width * move);
@@ -411,6 +494,8 @@ public class Cursor  {
 
             //isOnLetter('a');
             //isOnType(LetterType.RED);
+
+            System.out.println("\nMove: " + move + "\n");
 
             System.out.println("\ncurrRow: " + currRow + " - column: " + currColumn + " x: " + position.x + " y: " + position.y);
         }
