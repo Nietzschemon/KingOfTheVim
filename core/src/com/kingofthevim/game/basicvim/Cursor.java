@@ -189,9 +189,6 @@ public class Cursor  {
     private int traverseWordBeginning(){
         int count = 0;
 
-        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
-        // stops at ; and special signs. numbers and words are treated the same
-
         for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
 
             count++;
@@ -208,9 +205,6 @@ public class Cursor  {
     private int traverseWordEnd(){
         int count = 0;
 
-        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
-        // stops at ; and special signs. numbers and words are treated the same
-
         char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
 
         char prevChar = currChar;
@@ -218,7 +212,6 @@ public class Cursor  {
         for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
 
             char cellChar = cellMatrix.get(currRow).get(i).getCellChar();
-
 
             if(count > 0)prevChar = cellMatrix.get(currRow).get(i - 1).getCellChar();
 
@@ -228,8 +221,6 @@ public class Cursor  {
             System.out.println("CHAR: " + cellChar);
 
             if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-
-                System.out.println("SHIFT PRESS AND COUNT IS " + count);
 
                 if((cellChar == ' '
                         && prevChar != ' ')
@@ -262,8 +253,7 @@ public class Cursor  {
 
             }
 
-            //"ay - yank into register a
-            //*ap - paste from register a
+ 
 
         }
         System.out.println("Count: " + (count));
@@ -275,71 +265,94 @@ public class Cursor  {
         return count - 2;
     }
 
-    /**
-     * Checks if char is a symbol and thus should only
-     * be traversed by WORD-movements. Space is not
-     * included
-     * @param character char to check
-     * @return true if char is a symbol
-     */
-    private boolean isSymbol(char character ){
-        return ((character >= '!' && character <= '/')
-                || (character >= ':' && character <= '@')
-                || (character >= '[' && character <= '_')
-                || (character >= '{' && character <= '~'));
-    }
-
-    private boolean isLetterChar(char character ){
-        return ((character >= '0' && character <= '9')
-                || (character >= 'a' && character <= 'z')
-                || (character >= 'A' && character <= 'Z'));
-    }
-
     //TODO make sensative for special signs
     private int traversePreviousWord(){
         int count = 0;
 
-        // on a string like aaa aaa33 33aaa aaa;aaa aa; ;aaa
-        // stops at ; and special signs. numbers and words are treated the same
+        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
 
-        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+        char prevChar = currChar;
+
+        char cellChar = currChar;
+
+        for (int i = currColumn; i >= 0; i--) {
+
+            cellChar = cellMatrix.get(currRow).get(i).getCellChar();
+
+            if(count > 0)prevChar = cellMatrix.get(currRow).get(i + 1).getCellChar();
 
             count++;
 
+            System.out.println("prevChar: " + prevChar + " - cellChar: " + cellChar + " - Count " + count);
 
-            if(cellMatrix.get(currRow).get(i).getCellChar() == ' '
-                    && count > 2){
-                break;
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+
+                if((cellChar == ' '
+                        && prevChar != ' ')
+                        && count > 2){
+                    break;
+                }
+            }
+            else {
+
+                if( isLetterChar(prevChar)
+                        && cellChar == ' '
+                        && count > 2){
+
+                    break;
+                }
+
+                if( isLetterChar(prevChar)
+                        && isSymbol(cellChar)
+                        && count > 2){
+
+                    break;
+                }
+
+                if( isLetterChar(currChar)
+                        && isSymbol(cellChar)
+                ){
+
+                    return count - 1;
+                }
             }
         }
-        System.out.println("Count: " + (count - 2));
 
-        if(currColumn + count >= colunmTotal){
-            return count;
+        System.out.println("Count: " + (count) + "\n");
+        if(currColumn - count - 2 <= 0
+        && ( isSymbol(prevChar) && isSymbol(cellChar)
+        || isLetterChar(prevChar) && isLetterChar(cellChar)
+        )){
+            //|| isLetterChar(prevChar) && cellChar == ' ')
+            return count - 1;
         }
 
         return count - 2;
     }
+
+    private boolean wordMovmentRules(char cursorChar, char currCellChar, char prevCellChar){
+
+        return true;
+    }
+
+    // fdf<asdf, fdf dfs, dfsdf,fdf df
 
     public void move()
     {
         //standard char/line move
         int move = 1;
 
-
-
         if (moveLeft_word){
 
-            /*
-            move = traverseWordBeginning();
+            move = traversePreviousWord();
 
-            //TODO watch out for double negatives
-            if(isLegitHorizontalMove(move)){
+            System.out.println("Move: " + move + "\n");
+
+            if(isLegitHorizontalMove( - move )){
                 position.x = position.x - (bounds.width * move);
                 currColumn -= move;
             }
 
-             */
         }
 
         if (moveRight_word_bgn){
@@ -356,30 +369,11 @@ public class Cursor  {
         && currColumn != colunmTotal){
 
             move = traverseWordEnd();
-            System.out.println("Move: " + move + "\n");
 
-            //TODO if move returns one this will not  work
             if(isLegitHorizontalMove(move)){
 
                 position.x = position.x + (bounds.width * move);
                 currColumn += move;
-
-                /*
-                if(move <= 2){
-                    position.x += bounds.width;
-                    currColumn += 1;
-                }
-                if(move == 200){
-                    position.x = position.x + (bounds.width * move);
-                    currColumn += move;
-                }
-                else {
-                    move -= 2;
-                    position.x = position.x + (bounds.width * move);
-                    currColumn += move;
-                }
-
-                 */
             }
         }
 
@@ -427,4 +421,25 @@ public class Cursor  {
         texture.dispose();
     }
 
+
+
+    /**
+     * Checks if char is a symbol and thus should only
+     * be traversed by WORD-movements. Space is not
+     * included
+     * @param character char to check
+     * @return true if char is a symbol
+     */
+    private boolean isSymbol(char character ){
+        return ((character >= '!' && character <= '/')
+                || (character >= ':' && character <= '@')
+                || (character >= '[' && character <= '_')
+                || (character >= '{' && character <= '~'));
+    }
+
+    private boolean isLetterChar(char character ){
+        return ((character >= '0' && character <= '9')
+                || (character >= 'a' && character <= 'z')
+                || (character >= 'A' && character <= 'Z'));
+    }
 }

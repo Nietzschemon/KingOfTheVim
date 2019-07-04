@@ -219,6 +219,7 @@ public class Cell {
             blackFont.put('1', new Texture("fonts/size_H44_W22/1_44black.png"));
             blackFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44black.png"));
             blackFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44black.png"));
+            blackFont.put('\"', new Texture("fonts/size_H44_W22/doubleQuote_44black.png"));
 
         }
         private static void getRedTextures(){
@@ -313,6 +314,7 @@ public class Cell {
             redFont.put('1', new Texture("fonts/size_H44_W22/1_44red.png"));
             redFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44red.png"));
             redFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44red.png"));
+            redFont.put('\"', new Texture("fonts/size_H44_W22/doubleQuote_44red.png"));
         }
 
         private static void getGrayTextures(){
@@ -407,6 +409,7 @@ public class Cell {
             grayFont.put('1', new Texture("fonts/size_H44_W22/1_44gray.png"));
             grayFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44gray.png"));
             grayFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44gray.png"));
+            grayFont.put('\"', new Texture("fonts/size_H44_W22/doubleQuote_44gray.png"));
 
         }
         private static void getYellowTextures(){
@@ -501,6 +504,7 @@ public class Cell {
             yellowFont.put('1', new Texture("fonts/size_H44_W22/1_44yellow.png"));
             yellowFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44yellow.png"));
             yellowFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44yellow.png"));
+            yellowFont.put('\"', new Texture("fonts/size_H44_W22/doubleQuote_44yellow.png"));
         }
 
         private static void getWhiteTextures(){
@@ -596,6 +600,7 @@ public class Cell {
             whiteFont.put('1', new Texture("fonts/size_H44_W22/1_44white.png"));
             whiteFont.put('\'', new Texture("fonts/size_H44_W22/singleQuote_44white.png"));
             whiteFont.put('`', new Texture("fonts/size_H44_W22/graveAccent_44white.png"));
+            whiteFont.put('\"', new Texture("fonts/size_H44_W22/doubleQuote_44white.png"));
         }
 
     }

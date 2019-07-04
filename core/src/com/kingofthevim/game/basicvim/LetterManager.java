@@ -267,6 +267,7 @@ public class LetterManager {
      * @param overwriteExisting If existing chars should be jumped or written over
      */
     public void setHorizontalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
+        //TODO remove newline in string if it exists
 
 
 
