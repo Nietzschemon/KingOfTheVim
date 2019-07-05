@@ -21,7 +21,8 @@ public abstract class Level extends State {
 
     protected Level(GameStateManager gsm) {
         super(gsm);
-                //TODO use for bigger texts and levels use also for zooming in bigger levels
+
+        //TODO use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
 
@@ -32,16 +33,14 @@ public abstract class Level extends State {
     }
 
 
-    //TODO
-    // put in methods
-    // levelPath()
+    //TODO put in methods
     // score()
     // events()
     // cursorRules()
 
     protected abstract void levelPath();
 
-    protected abstract void loadBackgroundText();
+    protected abstract void backgroundText();
 
     @Override
     public void handleInput() {
