@@ -7,16 +7,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
 // a letter in spacemacs can be achieved.
 public class Cursor  {
-
-
-
-
 
     // char movement booleans
     private boolean moveLeft_char;
@@ -187,6 +182,17 @@ public class Cursor  {
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
 
+    //TODO at end of word if place of matrix, the coursor jumps ahead anyways
+    // fix this so it goes to new line instead
+    /**
+     * Takes care of the vim w/W-movements.
+     *
+     * This is done by iterating of cellMatrix and checking
+     * the cell-chars in pairs against the VIM rules, if a
+     * match is found, the loops breaks and returns the count
+     * it took to find said pair.
+     * @return the number of steps to perform asked movement
+     */
     private int traverseWordBeginning(){
         int count = 0;
 
@@ -205,52 +211,34 @@ public class Cursor  {
 
             count++;
 
-            System.out.println("CHAR: " + cellChar);
+            System.out.println("prevChar: " + prevChar + " - cellChar: " + cellChar + " - Count " + count);
 
             if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 
-                if((cellChar == ' '
-                        && prevChar != ' ')){
+                if((cellChar != ' '
+                        && prevChar == ' ')){
                     break;
                 }
             }
             else {
 
-                if( isLetterChar(prevChar)
-                        && cellChar == ' '){
-
+                if((cellChar != ' '
+                        && prevChar == ' ')){
                     break;
                 }
 
-                if( isSymbol(prevChar)
-                        && cellChar == ' '){
-
-                    break;
-                }
 
                 if( isSymbol(prevChar)
                         && isLetterChar(cellChar)){
-
-                    return count - 1;
+                    break;
                 }
 
                 if( isLetterChar(prevChar)
                         && isSymbol(cellChar)){
-
-                    return count - 1;
-                }
-
-                // sdd."sdsd's
-                if( isLetterChar(currChar)
-                        && isSymbol(cellChar)){
-
-                    return count - 1;
+                    break;
                 }
 
             }
-
-
-            // fsf helooked."What's happend
 
         }
         System.out.println("Count: " + (count));
@@ -270,9 +258,20 @@ public class Cursor  {
             return 0;
         }
 
-        return count;
+        return count - 1;
     }
 
+    //TODO at end of word if place of matrix, the coursor jumps ahead anyways
+    // fix this so it goes to new line instead
+    /**
+     * Takes care of the vim e/E-movements.
+     *
+     * This is done by iterating of cellMatrix and checking
+     * the cell-chars in pairs against the VIM rules, if a
+     * match is found, the loops breaks and returns the count
+     * it took to find said pair.
+     * @return the number of steps to perform asked movement
+     */
     private int traverseWordEnd(){
         int count = 0;
 
@@ -336,7 +335,15 @@ public class Cursor  {
         return count - 2;
     }
 
-    //TODO make sensative for special signs
+    /**
+     * Takes care of the vim b/B-movements.
+     *
+     * This is done by iterating of cellMatrix and checking
+     * the cell-chars in pairs against the VIM rules, if a
+     * match is found, the loops breaks and returns the count
+     * it took to find said pair.
+     * @return the number of steps to perform asked movement
+     */
     private int traversePreviousWord(){
         int count = 0;
 
@@ -367,14 +374,11 @@ public class Cursor  {
             }
             else {
 
-                if(wordMovmentRules(cellChar, prevChar)
+                if(wordMovementRules(cellChar, prevChar)
                 &&  count > 2){
-
 
                     return count - 2;
                 }
-
-
             }
         }
 
@@ -383,8 +387,7 @@ public class Cursor  {
         return count - 1;
     }
 
-    // TODO move if-logic from word-movemnet methods here
-    private boolean wordMovmentRules(char currCellChar, char prevCellChar){
+    private boolean wordMovementRules(char currCellChar, char prevCellChar){
         if( isLetterChar(prevCellChar)
                 && currCellChar == ' '){
             return true;
