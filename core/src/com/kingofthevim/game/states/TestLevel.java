@@ -9,49 +9,22 @@ import com.kingofthevim.game.basicvim.*;
 
 import java.util.ArrayList;
 
-public class Level1 extends State{
+public class TestLevel extends Level{
 
-    private final int rowTotal = 22;
-    private final int columnTotal = 44;
-    private final int fontWidth = 22;
-    private final int fontHeight = 44;
     private final int cursorStartRow = 0;
     private final int cursorStartColumn = 0;
 
-    private Cursor cursor;
 
-    private VimWorldMatrix vimMatrix;
-
-    private LetterManager backgroundText;
-    private LetterManager labyrinthText;
-
-
-    public Level1(GameStateManager gsm) {
+    public TestLevel(GameStateManager gsm) {
         super(gsm);
 
-        //TODO use for bigger texts and levels use also for zooming in bigger levels
-        cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
-
-        vimMatrix = new VimWorldMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
-
-        backgroundText = new LetterManager(vimMatrix);
-        labyrinthText = new LetterManager(vimMatrix);
 
         //loadBackgroundText();
 
-        labyrinthText.setHorizontalString("word word word word", 0,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true,LetterType.WHITE);
 
+        levelPath();
 
 
         /*
@@ -72,6 +45,19 @@ public class Level1 extends State{
 
     }
 
+    @Override
+    protected void levelPath() {
+        labyrinthText.setHorizontalString("word word word word", 0,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true,LetterType.WHITE);
+    }
 
 
     @Override
@@ -160,52 +146,6 @@ public class Level1 extends State{
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, LetterType.GRAY);
     }
 
-    @Override
-    public void handleInput() {
-
-        cursor.move();
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-            cursor.setMoveRight_word_bgn(true);
-        } else{
-            cursor.setMoveRight_word_bgn(false);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
-            cursor.setMoveRight_word_end(true);
-        } else{
-            cursor.setMoveRight_word_end(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-            cursor.setMoveLeft_word(true);
-        } else{
-            cursor.setMoveLeft_word(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            cursor.setMoveRight_Char(true);
-        } else{
-            cursor.setMoveRight_Char(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-            cursor.setMoveLeft_Char(true);
-        } else{
-            cursor.setMoveLeft_Char(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            cursor.setMoveDown_Line(true);
-        } else{
-            cursor.setMoveDown_Line(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            cursor.setMoveUp_Line(true);
-        } else{
-            cursor.setMoveUp_Line(false);
-        }
-    }
 }
 
 /*

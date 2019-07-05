@@ -8,22 +8,28 @@ import com.kingofthevim.game.KingOfTheVimMain;
 
 public class MenuState extends State{
 
-    Texture playBtn;
+    Texture developerLevel;
+    Texture level_1;
 
     //TODO write real menu
     public MenuState(GameStateManager gsm) {
         super(gsm);
-        playBtn = new Texture("fonts/size_H44_W22/O_44white.png");
+        developerLevel = new Texture("fonts/size_H44_W22/I_44white.png");
+        level_1 = new Texture("fonts/size_H44_W22/O_44white.png");
     }
 
     //clicks Playbutton
     @Override
     public void handleInput() {
-        if(Gdx.input.justTouched()
-                || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
                 || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 
-            gsm.set(new Level1(gsm));
+            gsm.set(new TestLevel(gsm));
+        }
+
+        if(Gdx.input.justTouched()
+                || Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+            gsm.set(new Level_1(gsm));
         }
     }
 
@@ -36,15 +42,18 @@ public class MenuState extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
 
-        //Need to subtract the playbutton with itself so it dosent go of center
-        sb.draw(playBtn, (KingOfTheVimMain.WIDTH / 2) - (playBtn.getWidth() / 2), KingOfTheVimMain.HEIGHT / 2);
+        //Need to subtract the buttons with itself so it dosent go of center
+        sb.draw(developerLevel, (KingOfTheVimMain.WIDTH / 2) - (developerLevel.getWidth() / 2), KingOfTheVimMain.HEIGHT / 2);
+        sb.draw(level_1, (KingOfTheVimMain.WIDTH / 2) - (level_1.getWidth() / 2),
+                (KingOfTheVimMain.HEIGHT / 2) - level_1.getHeight());
         sb.end();
 
     }
 
     @Override
     public void dispose() {
-        playBtn.dispose();
+        developerLevel.dispose();
+        level_1.dispose();
         System.out.println("Menu State Disposed");
     }
 
