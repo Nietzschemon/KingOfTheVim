@@ -147,6 +147,7 @@ public class Cursor  {
 
         if(currColumn +move < 0
         || currColumn +move > colunmTotal){
+            System.out.println("MOVE OUT OF BOUNDS!");
             return false;
         }
 
@@ -164,6 +165,7 @@ public class Cursor  {
 
         if(currRow+move < 0
                 || currRow+move > rowTotal-1){
+            System.out.println("MOVE OUT OF BOUNDS!");
             return false;
         }
 
@@ -185,7 +187,6 @@ public class Cursor  {
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
 
-    //TODO make sensitive to special signs
     private int traverseWordBeginning(){
         int count = 0;
 
@@ -360,39 +361,26 @@ public class Cursor  {
                 if((cellChar == ' '
                         && prevChar != ' ')
                         && count > 2){
-                    break;
+
+                    return count - 2;
                 }
             }
             else {
 
                 if(wordMovmentRules(cellChar, prevChar)
-                && count > 2){
+                &&  count > 2){
 
-                    break;
+
+                    return count - 2;
                 }
+
 
             }
         }
 
         System.out.println("Count: " + (count) + "\n");
 
-
-        if(currColumn < 2
-        && (isSymbol(prevChar) && isSymbol(currChar)
-        || (isLetterChar(prevChar) && isLetterChar(currChar)))){
-
-            if(currColumn < 1
-                    && (isSymbol(prevChar) && isSymbol(currChar)
-                    || (isLetterChar(prevChar) && isLetterChar(currChar)))){
-
-                //undersök om problemet kan lösas genom att minska count limit
-                return 0;
-            }
-
-            return 1;
-        }
-
-        return count - 2;
+        return count - 1;
     }
 
     // TODO move if-logic from word-movemnet methods here
