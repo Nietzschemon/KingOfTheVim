@@ -73,9 +73,10 @@ public class LetterManager {
         int currRow = 0;
         int currCol = 0;
 
+        //"(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
         // whole  start and close tag-combo
         Pattern wholeTagString = Pattern.compile(
-                        "(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
+                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" + // cell
                         "|(<up[-+]{1}(\\d){2}>(.+?)</up>)" + // up (duh)
                         "|(<up>(.+?)</up>)" + // non override version
                         "|(<dw[-+]{1}(\\d){2}>(.+?)</dw>)" +// down
@@ -87,7 +88,7 @@ public class LetterManager {
 
         // detects if start tags contain extra info to override default
         Pattern overrideTags = Pattern.compile(
-                        "(<cl(\\d){2}(,)+(\\d){2}>)" +
+                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" +
                         "|(<up[-+]{1}(\\d){2}>)" +
                         "|(<dw[-+]{1}(\\d){2}>)" +
                         "|(<lf[-+]{1}(\\d){2}>)" +
@@ -95,7 +96,7 @@ public class LetterManager {
 
         // any start tag
         Pattern startTags = Pattern.compile(
-                        "(<cl(\\d){2}(,)+(\\d){2}>)" +
+                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" + //Maybe this should not be here?
                         "|(<up[-+]{1}(\\d){2}>)" +
                         "|(<up>(.+?)</up>)" +
                         "|(<dw[-+]{1}(\\d){2}>)" +
@@ -116,8 +117,7 @@ public class LetterManager {
 
         /*
         Pattern endTags = Pattern.compile(
-                        "(</cl>)" +
-                        "|(</up>)" +
+                        "</up>)" +
                         "|(</dw>)" +
                         "|(</lf>)" +
                         "|(</rg>)");
@@ -160,7 +160,13 @@ public class LetterManager {
 
 
 
-            if(string.substring(0,3).equals("<cl")){
+            if(string.substring(0,4).equals("<<cl")){
+                //"(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
+                System.out.println("\nCell posistion overrided. \nOld posision \nrow " + currRow + " - column " + currCol);
+                currRow = Integer.parseInt(string.substring(4, 6));
+                currCol = Integer.parseInt(string.substring(7, 9));
+
+                System.out.println("new posistion \nrow " + currRow + " - column " + currCol + "\n");
 
                 continue;
             }

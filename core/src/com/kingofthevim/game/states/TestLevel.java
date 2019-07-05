@@ -24,16 +24,15 @@ public class TestLevel extends Level{
         //loadBackgroundText();
 
 
-        levelPath();
+        //levelPath();
 
 
-        /*
         labyrinthText.createMap("<rg>O123<45X</rg>" +
-                                            "<dw>O123456X</dw>" +
+                                            "<<cl05,02>>" +
                                             "<rg>O1234<5X</rg>" +
+                                            "<rw>O123456X</dw>" +
                                             "<up+01>O12X</up>");
 
-         */
 
         // All letters in the matrix are set to the lettertype of those in the string
 
