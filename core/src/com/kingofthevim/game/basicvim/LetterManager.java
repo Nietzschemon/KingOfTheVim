@@ -77,8 +77,12 @@ public class LetterManager {
         // whole  start and close tag-combo
         Pattern wholeTagString = Pattern.compile(
                         "(<<cl(\\d){2}(,)+(\\d){2}>>)" + // cell
+                        "|(<<rw[-+]{1}(\\d){2}>>)" + // row
+                        "|(<<rw(\\d){2}>>)" + // non override version
+                        "|(<<co[-+]{1}(\\d){2}>>)" + // column
+                        "|(<<co(\\d){2}>>)" +
                         "|(<up[-+]{1}(\\d){2}>(.+?)</up>)" + // up (duh)
-                        "|(<up>(.+?)</up>)" + // non override version
+                        "|(<up>(.+?)</up>)" +
                         "|(<dw[-+]{1}(\\d){2}>(.+?)</dw>)" +// down
                         "|(<dw>(.+?)</dw>)" +
                         "|(<lf[-+]{1}(\\d){2}>(.+?)</lf>)" +// left
@@ -88,16 +92,14 @@ public class LetterManager {
 
         // detects if start tags contain extra info to override default
         Pattern overrideTags = Pattern.compile(
-                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" +
-                        "|(<up[-+]{1}(\\d){2}>)" +
+                        "(<up[-+]{1}(\\d){2}>)" +
                         "|(<dw[-+]{1}(\\d){2}>)" +
                         "|(<lf[-+]{1}(\\d){2}>)" +
                         "|(<rg[-+]{1}(\\d){2}>)");
 
         // any start tag
         Pattern startTags = Pattern.compile(
-                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" + //Maybe this should not be here?
-                        "|(<up[-+]{1}(\\d){2}>)" +
+                        "(<up[-+]{1}(\\d){2}>)" +
                         "|(<up>(.+?)</up>)" +
                         "|(<dw[-+]{1}(\\d){2}>)" +
                         "|(<dw>)" +
@@ -129,18 +131,20 @@ public class LetterManager {
         boolean isOverride = false;
 
 
+        int overrideNum = 0;
+
         while (tagSetMatcher.find()){
 
             tagSetsArray.add(tagSetMatcher.group());
         }
-
-        System.out.println("TagSetsArray: " + tagSetsArray);
 
 
 
         for (String string : tagSetsArray){
 
             String endString;
+
+            String overrideOperator;
 
             Matcher overrideTagMatcher = overrideTags.matcher(string);
             Matcher startTagMatcher = startTags.matcher(string);
@@ -157,26 +161,77 @@ public class LetterManager {
 
              */
 
+            // checks if object-tag or tag-pair type
+            // and then looks for override operator
+            if(string.substring(0, 2).equals("<<")){
+                overrideOperator = string.substring(4,5);
+            }
+            else{
 
+                overrideOperator = string.substring(3,4);
+            }
+            if(overrideOperator.equals("+")
+            || overrideOperator.equals("-")){
+                isOverride = true;
+            }
 
 
             if(string.substring(0,4).equals("<<cl")){
-                //"(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
-                System.out.println("\nCell posistion overrided. \nOld posision \nrow " + currRow + " - column " + currCol);
+                System.out.println("\nCell position override \nOld position \nrow " + currRow + " - column " + currCol);
                 currRow = Integer.parseInt(string.substring(4, 6));
                 currCol = Integer.parseInt(string.substring(7, 9));
 
-                System.out.println("new posistion \nrow " + currRow + " - column " + currCol + "\n");
+                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
 
+                continue;
+            }
+
+            if(string.substring(0,4).equals("<<co")){
+
+                System.out.println("\nColumn position override. \nOld position \nrow " + currRow + " - column " + currCol);
+
+                if(isOverride){
+                    overrideNum = Integer.parseInt(string.substring(5, 7));
+                    currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
+                }
+                else
+                {
+                    currCol = Integer.parseInt(string.substring(4, 6));
+                }
+
+                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
+
+                isOverride = false;
+                continue;
+            }
+
+            if(string.substring(0,4).equals("<<rw")){
+
+                System.out.println("\nRow position override \nOld position \nrow " + currRow + " - column " + currCol);
+
+                if(isOverride){
+                    overrideNum = Integer.parseInt(string.substring(5, 7));
+                    currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
+                }
+                else
+                {
+                    currRow = Integer.parseInt(string.substring(4, 6));
+                }
+
+
+                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
+
+                isOverride = false;
                 continue;
             }
 
 
 
+
+            //TODO this should be used for checking overrides for the above too
             if(overrideTagMatcher.find()){
-                //TODO logic to parse override
-                int overrideNum = Integer.parseInt(string.substring(4,6));
-                String overrideOperator = string.substring(3,4);
+
+                overrideNum = Integer.parseInt(string.substring(4,6));
 
                 if(string.substring(0,3).equals("<up")
                 || string.substring(0,3).equals("<dw")){
@@ -197,24 +252,24 @@ public class LetterManager {
 
             if(startTagMatcher.find()){ //remove tags and add to cellMatrix
 
-
                 // trims the current string depending on if it is overridden or not
                 if(isOverride) endString = string.substring(7, string.length() - 5);
                 else endString = string.substring(4, string.length() - 5);
 
                 System.out.println("curr word " + endString + " at row " + currRow + " colum " + currCol);
 
-                //if(string.substring(0, 4).equals("<up"))
                 if(string.substring(0, 3).equals("<up")){
 
                     currRow = currRow - endString.length();//+ 1; // to make it go "up"
                     setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
                 }
+
                 if(string.substring(0, 3).equals("<dw")){
 
                     setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
                     currRow += endString.length();
                 }
+
                 if(string.substring(0, 3).equals("<lf")){
                     currCol = currCol - endString.length(); // to make it go "left"
                     setHorizontalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
@@ -229,6 +284,8 @@ public class LetterManager {
                 isOverride = false;
             }
         }
+
+        System.out.println("TagSetsArray: " + tagSetsArray);
     }
 
 

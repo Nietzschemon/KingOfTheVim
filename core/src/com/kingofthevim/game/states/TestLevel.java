@@ -45,11 +45,18 @@ public class TestLevel extends Level{
 
     private void tagBuiltLevel(){
 
-        labyrinthText.createMap("<rg>O123<45X</rg>" +
-                "<<cl05,02>>" +
+        labyrinthText.createMap(
+                "<<co06>>" +
                 "<rg>O1234<5X</rg>" +
-                "<rw>O123456X</dw>" +
-                "<up+01>O12X</up>");
+                        "<<rw+05>>" +
+                        "<<co+05>>" +
+                        "<rg>O125X</rg>" +
+                        "<<rw12>>" +
+                        "<<co04>>" +
+                "<up>O123456X</up>" +
+                "<<rw+05>>" +
+                        "<rg>Test</rg>"
+                );
     }
 
     private void vimWordObjectCourse(){
