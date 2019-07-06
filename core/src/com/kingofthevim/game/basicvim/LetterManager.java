@@ -330,7 +330,7 @@ public class LetterManager {
 
             //overwrite existing cell
 
-            System.out.println("row: " + startRow + "  - startcell " + (startCell + i));
+            System.out.println("row: " + (startRow + i) + "  - startcell " + startCell);
 
             //TODO make so that letters of the same type are NEVER overwritten
             if((cellMatrix.get(startRow + i).get(startCell).getCellLook() != null
