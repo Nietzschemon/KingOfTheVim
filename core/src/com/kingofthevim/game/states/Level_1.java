@@ -9,7 +9,7 @@ public class Level_1 extends Level{
 
 
     private final int cursorStartRow = 4;
-    private final int cursorStartColumn = 0;
+    private final int cursorStartColumn = 8;
 
     public Level_1(GameStateManager gsm) {
         super(gsm);
@@ -24,19 +24,20 @@ public class Level_1 extends Level{
     @Override
     protected void levelPath() {
 
-        //TODO create <<row>> and <<col>> to change easier and also <<row+->> for adding/subtracting values
-        //TODO color-tag could just add per cell basis directly in a loop with the regex-group
-        //TODO fix faulty system reporting no row change when vertical tags are used
-
-        labyrinthText.createMap("<<cl04,00>>" +
+        labyrinthText.createMap("<<cl04,08>>" +
                 "<rg>Press-l-to-move-RIGHT-j</rg>" +
                 "<dw>|for|DOWN|</dw>" +
                 "<lf+01>h-for-LEFT</lf>" +
                 "<up>k|is|UP|</up>" +
-                "<lf>GOAL-</lf>"); //TODO this should be able to be reched with 4-j for quick tutorial-jump
+                "<lf>xxx-</lf>" +
+                "<dw>|xxxx</dw>" +
+                "<lf>xxxxx-</lf>" +
+                "<up>xx</up>" +
+                "<lf>in-one-move?</lf>" +
+                "<up>GOAL|</up>"
+
+        ); //TODO this should be able to be reched with 4-j for quick tutorial-jump
                 //TODO make goal in font with background-color (and level names with same styling)
-
-
 
 
         // All letters in the matrix are set to the lettertype of those in the string
@@ -45,7 +46,7 @@ public class Level_1 extends Level{
     }
 
     public void backgroundText(){
-        String[] welcome = {"Welcome to King of the VIM!", "This is the starting level where we", "learn the basics of VIM" };
+        String[] welcome = {"welcome to king of the vim!", "this is the starting level where we", "learn the basics of vim" };
 
         String[] warning = {"WARNING", "gray letters kill you", "and so do empty spaces"};
         //String[] warning = {"Rest assured that my developer WILL make", "this game unbearably hard soon enough", "may God have mercy on your soul"};
@@ -53,10 +54,10 @@ public class Level_1 extends Level{
         //String[] info = {"To skip ahead: ", "every tutorial can be skipped by performing", "the level under a certain move count"};
 
         backgroundText.setHorizontalStringArray(welcome, 0, 0, false, LetterType.GRAY);
-       // backgroundText.setHorizontalStringArray(warning, 15, 0, true, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(warning, 15, 0, true, LetterType.GRAY);
         //backgroundText.setHorizontalStringArray(info, 19, 0, false, LetterType.RED);
 
-        //backgroundText.setLetterType("WARNING", LetterType.RED, true);
+        backgroundText.setLetterType("WARNING", LetterType.RED, true);
     }
 
     @Override

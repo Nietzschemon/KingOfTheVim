@@ -23,7 +23,7 @@ public class Cell {
 
     private static Font font = new Font();
 
-    private char cellChar;
+    private char cellChar = ' ';
     private Texture cellLook;
     private Vector2 cartesianPosition;
     private LetterType letterType = LetterType.EMPATHY;
