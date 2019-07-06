@@ -1,17 +1,19 @@
 package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kingofthevim.game.basicvim.*;
+import com.kingofthevim.game.basicvim.Cell;
+import com.kingofthevim.game.basicvim.Cursor;
+import com.kingofthevim.game.basicvim.LetterType;
 
 import java.util.ArrayList;
 
-public class Level_1 extends Level{
+public class Level_2 extends Level {
 
 
     private final int cursorStartRow = 4;
     private final int cursorStartColumn = 8;
 
-    public Level_1(GameStateManager gsm) {
+    public Level_2(GameStateManager gsm) {
         super(gsm);
 
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
@@ -24,19 +26,8 @@ public class Level_1 extends Level{
     @Override
     protected void levelPath() {
 
-        //TODO make goal in font with background-color (and level names with same styling)
-        labyrinthText.createMap("<<cl04,08>>" +
-                "<rg>Press-l-to-move-RIGHT-j</rg>" +
-                "<dw>|for|DOWN|</dw>" +
-                "<lf+01>h-for-LEFT</lf>" +
-                "<up>k|is|UP|</up>" +
-                "<lf>xxx-</lf>" +
-                "<dw>|xxxx</dw>" +
-                "<lf>xxxxx-</lf>" +
-                "<up>xx</up>" +
-                "<lf>in-one-move?</lf>" +
-                "<up>GOAL|</up>"
-
+        labyrinthText.createMap("<<cl04,02>>" +
+                "<rg>xxxxxx</rg>"
         );
 
 
@@ -46,14 +37,12 @@ public class Level_1 extends Level{
     }
 
     public void backgroundText(){
-        String[] welcome = {"welcome to king of the vim!", "this is the starting level where we", "learn the basics of vim" };
 
-        String[] warning = {"WARNING", "gray letters kill you", "and so do empty spaces"};
+        String[] message = {"BORED?", "rest assured that my developer WILL make", "this game unbearably hard soon enough", "TIP: most levels can be done in", "one or three vim-moves"};
 
-        backgroundText.setHorizontalStringArray(welcome, 0, 0, false, LetterType.GRAY);
-        backgroundText.setHorizontalStringArray(warning, 15, 0, true, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(message, 15, 0, true, LetterType.GRAY);
 
-        backgroundText.setLetterType("WARNING", LetterType.RED, true);
+        backgroundText.setLetterType("BOREDWILLTIP?", LetterType.RED, true);
     }
 
     @Override
@@ -71,6 +60,9 @@ public class Level_1 extends Level{
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }
+
+
+        //sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
 
@@ -111,4 +103,3 @@ public class Level_1 extends Level{
 
 
 }
-

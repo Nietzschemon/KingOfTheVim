@@ -10,12 +10,14 @@ public class MenuState extends State{
 
     Texture developerLevel;
     Texture level_1;
+    Texture level_2;
 
     //TODO write real menu
     public MenuState(GameStateManager gsm) {
         super(gsm);
-        developerLevel = new Texture("fonts/size_H44_W22/I_44white.png");
-        level_1 = new Texture("fonts/size_H44_W22/O_44white.png");
+        developerLevel = new Texture("menu/DevLevel.png");
+        level_1 = new Texture("menu/Level1.png");
+        level_2 = new Texture("menu/Level2.png");
     }
 
     //clicks Playbutton
@@ -30,6 +32,10 @@ public class MenuState extends State{
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
             gsm.set(new Level_1(gsm));
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
+            gsm.set(new Level_2(gsm));
+        }
+
     }
 
     @Override
@@ -43,8 +49,11 @@ public class MenuState extends State{
 
         //Need to subtract the buttons with itself so it dosent go of center
         sb.draw(developerLevel, (KingOfTheVimMain.WIDTH / 2) - (developerLevel.getWidth() / 2), KingOfTheVimMain.HEIGHT / 2);
-        sb.draw(level_1, (KingOfTheVimMain.WIDTH / 2) - (level_1.getWidth() / 2),
-                (KingOfTheVimMain.HEIGHT / 2) - level_1.getHeight());
+        sb.draw(level_1, (KingOfTheVimMain.WIDTH / 2) - (level_1.getWidth() / 2), (KingOfTheVimMain.HEIGHT / 2) - level_1.getHeight());
+
+        sb.draw(level_2, (KingOfTheVimMain.WIDTH / 2) - (level_2.getWidth() / 2),
+                (KingOfTheVimMain.HEIGHT / 2) - (level_2.getHeight() * 2));
+
         sb.end();
 
     }
@@ -53,6 +62,7 @@ public class MenuState extends State{
     public void dispose() {
         developerLevel.dispose();
         level_1.dispose();
+        level_2.dispose();
         System.out.println("Menu State Disposed");
     }
 
