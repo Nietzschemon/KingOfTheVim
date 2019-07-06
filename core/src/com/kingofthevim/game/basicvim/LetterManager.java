@@ -72,6 +72,8 @@ public class LetterManager {
         // counted from where the end of the last string was set
         int currRow = 0;
         int currCol = 0;
+        boolean isOverride = false;
+        int overrideNum = 0;
 
         //"(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
         // whole  start and close tag-combo
@@ -109,13 +111,21 @@ public class LetterManager {
                         "|(<rg>)");
 
         Pattern colorTagString = Pattern.compile(
+                        "(<b>(.+?)</b>)" + //black
                         "(<e>(.+?)</e>)" + //empty
                         "(<g>(.+?)</g>)" + //gray
                         "(<r>(.+?)</r>)" + //red
+                        "(<p>(.+?)</p>)" + //purple
                         "(<y>(.+?)</y>)" + //yellow
-                        "(<w>(.+?)</w>)"); //white
+                        "(<w>(.+?)</w>)" + //white
+                        "(<b\\+[egrpyw]>(.+?)</b>)" + //black with color background
+                        "(<g\\+[berpyw]>(.+?)</g>)" +
+                        "(<r\\+[begpyw]>(.+?)</r>)" +
+                        "(<p\\+[begryw]>(.+?)</p>)" +
+                        "(<y\\+[begrpw]>(.+?)</y>)" +
+                        "(<w\\+[begrpy]>(.+?)</w>)");
 
-        Pattern colorStartTags = Pattern.compile("(<[egryw]>)");
+        Pattern colorStartTags = Pattern.compile("(<[begrpyw]\\+[begrpyw]>)");
 
         /*
         Pattern endTags = Pattern.compile(
@@ -128,10 +138,6 @@ public class LetterManager {
 
         Matcher tagSetMatcher = wholeTagString.matcher(tagString);
 
-        boolean isOverride = false;
-
-
-        int overrideNum = 0;
 
         while (tagSetMatcher.find()){
 
@@ -154,6 +160,22 @@ public class LetterManager {
             while (colorTagMatcher.find()){
 
             //TODO Remove color tags here with method and put changes in list/map to execute later
+
+
+            store default color
+            get string.length from end posi-start-tag to start of color-start-tag
+            store range with default color
+
+            loop
+                get color from start-tag
+                rm start-tag
+                get length of string to end-tag
+
+
+
+
+            currCol/currRow - endstring.lenght
+
 
             use LinkedHashMap, posision = row || column, key = char, value = LetterType
 
@@ -283,6 +305,9 @@ public class LetterManager {
 
                 isOverride = false;
             }
+
+
+
         }
 
         System.out.println("TagSetsArray: " + tagSetsArray);
