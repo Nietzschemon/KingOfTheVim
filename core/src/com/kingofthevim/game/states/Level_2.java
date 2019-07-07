@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class Level_2 extends Level {
 
 
-    private final int cursorStartRow = 4;
-    private final int cursorStartColumn = 8;
+    private final int cursorStartRow = 0;
+    private final int cursorStartColumn = 0;
 
     public Level_2(GameStateManager gsm) {
         super(gsm);
@@ -26,14 +26,27 @@ public class Level_2 extends Level {
     @Override
     protected void levelPath() {
 
-        labyrinthText.createMap("<<cl04,02>>" +
-                "<rg>xxxxxx</rg>"
+        labyrinthText.createMap(
+                "<rg>xxxxxx</rg>" +
+                        "<dw>xxxxxx</dw>" +
+                        "<rg>xxxxxx</rg>" +
+                        "<up+01>xxxxxx</up>" +
+                        "<rg>now you need \"e\"</rg>" +
+                        "<dw>xxxxxx</dw>" +
+                        "<rg>xxxxxx</rg>" +
+                        "<up>xxxxxx</up>" +
+                        "<rg>xxxxxx</rg>" +
+                        "<dw>xxxxxxxxxxxxx</dw>" +
+                        "<lf>xxxxxxxx</lf>" +
+                        "<up>xxxx</up>" +
+                "<lf>\"b\" to get to here</lf>" +
+                "<dw>Goal</dw>"
         );
 
 
         // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.setLetterType("hjkl", LetterType.YELLOW, false);
-        labyrinthText.setLetterType("X-|", LetterType.RED, false);
+        labyrinthText.setLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
+        labyrinthText.setLetterType("enonyrb", LetterType.RED, false);
     }
 
     public void backgroundText(){
