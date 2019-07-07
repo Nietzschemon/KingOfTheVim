@@ -10,6 +10,21 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
+    /*TODO Level maker
+     make methods
+        - addBackgroundText()
+
+        - textLevelMaker(String string, boolean fatWordsLevel, boolean )
+                string - everything not covered bellow gets grayed
+                fatWordsLevel - the level words: chars gets nomralized
+                starsBad - letters between stars gets marked as bad (*word*)
+                starsGood - letters between two ~ gets marked as good (~~wo~~rd)
+        - setPoints(LetterType type, int points)
+        - setPoints(LetterType type, int row, int points)
+        - setPoints(LetterType type, String chars, int points)
+        - setPoints(LetterType type, String chars, int row, int points)
+        EVERY EVENT has an analogous plethora of signatures as in setPoints above.
+     */
 
 //TODO LATER use properties to store the file paths.
 // https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
@@ -37,7 +52,7 @@ public class LetterManager extends TagSystem {
     }
 
 
-    //TODO stupid long method to just get the map-automation done. CHANGE!!!
+    //TODO segment into more methods
     public void createMap(String tagString, boolean overwrite, LetterType defaultType){
 
         ArrayList<String> tagSetsArray = new ArrayList<>();
@@ -72,8 +87,6 @@ public class LetterManager extends TagSystem {
             }
 
             if(isSelfClosingTag(string)) continue;
-
-            //TODO this should be used for checking overrides for the above too
 
             implementOverride(string, overrideTagMatcher);
 
@@ -156,8 +169,6 @@ public class LetterManager extends TagSystem {
     public void setHorizontalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
         //TODO remove newline in string if it exists
 
-
-
         if(string.length() + startCell > cellMatrix.get(startRow).size()){
             throw new IndexOutOfBoundsException("word will be outside cell matrix");
         }
@@ -170,7 +181,6 @@ public class LetterManager extends TagSystem {
             char charKey = string.charAt(charNum);
 
             //overwrite existing cell
-
             System.out.println("row: " + startRow + "  - startcell " + (startCell + i));
 
             if((cellMatrix.get(startRow).get(startCell + i).getCellLook() != null
@@ -205,21 +215,6 @@ public class LetterManager extends TagSystem {
         }
     }
 
-    /*TODO Level maker
-     make methods
-        - addBackgroundText()
-
-        - textLevelMaker(String string, boolean fatWordsLevel, boolean )
-                string - everything not covered bellow gets grayed
-                fatWordsLevel - the level words: chars gets nomralized
-                starsBad - letters between stars gets marked as bad (*word*)
-                starsGood - letters between two ~ gets marked as good (~~wo~~rd)
-        - setPoints(LetterType type, int points)
-        - setPoints(LetterType type, int row, int points)
-        - setPoints(LetterType type, String chars, int points)
-        - setPoints(LetterType type, String chars, int row, int points)
-        EVERY EVENT has an analogous plethora of signatures as in setPoints above.
-     */
 
     /**
      * Makes a string array that fits the current
@@ -342,8 +337,6 @@ public class LetterManager extends TagSystem {
 
 
     ///////////////////////// Ideas and non functioning functions /////////////////////////
-
-
 
 
     //TODO this dosnt work properly with an identical pattern the horVert

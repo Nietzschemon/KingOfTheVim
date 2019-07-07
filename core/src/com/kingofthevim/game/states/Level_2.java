@@ -28,16 +28,16 @@ public class Level_2 extends Level {
 
         labyrinthText.createMap(
                 "<rg>xxxxxx</rg>" +
-                        "<dw>xxxxxx</dw>" +
-                        "<rg>xxxxxx</rg>" +
-                        "<up+01>xxxxxx</up>" +
+                        "<dw>Gxxxxx</dw>" +
+                        "<rg>Gxxxxx</rg>" +
+                        "<up+01>GxxxxG</up>" +
                         "<rg>now you need \"e\"</rg>" +
-                        "<dw>xxxxxx</dw>" +
+                        "<dw>xxxxGx</dw>" +
                         "<rg>xxxxxx</rg>" +
-                        "<up>xxxxxx</up>" +
+                        "<up>xxxxxG</up>" +
                         "<rg>xxxxxx</rg>" +
-                        "<dw>xxxxxxxxxxxxx</dw>" +
-                        "<lf>xxxxxxxx</lf>" +
+                        "<dw>xxxxGxxxxxxxG</dw>" +
+                        "<lf>Gxxxxxxx</lf>" +
                         "<up>xxxx</up>" +
                 "<lf>\"b\" to get to here</lf>" +
                 "<dw>Goal</dw>"
