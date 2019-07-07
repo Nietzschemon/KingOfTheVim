@@ -4,25 +4,16 @@
 
 package com.kingofthevim.game.basicvim;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
-import java.text.ParsePosition;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
+
 //TODO LATER use properties to store the file paths.
 // https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
-public class LetterManager {
-
-    // We only need one of these
-
-    // For larger movements and other things
-    private static char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+public class LetterManager extends TagSystem {
 
 
     private int rowTotal;
@@ -38,35 +29,17 @@ public class LetterManager {
 
     }
 
-    //private void setWordProperties(int row, int rowCell, boolean isBad, boolean isGood)
     //public void setPropertiesAllChars(char[] propertiesChar, PropObject prop)
 
-    /*
-    Syntax <direction> <color>  words <<thing>> wor</color>ds </direction>
-
-    direction - up <up>, down <dw>, right <rg> or left <lf> to counted from the end of
-                the last string entered. Also coulmn and row can
-                be addressed with <cl> and <rw>
-
-    color     - The game colors of letters with their properties red <r>,
-                white <w>, yellow <y> and grey <g>.
-
-    thing     - a game object to leave at the current cell. (e.g. a dynamite)
-
-
-    overriding the default starting posistion of the tag
-    is done with + or - and a number in the start tag <tag+/-N>
-
-     */
     public void createMap(String tagString) {
 
         createMap(tagString, true, LetterType.WHITE);
     }
 
-    //TODO stupid long method to just get the map-automation done. CHANGE!!!
-    public void createMap(String tagString, boolean overwrite, LetterType type){
 
-        LinkedHashMap<String, String> impMap = new LinkedHashMap<>();
+    //TODO stupid long method to just get the map-automation done. CHANGE!!!
+    public void createMap(String tagString, boolean overwrite, LetterType defaultType){
+
         ArrayList<String> tagSetsArray = new ArrayList<>();
 
         // counted from where the end of the last string was set
@@ -75,66 +48,7 @@ public class LetterManager {
         boolean isOverride = false;
         int overrideNum = 0;
 
-        //"(<cl(\\d){2}(,)+(\\d){2}>(.+?)</cl>)" + // cell
-        // whole  start and close tag-combo
-        Pattern wholeTagString = Pattern.compile(
-                        "(<<cl(\\d){2}(,)+(\\d){2}>>)" + // cell
-                        "|(<<rw[-+]{1}(\\d){2}>>)" + // row
-                        "|(<<rw(\\d){2}>>)" + // non override version
-                        "|(<<co[-+]{1}(\\d){2}>>)" + // column
-                        "|(<<co(\\d){2}>>)" +
-                        "|(<up[-+]{1}(\\d){2}>(.+?)</up>)" + // up (duh)
-                        "|(<up>(.+?)</up>)" +
-                        "|(<dw[-+]{1}(\\d){2}>(.+?)</dw>)" +// down
-                        "|(<dw>(.+?)</dw>)" +
-                        "|(<lf[-+]{1}(\\d){2}>(.+?)</lf>)" +// left
-                        "|(<lf>(.+?)</lf>)" +
-                        "|(<rg[-+]{1}(\\d){2}>(.+?)</rg>)" +// right
-                        "|(<rg>(.+?)</rg>)");
-
-        // detects if start tags contain extra info to override default
-        Pattern overrideTags = Pattern.compile(
-                        "(<up[-+]{1}(\\d){2}>)" +
-                        "|(<dw[-+]{1}(\\d){2}>)" +
-                        "|(<lf[-+]{1}(\\d){2}>)" +
-                        "|(<rg[-+]{1}(\\d){2}>)");
-
-        // any start tag
-        Pattern startTags = Pattern.compile(
-                        "(<up[-+]{1}(\\d){2}>)" +
-                        "|(<up>(.+?)</up>)" +
-                        "|(<dw[-+]{1}(\\d){2}>)" +
-                        "|(<dw>)" +
-                        "|(<lf[-+]{1}(\\d){2}>)" +
-                        "|(<lf>)" +
-                        "|(<rg[-+]{1}(\\d){2}>)" +
-                        "|(<rg>)");
-
-        Pattern colorTagString = Pattern.compile(
-                        "(<b>(.+?)</b>)" + //black
-                        "(<e>(.+?)</e>)" + //empty
-                        "(<g>(.+?)</g>)" + //gray
-                        "(<r>(.+?)</r>)" + //red
-                        "(<p>(.+?)</p>)" + //purple
-                        "(<y>(.+?)</y>)" + //yellow
-                        "(<w>(.+?)</w>)" + //white
-                        "(<b\\+[egrpyw]>(.+?)</b>)" + //black with color background
-                        "(<g\\+[berpyw]>(.+?)</g>)" +
-                        "(<r\\+[begpyw]>(.+?)</r>)" +
-                        "(<p\\+[begryw]>(.+?)</p>)" +
-                        "(<y\\+[begrpw]>(.+?)</y>)" +
-                        "(<w\\+[begrpy]>(.+?)</w>)");
-
-        Pattern colorStartTags = Pattern.compile("(<[begrpyw]\\+[begrpyw]>)");
-
-        /*
-        Pattern endTags = Pattern.compile(
-                        "</up>)" +
-                        "|(</dw>)" +
-                        "|(</lf>)" +
-                        "|(</rg>)");
         Matcher endTagMatcher = endTags.matcher(tagString);
-        */
 
         Matcher tagSetMatcher = wholeTagString.matcher(tagString);
 
@@ -145,43 +59,20 @@ public class LetterManager {
         }
 
 
+        //TODO make general method for extracting tags and returning an string-array
 
         for (String string : tagSetsArray){
 
             String endString;
-
             String overrideOperator;
+
+            ArrayList<String> colorTagArray = new ArrayList<>();
+            HashMap<LetterType, Integer> colorIndexChangeMap = new HashMap<>();
 
             Matcher overrideTagMatcher = overrideTags.matcher(string);
             Matcher startTagMatcher = startTags.matcher(string);
-            //Matcher colorTagMatcher = colorTagString.matcher(string);
+            Matcher colorTagMatcher = colorTagString.matcher(string);
 
-            /*
-            while (colorTagMatcher.find()){
-
-            //TODO Remove color tags here with method and put changes in list/map to execute later
-
-
-            store default color
-            get string.length from end posi-start-tag to start of color-start-tag
-            store range with default color
-
-            loop
-                get color from start-tag
-                rm start-tag
-                get length of string to end-tag
-
-
-
-
-            currCol/currRow - endstring.lenght
-
-
-            use LinkedHashMap, posision = row || column, key = char, value = LetterType
-
-            }
-
-             */
 
             // checks if object-tag or tag-pair type
             // and then looks for override operator
@@ -193,7 +84,7 @@ public class LetterManager {
                 overrideOperator = string.substring(3,4);
             }
             if(overrideOperator.equals("+")
-            || overrideOperator.equals("-")){
+                    || overrideOperator.equals("-")){
                 isOverride = true;
             }
 
@@ -256,13 +147,13 @@ public class LetterManager {
                 overrideNum = Integer.parseInt(string.substring(4,6));
 
                 if(string.substring(0,3).equals("<up")
-                || string.substring(0,3).equals("<dw")){
+                        || string.substring(0,3).equals("<dw")){
 
                     currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
                 }
                 else{
 
-                   currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
+                    currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
                 }
 
 
@@ -280,23 +171,23 @@ public class LetterManager {
                 if(string.substring(0, 3).equals("<up")){
 
                     currRow = currRow - endString.length();//+ 1; // to make it go "up"
-                    setVerticalString(endString, currRow, currCol, overwrite, type);
+                    setVerticalString(endString, currRow, currCol, overwrite, defaultType);
                 }
 
                 if(string.substring(0, 3).equals("<dw")){
 
-                    setVerticalString(endString, currRow, currCol, overwrite, type);
+                    setVerticalString(endString, currRow, currCol, overwrite, defaultType);
                     currRow += endString.length();
                 }
 
                 if(string.substring(0, 3).equals("<lf")){
                     currCol = currCol - endString.length(); // to make it go "left"
-                    setHorizontalString(endString, currRow, currCol, overwrite, type);
+                    setHorizontalString(endString, currRow, currCol, overwrite, defaultType);
                 }
 
                 if(string.substring(0, 3).equals("<rg")){
 
-                    setHorizontalString(endString, currRow, currCol, overwrite, type);
+                    setHorizontalString(endString, currRow, currCol, overwrite, defaultType);
                     currCol += endString.length();
                 }
 
@@ -309,8 +200,6 @@ public class LetterManager {
 
         System.out.println("TagSetsArray: " + tagSetsArray);
     }
-
-
 
     public void setVerticalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
 
