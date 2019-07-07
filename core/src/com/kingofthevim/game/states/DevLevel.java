@@ -14,17 +14,14 @@ public class DevLevel extends Level{
     private final int cursorStartRow = 6;
     private final int cursorStartColumn = 0;
 
-
     public DevLevel(GameStateManager gsm) {
         super(gsm);
-
 
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
 
         //backgroundText();
 
         levelPath();
-
     }
 
     @Override
@@ -39,10 +36,6 @@ public class DevLevel extends Level{
         labyrinthText.setLetterType("O", LetterType.RED, false);
         labyrinthText.setLetterType("X", LetterType.YELLOW, false);
 
-        //labyrinthText.setLetterType(LetterType.RED, 6, 6, 0, 15);
-
-        //labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
-        //labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
     }
 
     private void tagBuiltLevel(){
@@ -50,7 +43,7 @@ public class DevLevel extends Level{
         labyrinthText.createMap(
                 "<<rw06>>" +
                 "<rg>O123<r>4</r>56789X</rg>" +
-                        "<dw>O123X</dw>" +
+                        "<dw+02>O123X</dw>" +
                         "<rg>O123X</rg>"
                 );
     }
@@ -121,7 +114,6 @@ public class DevLevel extends Level{
 
          */
 
-
         sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
@@ -135,7 +127,6 @@ public class DevLevel extends Level{
                 }
             }
         }
-
         sb.end();
     }
 
@@ -147,14 +138,12 @@ public class DevLevel extends Level{
         //TODO The cam should be able to follow the y axis OR the x axis
         //cam.position.x = cursor.getPosition().x + 80;
 
-
         ////TODO reset cursor if it falls of.
         //if(cursor.getPosition() logic for on gray letters)
         //gsm.set(new MenuState(gsm));
 
         //Tells GDX that cam been repositioned.
         cam.update();
-
     }
 
     @Override
@@ -166,11 +155,9 @@ public class DevLevel extends Level{
             for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
 
                 vimMatrix.getCellMatrix().get(i).get(j).dispose();
-
             }
         }
         System.out.println("Play State Disposed");
     }
-
 
 }

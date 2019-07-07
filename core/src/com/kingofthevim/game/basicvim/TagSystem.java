@@ -24,8 +24,13 @@ is done with + or - and a number in the start tag <tag+/-N>
  */
 public class TagSystem {
 
+    int currRow = 0;
+    int currCol = 0;
+    boolean isOverride = false;
+    int overrideNum = 0;
+    String overrideOperator;
 
-
+    static final LetterType[] letterTypes = LetterType.values();
 
     //<editor-fold desc="Patterns">
 
@@ -88,32 +93,10 @@ public class TagSystem {
 
     //</editor-fold desc="Patterns for tag-methods">
 
-    private static final LetterType[] letterTypes = LetterType.values();
-
-    /**
-     *
-     * @param string
-     * @param colorTagsArray determines if the returned Array should only contains color tags OR
-     *                       only position tags with the color tags left in
-     * @return An array of strings split by every tags pair.
-     */
-    private ArrayList<String> createTagArray(String string, boolean colorTagsArray){
-
-        //Matcher tagPairs = (colorTagsArray)? posisionTagPairs : colorTagPairs;
-
-        return null;
-    }
-
-    private LinkedHashMap<LetterType, Integer> createColorMap(Matcher colorTagMatcher, ArrayList<String> colorTagArray, LetterType defaultType){
-
-        LinkedHashMap<LetterType, Integer> colorIndexChangeMap = new LinkedHashMap<>();
-
-        //TODO separate tags into tag-class that LetterManager extends
-
+         // TODO implement
         /*
 
         Has the regex for all color tags - set as class variable
-
 
         create
             method that gets ranges between all start tags.
@@ -122,11 +105,40 @@ public class TagSystem {
                     - color tag pairs
 
             method that creats colors for all ranges
-
-
-
          */
+    /**
+     *
+     * @param tagString
+     * @param colorTagsArray determines if the returned Array should only contains color tags OR
+     *                       only position tags with the color tags left in
+     * @return An array of strings split by every tags pair.
+     */
+    protected ArrayList<String> createTagArray(String tagString, boolean colorTagsArray){
 
+        ArrayList<String> tagSetsArray = new ArrayList<>();
+
+        Matcher tagSetMatcher = (colorTagsArray) ? colorTagString.matcher(tagString) : wholeTagString.matcher(tagString);
+
+        while (tagSetMatcher.find()){
+
+            tagSetsArray.add(tagSetMatcher.group());
+        }
+
+        return tagSetsArray;
+    }
+
+
+    //TODO maybe an array of numbers?
+    protected LinkedHashMap<Integer, String> createRangeMap(){
+
+        return  null;
+    }
+
+    protected LinkedHashMap<LetterType, Integer> createColorMap(Matcher colorTagMatcher,
+                                                                ArrayList<String> colorTagArray,
+                                                                LetterType defaultType){
+
+        LinkedHashMap<LetterType, Integer> colorIndexChangeMap = new LinkedHashMap<>();
 
         while (colorTagMatcher.find()){
 
@@ -200,5 +212,79 @@ public class TagSystem {
         return colorIndexChangeMap;
     }
 
+
+    protected boolean isSelfClosingTag(String string){
+        if(string.substring(0,4).equals("<<cl")){
+            System.out.println("\nCell position override \nOld position \nrow " + currRow + " - column " + currCol);
+            currRow = Integer.parseInt(string.substring(4, 6));
+            currCol = Integer.parseInt(string.substring(7, 9));
+
+            System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
+
+            return true;
+        }
+
+        if(string.substring(0,4).equals("<<co")){
+
+            System.out.println("\nColumn position override. \nOld position \nrow " + currRow + " - column " + currCol);
+
+            if(isOverride){
+                overrideNum = Integer.parseInt(string.substring(5, 7));
+                currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
+            }
+            else
+            {
+                currCol = Integer.parseInt(string.substring(4, 6));
+            }
+
+            System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
+
+            isOverride = false;
+            return true;
+        }
+
+        if(string.substring(0,4).equals("<<rw")){
+
+            System.out.println("\nRow position override \nOld position \nrow " + currRow + " - column " + currCol);
+
+            if(isOverride){
+                overrideNum = Integer.parseInt(string.substring(5, 7));
+                currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
+            }
+            else
+            {
+                currRow = Integer.parseInt(string.substring(4, 6));
+            }
+
+            System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
+
+            isOverride = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    protected void implementOverride(String tagString, Matcher overrideTagMatcher){
+
+        if(overrideTagMatcher.find()){
+
+            overrideNum = Integer.parseInt(tagString.substring(4,6));
+
+            if(tagString.substring(0,3).equals("<up")
+                    || tagString.substring(0,3).equals("<dw")){
+
+                currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
+            }
+            else{
+
+                currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
+            }
+
+
+            isOverride = true;
+        }
+
+    }
 
 }

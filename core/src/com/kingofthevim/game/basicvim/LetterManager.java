@@ -43,28 +43,12 @@ public class LetterManager extends TagSystem {
         ArrayList<String> tagSetsArray = new ArrayList<>();
 
         // counted from where the end of the last string was set
-        int currRow = 0;
-        int currCol = 0;
-        boolean isOverride = false;
-        int overrideNum = 0;
 
-        Matcher endTagMatcher = endTags.matcher(tagString);
-
-        Matcher tagSetMatcher = wholeTagString.matcher(tagString);
-
-
-        while (tagSetMatcher.find()){
-
-            tagSetsArray.add(tagSetMatcher.group());
-        }
-
-
-        //TODO make general method for extracting tags and returning an string-array
+        tagSetsArray = createTagArray(tagString, false);
 
         for (String string : tagSetsArray){
 
             String endString;
-            String overrideOperator;
 
             ArrayList<String> colorTagArray = new ArrayList<>();
             HashMap<LetterType, Integer> colorIndexChangeMap = new HashMap<>();
@@ -72,7 +56,6 @@ public class LetterManager extends TagSystem {
             Matcher overrideTagMatcher = overrideTags.matcher(string);
             Matcher startTagMatcher = startTags.matcher(string);
             Matcher colorTagMatcher = colorTagString.matcher(string);
-
 
             // checks if object-tag or tag-pair type
             // and then looks for override operator
@@ -88,77 +71,11 @@ public class LetterManager extends TagSystem {
                 isOverride = true;
             }
 
-
-            if(string.substring(0,4).equals("<<cl")){
-                System.out.println("\nCell position override \nOld position \nrow " + currRow + " - column " + currCol);
-                currRow = Integer.parseInt(string.substring(4, 6));
-                currCol = Integer.parseInt(string.substring(7, 9));
-
-                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
-
-                continue;
-            }
-
-            if(string.substring(0,4).equals("<<co")){
-
-                System.out.println("\nColumn position override. \nOld position \nrow " + currRow + " - column " + currCol);
-
-                if(isOverride){
-                    overrideNum = Integer.parseInt(string.substring(5, 7));
-                    currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
-                }
-                else
-                {
-                    currCol = Integer.parseInt(string.substring(4, 6));
-                }
-
-                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
-
-                isOverride = false;
-                continue;
-            }
-
-            if(string.substring(0,4).equals("<<rw")){
-
-                System.out.println("\nRow position override \nOld position \nrow " + currRow + " - column " + currCol);
-
-                if(isOverride){
-                    overrideNum = Integer.parseInt(string.substring(5, 7));
-                    currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
-                }
-                else
-                {
-                    currRow = Integer.parseInt(string.substring(4, 6));
-                }
-
-
-                System.out.println("new position \nrow " + currRow + " - column " + currCol + "\n");
-
-                isOverride = false;
-                continue;
-            }
-
-
-
+            if(isSelfClosingTag(string)) continue;
 
             //TODO this should be used for checking overrides for the above too
-            if(overrideTagMatcher.find()){
 
-                overrideNum = Integer.parseInt(string.substring(4,6));
-
-                if(string.substring(0,3).equals("<up")
-                        || string.substring(0,3).equals("<dw")){
-
-                    currRow = ( overrideOperator.equals("+") ? currRow + overrideNum : currRow - overrideNum);
-                }
-                else{
-
-                    currCol = ( overrideOperator.equals("+") ? currCol + overrideNum : currCol - overrideNum);
-                }
-
-
-                isOverride = true;
-            }
+            implementOverride(string, overrideTagMatcher);
 
             if(startTagMatcher.find()){ //remove tags and add to cellMatrix
 
@@ -194,8 +111,6 @@ public class LetterManager extends TagSystem {
                 isOverride = false;
             }
 
-
-
         }
 
         System.out.println("TagSetsArray: " + tagSetsArray);
@@ -213,8 +128,6 @@ public class LetterManager extends TagSystem {
 
         for(int i = 0; i <= iterations; i++) {
             char charKey = string.charAt(charNum);
-
-            //overwrite existing cell
 
             System.out.println("row: " + (startRow + i) + "  - startcell " + startCell);
 
