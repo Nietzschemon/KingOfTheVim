@@ -9,13 +9,13 @@ import com.kingofthevim.game.basicvim.*;
 
 import java.util.ArrayList;
 
-public class TestLevel extends Level{
+public class DevLevel extends Level{
 
-    private final int cursorStartRow = 0;
+    private final int cursorStartRow = 6;
     private final int cursorStartColumn = 0;
 
 
-    public TestLevel(GameStateManager gsm) {
+    public DevLevel(GameStateManager gsm) {
         super(gsm);
 
 
@@ -39,6 +39,8 @@ public class TestLevel extends Level{
         labyrinthText.setLetterType("O", LetterType.RED, false);
         labyrinthText.setLetterType("X", LetterType.YELLOW, false);
 
+        //labyrinthText.setLetterType(LetterType.RED, 6, 6, 0, 15);
+
         //labyrinthText.setLetterType("QWERTYUIOPASDFGHJKLZXCVBNM", LetterType.RED, false);
         //labyrinthText.setLetterType("BCRLcursor", LetterType.YELLOW, false);
     }
@@ -46,16 +48,10 @@ public class TestLevel extends Level{
     private void tagBuiltLevel(){
 
         labyrinthText.createMap(
-                "<<co06>>" +
-                "<rg>O1234<5X</rg>" +
-                        "<<rw+05>>" +
-                        "<<co+05>>" +
-                        "<rg>O125X</rg>" +
-                        "<<rw12>>" +
-                        "<<co04>>" +
-                "<up>O123456X</up>" +
-                "<<rw+05>>" +
-                        "<rg>Test</rg>"
+                "<<rw06>>" +
+                "<rg>O123<r>4</r>56789X</rg>" +
+                        "<dw>O123X</dw>" +
+                        "<rg>O123X</rg>"
                 );
     }
 
@@ -115,7 +111,7 @@ public class TestLevel extends Level{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        /* //TODO create and put this into resetCursorMethod()
+        /*
         if(cursor.isOnType(LetterType.GRAY)){
            cursor.dispose();
            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);

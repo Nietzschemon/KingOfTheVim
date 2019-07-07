@@ -95,7 +95,11 @@ public class Cell {
         return letterType;
     }
 
-    //TODO make enum automaticly switch font color
+    public void setLetterType(LetterType letterType) {
+
+        this.setCellLook(cellChar, letterType);
+    }
+
     public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
 
         if(this.letterType != LetterType.GRAY

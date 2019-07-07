@@ -60,11 +60,11 @@ public class LetterManager {
      */
     public void createMap(String tagString) {
 
-        createMap(tagString, true);
+        createMap(tagString, true, LetterType.WHITE);
     }
 
     //TODO stupid long method to just get the map-automation done. CHANGE!!!
-    public void createMap(String tagString, boolean overwrite){
+    public void createMap(String tagString, boolean overwrite, LetterType type){
 
         LinkedHashMap<String, String> impMap = new LinkedHashMap<>();
         ArrayList<String> tagSetsArray = new ArrayList<>();
@@ -269,9 +269,6 @@ public class LetterManager {
                 isOverride = true;
             }
 
-            //TODO check for color tags here and put posisions in array to
-            // be used with method at end of for loop
-
             if(startTagMatcher.find()){ //remove tags and add to cellMatrix
 
                 // trims the current string depending on if it is overridden or not
@@ -283,23 +280,23 @@ public class LetterManager {
                 if(string.substring(0, 3).equals("<up")){
 
                     currRow = currRow - endString.length();//+ 1; // to make it go "up"
-                    setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    setVerticalString(endString, currRow, currCol, overwrite, type);
                 }
 
                 if(string.substring(0, 3).equals("<dw")){
 
-                    setVerticalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    setVerticalString(endString, currRow, currCol, overwrite, type);
                     currRow += endString.length();
                 }
 
                 if(string.substring(0, 3).equals("<lf")){
                     currCol = currCol - endString.length(); // to make it go "left"
-                    setHorizontalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    setHorizontalString(endString, currRow, currCol, overwrite, type);
                 }
 
                 if(string.substring(0, 3).equals("<rg")){
 
-                    setHorizontalString(endString, currRow, currCol, overwrite, LetterType.WHITE);
+                    setHorizontalString(endString, currRow, currCol, overwrite, type);
                     currCol += endString.length();
                 }
 
@@ -464,8 +461,9 @@ public class LetterManager {
     /**
      * Sets letter types for all rows matching any char in
      * the given string.
-     * @param string
-     * @param type
+     * @param string chars to be colored
+     * @param type color to change cars to
+     * @param includeGray if gray letters should be colored too
      */
     public void setLetterType(String string, LetterType type, boolean includeGray){
 
@@ -494,6 +492,31 @@ public class LetterManager {
         }
     }
 
+    /**
+     * Sets letter types for all chars within the
+     * limits given. This method effectivly can
+     * batch color any shape of tetragon in the text
+     * @param type color to change cars to
+     * @param startRow color to type from this row
+     * @param endRow color until this row
+     * @param startColumn color from this column in every given row
+     * @param endColumn until this column
+     */
+    public void setLetterType(LetterType type, int startRow, int endRow, int startColumn, int endColumn){
+
+        if(cellMatrix.size() < endRow) throw new IndexOutOfBoundsException("endRow of is outside matrix");
+
+        for (int i = startRow; i <= endRow ; i++) {
+
+            if(cellMatrix.get(i).size() < endColumn) throw new IndexOutOfBoundsException("endColumn of is outside matrix");
+
+            for (int j = startColumn; j <= endColumn ; j++) {
+
+                cellMatrix.get(i).get(j).setLetterType(type);
+
+            }
+        }
+    }
     /*
     helper method to createMap() for color tags
 

@@ -26,7 +26,7 @@ public class MenuState extends State{
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
                 || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
 
-            gsm.set(new TestLevel(gsm));
+            gsm.set(new DevLevel(gsm));
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
