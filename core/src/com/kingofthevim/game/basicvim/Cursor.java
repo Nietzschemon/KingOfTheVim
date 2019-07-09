@@ -19,16 +19,10 @@ public class Cursor  {
     private boolean moveUp_line;
     private boolean moveDown_line;
 
-    //TODO fix all so word_bgn and word_end, WORD_bgn, WORD_end
     //word movement booleans
     private boolean moveLeft_word;
     private boolean moveRight_word_bgn;
     private boolean moveRight_word_end;
-
-
-    //Todo WORD movement booleans
-    //private boolean leftWORDMove;
-    //private boolean rightWORDMove;
 
     private int currRow;
     private int currColumn;
@@ -48,7 +42,6 @@ public class Cursor  {
     public Vector2 getPosition(){
         return position;
     }
-
 
 
     //<editor-fold desc="Setters">
@@ -132,12 +125,6 @@ public class Cursor  {
         currColumn = rowCell0;
     }
 
-
-    public void update(){
-
-    }
-
-
     private boolean isLegitHorizontalMove(int move){
 
         if(currColumn +move < 0
@@ -146,7 +133,6 @@ public class Cursor  {
             return false;
         }
 
-        //return cellMatrix.get(currRow).get(currColumn + move).getCellLook() != null;
         return true;
     }
 
@@ -164,7 +150,6 @@ public class Cursor  {
             return false;
         }
 
-        //return cellMatrix.get(currRow + move).get(currColumn).getCellLook() != null;
         return true;
     }
 
@@ -477,7 +462,6 @@ public class Cursor  {
         }
 
         bounds.setPosition(position.x, position.y);
-        //update();
 
 
         if(moveLeft_char || moveRight_char || moveUp_line || moveDown_line
@@ -500,9 +484,10 @@ public class Cursor  {
 
 
     /**
-     * Checks if char is a symbol and thus should only
-     * be traversed by WORD-movements. Space is not
-     * included
+     * Checks if char is a symbol and thus next to each
+     * other constitutes a word. Is used together with
+     * isSymbol() to separate between words and WORDS.
+     * Space is not included
      * @param character char to check
      * @return true if char is a symbol
      */
@@ -513,6 +498,14 @@ public class Cursor  {
                 || (character >= '{' && character <= '~'));
     }
 
+    /**
+     * Checks if char is a letter or number and thus
+     * next to each other constitutes a word. Is used
+     * together with isSymbol() to separate between
+     * words and WORDS. Space is not included
+     * @param character char to check
+     * @return true if char is a symbol
+     */
     private boolean isLetterChar(char character ){
         return ((character >= '0' && character <= '9')
                 || (character >= 'a' && character <= 'z')

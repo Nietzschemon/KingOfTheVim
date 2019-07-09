@@ -34,9 +34,11 @@ public class MenuState extends State{
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
             gsm.set(new Level_1(gsm));
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
             gsm.set(new Level_2(gsm));
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             gsm.set(new Level_3(gsm));
         }
