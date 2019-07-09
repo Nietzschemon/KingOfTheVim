@@ -23,61 +23,8 @@ public abstract class Movement {
     protected Vector2 position;
     protected Rectangle bounds;
 
-    // char movement booleans
-    private boolean moveLeft_char;
-    private boolean moveRight_char;
-    private boolean moveUp_line;
-    private boolean moveDown_line;
-
-    //word movement booleans
-    private boolean moveLeft_word;
-    private boolean moveRight_word_bgn;
-    private boolean moveRight_word_end;
-
 
     //<editor-fold desc="Setters">
-
-    public void setMoveLeft_word(boolean t)
-    {
-        if(moveRight_word_bgn && t) moveRight_word_bgn = false;
-        moveLeft_word = t;
-    }
-
-    public void setMoveRight_word_bgn(boolean t)
-    {
-        if(moveLeft_word && t) moveLeft_word = false;
-        moveRight_word_bgn = t;
-    }
-
-    public void setMoveRight_word_end(boolean t)
-    {
-        if(moveLeft_word && t) moveLeft_word = false;
-        moveRight_word_end = t;
-    }
-
-    public void setMoveLeft_Char(boolean t)
-    {
-        if(moveRight_char && t) moveRight_char = false;
-        moveLeft_char = t;
-    }
-
-    public void setMoveRight_Char(boolean t)
-    {
-        if(moveLeft_char && t) moveLeft_char = false;
-        moveRight_char = t;
-    }
-
-    public void setMoveUp_Line(boolean t)
-    {
-        if(moveUp_line && t) moveUp_line = false;
-        moveDown_line = t;
-    }
-    public void setMoveDown_Line(boolean t)
-    {
-        if(moveDown_line && t) moveDown_line = false;
-        moveUp_line = t;
-    }
-
     private boolean isLegitHorizontalMove(int move){
 
         if(currColumn +move < 0
@@ -338,14 +285,16 @@ public abstract class Movement {
         return false;
     }
 
-
     //</editor-fold desc="bla">
+
+
+
     public void move()
     {
         //standard char/line move
         int move = 1;
 
-        if (moveLeft_word){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
             move = traversePreviousWord();
 
@@ -357,7 +306,7 @@ public abstract class Movement {
 
         }
 
-        if (moveRight_word_bgn){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
 
             move = traverseWordBeginning();
 
@@ -367,7 +316,8 @@ public abstract class Movement {
             }
         }
 
-        if (moveRight_word_end
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
             move = traverseWordEnd();
@@ -379,25 +329,27 @@ public abstract class Movement {
             }
         }
 
-        if (moveLeft_char
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
                 && isLegitHorizontalMove(-move))
         {
             position.x -= bounds.width;
             currColumn -= move;
         }
-        if (moveRight_char
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
                 && isLegitHorizontalMove(move))
         {
             position.x += bounds.width;
             currColumn += move;
         }
-        if(moveUp_line
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
                 && isLegitVerticalMove(+move))
         {
             position.y += bounds.height;
             currRow += move;
         }
-        if(moveDown_line
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
                 && isLegitVerticalMove(-move))
         {
             position.y -= bounds.height;
@@ -407,8 +359,9 @@ public abstract class Movement {
         bounds.setPosition(position.x, position.y);
 
 
-        if(moveLeft_char || moveRight_char || moveUp_line || moveDown_line
-                || moveLeft_word || moveRight_word_bgn || moveRight_word_end){
+        /*
+        if(){
+
 
             //isOnLetter('a');
             //isOnType(LetterType.RED);
@@ -423,8 +376,10 @@ public abstract class Movement {
 
             //System.out.println("\nMoveVar: " + move + "\n");
 
-            //System.out.println("\ncurrRow: " + currRow + " - column: " + currColumn + " x: " + position.x + " y: " + position.y);
+            System.out.println("\ncurrRow: " + currRow + " - column: " + currColumn + " x: " + position.x + " y: " + position.y);
         }
+
+         */
     }
 
 

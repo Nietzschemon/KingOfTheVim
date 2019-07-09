@@ -47,45 +47,5 @@ public abstract class Level extends State {
 
         cursor.move();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-            cursor.setMoveRight_word_bgn(true);
-        } else{
-            cursor.setMoveRight_word_bgn(false);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
-            cursor.setMoveRight_word_end(true);
-        } else{
-            cursor.setMoveRight_word_end(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
-            cursor.setMoveLeft_word(true);
-        } else{
-            cursor.setMoveLeft_word(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            cursor.setMoveRight_Char(true);
-        } else{
-            cursor.setMoveRight_Char(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-            cursor.setMoveLeft_Char(true);
-        } else{
-            cursor.setMoveLeft_Char(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            cursor.setMoveDown_Line(true);
-        } else{
-            cursor.setMoveDown_Line(false);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            cursor.setMoveUp_Line(true);
-        } else{
-            cursor.setMoveUp_Line(false);
-        }
     }
 }
