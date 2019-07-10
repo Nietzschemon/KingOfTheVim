@@ -108,16 +108,16 @@ public class TagSystem {
          */
     /**
      *
-     * @param tagString
-     * @param colorTagsArray determines if the returned Array should only contains color tags OR
+     * @param tagString a string containing position and self-closing tags or color-tags
+     * @param isColorTagsArray determines if the returned Array should only contains color tags OR
      *                       only position tags with the color tags left in
      * @return An array of strings split by every tags pair.
      */
-    protected ArrayList<String> createTagArray(String tagString, boolean colorTagsArray){
+    protected ArrayList<String> createTagArray(String tagString, boolean isColorTagsArray){
 
         ArrayList<String> tagSetsArray = new ArrayList<>();
 
-        Matcher tagSetMatcher = (colorTagsArray) ? colorTagString.matcher(tagString) : wholeTagString.matcher(tagString);
+        Matcher tagSetMatcher = (isColorTagsArray) ? colorTagString.matcher(tagString) : wholeTagString.matcher(tagString);
 
         while (tagSetMatcher.find()){
 
@@ -213,6 +213,12 @@ public class TagSystem {
     }
 
 
+    /**
+     * Identifes a self closing-tag in a string, updates the row and/or column
+     * index and returns true. If no tag is found it does nothing and returns false
+     * @param string A string that contains a self-closing tag
+     * @return true if a self-closing tag is found and false if not
+     */
     protected boolean isSelfClosingTag(String string){
         if(string.substring(0,4).equals("<<cl")){
             System.out.println("\nCell position override \nOld position \nrow " + currRow + " - column " + currCol);
