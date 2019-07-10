@@ -18,8 +18,7 @@ public class Cursor {
     private int moveCounter = 0;
     private int movesLeft = 10;
 
-    //TODO use this as the only parameter for movement
-    // row/columTotal and cellMatrix is given by parameter
+
 
     private int rowTotal;
     private int colunmTotal;
@@ -35,6 +34,7 @@ public class Cursor {
     private int cellHeight = 44;
     private Texture texture;
 
+    private PointSystem points;
 
     private Movement mover;
 
@@ -59,6 +59,7 @@ public class Cursor {
         currColumn = startRowCell;
 
         mover = new Movement();
+        points = new PointSystem();
     }
 
     public Cursor(VimWorldMatrix vimMatrix, int x, int y, int row0, int rowCell0){
@@ -83,6 +84,8 @@ public class Cursor {
         if(rowMove != 0){
             position.y = position.y + (cellHeight * rowMove);
             currRow += rowMove;
+
+            points.onMove(this);
         }
 
     }
@@ -92,6 +95,8 @@ public class Cursor {
         if(columnMove != 0){
             position.x = position.x + (cellWidth * columnMove);
             currColumn += columnMove;
+
+            points.onMove(this);
         }
 
     }
