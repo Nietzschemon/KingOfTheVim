@@ -43,7 +43,7 @@ public class Cursor {
 
     //TODO inherit from cell
 
-    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell){
+    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell, PointSystem points){
 
         cellMatrix = vimMatrix.getCellMatrix();
         rowTotal = VimWorldMatrix.rowTotal;
@@ -59,21 +59,9 @@ public class Cursor {
         currColumn = startRowCell;
 
         mover = new Movement();
-        points = new PointSystem();
+        this.points = points;
     }
 
-    public Cursor(VimWorldMatrix vimMatrix, int x, int y, int row0, int rowCell0){
-
-        cellMatrix = vimMatrix.getCellMatrix();
-        rowTotal = VimWorldMatrix.rowTotal;
-        colunmTotal = VimWorldMatrix.colunmTotal;
-        position = new Vector2(x, y);
-
-        texture = new Texture("markers/marker_44purple.png");
-
-        currRow = row0;
-        currColumn = rowCell0;
-    }
     public void dispose(){
         texture.dispose();
     }

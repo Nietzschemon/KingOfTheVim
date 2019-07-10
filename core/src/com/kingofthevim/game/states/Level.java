@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterManager;
+import com.kingofthevim.game.basicvim.PointSystem;
 import com.kingofthevim.game.basicvim.VimWorldMatrix;
 
 public abstract class Level extends State {
@@ -19,6 +20,8 @@ public abstract class Level extends State {
     protected LetterManager backgroundText;
     protected LetterManager labyrinthText;
     protected VimWorldMatrix vimMatrix;
+
+    protected PointSystem pointsSys;
 
     protected Level(GameStateManager gsm) {
         super(gsm);

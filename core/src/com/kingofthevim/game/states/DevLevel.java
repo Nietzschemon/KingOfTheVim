@@ -17,7 +17,9 @@ public class DevLevel extends Level{
     public DevLevel(GameStateManager gsm) {
         super(gsm);
 
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+        pointsSys = new PointSystem(10);
+
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         //backgroundText();
 

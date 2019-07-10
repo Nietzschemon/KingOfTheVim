@@ -14,7 +14,8 @@ public class Level_1 extends Level{
     public Level_1(GameStateManager gsm) {
         super(gsm);
 
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+        pointsSys = new PointSystem(10);
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         backgroundText();
 
@@ -67,7 +68,7 @@ public class Level_1 extends Level{
         if(cursor.isOnType(LetterType.GRAY)
         || cursor.isOnType(LetterType.EMPATHY)){
            cursor.dispose();
-           cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+           cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }

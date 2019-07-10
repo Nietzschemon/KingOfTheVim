@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.Cell;
 import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterType;
+import com.kingofthevim.game.basicvim.PointSystem;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,9 @@ public class Level_3 extends Level{
     public Level_3(GameStateManager gsm) {
         super(gsm);
 
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+
+        pointsSys = new PointSystem(10);
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         backgroundText();
 
@@ -95,7 +98,7 @@ public class Level_3 extends Level{
         if(cursor.isOnType(LetterType.GRAY)
                 || cursor.isOnType(LetterType.EMPATHY)){
             cursor.dispose();
-            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }
