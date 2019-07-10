@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class Cell {
 
-    //TODO move to its own class
     private static Map<Character, Texture> whiteFont = new HashMap<>();
     private static Map<Character, Texture> blackFont = new HashMap<>();
     private static Map<Character, Texture> redFont = new HashMap<>();
@@ -35,7 +34,15 @@ public class Cell {
         cartesianPosition.x = x;
         cartesianPosition.y = y;
     }
+    Cell(Vector2 position){
 
+        cartesianPosition = position;
+    }
+    Cell(Texture look, Vector2 position){
+
+        cellLook = look;
+        cartesianPosition = position;
+    }
     public Texture getCellLook(){
         return cellLook;
     }

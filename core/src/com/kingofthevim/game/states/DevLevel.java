@@ -31,7 +31,8 @@ public class DevLevel extends Level{
 
     @Override
     protected void levelPath() {
-        tagBuiltLevel();
+        //tagBuiltLevel();
+        vimWordObjectCourse();
 
         labyrinthText.setLetterType("O", LetterType.RED, false);
         labyrinthText.setLetterType("X", LetterType.YELLOW, false);

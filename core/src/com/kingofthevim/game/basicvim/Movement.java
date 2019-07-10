@@ -2,30 +2,17 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public abstract class Movement {
+public class Movement {
 
 
-    protected int moveCounter = 0;
-    protected int movesLeft = 10;
 
-    protected int rowTotal;
-    protected int colunmTotal;
-    protected ArrayList<ArrayList<Cell>> cellMatrix;
+    private boolean isLegitHorizontalMove(Cursor cursor, int move){
+        int colunmTotal = cursor.getColunmTotal();
+        int currColumn = cursor.getCurrColumn();
 
-    protected int currRow;
-    protected int currColumn;
-
-    protected Vector2 position;
-    protected Rectangle bounds;
-
-
-    //<editor-fold desc="Setters">
-    private boolean isLegitHorizontalMove(int move){
 
         if(currColumn +move < 0
                 || currColumn +move > colunmTotal){
@@ -36,16 +23,15 @@ public abstract class Movement {
         return true;
     }
 
-    public Vector2 getPosition(){
-        return position;
-    }
     /**
      * Checks if veritical move is possible from the
      * current place
      * @param move number of steps
      * @return True if possible, false if not
      */
-    private boolean isLegitVerticalMove(int move){
+    private boolean isLegitVerticalMove(Cursor cursor, int move){
+        int rowTotal = cursor.getRowTotal();
+        int currRow = cursor.getCurrRow();
 
         if(currRow+move < 0
                 || currRow+move > rowTotal-1){
@@ -55,6 +41,7 @@ public abstract class Movement {
 
         return true;
     }
+
 
     //TODO at end of word if place of matrix, the coursor jumps ahead anyways
     // fix this so it goes to new line instead
@@ -67,7 +54,15 @@ public abstract class Movement {
      * it took to find said pair.
      * @return the number of steps to perform asked movement
      */
-    private int traverseWordBeginning(){
+    private int traverseWordBeginning(Cursor cursor){
+
+        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
+
+        int currColumn = cursor.getCurrColumn();
+        int currRow = cursor.getCurrRow();
+        int colunmTotal = cursor.getColunmTotal();
+
+
         int count = 0;
 
         char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
@@ -145,8 +140,18 @@ public abstract class Movement {
      * match is found, the loops breaks and returns the count
      * it took to find said pair.
      * @return the number of steps to perform asked movement
+     * @param cursor
      */
-    private int traverseWordEnd(){
+    private int traverseWordEnd(Cursor cursor){
+
+
+        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
+
+        int currColumn = cursor.getCurrColumn();
+        int currRow = cursor.getCurrRow();
+        int colunmTotal = cursor.getColunmTotal();
+
+
         int count = 0;
 
         char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
@@ -218,7 +223,13 @@ public abstract class Movement {
      * it took to find said pair.
      * @return the number of steps to perform asked movement
      */
-    private int traversePreviousWord(){
+    private int traversePreviousWord(Cursor cursor){
+
+        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
+
+        int currColumn = cursor.getCurrColumn();
+        int currRow = cursor.getCurrRow();
+
         int count = 0;
 
         char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
@@ -285,34 +296,72 @@ public abstract class Movement {
         return false;
     }
 
-    //</editor-fold desc="bla">
 
 
+    private int charVerticalMove(Cursor cursor){
 
-    public void move()
-    {
-        //standard char/line move
-        int move = 1;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
+                && isLegitVerticalMove(cursor, 1))
+        {
+            return 1;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
+                && isLegitVerticalMove(cursor, -1))
+        {
+            return -1;
+        }
+        return 0;
+    }
+
+    private int charHorizontalMove(Cursor cursor){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
+                && isLegitHorizontalMove(cursor, -1))
+        {
+            return -1;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
+                && isLegitHorizontalMove(cursor, 1))
+        {
+            return 1;
+
+        }
+
+        return 0;
+    }
+
+
+    int verticalMove(Cursor cursor){
+
+        return charVerticalMove(cursor);
+    }
+
+    int horizontalMove(Cursor cursor){
+
+        int colunmTotal = cursor.getColunmTotal();
+        int currColumn = cursor.getCurrColumn();
+
+        int move = 0;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
-            move = traversePreviousWord();
+            move = traversePreviousWord(cursor);
 
 
-            if(isLegitHorizontalMove( - move )){
-                position.x = position.x - (bounds.width * move);
-                currColumn -= move;
+            if(isLegitHorizontalMove( cursor, - move )){
+                return - move;
             }
 
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
 
-            move = traverseWordBeginning();
+            move = traverseWordBeginning(cursor);
 
-            if(isLegitHorizontalMove(move)){
-                position.x = position.x + (bounds.width * move);
-                currColumn += move;
+            if(isLegitHorizontalMove(cursor, move)){
+
+                return move;
             }
         }
 
@@ -320,43 +369,20 @@ public abstract class Movement {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
-            move = traverseWordEnd();
+            move = traverseWordEnd(cursor);
 
-            if(isLegitHorizontalMove(move)){
+            if(isLegitHorizontalMove(cursor, move)){
 
-                position.x = position.x + (bounds.width * move);
-                currColumn += move;
+                return move;
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
-                && isLegitHorizontalMove(-move))
-        {
-            position.x -= bounds.width;
-            currColumn -= move;
-        }
 
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
-                && isLegitHorizontalMove(move))
-        {
-            position.x += bounds.width;
-            currColumn += move;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
-                && isLegitVerticalMove(+move))
-        {
-            position.y += bounds.height;
-            currRow += move;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
-                && isLegitVerticalMove(-move))
-        {
-            position.y -= bounds.height;
-            currRow -= move;
-        }
+        return charHorizontalMove(cursor);
 
-        bounds.setPosition(position.x, position.y);
+
+
 
 
         /*

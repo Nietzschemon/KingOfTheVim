@@ -2,6 +2,7 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterManager;
@@ -45,7 +46,7 @@ public abstract class Level extends State {
     @Override
     public void handleInput() {
 
-        cursor.move();
+        cursor.update();
 
     }
 }

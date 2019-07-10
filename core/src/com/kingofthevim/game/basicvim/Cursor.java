@@ -11,18 +11,37 @@ import java.util.ArrayList;
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
 // a letter in spacemacs can be achieved.
-public class Cursor extends Movement{
+public class Cursor {
 
 
-    // to check collision
+    //<editor-fold desc="Fields">
+    private int moveCounter = 0;
+    private int movesLeft = 10;
+
+    //TODO use this as the only parameter for movement
+    // row/columTotal and cellMatrix is given by parameter
+
+    private int rowTotal;
+    private int colunmTotal;
+    private ArrayList<ArrayList<Cell>> cellMatrix;
+
+    private int currRow;
+    private int currColumn;
+
+    private Vector2 position;
+
+    //TODO remove and put as parameters in constructor
+    private int cellWidth = 22;
+    private int cellHeight = 44;
     private Texture texture;
 
 
+    private Movement mover;
 
-    public Texture getTexture(){
-        return texture;
-    }
+    //</editor-fold desc="bla">
 
+
+    //TODO inherit from cell
 
     public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell){
 
@@ -31,14 +50,15 @@ public class Cursor extends Movement{
         colunmTotal = VimWorldMatrix.colunmTotal;
 
 
+
         position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
 
         texture = new Texture("markers/marker_44purple.png");
 
-        bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         currRow = startRow;
         currColumn = startRowCell;
 
+        mover = new Movement();
     }
 
     public Cursor(VimWorldMatrix vimMatrix, int x, int y, int row0, int rowCell0){
@@ -50,15 +70,36 @@ public class Cursor extends Movement{
 
         texture = new Texture("markers/marker_44purple.png");
 
-        bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
         currRow = row0;
         currColumn = rowCell0;
     }
-
-
-
     public void dispose(){
         texture.dispose();
+    }
+
+
+    public void setRow(int rowMove) {
+
+        if(rowMove != 0){
+            position.y = position.y + (cellHeight * rowMove);
+            currRow += rowMove;
+        }
+
+    }
+
+    public void setColumn(int columnMove) {
+
+        if(columnMove != 0){
+            position.x = position.x + (cellWidth * columnMove);
+            currColumn += columnMove;
+        }
+
+    }
+
+    public void update(){
+
+        setRow(mover.verticalMove(this));
+        setColumn(mover.horizontalMove(this));
     }
 
 
@@ -77,4 +118,102 @@ public class Cursor extends Movement{
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
 
+    //<editor-fold desc="Getters and setters">
+
+    public Texture getTexture(){
+        return texture;
+    }
+
+    public Vector2 getPosition(){
+        return position;
+    }
+
+    public int getMoveCounter() {
+        return moveCounter;
+    }
+
+    public void setMoveCounter(int moveCounter) {
+        this.moveCounter = moveCounter;
+    }
+
+    public int getMovesLeft() {
+        return movesLeft;
+    }
+
+    public void setMovesLeft(int movesLeft) {
+        this.movesLeft = movesLeft;
+    }
+
+    public int getRowTotal() {
+        return rowTotal;
+    }
+
+    public void setRowTotal(int rowTotal) {
+        this.rowTotal = rowTotal;
+    }
+
+    public int getColunmTotal() {
+        return colunmTotal;
+    }
+
+    public void setColunmTotal(int colunmTotal) {
+        this.colunmTotal = colunmTotal;
+    }
+
+    public ArrayList<ArrayList<Cell>> getCellMatrix() {
+        return cellMatrix;
+    }
+
+    public void setCellMatrix(ArrayList<ArrayList<Cell>> cellMatrix) {
+        this.cellMatrix = cellMatrix;
+    }
+
+    public int getCurrRow() {
+        return currRow;
+    }
+
+    public void setCurrRow(int currRow) {
+        this.currRow = currRow;
+    }
+
+    public int getCurrColumn() {
+        return currColumn;
+    }
+
+    public void setCurrColumn(int currColumn) {
+        this.currColumn = currColumn;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public void setCellWidth(int cellWidth) {
+        this.cellWidth = cellWidth;
+    }
+
+    public int getCellHeight() {
+        return cellHeight;
+    }
+
+    public void setCellHeight(int cellHeight) {
+        this.cellHeight = cellHeight;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    public Movement getMover() {
+        return mover;
+    }
+
+    public void setMover(Movement mover) {
+        this.mover = mover;
+    }
+    //</editor-fold desc="bla">
 }
