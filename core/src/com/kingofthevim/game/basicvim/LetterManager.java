@@ -153,7 +153,7 @@ public class LetterManager extends TagSystem {
                 continue;
             }
 
-            cellMatrix.get(startRow + i).get(startCell).setCellLook(charKey, type);
+            cellMatrix.get(startRow + i).get(startCell).setCellLook(charKey, type, true);
 
             charNum++;
         }
@@ -191,7 +191,7 @@ public class LetterManager extends TagSystem {
                 continue;
             }
 
-            cellMatrix.get(startRow).get(startCell + i).setCellLook(charKey, type);
+            cellMatrix.get(startRow).get(startCell + i).setCellLook(charKey, type, true);
 
             charNum++;
         }

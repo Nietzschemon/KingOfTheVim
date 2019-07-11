@@ -19,11 +19,11 @@ public class DevLevel extends Level{
 
         pointsSys = new PointSystem(10);
 
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         //backgroundText();
 
         levelPath();
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class DevLevel extends Level{
 
     @Override
     protected void levelPath() {
-        //tagBuiltLevel();
-        vimWordObjectCourse();
+        tagBuiltLevel();
+        //vimWordObjectCourse();
 
         labyrinthText.setLetterType("O", LetterType.RED, false);
         labyrinthText.setLetterType("X", LetterType.YELLOW, false);
@@ -49,6 +49,7 @@ public class DevLevel extends Level{
                         "<dw+02>O123X</dw>" +
                         "<rg>O123X</rg>"
                 );
+        labyrinthText.createMap("<rg>green</rg>", true, LetterType.WHITE_GREEN);
     }
 
     private void vimWordObjectCourse(){

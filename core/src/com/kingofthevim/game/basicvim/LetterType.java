@@ -5,6 +5,7 @@ public enum LetterType {
     GRAY("g"),
     WHITE("w"),
     WHITE_GREEN("w_g"),
+    WHITE_PURPLE("w_p"),
     BLACK("b"),
     YELLOW("y"),
     EMPATHY("e");

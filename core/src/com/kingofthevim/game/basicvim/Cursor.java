@@ -67,32 +67,57 @@ public class Cursor {
     }
 
 
-    public void setRow(int rowMove) {
+    public boolean setRow(int rowMove) {
 
         if(rowMove != 0){
+            doBeforePosiUpdate();
+
             position.y = position.y + (cellHeight * rowMove);
             currRow += rowMove;
-
             points.onMove(this);
+
+            doAfterPosiUpdate();
+
+            return true;
         }
 
+        return false;
     }
 
-    public void setColumn(int columnMove) {
+    //TODO make default reset for fonts work
+    public boolean setColumn(int columnMove) {
 
         if(columnMove != 0){
+            doBeforePosiUpdate();
+
             position.x = position.x + (cellWidth * columnMove);
             currColumn += columnMove;
-
             points.onMove(this);
+
+            doAfterPosiUpdate();
+            return true;
         }
 
+        return false;
     }
 
     public void update(){
 
         setRow(mover.verticalMove(this));
         setColumn(mover.horizontalMove(this));
+    }
+
+    private void doBeforePosiUpdate(){
+        cellMatrix.get(currRow).get(currColumn).setCellLookToDefault();
+    }
+
+    //TODO make a general method that looks what color the cursor is
+    // and the letter according to a scheme
+    private void doAfterPosiUpdate(){
+
+        if(isOnType(LetterType.WHITE_GREEN)){
+            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_PURPLE);
+        }
     }
 
 
