@@ -46,6 +46,8 @@ public abstract class Level extends State {
 
     protected abstract void backgroundText();
 
+    protected abstract void levelChange();
+
     @Override
     public void handleInput() {
 

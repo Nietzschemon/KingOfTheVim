@@ -41,14 +41,17 @@ public class Level_3 extends Level{
                         "<dw>xxxxxxxxxxxxx</dw>" +
                         "<lf>xxxxxxxx</lf>" +
                         "<up>xxxx</up>" +
-                        "<lf>\"b\" to get to here</lf>" +
-                        "<dw>Goal</dw>"
+                        "<lf>\"b\" to get to here</lf>"
         );
 
 
         // All letters in the matrix are set to the lettertype of those in the string
         labyrinthText.setLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
         labyrinthText.setLetterType("enonyrb", LetterType.RED, false);
+        labyrinthText.setLetterType(" ", LetterType.EMPATHY, false);
+
+        // sets the goal. Extra step needed for right coloring of words
+        labyrinthText.createMap("<dw>GOAL|</dw>", true, LetterType.WHITE_GREEN);
     }
 
     public void backgroundText(){
@@ -117,6 +120,16 @@ public class Level_3 extends Level{
         }
 
         sb.end();
+
+    }
+
+    @Override
+    protected void levelChange() {
+        if(cursor.isOnType(LetterType.WHITE_GREEN)) {
+            cursor.dispose();
+            gsm.push(new Level_1(gsm));
+        }
+
     }
 
     @Override
@@ -125,7 +138,9 @@ public class Level_3 extends Level{
 
         cam.update();
 
+        levelChange();
     }
+
     @Override
     public void dispose() {
         cursor.dispose();

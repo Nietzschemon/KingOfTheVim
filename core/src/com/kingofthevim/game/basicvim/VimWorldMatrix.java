@@ -71,6 +71,8 @@ public class VimWorldMatrix {
     //TODO look into column count vs filled column discrepancy
     private static void setCellSize(int width, int height){
 
+        cellMatrix.clear();
+
         for (int i = 0; i < rowTotal; i++) {
 
             cellMatrix.add(new ArrayList<Cell>());

@@ -108,17 +108,17 @@ public class DevLevel extends Level{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        /*
-        if(cursor.isOnType(LetterType.GRAY)){
-           cursor.dispose();
-           cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+        if(cursor.isOnType(LetterType.WHITE_GREEN)){
+           //cursor.dispose();
+           //cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }
 
-         */
 
-        sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+        //sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
 
@@ -132,6 +132,16 @@ public class DevLevel extends Level{
             }
         }
         sb.end();
+
+
+    }
+
+    @Override
+    protected void levelChange() {
+        if(cursor.isOnType(LetterType.WHITE_GREEN)) {
+            cursor.dispose();
+            gsm.push(new Level_1(gsm));
+        }
     }
 
     @Override
@@ -148,6 +158,8 @@ public class DevLevel extends Level{
 
         //Tells GDX that cam been repositioned.
         cam.update();
+
+        levelChange();
     }
 
     @Override
