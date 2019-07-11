@@ -24,6 +24,7 @@ public class DevLevel extends Level{
 
         levelPath();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+        backgroundMusic();
     }
 
     @Override

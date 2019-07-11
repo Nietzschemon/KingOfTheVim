@@ -2,6 +2,7 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.Cursor;
@@ -20,6 +21,8 @@ public abstract class Level extends State {
     protected LetterManager backgroundText;
     protected LetterManager labyrinthText;
     protected VimWorldMatrix vimMatrix;
+
+    protected Music backgroundMusic;
 
     protected PointSystem pointsSys;
 
@@ -46,12 +49,25 @@ public abstract class Level extends State {
 
     protected abstract void backgroundText();
 
+    protected void backgroundMusic(){
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+        backgroundMusic.play();
+    }
+
     protected abstract void levelChange();
 
     @Override
     public void handleInput() {
 
         cursor.update();
+
+    }
+
+    @Override
+    public void dispose() {
+        backgroundMusic.dispose();
 
     }
 }
