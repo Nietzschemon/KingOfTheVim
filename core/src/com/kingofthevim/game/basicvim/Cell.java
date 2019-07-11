@@ -16,7 +16,9 @@ public class Cell {
 
     private static Map<Character, Texture> whiteFont = new HashMap<>();
     private static Map<Character, Texture> whiteGreenFont = new HashMap<>();
+    private static Map<Character, Texture> whiteRedFont = new HashMap<>();
     private static Map<Character, Texture> whitePurpleFont = new HashMap<>();
+    private static Map<Character, Texture> blackYellowFont = new HashMap<>();
     private static Map<Character, Texture> blackFont = new HashMap<>();
     private static Map<Character, Texture> redFont = new HashMap<>();
     private static Map<Character, Texture> yellowFont = new HashMap<>();
@@ -55,6 +57,32 @@ public class Cell {
 
         switch (type) {
 
+            case BLACK:
+                this.cellLook = blackFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = blackFont.get(cellChar);
+                break;
+
+            case BLACK_YELLOW:
+                this.cellLook = blackYellowFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = blackYellowFont.get(cellChar);
+                break;
+
+            case GRAY:
+                this.cellLook = grayFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = grayFont.get(cellChar);
+                break;
+
+
+            case RED:
+                this.cellLook = redFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = redFont.get(cellChar);
+                break;
+
+            case YELLOW:
+                this.cellLook = yellowFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = yellowFont.get(cellChar);
+                break;
+
             case WHITE:
                 this.cellLook = whiteFont.get(cellChar);
                 if(isDefault)this.cellLookDefault = whiteFont.get(cellChar);
@@ -65,29 +93,14 @@ public class Cell {
                 if(isDefault)this.cellLookDefault = whiteGreenFont.get(cellChar);
                 break;
 
+            case WHITE_RED:
+                this.cellLook = whiteRedFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = whiteRedFont.get(cellChar);
+                break;
+
             case WHITE_PURPLE:
                 this.cellLook = whitePurpleFont.get(cellChar);
                 if(isDefault)this.cellLookDefault = whitePurpleFont.get(cellChar);
-                break;
-
-            case BLACK:
-                this.cellLook = blackFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = blackFont.get(cellChar);
-                break;
-
-            case GRAY:
-                this.cellLook = grayFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = grayFont.get(cellChar);
-                break;
-
-            case YELLOW:
-                this.cellLook = yellowFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = yellowFont.get(cellChar);
-                break;
-
-            case RED:
-                this.cellLook = redFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = redFont.get(cellChar);
                 break;
 
         }
@@ -166,7 +179,9 @@ public class Cell {
             getGrayTextures();
             getYellowTextures();
             getWhiteGreenTextures();
+            getWhiteRedTextures();
             getWhitePurpleTextures();
+            getBlackYellowTextures();
         }
 
         private static void getBlackTextures(){
@@ -738,7 +753,6 @@ public class Cell {
             whiteGreenFont.put('`', new Texture("fonts/size_42_f_white_bg_green/graveAccent_42white_bg_green.png"));
             whiteGreenFont.put('\"', new Texture("fonts/size_42_f_white_bg_green/doubleQuote_42white_bg_green.png"));
         }
-
         private static void getWhitePurpleTextures(){
 
             whitePurpleFont.put('?', new Texture("fonts/size_42_f_white_bg_purple/questionmark_42white_bg_purple.png"));
@@ -835,5 +849,196 @@ public class Cell {
             whitePurpleFont.put('\"', new Texture("fonts/size_42_f_white_bg_purple/doubleQuote_42white_bg_purple.png"));
         }
 
+        private static void getWhiteRedTextures(){
+
+            whiteRedFont.put('?', new Texture("fonts/size_42_f_white_bg_red/questionmark_42white_bg_red.png"));
+            whiteRedFont.put(':', new Texture("fonts/size_42_f_white_bg_red/colon_42white_bg_red.png"));
+            whiteRedFont.put('.', new Texture("fonts/size_42_f_white_bg_red/dot_42white_bg_red.png"));
+            whiteRedFont.put('/', new Texture("fonts/size_42_f_white_bg_red/forwardslash_42white_bg_red.png"));
+            whiteRedFont.put('*', new Texture("fonts/size_42_f_white_bg_red/star_42white_bg_red.png"));
+            whiteRedFont.put('@', new Texture("fonts/size_42_f_white_bg_red/atsign_42white_bg_red.png"));
+            whiteRedFont.put(',', new Texture("fonts/size_42_f_white_bg_red/comma_42white_bg_red.png"));
+            whiteRedFont.put('!', new Texture("fonts/size_42_f_white_bg_red/exclamation_42white_bg_red.png"));
+            whiteRedFont.put(';', new Texture("fonts/size_42_f_white_bg_red/;_42white_bg_red.png"));
+            whiteRedFont.put('|', new Texture("fonts/size_42_f_white_bg_red/|_42white_bg_red.png"));
+            whiteRedFont.put('>', new Texture("fonts/size_42_f_white_bg_red/>_42white_bg_red.png"));
+            whiteRedFont.put('<', new Texture("fonts/size_42_f_white_bg_red/<_42white_bg_red.png"));
+            whiteRedFont.put('}', new Texture("fonts/size_42_f_white_bg_red/}_42white_bg_red.png"));
+            whiteRedFont.put('{', new Texture("fonts/size_42_f_white_bg_red/{_42white_bg_red.png"));
+            whiteRedFont.put(']', new Texture("fonts/size_42_f_white_bg_red/]_42white_bg_red.png"));
+            whiteRedFont.put('[', new Texture("fonts/size_42_f_white_bg_red/[_42white_bg_red.png"));
+            whiteRedFont.put(')', new Texture("fonts/size_42_f_white_bg_red/)_42white_bg_red.png"));
+            whiteRedFont.put('(', new Texture("fonts/size_42_f_white_bg_red/(_42white_bg_red.png"));
+            whiteRedFont.put('^', new Texture("fonts/size_42_f_white_bg_red/^_42white_bg_red.png"));
+            whiteRedFont.put('~', new Texture("fonts/size_42_f_white_bg_red/~_42white_bg_red.png"));
+            whiteRedFont.put('=', new Texture("fonts/size_42_f_white_bg_red/=_42white_bg_red.png"));
+            whiteRedFont.put('-', new Texture("fonts/size_42_f_white_bg_red/-_42white_bg_red.png"));
+            whiteRedFont.put('+', new Texture("fonts/size_42_f_white_bg_red/+_42white_bg_red.png"));
+            whiteRedFont.put('&', new Texture("fonts/size_42_f_white_bg_red/&_42white_bg_red.png"));
+            whiteRedFont.put('%', new Texture("fonts/size_42_f_white_bg_red/%_42white_bg_red.png"));
+            whiteRedFont.put('$', new Texture("fonts/size_42_f_white_bg_red/$_42white_bg_red.png"));
+            whiteRedFont.put('#', new Texture("fonts/size_42_f_white_bg_red/#_42white_bg_red.png"));
+            whiteRedFont.put('z', new Texture("fonts/size_42_f_white_bg_red/z_42white_bg_red.png"));
+            whiteRedFont.put('y', new Texture("fonts/size_42_f_white_bg_red/y_42white_bg_red.png"));
+            whiteRedFont.put('x', new Texture("fonts/size_42_f_white_bg_red/x_42white_bg_red.png"));
+            whiteRedFont.put('w', new Texture("fonts/size_42_f_white_bg_red/w_42white_bg_red.png"));
+            whiteRedFont.put('v', new Texture("fonts/size_42_f_white_bg_red/v_42white_bg_red.png"));
+            whiteRedFont.put('u', new Texture("fonts/size_42_f_white_bg_red/u_42white_bg_red.png"));
+            whiteRedFont.put('t', new Texture("fonts/size_42_f_white_bg_red/t_42white_bg_red.png"));
+            whiteRedFont.put('s', new Texture("fonts/size_42_f_white_bg_red/s_42white_bg_red.png"));
+            whiteRedFont.put('r', new Texture("fonts/size_42_f_white_bg_red/r_42white_bg_red.png"));
+            whiteRedFont.put('q', new Texture("fonts/size_42_f_white_bg_red/q_42white_bg_red.png"));
+            whiteRedFont.put('p', new Texture("fonts/size_42_f_white_bg_red/p_42white_bg_red.png"));
+            whiteRedFont.put('o', new Texture("fonts/size_42_f_white_bg_red/o_42white_bg_red.png"));
+            whiteRedFont.put('n', new Texture("fonts/size_42_f_white_bg_red/n_42white_bg_red.png"));
+            whiteRedFont.put('m', new Texture("fonts/size_42_f_white_bg_red/m_42white_bg_red.png"));
+            whiteRedFont.put('l', new Texture("fonts/size_42_f_white_bg_red/l_42white_bg_red.png"));
+            whiteRedFont.put('k', new Texture("fonts/size_42_f_white_bg_red/k_42white_bg_red.png"));
+            whiteRedFont.put('j', new Texture("fonts/size_42_f_white_bg_red/j_42white_bg_red.png"));
+            whiteRedFont.put('i', new Texture("fonts/size_42_f_white_bg_red/i_42white_bg_red.png"));
+            whiteRedFont.put('h', new Texture("fonts/size_42_f_white_bg_red/h_42white_bg_red.png"));
+            whiteRedFont.put('g', new Texture("fonts/size_42_f_white_bg_red/g_42white_bg_red.png"));
+            whiteRedFont.put('f', new Texture("fonts/size_42_f_white_bg_red/f_42white_bg_red.png"));
+            whiteRedFont.put('e', new Texture("fonts/size_42_f_white_bg_red/e_42white_bg_red.png"));
+            whiteRedFont.put('d', new Texture("fonts/size_42_f_white_bg_red/d_42white_bg_red.png"));
+            whiteRedFont.put('c', new Texture("fonts/size_42_f_white_bg_red/c_42white_bg_red.png"));
+            whiteRedFont.put('b', new Texture("fonts/size_42_f_white_bg_red/b_42white_bg_red.png"));
+            whiteRedFont.put('a', new Texture("fonts/size_42_f_white_bg_red/a_42white_bg_red.png"));
+            whiteRedFont.put('Z', new Texture("fonts/size_42_f_white_bg_red/Z_42white_bg_red.png"));
+            whiteRedFont.put('Y', new Texture("fonts/size_42_f_white_bg_red/Y_42white_bg_red.png"));
+            whiteRedFont.put('X', new Texture("fonts/size_42_f_white_bg_red/X_42white_bg_red.png"));
+            whiteRedFont.put('W', new Texture("fonts/size_42_f_white_bg_red/W_42white_bg_red.png"));
+            whiteRedFont.put('V', new Texture("fonts/size_42_f_white_bg_red/V_42white_bg_red.png"));
+            whiteRedFont.put('U', new Texture("fonts/size_42_f_white_bg_red/U_42white_bg_red.png"));
+            whiteRedFont.put('T', new Texture("fonts/size_42_f_white_bg_red/T_42white_bg_red.png"));
+            whiteRedFont.put('S', new Texture("fonts/size_42_f_white_bg_red/S_42white_bg_red.png"));
+            whiteRedFont.put('R', new Texture("fonts/size_42_f_white_bg_red/R_42white_bg_red.png"));
+            whiteRedFont.put('Q', new Texture("fonts/size_42_f_white_bg_red/Q_42white_bg_red.png"));
+            whiteRedFont.put('P', new Texture("fonts/size_42_f_white_bg_red/P_42white_bg_red.png"));
+            whiteRedFont.put('O', new Texture("fonts/size_42_f_white_bg_red/O_42white_bg_red.png"));
+            whiteRedFont.put('N', new Texture("fonts/size_42_f_white_bg_red/N_42white_bg_red.png"));
+            whiteRedFont.put('M', new Texture("fonts/size_42_f_white_bg_red/M_42white_bg_red.png"));
+            whiteRedFont.put('L', new Texture("fonts/size_42_f_white_bg_red/L_42white_bg_red.png"));
+            whiteRedFont.put('K', new Texture("fonts/size_42_f_white_bg_red/K_42white_bg_red.png"));
+            whiteRedFont.put('J', new Texture("fonts/size_42_f_white_bg_red/J_42white_bg_red.png"));
+            whiteRedFont.put('I', new Texture("fonts/size_42_f_white_bg_red/I_42white_bg_red.png"));
+            whiteRedFont.put('H', new Texture("fonts/size_42_f_white_bg_red/H_42white_bg_red.png"));
+            whiteRedFont.put('G', new Texture("fonts/size_42_f_white_bg_red/G_42white_bg_red.png"));
+            whiteRedFont.put('F', new Texture("fonts/size_42_f_white_bg_red/F_42white_bg_red.png"));
+            whiteRedFont.put('E', new Texture("fonts/size_42_f_white_bg_red/E_42white_bg_red.png"));
+            whiteRedFont.put('D', new Texture("fonts/size_42_f_white_bg_red/D_42white_bg_red.png"));
+            whiteRedFont.put('C', new Texture("fonts/size_42_f_white_bg_red/C_42white_bg_red.png"));
+            whiteRedFont.put('B', new Texture("fonts/size_42_f_white_bg_red/B_42white_bg_red.png"));
+            whiteRedFont.put('A', new Texture("fonts/size_42_f_white_bg_red/A_42white_bg_red.png"));
+            whiteRedFont.put('0', new Texture("fonts/size_42_f_white_bg_red/0_42white_bg_red.png"));
+            whiteRedFont.put('9', new Texture("fonts/size_42_f_white_bg_red/9_42white_bg_red.png"));
+            whiteRedFont.put('8', new Texture("fonts/size_42_f_white_bg_red/8_42white_bg_red.png"));
+            whiteRedFont.put('7', new Texture("fonts/size_42_f_white_bg_red/7_42white_bg_red.png"));
+            whiteRedFont.put('6', new Texture("fonts/size_42_f_white_bg_red/6_42white_bg_red.png"));
+            whiteRedFont.put('5', new Texture("fonts/size_42_f_white_bg_red/5_42white_bg_red.png"));
+            whiteRedFont.put('4', new Texture("fonts/size_42_f_white_bg_red/4_42white_bg_red.png"));
+            whiteRedFont.put('3', new Texture("fonts/size_42_f_white_bg_red/3_42white_bg_red.png"));
+            whiteRedFont.put('2', new Texture("fonts/size_42_f_white_bg_red/2_42white_bg_red.png"));
+            whiteRedFont.put('1', new Texture("fonts/size_42_f_white_bg_red/1_42white_bg_red.png"));
+            whiteRedFont.put('\'', new Texture("fonts/size_42_f_white_bg_red/singleQuote_42white_bg_red.png"));
+            whiteRedFont.put('`', new Texture("fonts/size_42_f_white_bg_red/graveAccent_42white_bg_red.png"));
+            whiteRedFont.put('\"', new Texture("fonts/size_42_f_white_bg_red/doubleQuote_42white_bg_red.png"));
+        }
+
+        private static void getBlackYellowTextures(){
+
+            blackYellowFont.put('?', new Texture("fonts/size_42_f_black_bg_yellow/questionmark_42black_bg_yellow.png"));
+            blackYellowFont.put(':', new Texture("fonts/size_42_f_black_bg_yellow/colon_42black_bg_yellow.png"));
+            blackYellowFont.put('.', new Texture("fonts/size_42_f_black_bg_yellow/dot_42black_bg_yellow.png"));
+            blackYellowFont.put('/', new Texture("fonts/size_42_f_black_bg_yellow/forwardslash_42black_bg_yellow.png"));
+            blackYellowFont.put('*', new Texture("fonts/size_42_f_black_bg_yellow/star_42black_bg_yellow.png"));
+            blackYellowFont.put('@', new Texture("fonts/size_42_f_black_bg_yellow/atsign_42black_bg_yellow.png"));
+            blackYellowFont.put(',', new Texture("fonts/size_42_f_black_bg_yellow/comma_42black_bg_yellow.png"));
+            blackYellowFont.put('!', new Texture("fonts/size_42_f_black_bg_yellow/exclamation_42black_bg_yellow.png"));
+            blackYellowFont.put(';', new Texture("fonts/size_42_f_black_bg_yellow/;_42black_bg_yellow.png"));
+            blackYellowFont.put('|', new Texture("fonts/size_42_f_black_bg_yellow/|_42black_bg_yellow.png"));
+            blackYellowFont.put('>', new Texture("fonts/size_42_f_black_bg_yellow/>_42black_bg_yellow.png"));
+            blackYellowFont.put('<', new Texture("fonts/size_42_f_black_bg_yellow/<_42black_bg_yellow.png"));
+            blackYellowFont.put('}', new Texture("fonts/size_42_f_black_bg_yellow/}_42black_bg_yellow.png"));
+            blackYellowFont.put('{', new Texture("fonts/size_42_f_black_bg_yellow/{_42black_bg_yellow.png"));
+            blackYellowFont.put(']', new Texture("fonts/size_42_f_black_bg_yellow/]_42black_bg_yellow.png"));
+            blackYellowFont.put('[', new Texture("fonts/size_42_f_black_bg_yellow/[_42black_bg_yellow.png"));
+            blackYellowFont.put(')', new Texture("fonts/size_42_f_black_bg_yellow/)_42black_bg_yellow.png"));
+            blackYellowFont.put('(', new Texture("fonts/size_42_f_black_bg_yellow/(_42black_bg_yellow.png"));
+            blackYellowFont.put('^', new Texture("fonts/size_42_f_black_bg_yellow/^_42black_bg_yellow.png"));
+            blackYellowFont.put('~', new Texture("fonts/size_42_f_black_bg_yellow/~_42black_bg_yellow.png"));
+            blackYellowFont.put('=', new Texture("fonts/size_42_f_black_bg_yellow/=_42black_bg_yellow.png"));
+            blackYellowFont.put('-', new Texture("fonts/size_42_f_black_bg_yellow/-_42black_bg_yellow.png"));
+            blackYellowFont.put('+', new Texture("fonts/size_42_f_black_bg_yellow/+_42black_bg_yellow.png"));
+            blackYellowFont.put('&', new Texture("fonts/size_42_f_black_bg_yellow/&_42black_bg_yellow.png"));
+            blackYellowFont.put('%', new Texture("fonts/size_42_f_black_bg_yellow/%_42black_bg_yellow.png"));
+            blackYellowFont.put('$', new Texture("fonts/size_42_f_black_bg_yellow/$_42black_bg_yellow.png"));
+            blackYellowFont.put('#', new Texture("fonts/size_42_f_black_bg_yellow/#_42black_bg_yellow.png"));
+            blackYellowFont.put('z', new Texture("fonts/size_42_f_black_bg_yellow/z_42black_bg_yellow.png"));
+            blackYellowFont.put('y', new Texture("fonts/size_42_f_black_bg_yellow/y_42black_bg_yellow.png"));
+            blackYellowFont.put('x', new Texture("fonts/size_42_f_black_bg_yellow/x_42black_bg_yellow.png"));
+            blackYellowFont.put('w', new Texture("fonts/size_42_f_black_bg_yellow/w_42black_bg_yellow.png"));
+            blackYellowFont.put('v', new Texture("fonts/size_42_f_black_bg_yellow/v_42black_bg_yellow.png"));
+            blackYellowFont.put('u', new Texture("fonts/size_42_f_black_bg_yellow/u_42black_bg_yellow.png"));
+            blackYellowFont.put('t', new Texture("fonts/size_42_f_black_bg_yellow/t_42black_bg_yellow.png"));
+            blackYellowFont.put('s', new Texture("fonts/size_42_f_black_bg_yellow/s_42black_bg_yellow.png"));
+            blackYellowFont.put('r', new Texture("fonts/size_42_f_black_bg_yellow/r_42black_bg_yellow.png"));
+            blackYellowFont.put('q', new Texture("fonts/size_42_f_black_bg_yellow/q_42black_bg_yellow.png"));
+            blackYellowFont.put('p', new Texture("fonts/size_42_f_black_bg_yellow/p_42black_bg_yellow.png"));
+            blackYellowFont.put('o', new Texture("fonts/size_42_f_black_bg_yellow/o_42black_bg_yellow.png"));
+            blackYellowFont.put('n', new Texture("fonts/size_42_f_black_bg_yellow/n_42black_bg_yellow.png"));
+            blackYellowFont.put('m', new Texture("fonts/size_42_f_black_bg_yellow/m_42black_bg_yellow.png"));
+            blackYellowFont.put('l', new Texture("fonts/size_42_f_black_bg_yellow/l_42black_bg_yellow.png"));
+            blackYellowFont.put('k', new Texture("fonts/size_42_f_black_bg_yellow/k_42black_bg_yellow.png"));
+            blackYellowFont.put('j', new Texture("fonts/size_42_f_black_bg_yellow/j_42black_bg_yellow.png"));
+            blackYellowFont.put('i', new Texture("fonts/size_42_f_black_bg_yellow/i_42black_bg_yellow.png"));
+            blackYellowFont.put('h', new Texture("fonts/size_42_f_black_bg_yellow/h_42black_bg_yellow.png"));
+            blackYellowFont.put('g', new Texture("fonts/size_42_f_black_bg_yellow/g_42black_bg_yellow.png"));
+            blackYellowFont.put('f', new Texture("fonts/size_42_f_black_bg_yellow/f_42black_bg_yellow.png"));
+            blackYellowFont.put('e', new Texture("fonts/size_42_f_black_bg_yellow/e_42black_bg_yellow.png"));
+            blackYellowFont.put('d', new Texture("fonts/size_42_f_black_bg_yellow/d_42black_bg_yellow.png"));
+            blackYellowFont.put('c', new Texture("fonts/size_42_f_black_bg_yellow/c_42black_bg_yellow.png"));
+            blackYellowFont.put('b', new Texture("fonts/size_42_f_black_bg_yellow/b_42black_bg_yellow.png"));
+            blackYellowFont.put('a', new Texture("fonts/size_42_f_black_bg_yellow/a_42black_bg_yellow.png"));
+            blackYellowFont.put('Z', new Texture("fonts/size_42_f_black_bg_yellow/Z_42black_bg_yellow.png"));
+            blackYellowFont.put('Y', new Texture("fonts/size_42_f_black_bg_yellow/Y_42black_bg_yellow.png"));
+            blackYellowFont.put('X', new Texture("fonts/size_42_f_black_bg_yellow/X_42black_bg_yellow.png"));
+            blackYellowFont.put('W', new Texture("fonts/size_42_f_black_bg_yellow/W_42black_bg_yellow.png"));
+            blackYellowFont.put('V', new Texture("fonts/size_42_f_black_bg_yellow/V_42black_bg_yellow.png"));
+            blackYellowFont.put('U', new Texture("fonts/size_42_f_black_bg_yellow/U_42black_bg_yellow.png"));
+            blackYellowFont.put('T', new Texture("fonts/size_42_f_black_bg_yellow/T_42black_bg_yellow.png"));
+            blackYellowFont.put('S', new Texture("fonts/size_42_f_black_bg_yellow/S_42black_bg_yellow.png"));
+            blackYellowFont.put('R', new Texture("fonts/size_42_f_black_bg_yellow/R_42black_bg_yellow.png"));
+            blackYellowFont.put('Q', new Texture("fonts/size_42_f_black_bg_yellow/Q_42black_bg_yellow.png"));
+            blackYellowFont.put('P', new Texture("fonts/size_42_f_black_bg_yellow/P_42black_bg_yellow.png"));
+            blackYellowFont.put('O', new Texture("fonts/size_42_f_black_bg_yellow/O_42black_bg_yellow.png"));
+            blackYellowFont.put('N', new Texture("fonts/size_42_f_black_bg_yellow/N_42black_bg_yellow.png"));
+            blackYellowFont.put('M', new Texture("fonts/size_42_f_black_bg_yellow/M_42black_bg_yellow.png"));
+            blackYellowFont.put('L', new Texture("fonts/size_42_f_black_bg_yellow/L_42black_bg_yellow.png"));
+            blackYellowFont.put('K', new Texture("fonts/size_42_f_black_bg_yellow/K_42black_bg_yellow.png"));
+            blackYellowFont.put('J', new Texture("fonts/size_42_f_black_bg_yellow/J_42black_bg_yellow.png"));
+            blackYellowFont.put('I', new Texture("fonts/size_42_f_black_bg_yellow/I_42black_bg_yellow.png"));
+            blackYellowFont.put('H', new Texture("fonts/size_42_f_black_bg_yellow/H_42black_bg_yellow.png"));
+            blackYellowFont.put('G', new Texture("fonts/size_42_f_black_bg_yellow/G_42black_bg_yellow.png"));
+            blackYellowFont.put('F', new Texture("fonts/size_42_f_black_bg_yellow/F_42black_bg_yellow.png"));
+            blackYellowFont.put('E', new Texture("fonts/size_42_f_black_bg_yellow/E_42black_bg_yellow.png"));
+            blackYellowFont.put('D', new Texture("fonts/size_42_f_black_bg_yellow/D_42black_bg_yellow.png"));
+            blackYellowFont.put('C', new Texture("fonts/size_42_f_black_bg_yellow/C_42black_bg_yellow.png"));
+            blackYellowFont.put('B', new Texture("fonts/size_42_f_black_bg_yellow/B_42black_bg_yellow.png"));
+            blackYellowFont.put('A', new Texture("fonts/size_42_f_black_bg_yellow/A_42black_bg_yellow.png"));
+            blackYellowFont.put('0', new Texture("fonts/size_42_f_black_bg_yellow/0_42black_bg_yellow.png"));
+            blackYellowFont.put('9', new Texture("fonts/size_42_f_black_bg_yellow/9_42black_bg_yellow.png"));
+            blackYellowFont.put('8', new Texture("fonts/size_42_f_black_bg_yellow/8_42black_bg_yellow.png"));
+            blackYellowFont.put('7', new Texture("fonts/size_42_f_black_bg_yellow/7_42black_bg_yellow.png"));
+            blackYellowFont.put('6', new Texture("fonts/size_42_f_black_bg_yellow/6_42black_bg_yellow.png"));
+            blackYellowFont.put('5', new Texture("fonts/size_42_f_black_bg_yellow/5_42black_bg_yellow.png"));
+            blackYellowFont.put('4', new Texture("fonts/size_42_f_black_bg_yellow/4_42black_bg_yellow.png"));
+            blackYellowFont.put('3', new Texture("fonts/size_42_f_black_bg_yellow/3_42black_bg_yellow.png"));
+            blackYellowFont.put('2', new Texture("fonts/size_42_f_black_bg_yellow/2_42black_bg_yellow.png"));
+            blackYellowFont.put('1', new Texture("fonts/size_42_f_black_bg_yellow/1_42black_bg_yellow.png"));
+            blackYellowFont.put('\'', new Texture("fonts/size_42_f_black_bg_yellow/singleQuote_42black_bg_yellow.png"));
+            blackYellowFont.put('`', new Texture("fonts/size_42_f_black_bg_yellow/graveAccent_42black_bg_yellow.png"));
+            blackYellowFont.put('\"', new Texture("fonts/size_42_f_black_bg_yellow/doubleQuote_42black_bg_yellow.png"));
+        }
     }
 }

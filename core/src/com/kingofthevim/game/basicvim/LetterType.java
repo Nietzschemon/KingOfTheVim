@@ -1,12 +1,14 @@
 package com.kingofthevim.game.basicvim;
 
 public enum LetterType {
+    BLACK("b"),
+    BLACK_YELLOW("b_y"),
     RED("r"),
     GRAY("g"),
     WHITE("w"),
     WHITE_GREEN("w_g"),
+    WHITE_RED("w_r"),
     WHITE_PURPLE("w_p"),
-    BLACK("b"),
     YELLOW("y"),
     EMPATHY("e");
 

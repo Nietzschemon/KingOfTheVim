@@ -115,6 +115,18 @@ public class Cursor {
     // and the letter according to a scheme
     private void doAfterPosiUpdate(){
 
+        if(isOnType(LetterType.RED)){
+            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_RED);
+        }
+
+        if(isOnType(LetterType.YELLOW)){
+            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.BLACK_YELLOW);
+        }
+
+        if(isOnType(LetterType.WHITE)){
+            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.BLACK);
+        }
+
         if(isOnType(LetterType.WHITE_GREEN)){
             cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_PURPLE);
         }
