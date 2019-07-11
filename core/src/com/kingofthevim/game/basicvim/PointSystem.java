@@ -3,6 +3,7 @@ package com.kingofthevim.game.basicvim;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 
+//TODO mark used up yellow letter with colorShift
 public class PointSystem {
 
     private int points = 0;
