@@ -1,5 +1,6 @@
 package com.kingofthevim.game.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.Cell;
 import com.kingofthevim.game.basicvim.Cursor;
@@ -66,6 +67,11 @@ public class Level_2 extends Level {
     }
 
     @Override
+    protected void backgroundMusic() {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+    }
+    @Override
     public void render(SpriteBatch sb) {
 
         // Shows sprite-batch where to draw things on screen.
@@ -120,6 +126,8 @@ public class Level_2 extends Level {
     @Override
     public void dispose() {
         cursor.dispose();
+
+        backgroundMusic.dispose();
 
         for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
 

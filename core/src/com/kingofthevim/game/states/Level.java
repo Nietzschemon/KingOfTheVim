@@ -49,12 +49,9 @@ public abstract class Level extends State {
 
     protected abstract void backgroundText();
 
-    protected void backgroundMusic(){
+    protected abstract void backgroundMusic();
 
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
-        backgroundMusic.play();
-    }
+
 
     protected abstract void levelChange();
 

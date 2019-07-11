@@ -33,6 +33,19 @@ public class DevLevel extends Level{
     }
 
     @Override
+    protected void backgroundMusic() {
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+        /*
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic2pcm.wav"));
+
+         */
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+    }
+
+    @Override
     protected void levelPath() {
         tagBuiltLevel();
         //vimWordObjectCourse();
@@ -166,6 +179,7 @@ public class DevLevel extends Level{
     @Override
     public void dispose() {
         cursor.dispose();
+        backgroundMusic.dispose();
 
         for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
 
