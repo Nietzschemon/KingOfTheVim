@@ -49,9 +49,9 @@ public class Level_2 extends Level {
 
 
         // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.setLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
-        labyrinthText.setLetterType("enonyrb", LetterType.RED, false);
-        labyrinthText.setLetterType(" ", LetterType.EMPATHY, false);
+        labyrinthText.batchSetLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
+        labyrinthText.batchSetLetterType("enonyrb", LetterType.RED, false);
+        labyrinthText.batchSetLetterType(" ", LetterType.EMPATHY, false);
 
         // sets the goal. Extra step needed for right coloring of words
         labyrinthText.createMap("<dw>GOAL|</dw>", true, LetterType.WHITE_GREEN);
@@ -61,9 +61,9 @@ public class Level_2 extends Level {
 
         String[] message = {"BORED?", "rest assured that my developer WILL make", "this game unbearably hard soon enough", "TIP: most levels can be done in", "one or three vim-moves"};
 
-        backgroundText.setHorizontalStringArray(message, 15, 0, true, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(message, 15, 0, true, false, LetterType.GRAY);
 
-        backgroundText.setLetterType("BOREDWILLTIP?", LetterType.RED, true);
+        backgroundText.batchSetLetterType("BOREDWILLTIP?", LetterType.RED, true);
     }
 
     @Override

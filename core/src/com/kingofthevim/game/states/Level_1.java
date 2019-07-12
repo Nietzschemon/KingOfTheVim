@@ -40,8 +40,8 @@ public class Level_1 extends Level{
         );
 
         // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.setLetterType("hjkl", LetterType.YELLOW, false);
-        labyrinthText.setLetterType("X-|", LetterType.RED, false);
+        labyrinthText.batchSetLetterType("hjkl", LetterType.YELLOW, false);
+        labyrinthText.batchSetLetterType("X-|", LetterType.RED, false);
 
         // sets the goal. Extra step needed for right coloring of words
         labyrinthText.createMap("<up>GOAL|</up>", true, LetterType.WHITE_GREEN);
@@ -53,10 +53,10 @@ public class Level_1 extends Level{
 
         String[] warning = {"WARNING", "gray letters kill you", "and so do empty spaces"};
 
-        backgroundText.setHorizontalStringArray(welcome, 0, 0, false, LetterType.GRAY);
-        backgroundText.setHorizontalStringArray(warning, 15, 0, true, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(welcome, 0, 0, false, false, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(warning, 15, 0, true, false, LetterType.GRAY);
 
-        backgroundText.setLetterType("WARNING", LetterType.RED, true);
+        backgroundText.batchSetLetterType("WARNING", LetterType.RED, true);
     }
 
     @Override

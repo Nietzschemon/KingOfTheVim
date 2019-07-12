@@ -1,10 +1,8 @@
 package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.*;
 
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ public class DevLevel extends Level{
         super(gsm);
 
         pointsSys = new PointSystem(10);
-
 
         //backgroundText();
 
@@ -36,11 +33,13 @@ public class DevLevel extends Level{
     protected void backgroundMusic() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+
         /*
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic2pcm.wav"));
 
          */
+
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }
@@ -50,8 +49,8 @@ public class DevLevel extends Level{
         tagBuiltLevel();
         //vimWordObjectCourse();
 
-        labyrinthText.setLetterType("O", LetterType.RED, false);
-        labyrinthText.setLetterType("X", LetterType.YELLOW, false);
+        labyrinthText.batchSetLetterType("O", LetterType.RED, false);
+        labyrinthText.batchSetLetterType("X", LetterType.YELLOW, false);
 
     }
 
@@ -67,16 +66,16 @@ public class DevLevel extends Level{
     }
 
     private void vimWordObjectCourse(){
-        labyrinthText.setHorizontalString("word word word word", 0,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word word word word", 0,0,true, false, LetterType.WHITE);
+        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true, false, LetterType.WHITE);
+        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true, false,LetterType.WHITE);
     }
 
     private void prose(){
@@ -112,7 +111,7 @@ public class DevLevel extends Level{
                 "he began to feel a mild, dull pain there that he had never felt" +
                 "before.");
 
-        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, false, LetterType.GRAY);
     }
 
     @Override

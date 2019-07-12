@@ -52,7 +52,7 @@ public class Cell {
         return cellLook;
     }
 
-    public void setCellLook(char cellChar, LetterType type, boolean isDefault) {
+    public void setCellLook(char cellChar, LetterType type, boolean isDefault, boolean replaceChar) {
 
 
         switch (type) {
@@ -105,7 +105,7 @@ public class Cell {
 
         }
 
-        this.cellChar = cellChar;
+        if(replaceChar)this.cellChar = cellChar;
         if(isDefault) this.letterType = type;
     }
 
@@ -126,7 +126,7 @@ public class Cell {
 
     public void setCellLookTemp(LetterType letterType){
 
-        setCellLook(cellChar, letterType, false);
+        setCellLook(cellChar, letterType, false, false);
 
     }
 
@@ -146,14 +146,14 @@ public class Cell {
 
     public void setLetterType(LetterType letterType) {
 
-        this.setCellLook(cellChar, letterType, true);
+        this.setCellLook(cellChar, letterType, true, false);
     }
 
     public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
 
         if(this.letterType != LetterType.GRAY
         || includeGrayFont){
-            this.setCellLook(letter, letterType, true);
+            this.setCellLook(letter, letterType, true, true);
         }
     }
 

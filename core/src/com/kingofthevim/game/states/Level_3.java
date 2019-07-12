@@ -47,9 +47,9 @@ public class Level_3 extends Level{
 
 
         // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.setLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
-        labyrinthText.setLetterType("enonyrb", LetterType.RED, false);
-        labyrinthText.setLetterType(" ", LetterType.EMPATHY, false);
+        labyrinthText.batchSetLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
+        labyrinthText.batchSetLetterType("enonyrb", LetterType.RED, false);
+        labyrinthText.batchSetLetterType(" ", LetterType.EMPATHY, false);
 
         // sets the goal. Extra step needed for right coloring of words
         labyrinthText.createMap("<dw>GOAL|</dw>", true, LetterType.WHITE_GREEN);
@@ -88,7 +88,8 @@ public class Level_3 extends Level{
                 "he began to feel a mild, dull pain there that he had never felt" +
                 "before.");
 
-        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, LetterType.GRAY);
+        //TODO look into why if charkeep is put to false, labyrinthText and background-text logic seems to seperate the matrixes
+        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }
 
     @Override

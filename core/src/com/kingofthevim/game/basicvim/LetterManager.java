@@ -48,12 +48,39 @@ public class LetterManager extends TagSystem {
 
     public void createMap(String tagString) {
 
-        createMap(tagString, true, LetterType.WHITE);
+        createMap(tagString,  LetterType.WHITE, true, true);
     }
 
+    public void createMap(String tagString, LetterType type) {
 
+        createMap(tagString,  type, true, true);
+    }
+
+    public void createMap(String tagString, boolean overwrite, LetterType type) {
+
+        createMap(tagString,  type, overwrite, true);
+    }
+
+    //TODO set a variable in text that leaves chars intact but changes everything else
+    // as it should. i.e. "####" will change every letter property of "word" but not
+    // the chars
     //TODO segment into more methods
-    public void createMap(String tagString, boolean overwrite, LetterType defaultType){
+    /**
+     * Takes a string that contains tags and makes a path out of it
+     *
+     * The path is made by keeping track of the current row and column
+     * of which the path ends. Tags are used to for direction and to
+     * shift to a new starting point. The path can overwrite existing
+     * text if overwrite is true, keep chars if "#" is written in the
+     * tag-string and change lettertype.
+     *
+     * @param tagString the tag-string to be parsed
+     * @param defaultType LetterType to use when there is not color tags info
+     * @param overwrite if a cell that is occupied should be overwritten
+     * @param charKeep if "#" in the tagString should be supplemented for
+     *                 the char already occupying the cell
+     */
+    public void createMap(String tagString,  LetterType defaultType, boolean overwrite, boolean charKeep){
 
         ArrayList<String> tagSetsArray = new ArrayList<>();
 
@@ -101,23 +128,23 @@ public class LetterManager extends TagSystem {
                 if(string.substring(0, 3).equals("<up")){
 
                     currRow = currRow - endString.length();//+ 1; // to make it go "up"
-                    setVerticalString(endString, currRow, currCol, overwrite, defaultType);
+                    setVerticalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
                 }
 
                 if(string.substring(0, 3).equals("<dw")){
 
-                    setVerticalString(endString, currRow, currCol, overwrite, defaultType);
+                    setVerticalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
                     currRow += endString.length();
                 }
 
                 if(string.substring(0, 3).equals("<lf")){
                     currCol = currCol - endString.length(); // to make it go "left"
-                    setHorizontalString(endString, currRow, currCol, overwrite, defaultType);
+                    setHorizontalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
                 }
 
                 if(string.substring(0, 3).equals("<rg")){
 
-                    setHorizontalString(endString, currRow, currCol, overwrite, defaultType);
+                    setHorizontalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
                     currCol += endString.length();
                 }
 
@@ -129,7 +156,17 @@ public class LetterManager extends TagSystem {
         System.out.println("TagSetsArray: " + tagSetsArray);
     }
 
-    public void setVerticalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
+    /**
+     * Writes a VERTICAL string at the given location
+     *
+     * @param string string to be split into chars and written to location
+     * @param startRow row at which to start writing
+     * @param startColumn column at which to start writing
+     * @param overwriteExisting if to jump over occipoed cells or overwrite them
+     * @param replaceChar if to keep current cell char when "#" is in string
+     * @param type LetterType of the chars written
+     */
+    public void setVerticalString(String string, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         if(string.length() + startRow > cellMatrix.size()){
             throw new IndexOutOfBoundsException("word will be outside cell matrix");
@@ -142,34 +179,37 @@ public class LetterManager extends TagSystem {
         for(int i = 0; i <= iterations; i++) {
             char charKey = string.charAt(charNum);
 
-            System.out.println("row: " + (startRow + i) + "  - startcell " + startCell);
+            System.out.println("row: " + (startRow + i) + "  - startcell " + startColumn);
 
             //TODO make so that letters of the same type are NEVER overwritten
-            if((cellMatrix.get(startRow + i).get(startCell).getCellLook() != null
+            if((cellMatrix.get(startRow + i).get(startColumn).getCellLook() != null
                     && ! overwriteExisting)
-                    || cellMatrix.get(startRow + i).get(startCell).getLetterType() == type){
+                    || cellMatrix.get(startRow + i).get(startColumn).getLetterType() == type){
                 System.out.println("There is already a char there!");
                 iterations++;
                 continue;
             }
 
-            cellMatrix.get(startRow + i).get(startCell).setCellLook(charKey, type, true);
+            cellMatrix.get(startRow + i).get(startColumn).setCellLook(charKey, type, true, replaceChar);
 
             charNum++;
         }
     }
 
     /**
-     * Writes a string at the given location.
-     * @param string The string to be written
-     * @param startRow At what row the string should be written
-     * @param startCell At what cell in the row the string should start from
-     * @param overwriteExisting If existing chars should be jumped or written over
+     * Writes a HORIZONTAL string at the given location
+     *
+     * @param string string to be split into chars and written to location
+     * @param startRow row at which to start writing
+     * @param startColumn column at which to start writing
+     * @param overwriteExisting if to jump over occipoed cells or overwrite them
+     * @param charKeep if to keep current cell char when "#" is in string
+     * @param type LetterType of the chars written
      */
-    public void setHorizontalString(String string, int startRow, int startCell, boolean overwriteExisting, LetterType type){
+    public void setHorizontalString(String string, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
         //TODO remove newline in string if it exists
 
-        if(string.length() + startCell > cellMatrix.get(startRow).size()){
+        if(string.length() + startColumn > cellMatrix.get(startRow).size()){
             throw new IndexOutOfBoundsException("word will be outside cell matrix");
         }
 
@@ -181,37 +221,37 @@ public class LetterManager extends TagSystem {
             char charKey = string.charAt(charNum);
 
             //overwrite existing cell
-            System.out.println("row: " + startRow + "  - startcell " + (startCell + i));
+            System.out.println("row: " + startRow + "  - startcell " + (startColumn + i));
 
-            if((cellMatrix.get(startRow).get(startCell + i).getCellLook() != null
+            if((cellMatrix.get(startRow).get(startColumn + i).getCellLook() != null
             && ! overwriteExisting)
-            || cellMatrix.get(startRow).get(startCell + i).getLetterType() == type){
+            || cellMatrix.get(startRow).get(startColumn + i).getLetterType() == type){
                 System.out.println("There is already a char there!");
                 iterations++;
                 continue;
             }
 
-            cellMatrix.get(startRow).get(startCell + i).setCellLook(charKey, type, true);
+            cellMatrix.get(startRow).get(startColumn + i).setCellLook(charKey, type, true, charKeep);
 
             charNum++;
         }
     }
 
-    public void setHorizontalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, LetterType type){
+    public void setHorizontalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
 
             if(stringArray[i] != null)
-                setHorizontalString(stringArray[i], startRow + i, startColumn, overwriteExisting, type);
+                setHorizontalString(stringArray[i], startRow + i, startColumn, overwriteExisting, charKeep, type);
         }
     }
 
-    public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, LetterType type){
+    public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
 
             if(stringArray[i] != null)
-                setVerticalString(stringArray[i], startRow + i, startColumn, overwriteExisting, type);
+                setVerticalString(stringArray[i], startRow + i, startColumn, overwriteExisting, charKeep, type);
         }
     }
 
@@ -262,13 +302,13 @@ public class LetterManager extends TagSystem {
      * @param type color to change cars to
      * @param includeGray if gray letters should be colored too
      */
-    public void setLetterType(String string, LetterType type, boolean includeGray){
+    public void batchSetLetterType(String string, LetterType type, boolean includeGray){
 
-        setLetterType(string, type, includeGray, 0, cellMatrix.size(), 0, cellMatrix.get(0).size());
+        batchSetLetterType(string, type, includeGray, 0, cellMatrix.size(), 0, cellMatrix.get(0).size());
     }
 
 
-    public void setLetterType(String string, LetterType type, boolean includeGray, int startRow, int endRow, int startColumn, int endColumn){
+    public void batchSetLetterType(String string, LetterType type, boolean includeGray, int startRow, int endRow, int startColumn, int endColumn){
 
         if(cellMatrix.size() < endRow) throw new IndexOutOfBoundsException("endRow of " + string + " is outside matrix");
 
@@ -299,7 +339,7 @@ public class LetterManager extends TagSystem {
      * @param startColumn color from this column in every given row
      * @param endColumn until this column
      */
-    public void setLetterType(LetterType type, int startRow, int endRow, int startColumn, int endColumn){
+    public void batchSetLetterType(LetterType type, int startRow, int endRow, int startColumn, int endColumn){
 
         if(cellMatrix.size() < endRow) throw new IndexOutOfBoundsException("endRow of is outside matrix");
 
@@ -325,11 +365,11 @@ public class LetterManager extends TagSystem {
 
      */
     //TODO set public when done
-    private void setLetterType(LinkedHashMap<String, String> colorMap){
+    private void batchSetLetterType(LinkedHashMap<String, String> colorMap){
 
         colorMap.forEach((colorTag, letters)-> {
 
-            //setLetterType();
+            //batchSetLetterType();
         });
     }
 
