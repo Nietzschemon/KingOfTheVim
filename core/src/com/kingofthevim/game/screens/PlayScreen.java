@@ -1,6 +1,5 @@
 package com.kingofthevim.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,7 +10,6 @@ import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.DevLevel;
 import com.kingofthevim.game.states.GameStateManager;
-import com.kingofthevim.game.states.MenuState;
 
 public class PlayScreen implements Screen {
 
@@ -33,7 +31,6 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldHeight() / 2, gamePort.getWorldWidth() / 2, 0);
 
         gsm.push(new DevLevel(gsm));
-
     }
 
 
@@ -56,10 +53,10 @@ public class PlayScreen implements Screen {
         theGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 
 
-        hud.stage.draw();
         gsm.update(delta);
         gsm.render(theGame.batch);
 
+        hud.stage.draw();
     }
 
     @Override

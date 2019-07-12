@@ -14,6 +14,10 @@ import java.util.Map;
  */
 public class Cell {
 
+    public static Map<Character, Texture> getWhiteFont() {
+        return whiteFont;
+    }
+
     private static Map<Character, Texture> whiteFont = new HashMap<>();
     private static Map<Character, Texture> whiteGreenFont = new HashMap<>();
     private static Map<Character, Texture> whiteRedFont = new HashMap<>();
@@ -165,7 +169,7 @@ public class Cell {
     public static class Font{
 
 
-        Font(){
+        public Font(){
             getTextures();
         }
         //TODO find a better way to add these than this

@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Timer;
 public class PointSystem {
 
     private int points = 0;
+
+
     private int maxMoves = 0;
     private int actualMoves = 0;
     private int redPoints = -10;
@@ -89,12 +91,16 @@ public class PointSystem {
         return false;
     }
 
-    public void addPoints(int points){
 
-
+    public int getPoints() {
+        return points;
     }
 
-    public void subtractPoints(int points){
+    public int getActualMoves() {
+        return actualMoves;
+    }
 
+    public Timer getTime() {
+        return time;
     }
 }

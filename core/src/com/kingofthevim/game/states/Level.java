@@ -3,12 +3,14 @@ package com.kingofthevim.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterManager;
 import com.kingofthevim.game.basicvim.PointSystem;
 import com.kingofthevim.game.basicvim.VimWorldMatrix;
+import com.kingofthevim.game.scens.Hud;
 
 public abstract class Level extends State {
 
@@ -37,6 +39,8 @@ public abstract class Level extends State {
 
         backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);
+
+
     }
 
 
@@ -51,9 +55,23 @@ public abstract class Level extends State {
 
     protected abstract void backgroundMusic();
 
-
-
     protected abstract void levelChange();
+
+    public Integer updateSteps(){
+
+        return pointsSys.getActualMoves();
+
+    }
+
+    public Integer updatePoints(){
+
+        return pointsSys.getPoints();
+    }
+
+    @Override
+    public void render(SpriteBatch sb) {
+
+    }
 
     @Override
     public void handleInput() {
