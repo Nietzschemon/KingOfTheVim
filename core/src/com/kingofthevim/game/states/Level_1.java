@@ -109,8 +109,6 @@ public class Level_1 extends Level{
     @Override
     public void update(float dt) {
 
-        setScoreInt(pointsSys.getPoints());
-        setMoveInt(pointsSys.getActualMoves());
 
         handleInput();
 

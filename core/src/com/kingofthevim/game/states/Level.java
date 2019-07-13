@@ -1,13 +1,22 @@
 package com.kingofthevim.game.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
@@ -15,11 +24,12 @@ import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterManager;
 import com.kingofthevim.game.basicvim.PointSystem;
 import com.kingofthevim.game.basicvim.VimWorldMatrix;
+import com.kingofthevim.game.scens.Hud;
 
 public abstract class Level extends State {
 
 
-    protected int rowTotal = 22;
+    protected int rowTotal = 21;
     protected int columnTotal = 44;
     protected final int fontWidth = 22;
     protected final int fontHeight = 44;
@@ -32,76 +42,19 @@ public abstract class Level extends State {
 
     protected PointSystem pointsSys;
 
-    //////////////////////////
+    protected Hud hud;
 
 
+
+    //TODO implement
     public Stage stage;
     private Viewport viewport;
-
-    private Integer scoreInt;
-    private Integer moveInt;
-
-
-    Label moves;
-    Label movesNum;
-    Label score;
-    Label scoreNum;
-
-    public Integer getScoreInt() {
-        return scoreInt;
-    }
-
-    public void setScoreInt(Integer scoreInt) {
-        this.scoreInt = scoreInt;
-    }
-
-    public Integer getMoveInt() {
-        return moveInt;
-    }
-
-    public void setMoveInt(Integer moveInt) {
-        this.moveInt = moveInt;
-    }
-
 
 
     protected Level(GameStateManager gsm) {
         super(gsm);
 
-        viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
-
-        stage = new Stage(viewport);
-
-        Table table = new Table();
-
-        table.bottom();
-        table.setFillParent(true);
-
-
-        score = new Label("score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreNum = new Label(String.format("%03d", scoreInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        moves = new Label("moves", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        movesNum = new Label(String.format("%03d", moveInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-        score.setFontScale(3);
-        scoreNum.setFontScale(3);
-        moves.setFontScale(3);
-        movesNum.setFontScale(3);
-
-        table.setColor(Color.PURPLE);
-
-        table.add(score).expandX().pad(10);
-        table.add(scoreNum).expandX().pad(10);
-        table.add(moves).expandX().pad(10);
-        table.add(movesNum).expandX().pad(10);
-
-        table.setColor(Color.PURPLE);
-        stage.addActor(table);
-
-        //stage = new Stage();
-
-
-        //////////////////////////////////////////////
+        // "3" ds
 
         //TODO use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
@@ -111,6 +64,10 @@ public abstract class Level extends State {
 
         backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);
+
+        hud = new Hud();
+
+        stage = hud.stage;
     }
 
 
@@ -128,14 +85,17 @@ public abstract class Level extends State {
     protected abstract void levelChange();
 
 
+
+
     @Override
     public void render(SpriteBatch sb) {
 
         stage.act();
         stage.draw();
 
-        scoreNum.setText(String.format("%03d", updatePoints()));
-        movesNum.setText(String.format("%03d", updateSteps()));
+
+        hud.setMoveInt(updateSteps());
+        hud.setScoreInt(updatePoints());
     }
 
     @Override
