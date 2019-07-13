@@ -66,23 +66,18 @@ public class Level_4 extends Level {
 
     @Override
     protected void backgroundMusic() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
-
-        /*
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic2pcm.wav"));
-
-         */
-
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+        if(backgroundMusic.isPlaying()){
+            backgroundMusic.stop();
+            backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                    "sound/music/laborintMusic/labMusic2pcm.wav"));
+            backgroundMusic.setLooping(true);
+            backgroundMusic.play();
+        }
     }
 
     @Override
     protected void levelPath() {
         tagBuiltLevel();
-        //vimWordObjectCourse();
 
         labyrinthText.batchSetLetterType("O", LetterType.RED, false);
         labyrinthText.batchSetLetterType("X", LetterType.YELLOW, false);
@@ -148,7 +143,7 @@ public class Level_4 extends Level {
     @Override
     protected void levelChange() {
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
-            cursor.dispose();
+            dispose();
             gsm.push(new Level_1(gsm));
         }
     }
@@ -165,16 +160,8 @@ public class Level_4 extends Level {
 
     @Override
     public void dispose() {
-        cursor.dispose();
+        super.dispose();
         backgroundMusic.dispose();
-
-        for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
-
-            for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
-
-                vimMatrix.getCellMatrix().get(i).get(j).dispose();
-            }
-        }
         System.out.println("Play State Disposed");
     }
 }

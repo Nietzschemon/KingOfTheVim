@@ -38,7 +38,8 @@ public abstract class Level extends State {
     protected LetterManager labyrinthText;
     protected VimWorldMatrix vimMatrix;
 
-    protected Music backgroundMusic;
+    //Static to cary effectivly between levels
+    protected static Music backgroundMusic;
 
     protected PointSystem pointsSys;
 
@@ -89,7 +90,6 @@ public abstract class Level extends State {
 
     @Override
     public void render(SpriteBatch sb) {
-
         stage.act();
         stage.draw();
 
@@ -108,8 +108,8 @@ public abstract class Level extends State {
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
-
+        hud.dispose();
+        cursor.dispose();
     }
 
     public Integer updateSteps(){

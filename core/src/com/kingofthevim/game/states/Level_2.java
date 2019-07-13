@@ -68,8 +68,7 @@ public class Level_2 extends Level {
 
     @Override
     protected void backgroundMusic() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+
     }
     @Override
     public void render(SpriteBatch sb) {
@@ -110,34 +109,24 @@ public class Level_2 extends Level {
     @Override
     protected void levelChange() {
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
-            cursor.dispose();
+            dispose();
             gsm.push(new Level_3(gsm));
         }
     }
 
     @Override
     public void update(float dt) {
+        levelChange();
+
         handleInput();
 
         cam.update();
 
-        levelChange();
     }
 
     @Override
     public void dispose() {
-        cursor.dispose();
-
-        backgroundMusic.dispose();
-
-        for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
-
-            for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
-
-                vimMatrix.getCellMatrix().get(i).get(j).dispose();
-
-            }
-        }
+        super.dispose();
         System.out.println("Play State Disposed");
     }
 

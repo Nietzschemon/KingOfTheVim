@@ -163,7 +163,7 @@ public class DevLevel extends Level{
     @Override
     protected void levelChange() {
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
-            cursor.dispose();
+            dispose();
             gsm.push(new Level_1(gsm));
         }
     }
@@ -188,17 +188,7 @@ public class DevLevel extends Level{
 
     @Override
     public void dispose() {
-        cursor.dispose();
-        backgroundMusic.dispose();
-
-        for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
-
-            for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
-
-                vimMatrix.getCellMatrix().get(i).get(j).dispose();
-            }
-        }
-        System.out.println("Play State Disposed");
+        super.dispose();
     }
 
 }
