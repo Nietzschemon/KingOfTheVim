@@ -17,16 +17,18 @@ public class DevLevel extends Level{
 
         pointsSys = new PointSystem(10);
 
-        //backgroundText();
+        backgroundText();
 
         levelPath();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+
         backgroundMusic();
     }
 
     @Override
     protected void backgroundText(){
 
+        prose();
     }
 
     @Override
@@ -57,10 +59,18 @@ public class DevLevel extends Level{
     private void tagBuiltLevel(){
 
         labyrinthText.createMap(
-                "<<rw06>>" +
-                "<rg>O123<r>4</r>56789X</rg>" +
-                        "<dw+02>O123X</dw>" +
-                        "<rg>O123X</rg>"
+                "<<rw16>>" +
+                "<rg>####</rg>" +
+                "<up>NON|WAY</up>" +
+                "<rg>#####</rg>" +
+                "<dw>#########</dw>" +
+                "<rg>#####</rg>" +
+                "<up>###########</up>" +
+                "<lf>##########</lf>" +
+                "<up>##</up>" +
+                "<rg>##############</rg>" +
+                "<dw>##############</dw>"+
+                "<rg>##############</rg>"
                 );
         labyrinthText.createMap("<rg>green</rg>", true, LetterType.WHITE_GREEN);
     }
@@ -111,11 +121,12 @@ public class DevLevel extends Level{
                 "he began to feel a mild, dull pain there that he had never felt" +
                 "before.");
 
-        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, false, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        super.render(sb);
 
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);

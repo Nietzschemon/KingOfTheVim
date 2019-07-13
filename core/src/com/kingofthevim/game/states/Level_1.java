@@ -66,6 +66,7 @@ public class Level_1 extends Level{
     }
     @Override
     public void render(SpriteBatch sb) {
+        super.render(sb);
 
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
@@ -107,6 +108,10 @@ public class Level_1 extends Level{
 
     @Override
     public void update(float dt) {
+
+        setScoreInt(pointsSys.getPoints());
+        setMoveInt(pointsSys.getActualMoves());
+
         handleInput();
 
         cam.update();

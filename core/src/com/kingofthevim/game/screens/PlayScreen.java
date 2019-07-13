@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
-import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.DevLevel;
 import com.kingofthevim.game.states.GameStateManager;
 
@@ -17,7 +16,7 @@ public class PlayScreen implements Screen {
 
     private OrthographicCamera gameCam;
     private Viewport gamePort;
-    private Hud hud;
+    //private Hud hud;
     private GameStateManager gsm;
 
     public PlayScreen(KingOfTheVimMain theGame){
@@ -25,7 +24,7 @@ public class PlayScreen implements Screen {
         this.theGame = theGame;
         gameCam = new OrthographicCamera();
         gamePort = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, gameCam);
-        hud = new Hud(theGame.batch);
+        //hud = new Hud(theGame.batch);
         gsm = new GameStateManager();
 
         gameCam.position.set(gamePort.getWorldHeight() / 2, gamePort.getWorldWidth() / 2, 0);
@@ -50,13 +49,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         theGame.batch.setProjectionMatrix(gameCam.combined);
-        theGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        //theGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 
 
         gsm.update(delta);
         gsm.render(theGame.batch);
 
-        hud.stage.draw();
+        //hud.stage.draw();
     }
 
     @Override

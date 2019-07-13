@@ -9,53 +9,26 @@ import com.kingofthevim.game.basicvim.PointSystem;
 
 import java.util.ArrayList;
 
-public class Level_3 extends Level{
+public class Level_4 extends Level {
 
-    private final int cursorStartRow = 0;
+    private final int cursorStartRow = 16;
     private final int cursorStartColumn = 0;
 
-    public Level_3(GameStateManager gsm) {
+    public Level_4(GameStateManager gsm) {
         super(gsm);
 
-
         pointsSys = new PointSystem(10);
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         backgroundText();
 
         levelPath();
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+
+        backgroundMusic();
     }
 
     @Override
-    protected void levelPath() {
-
-        labyrinthText.createMap(
-                "<rg>xxxxxx</rg>" +
-                        "<dw>xxxxxx</dw>" +
-                        "<rg>xxxxxx</rg>" +
-                        "<up+01>xxxxxx</up>" +
-                        "<rg>now you need \"e\"</rg>" +
-                        "<dw>xxxxxx</dw>" +
-                        "<rg>xxxxxx</rg>" +
-                        "<up>xxxxxx</up>" +
-                        "<rg>xxxxxx</rg>" +
-                        "<dw>xxxxxxxxxxxxx</dw>" +
-                        "<lf>xxxxxxxx</lf>" +
-                        "<up>xxxx</up>" +
-                        "<lf>\"b\" to get to here</lf>"
-        );
-
-
-        // All letters in the matrix are set to the lettertype of those in the string
-        labyrinthText.batchSetLetterType("\"udwGoaltgh", LetterType.YELLOW, false);
-        labyrinthText.batchSetLetterType("enonyrb", LetterType.RED, false);
-        labyrinthText.batchSetLetterType(" ", LetterType.EMPATHY, false);
-
-        // sets the goal. Extra step needed for right coloring of words
-        labyrinthText.createMap("<dw>GOAL|</dw>", true, LetterType.WHITE_GREEN);
-    }
-
-    public void backgroundText(){
+    protected void backgroundText(){
 
         String[] conversionArray;
 
@@ -88,7 +61,6 @@ public class Level_3 extends Level{
                 "he began to feel a mild, dull pain there that he had never felt" +
                 "before.");
 
-        //TODO look into why if charkeep is put to false, labyrinthText and background-text logic seems to seperate the matrixes
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }
 
@@ -96,7 +68,47 @@ public class Level_3 extends Level{
     protected void backgroundMusic() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+
+        /*
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic2pcm.wav"));
+
+         */
+
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
+
+    @Override
+    protected void levelPath() {
+        tagBuiltLevel();
+        //vimWordObjectCourse();
+
+        labyrinthText.batchSetLetterType("O", LetterType.RED, false);
+        labyrinthText.batchSetLetterType("X", LetterType.YELLOW, false);
+
+    }
+
+    private void tagBuiltLevel(){
+
+        labyrinthText.createMap(
+                "<<rw16>>" +
+                        "<rg>####</rg>" +
+                        "<up>NON|WAY</up>" +
+                        "<rg>#####</rg>" +
+                        "<dw>#########</dw>" +
+                        "<rg>#####</rg>" +
+                        "<up>###########</up>" +
+                        "<lf>##########</lf>" +
+                        "<up>##</up>" +
+                        "<rg>##############</rg>" +
+                        "<dw>##############</dw>"+
+                        "<rg>##############</rg>"
+        );
+        labyrinthText.createMap("<rg>green</rg>", true, LetterType.WHITE_GREEN);
+    }
+
+
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
@@ -105,14 +117,16 @@ public class Level_3 extends Level{
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-
-        if(cursor.isOnType(LetterType.GRAY)
-                || cursor.isOnType(LetterType.EMPATHY)){
+        if(cursor.isOnType(LetterType.WHITE_GREEN)){
             cursor.dispose();
             cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
         }
+
+
+
 
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
@@ -126,8 +140,8 @@ public class Level_3 extends Level{
                 }
             }
         }
-
         sb.end();
+
 
     }
 
@@ -135,15 +149,15 @@ public class Level_3 extends Level{
     protected void levelChange() {
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
             cursor.dispose();
-            gsm.push(new Level_4(gsm));
+            gsm.push(new Level_1(gsm));
         }
-
     }
 
     @Override
     public void update(float dt) {
         handleInput();
 
+        //Tells GDX that cam been repositioned.
         cam.update();
 
         levelChange();
@@ -152,7 +166,6 @@ public class Level_3 extends Level{
     @Override
     public void dispose() {
         cursor.dispose();
-
         backgroundMusic.dispose();
 
         for (int i = 0; i < vimMatrix.getCellMatrix().size() ; i++) {
@@ -160,12 +173,8 @@ public class Level_3 extends Level{
             for (int j = 0; j < vimMatrix.getCellMatrix().get(i).size(); j++) {
 
                 vimMatrix.getCellMatrix().get(i).get(j).dispose();
-
             }
         }
         System.out.println("Play State Disposed");
     }
-
-
-
 }

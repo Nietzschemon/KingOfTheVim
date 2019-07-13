@@ -73,6 +73,7 @@ public class Level_2 extends Level {
     }
     @Override
     public void render(SpriteBatch sb) {
+        super.render(sb);
 
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
