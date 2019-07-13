@@ -1,17 +1,13 @@
 package com.kingofthevim.game.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
@@ -19,7 +15,6 @@ import com.kingofthevim.game.basicvim.Cursor;
 import com.kingofthevim.game.basicvim.LetterManager;
 import com.kingofthevim.game.basicvim.PointSystem;
 import com.kingofthevim.game.basicvim.VimWorldMatrix;
-import com.kingofthevim.game.scens.Hud;
 
 public abstract class Level extends State {
 
@@ -73,12 +68,13 @@ public abstract class Level extends State {
     protected Level(GameStateManager gsm) {
         super(gsm);
 
-        stage = new Stage(new ScreenViewport());
+        viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
+
+        stage = new Stage(viewport);
 
         Table table = new Table();
 
         table.bottom();
-        table.setColor(Color.PURPLE);
         table.setFillParent(true);
 
 
@@ -87,20 +83,21 @@ public abstract class Level extends State {
         moves = new Label("moves", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         movesNum = new Label(String.format("%03d", moveInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        score.setFontScale(2);
-        scoreNum.setFontScale(2);
-        moves.setFontScale(2);
-        movesNum.setFontScale(2);
+        score.setFontScale(3);
+        scoreNum.setFontScale(3);
+        moves.setFontScale(3);
+        movesNum.setFontScale(3);
 
+        table.setColor(Color.PURPLE);
 
         table.add(score).expandX().pad(10);
         table.add(scoreNum).expandX().pad(10);
         table.add(moves).expandX().pad(10);
         table.add(movesNum).expandX().pad(10);
 
+        table.setColor(Color.PURPLE);
         stage.addActor(table);
 
-        //viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
         //stage = new Stage();
 
 
@@ -114,8 +111,6 @@ public abstract class Level extends State {
 
         backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);
-
-
     }
 
 
@@ -132,6 +127,31 @@ public abstract class Level extends State {
 
     protected abstract void levelChange();
 
+
+    @Override
+    public void render(SpriteBatch sb) {
+
+        stage.act();
+        stage.draw();
+
+        scoreNum.setText(String.format("%03d", updatePoints()));
+        movesNum.setText(String.format("%03d", updateSteps()));
+    }
+
+    @Override
+    public void handleInput() {
+
+        cursor.update();
+
+
+    }
+
+    @Override
+    public void dispose() {
+        backgroundMusic.dispose();
+
+    }
+
     public Integer updateSteps(){
 
         return pointsSys.getActualMoves();
@@ -141,26 +161,5 @@ public abstract class Level extends State {
     public Integer updatePoints(){
 
         return pointsSys.getPoints();
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-
-        stage.act();
-        stage.draw();
-
-    }
-
-    @Override
-    public void handleInput() {
-
-        cursor.update();
-
-    }
-
-    @Override
-    public void dispose() {
-        backgroundMusic.dispose();
-
     }
 }
