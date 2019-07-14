@@ -6,13 +6,13 @@ import com.badlogic.gdx.utils.Timer;
 //TODO mark used up yellow letter with colorShift
 public class PointSystem {
 
-    private int points = 0;
+    private int points = 10000;
 
 
     private int maxMoves = 0;
     private int actualMoves = 0;
-    private int redPoints = -10;
-    private int yellowPoints = 10;
+    private int redPoints = -100;
+    private int yellowPoints = 100;
     private int grayPoints = -500;
     private Timer time;
     private int maxTime = 0;
@@ -74,7 +74,7 @@ public class PointSystem {
             redMultiplier = 1;
         }
         if(cursor.isOnType(LetterType.WHITE)){
-            points -= actualMoves;
+            points /= actualMoves;
             yellowMultiplier = 1;
             redMultiplier = 1;
         }
