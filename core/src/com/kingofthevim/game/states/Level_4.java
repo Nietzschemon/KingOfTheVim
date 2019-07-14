@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 public class Level_4 extends Level {
 
-    private final int cursorStartRow = 16;
-    private final int cursorStartColumn = 0;
-
     public Level_4(GameStateManager gsm) {
         super(gsm);
 
+        cursorStartRow = 16;
+        cursorStartColumn = 0;
         pointsSys = new PointSystem(10);
 
         backgroundText();
@@ -103,41 +102,9 @@ public class Level_4 extends Level {
         labyrinthText.createMap("<rg>green</rg>", true, LetterType.WHITE_GREEN);
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
-
-        // Shows sprite-batch where to draw things on screen.
-        sb.setProjectionMatrix(cam.combined);
-        sb.begin();
-
-        if(cursor.isOnType(LetterType.WHITE_GREEN)){
-            cursor.dispose();
-            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
-
-        }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
-        }
-
-
-
-
-
-        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
-        sb.end();
-
-
     }
 
     @Override

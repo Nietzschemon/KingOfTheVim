@@ -20,11 +20,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
-import com.kingofthevim.game.basicvim.Cursor;
-import com.kingofthevim.game.basicvim.LetterManager;
-import com.kingofthevim.game.basicvim.PointSystem;
-import com.kingofthevim.game.basicvim.VimWorldMatrix;
+import com.kingofthevim.game.basicvim.*;
 import com.kingofthevim.game.scens.Hud;
+
+import java.util.ArrayList;
 
 public abstract class Level extends State {
 
@@ -45,6 +44,8 @@ public abstract class Level extends State {
 
     protected Hud hud;
 
+    protected int cursorStartRow = 4;
+    protected int cursorStartColumn = 8;
 
 
     //TODO implement
@@ -93,9 +94,34 @@ public abstract class Level extends State {
         stage.act();
         stage.draw();
 
+        sb.setProjectionMatrix(cam.combined);
 
         hud.setMoveInt(updateSteps());
         hud.setScoreInt(updatePoints());
+
+        sb.begin();
+
+        if(cursor.isOnType(LetterType.GRAY)
+                || cursor.isOnType(LetterType.EMPATHY)){
+            cursor.dispose();
+            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+        }else{
+            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+        }
+
+        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
+
+            for(Cell cell : cellRow){
+
+                if(cell.getCellLook() != null){
+                    sb.draw(cell.getCellLook(),
+                            cell.getCartesianPosition().x,
+                            cell.getCartesianPosition().y);
+                }
+            }
+        }
+
+        sb.end();
     }
 
     @Override

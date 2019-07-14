@@ -8,18 +8,16 @@ import java.util.ArrayList;
 
 public class Level_1 extends Level{
 
-
-    private final int cursorStartRow = 4;
-    private final int cursorStartColumn = 8;
-
     public Level_1(GameStateManager gsm) {
         super(gsm);
+
+        cursorStartRow = 4;
+        cursorStartColumn = 8;
 
         pointsSys = new PointSystem(10);
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
 
         backgroundText();
-
 
         backgroundMusic();
         levelPath();
@@ -63,6 +61,9 @@ public class Level_1 extends Level{
 
     @Override
     protected void backgroundMusic() {
+        if(backgroundMusic != null
+                && backgroundMusic.isPlaying()) backgroundMusic.stop();
+
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
         backgroundMusic.play();
@@ -72,31 +73,6 @@ public class Level_1 extends Level{
         super.render(sb);
 
         // Shows sprite-batch where to draw things on screen.
-        sb.setProjectionMatrix(cam.combined);
-        sb.begin();
-
-
-        if(cursor.isOnType(LetterType.GRAY)
-        || cursor.isOnType(LetterType.EMPATHY)){
-           cursor.dispose();
-           cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
-        }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
-        }
-
-        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
-
-        sb.end();
 
     }
 
@@ -124,7 +100,6 @@ public class Level_1 extends Level{
     public void dispose() {
         super.dispose();
     }
-
 
 }
 

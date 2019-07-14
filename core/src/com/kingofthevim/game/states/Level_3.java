@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 public class Level_3 extends Level{
 
-    private final int cursorStartRow = 0;
-    private final int cursorStartColumn = 0;
-
     public Level_3(GameStateManager gsm) {
         super(gsm);
 
+        cursorStartRow = 0;
+        cursorStartColumn = 0;
 
         pointsSys = new PointSystem(10);
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
@@ -94,41 +93,10 @@ public class Level_3 extends Level{
 
     @Override
     protected void backgroundMusic() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
     }
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
-
-        // Shows sprite-batch where to draw things on screen.
-        sb.setProjectionMatrix(cam.combined);
-        sb.begin();
-
-
-        if(cursor.isOnType(LetterType.GRAY)
-                || cursor.isOnType(LetterType.EMPATHY)){
-            cursor.dispose();
-            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
-        }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
-        }
-
-
-        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
-
-        sb.end();
-
     }
 
     @Override
@@ -154,7 +122,5 @@ public class Level_3 extends Level{
         super.dispose();
         System.out.println("Play State Disposed");
     }
-
-
 
 }
