@@ -203,10 +203,10 @@ public class LetterManager extends TagSystem {
      * @param startRow row at which to start writing
      * @param startColumn column at which to start writing
      * @param overwriteExisting if to jump over occipoed cells or overwrite them
-     * @param charKeep if to keep current cell char when "#" is in string
+     * @param replaceChar if to keep current cell char when "#" is in string
      * @param type LetterType of the chars written
      */
-    public void setHorizontalString(String string, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
+    public void setHorizontalString(String string, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
         //TODO remove newline in string if it exists
 
         if(string.length() + startColumn > cellMatrix.get(startRow).size()){
@@ -231,27 +231,27 @@ public class LetterManager extends TagSystem {
                 continue;
             }
 
-            cellMatrix.get(startRow).get(startColumn + i).setCellLook(charKey, type, true, charKeep);
+            cellMatrix.get(startRow).get(startColumn + i).setCellLook(charKey, type, true, replaceChar);
 
             charNum++;
         }
     }
 
-    public void setHorizontalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
+    public void setHorizontalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
 
             if(stringArray[i] != null)
-                setHorizontalString(stringArray[i], startRow + i, startColumn, overwriteExisting, charKeep, type);
+                setHorizontalString(stringArray[i], startRow + i, startColumn, overwriteExisting, replaceChar, type);
         }
     }
 
-    public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean charKeep, LetterType type){
+    public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
 
             if(stringArray[i] != null)
-                setVerticalString(stringArray[i], startRow + i, startColumn, overwriteExisting, charKeep, type);
+                setVerticalString(stringArray[i], startRow + i, startColumn, overwriteExisting, replaceChar, type);
         }
     }
 
