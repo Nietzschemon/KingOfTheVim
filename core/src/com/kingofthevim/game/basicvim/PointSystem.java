@@ -21,14 +21,14 @@ public class PointSystem {
 
     public PointSystem(){
         time = new Timer();
-        System.out.println("Standard points system");
+        //System.out.println("Standard points system");
     }
 
     public PointSystem(int maxMoves){
         time = new Timer();
         this.maxMoves = maxMoves;
 
-        System.out.println("Standard points system");
+        //System.out.println("Standard points system");
     }
 
     public PointSystem(int maxMoves, int maxTime){
@@ -36,7 +36,7 @@ public class PointSystem {
         this.maxMoves = maxMoves;
         this.maxTime = maxTime;
 
-        System.out.println("Standard points system");
+        //System.out.println("Standard points system");
     }
     public PointSystem(int maxMoves, int redPoints, int yellowPoints, int grayPoints){
         this.redPoints = redPoints;
@@ -45,10 +45,13 @@ public class PointSystem {
         time = new Timer();
         this.maxMoves = maxMoves;
 
+        /*
         System.out.println("Overrided points system" +
                 "\nRed: " + redPoints +
                 "\nYellow: " + yellowPoints +
                 "\nGray: " + grayPoints);
+
+         */
     }
 
 
@@ -80,9 +83,12 @@ public class PointSystem {
         }
 
 
+        /*
         System.out.println("\n\nActualMoves: " + actualMoves +
                 "\nPoints: " + points +
                 "\nTime: " + time.toString());
+
+         */
     }
 
 
