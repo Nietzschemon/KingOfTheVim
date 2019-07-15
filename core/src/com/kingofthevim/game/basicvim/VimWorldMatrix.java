@@ -9,12 +9,18 @@ import java.util.ArrayList;
  * number of cells and their sizes. All VIM actions are limited to
  * happen within the bounds set here by interaction with the cellMatrix
  */
-public class VimWorldMatrix {
+public class VimWorldMatrix implements VimObject {
 
     static int rowTotal;
     static int colunmTotal;
     static int fontHeight = 66;
     static int fontWidth = 33;
+
+    @Override
+    public VimWorldMatrix getVimMatrix() {
+        return this;
+    }
+
     private enum Font {
         SIZE64,
         SIZE42
@@ -90,6 +96,62 @@ public class VimWorldMatrix {
 
     public ArrayList<ArrayList<Cell>> getCellMatrix() {
         return cellMatrix;
+    }
+
+    /**
+     * creates a string of the given rows chars
+     * from the startIndex to the end of the row
+     * @param row from which row to create the string
+     * @param startIndex from where in the row to start the string creation
+     * @return a precut string from the index to the end of the given row
+     */
+    public String getIndexToRowEndString(int row, int startIndex){
+
+        StringBuilder rowString = new StringBuilder();
+
+        for (Cell letter : cellMatrix.get(row)){
+
+            if(letter.getCellChar() > 0){
+                rowString.append((letter.getCellChar()));
+            }
+        }
+
+        rowString = new StringBuilder(rowString.substring(startIndex));
+
+        return rowString.toString();
+    }
+
+    /**
+     * creates a string of the given rows chars
+     * from the startIndex to the end of the row
+     * @param row from which row to create the string
+     * @param startIndex from where in the row to start the string creation
+     * @return a precut string from the index to the end of the given row
+     */
+    public String getStringIndexToRowBeginning(int row, int startIndex, boolean reverseString){
+
+        StringBuilder rowString = new StringBuilder();
+
+        if(reverseString){
+
+            for (int i = startIndex; i >= 0; i--) {
+                if(cellMatrix.get(row).get(i).getCellChar() > 0){
+                    rowString.append((cellMatrix.get(row).get(i).getCellChar()));
+                }
+            }
+        }
+        else{
+            for (Cell letter : cellMatrix.get(row)){
+
+                if(letter.getCellChar() > 0){
+                    rowString.append((letter.getCellChar()));
+                }
+            }
+        }
+
+        rowString = new StringBuilder(rowString.substring(0, startIndex));
+
+        return rowString.toString();
     }
 
 
