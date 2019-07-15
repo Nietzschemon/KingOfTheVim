@@ -56,6 +56,19 @@ public class Cell {
         return cellLook;
     }
 
+    /**
+     * Sets all cell fields.
+     *
+     * This main set method of cell. It handles setting
+     * of the char as well as the lettertype and has
+     * parameters to set both temporary and main types
+     * of cellChar and LetterType
+     * @param cellChar Sets the char of Cell. Also functions as key
+     *                 in lookup-map
+     * @param type controls the color and is assositated with certain events
+     * @param isDefault if settings are permenet or temporary
+     * @param replaceChar if char should be replaced
+     */
     public void setCellLook(char cellChar, LetterType type, boolean isDefault, boolean replaceChar) {
 
 
@@ -114,45 +127,91 @@ public class Cell {
     }
 
 
+    /**
+     * Gets the cells associated char
+     * @return the char of the cell
+     */
     public char getCellChar() {
         return cellChar;
     }
 
-
+    /**
+     * Returns the vector2 of the cell
+     * that determines its x and y
+     * @return Cells position vector
+     */
     public Vector2 getCartesianPosition() {
         return cartesianPosition;
     }
 
+    /**
+     * Sets the cells x and y posistion
+     * on the map. NOTE: This should be
+     * used sparingly if at all
+     * @param x the x-posistion to set
+     * @param y the y-posistion to set
+     */
     public void setCartesianPosition(float x, float y) {
         this.cartesianPosition.x = x;
         this.cartesianPosition.y = y;
     }
 
+    /**
+     * Sets a temporary look of a cell
+     * that can be reversed by calling
+     * setCellLookToDefault()
+     * @param letterType type of color/lettertype to set to
+     */
     public void setCellLookTemp(LetterType letterType){
 
         setCellLook(cellChar, letterType, false, false);
 
     }
 
+    /**
+     * Resets the cell to it's default look
+     */
     public void setCellLookToDefault(){
         this.cellLook = this.cellLookDefault;
     }
 
 
+    /**
+     * Disposes the resourses used by the cell
+     */
     public void dispose(){
         cellLook.dispose();
         cellLookDefault.dispose();
     }
 
+    /**
+     * Getter for LetterType field
+     * @return the LetterType of letterType field
+     */
     public Enum<LetterType> getLetterType() {
         return letterType;
     }
 
+    /**
+     * Simple setter for letterType field
+     * that automaticly sets the other
+     * fields that are neccicary for the
+     * right key-value pair look-up etc.
+     * @param letterType The type to set
+     */
     public void setLetterType(LetterType letterType) {
 
         this.setCellLook(cellChar, letterType, true, false);
     }
 
+    /**
+     * "complex" setter to set an other
+     * letter in cell with more control
+     * over the diffrent values to be set
+     * @param letter char to set cell to
+     * @param letterType type to set letter to
+     * @param includeGrayFont if gray shall also be overwritten
+     */
     public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
 
         if(this.letterType != LetterType.GRAY
@@ -161,14 +220,10 @@ public class Cell {
         }
     }
 
-    public void setLetterType(LetterType letterType, Texture cellLook) {
-        this.letterType = letterType;
-        this.cellLook = cellLook;
-    }
-
+    /**
+     * Static class for texture search path
+     */
     public static class Font{
-
-
         public Font(){
             getTextures();
         }
@@ -852,7 +907,6 @@ public class Cell {
             whitePurpleFont.put('`', new Texture("fonts/size_42_f_white_bg_purple/graveAccent_42white_bg_purple.png"));
             whitePurpleFont.put('\"', new Texture("fonts/size_42_f_white_bg_purple/doubleQuote_42white_bg_purple.png"));
         }
-
         private static void getWhiteRedTextures(){
 
             whiteRedFont.put('?', new Texture("fonts/size_42_f_white_bg_red/questionmark_42white_bg_red.png"));
@@ -948,7 +1002,6 @@ public class Cell {
             whiteRedFont.put('`', new Texture("fonts/size_42_f_white_bg_red/graveAccent_42white_bg_red.png"));
             whiteRedFont.put('\"', new Texture("fonts/size_42_f_white_bg_red/doubleQuote_42white_bg_red.png"));
         }
-
         private static void getBlackYellowTextures(){
 
             blackYellowFont.put('?', new Texture("fonts/size_42_f_black_bg_yellow/questionmark_42black_bg_yellow.png"));
