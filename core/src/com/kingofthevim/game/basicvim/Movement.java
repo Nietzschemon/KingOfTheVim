@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Movement {
 
+    Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]*)");
+    Pattern wordLetNum = Pattern.compile("(\\w*)");
+    Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]*)");
     /**
      * Checks if horizontal move is possible from the
-     * current place by checking the current posistion
-     * in the matrix of the cursor against the move
+     * current place by checking the current position
+     * in the matrix of the cursor against themove
      * where it would be if the move parameter is added
      * @param move number of steps - positive or negative
      * @return True if possible, false if not
@@ -30,7 +35,7 @@ public class Movement {
 
     /**
      * Checks if vertical move is possible from the
-     * current place by checking the current posistion
+     * current place by checking the current position
      * in the matrix of the cursor against the move
      * where it would be if the move parameter is added
      * @param move number of steps - positive or negative
@@ -49,177 +54,227 @@ public class Movement {
         return true;
     }
 
-
-    //TODO at end of word if place of matrix, the coursor jumps ahead anyways
-    // fix this so it goes to new line instead
     /**
-     * Takes care of the vim w/W-movements.
+     * Takes care of the vim w/W- and e/E-movements.
      *
-     * This is done by iterating of cellMatrix and checking
-     * the cell-chars in pairs against the VIM rules, if a
-     * match is found, the loops breaks and returns the count
-     * it took to find said pair.
+     * This is done with regex-patterns that follow the
+     * word/WORD-movement-rules. If not match, zero is returned
+     * @param cursor the cursor to be moved in the matrix
+     * @param shiftHeld if true WORD-rules are applied
+     * @param wordBgn if true w/W-rules applies, else e/E-rules
      * @return the number of steps to perform asked movement
      */
-    private int traverseWordBeginning(Cursor cursor){
+    private int traverseWord(Cursor cursor, boolean shiftHeld, boolean wordBgn){
 
-        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
+        VimWorldMatrix matrix = cursor.getVimMatrix();
 
         int currColumn = cursor.getCurrColumn();
         int currRow = cursor.getCurrRow();
         int colunmTotal = cursor.getColunmTotal();
 
+        int symbolMatch = 0;
+        int wordMatch = 0;
+        int finalMatch = -1;
 
-        int count = 0;
+        String row = matrix.getIndexToRowEndString(currRow, currColumn);
 
-        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
+        Matcher wordMatcher = wordLetNum.matcher(row);
+        Matcher symbolMatcher = wordSym.matcher(row);
+        Matcher capitalMatcher = wordCap.matcher(row);
 
-        char prevChar = currChar;
+        if(shiftHeld) {
 
-        char cellChar = currChar;
+            while (capitalMatcher.find()){
 
-        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+                if(capitalMatcher.group().isEmpty()){
+                    continue;
+                }
 
-            cellChar = cellMatrix.get(currRow).get(i).getCellChar();
+                if(wordBgn){
+                    if(capitalMatcher.start() > 0){
+                        finalMatch = capitalMatcher.start();
+                        break;
+                    }
+                }
+                else {
 
-            if(count > 0)prevChar = cellMatrix.get(currRow).get(i - 1).getCellChar();
-
-
-            count++;
-
-            //System.out.println("prevChar: " + prevChar + " - cellChar: " + cellChar + " - Count " + count);
-
-            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-
-                if((cellChar != ' '
-                        && prevChar == ' ')){
-                    break;
+                    if(capitalMatcher.end() > 1){
+                        finalMatch = capitalMatcher.end();
+                        break;
+                    }
                 }
             }
-            else {
-
-                if((cellChar != ' '
-                        && prevChar == ' ')){
-                    break;
-                }
-
-
-                if( isSymbol(prevChar)
-                        && isLetterChar(cellChar)){
-                    break;
-                }
-
-                if( isLetterChar(prevChar)
-                        && isSymbol(cellChar)){
-                    break;
-                }
-
-            }
-
-        }
-        //System.out.println("Count: " + (count));
-
-        if(currColumn + count >= colunmTotal){
-
-
-            // if at space at end of row or
-            // space before word at end of row
-            if(currColumn + count >= colunmTotal
-                    && currChar == ' '
-                    && currColumn != colunmTotal - 1){
-
-                return 1;
-            }
-
-            return 0;
         }
 
-        return count - 1;
+        else {
+
+
+            while (symbolMatcher.find()) {
+
+                if (symbolMatcher.group().isEmpty()) {
+                    continue;
+                }
+
+                if(wordBgn){
+                    if(symbolMatcher.start() > 0){
+                        symbolMatch = symbolMatcher.start();
+                        break;
+                    }
+                }
+
+                else {
+
+                    if(symbolMatcher.end() > 1){
+                        symbolMatch = symbolMatcher.end();
+                        break;
+                    }
+                }
+            }
+
+
+            while (wordMatcher.find()) {
+
+                if (wordMatcher.group().isEmpty()) {
+                    continue;
+                }
+
+                if(wordBgn){
+                    if(wordMatcher.start() > 0){
+                        wordMatch = wordMatcher.start();
+                        break;
+                    }
+                }
+                else {
+                    if(wordMatcher.end() > 1){
+                        wordMatch = wordMatcher.end();
+                        break;
+                    }
+                }
+
+            }
+
+            finalMatch = (wordMatch == 0) ? symbolMatch : wordMatch;
+
+            // sets the matchBgn to an initial value to stop if-deadlock
+
+            if (wordMatch <= symbolMatch
+                    && wordMatch != 0) finalMatch = wordMatch;
+            if (wordMatch >= symbolMatch
+                    && symbolMatch != 0) finalMatch = symbolMatch;
+
+        }
+
+        if(finalMatch > 0
+                && (finalMatch + currColumn) <= colunmTotal ){
+
+            return (wordBgn) ? finalMatch : finalMatch - 1;
+        }
+
+        return 0;
     }
 
-    //TODO at end of word if place of matrix, the coursor jumps ahead anyways
-    // fix this so it goes to new line instead
-    /**
-     * Takes care of the vim e/E-movements.
-     *
-     * This is done by iterating of cellMatrix and checking
-     * the cell-chars in pairs against the VIM rules, if a
-     * match is found, the loops breaks and returns the count
-     * it took to find said pair.
-     * @return the number of steps to perform asked movement
-     * @param cursor
-     */
-    private int traverseWordEnd(Cursor cursor){
 
 
-        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
+    // Experimental method to get all word-movement over to regex
+    private int traversePREVWordREGEX(Cursor cursor, boolean shiftHeld){
+
+        VimWorldMatrix matrix = cursor.getVimMatrix();
 
         int currColumn = cursor.getCurrColumn();
         int currRow = cursor.getCurrRow();
         int colunmTotal = cursor.getColunmTotal();
 
+        int symbolMatch = 0;
+        int wordMatch = 0;
+        int match = -1;
 
-        int count = 0;
+        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, true);
 
-        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
+        Matcher wordMatcher = wordLetNum.matcher(row);
+        Matcher symbolMatcher = wordSym.matcher(row);
+        Matcher capitalMatcher = wordCap.matcher(row);
 
-        char prevChar = currChar;
+        ArrayList<String > matchList = new ArrayList<>();
 
-        for (int i = currColumn; i <cellMatrix.get(currRow).size(); i++) {
+        if(shiftHeld) {
 
-            char cellChar = cellMatrix.get(currRow).get(i).getCellChar();
+            while (capitalMatcher.find()){
 
-            if(count > 0)prevChar = cellMatrix.get(currRow).get(i - 1).getCellChar();
+                if(capitalMatcher.group().isEmpty()){
+                    continue;
+                }
 
 
-            count++;
-
-            //System.out.println("CHAR: " + cellChar);
-
-            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-
-                if((cellChar == ' '
-                        && prevChar != ' ')
-                        && count > 2){
+                if(capitalMatcher.start() > 0) {
+                    match = capitalMatcher.start();
                     break;
                 }
             }
-            else {
+        }
 
-                if( isLetterChar(prevChar)
-                        && cellChar == ' '
-                        && count > 2){
+        else {
 
+
+            while (symbolMatcher.find()) {
+
+                if (symbolMatcher.group().isEmpty()) {
+                    continue;
+                }
+
+                matchList.add(symbolMatcher.group());
+
+                if(symbolMatcher.end() > 0){
+
+                    symbolMatch = symbolMatcher.end();
                     break;
                 }
 
-                if( isLetterChar(prevChar)
-                        && isSymbol(cellChar)
-                        && count > 2){
 
-                    break;
+            }
+            System.out.println("symbolArray: " + matchList);
+            matchList.clear();
+
+            while (wordMatcher.find()) {
+
+                if (wordMatcher.group().isEmpty()) {
+                    continue;
                 }
 
-                if( isLetterChar(currChar)
-                        && isSymbol(cellChar)
-                ){
+                matchList.add(wordMatcher.group());
 
-                    return count - 1;
+                if(wordMatcher.end() > 0){
+                    wordMatch = wordMatcher.end();
+                    break;
                 }
 
             }
 
+            System.out.println("symbolArray: " + matchList);
 
+            // sets the matchBgn to an initial value to stop if-deadlock
+            match = (wordMatch == 0) ? symbolMatch : wordMatch;
+
+
+            if (wordMatch <= symbolMatch
+                    && wordMatch != 0) match = wordMatch;
+            if (wordMatch >= symbolMatch
+                    && symbolMatch != 0) match = symbolMatch;
+
+            System.out.println("\nMatch: " + match +
+                                "\nsymbol: " + symbolMatch +
+                                "\nword: " + wordMatch);
 
         }
-        //System.out.println("Count: " + (count));
 
-        if(currColumn + count >= colunmTotal){
-            return count - 1;
+        if(match > 0
+                && (match + currColumn) <= colunmTotal ){
+
+            return match -1;
         }
 
-        return count - 2;
+        return 0;
     }
+
 
     /**
      * Takes care of the vim b/B-movements.
@@ -279,8 +334,10 @@ public class Movement {
         return count - 1;
     }
 
-    /** NOT DONE
-     * method that aspires to contain all the word-movement
+    /** TODO discontinue and use regex instead
+     * support method to traversePreviouWord()
+     *
+     * the method aspires to contain all the word-movement
      * rules to be used in the word-movement-methods. it
      * checks between the current and privius char according
      * to rules divided by if-statements. If any rule is true,
@@ -290,6 +347,15 @@ public class Movement {
      * @return true if a ruled if followed.
      */
     private boolean wordMovementRules(char currCellChar, char prevCellChar){
+        if(isLetterChar(prevCellChar)
+        && isLetterChar(currCellChar)){
+            return false;
+        }
+        if(isSymbol(prevCellChar)
+                && isSymbol(currCellChar)){
+            return false;
+        }
+
         if( isLetterChar(prevCellChar)
                 && currCellChar == ' '){
             return true;
@@ -309,6 +375,7 @@ public class Movement {
                 && isSymbol(currCellChar)){
             return true;
         }
+
 
         return false;
     }
@@ -404,6 +471,10 @@ public class Movement {
             move = traversePreviousWord(cursor);
 
 
+            /* //TODO make work!
+            move = traversePREVWordREGEX(cursor,
+                    false);
+             */
             if(isLegitHorizontalMove( cursor, - move )){
                 return - move;
             }
@@ -412,7 +483,9 @@ public class Movement {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
 
-            move = traverseWordBeginning(cursor);
+            move = traverseWord(cursor,
+                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
+                    true);
 
             if(isLegitHorizontalMove(cursor, move)){
 
@@ -424,7 +497,11 @@ public class Movement {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
-            move = traverseWordEnd(cursor);
+
+            move = traverseWord(cursor,
+                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
+                    false);
+
 
             if(isLegitHorizontalMove(cursor, move)){
 
