@@ -33,6 +33,7 @@ public class Movement {
         return true;
     }
 
+
     /**
      * Checks if vertical move is possible from the
      * current place by checking the current position
@@ -53,6 +54,7 @@ public class Movement {
 
         return true;
     }
+
 
     /**
      * Takes care of the vim w/W- and e/E-movements.
@@ -172,7 +174,6 @@ public class Movement {
 
         return 0;
     }
-
 
 
     // Experimental method to get all word-movement over to regex
@@ -493,7 +494,6 @@ public class Movement {
             }
         }
 
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
@@ -509,37 +509,8 @@ public class Movement {
             }
         }
 
-
-
         return charHorizontalMove(cursor);
-
-
-
-
-
-        /*
-        if(){
-
-
-            //isOnLetter('a');
-            //isOnType(LetterType.RED);
-
-            moveCounter++;
-            movesLeft--;
-
-            //if(isOnType(LetterType.YELLOW)) movesLeft++;
-            //if(isOnType(LetterType.RED)) movesLeft--;
-
-            System.out.println("Moves: " + moveCounter + "\nMoves left: " + movesLeft);
-
-            //System.out.println("\nMoveVar: " + move + "\n");
-
-            System.out.println("\ncurrRow: " + currRow + " - column: " + currColumn + " x: " + position.x + " y: " + position.y);
-        }
-
-         */
     }
-
 
 
     /**
@@ -556,6 +527,7 @@ public class Movement {
                 || (character >= '[' && character <= '_')
                 || (character >= '{' && character <= '~'));
     }
+
 
     /**
      * Checks if char is a letter or number and thus
