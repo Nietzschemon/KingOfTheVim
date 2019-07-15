@@ -11,14 +11,14 @@ import java.util.ArrayList;
 //TODO TEXTURES look into TextureAtlas and sprites to see if the
 // visual effect in spacemacs of a combination of the cursor and
 // a letter in spacemacs can be achieved.
-public class Cursor {
+public class Cursor implements VimObject {
 
 
     //<editor-fold desc="Fields">
+    private VimWorldMatrix vimMatrix;
+
     private int moveCounter = 0;
     private int movesLeft = 10;
-
-
 
     private int rowTotal;
     private int colunmTotal;
@@ -45,6 +45,7 @@ public class Cursor {
 
     public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell, PointSystem points){
 
+        this.vimMatrix = vimMatrix;
         cellMatrix = vimMatrix.getCellMatrix();
         rowTotal = VimWorldMatrix.rowTotal;
         colunmTotal = VimWorldMatrix.colunmTotal;
@@ -136,14 +137,14 @@ public class Cursor {
 
     public boolean isOnLetter(char letter){
         if(cellMatrix.get(currRow).get(currColumn).getCellChar() == letter){
-            System.out.println("is on letter \"" + letter + "\"");
+            //System.out.println("is on letter \"" + letter + "\"");
         }
         return cellMatrix.get(currRow).get(currColumn).getCellChar() == letter;
     }
 
     public boolean isOnType(LetterType type){
         if(cellMatrix.get(currRow).get(currColumn).getLetterType() == type){
-            System.out.println("is on type \"" + type + "\"");
+            //System.out.println("is on type \"" + type + "\"");
         }
         return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
     }
@@ -244,6 +245,11 @@ public class Cursor {
 
     public void setMover(Movement mover) {
         this.mover = mover;
+    }
+
+    @Override
+    public VimWorldMatrix getVimMatrix() {
+        return vimMatrix;
     }
     //</editor-fold desc="bla">
 }

@@ -9,26 +9,24 @@ import java.util.ArrayList;
 
 public class DevLevel extends Level{
 
-    private final int cursorStartRow = 6;
-    private final int cursorStartColumn = 0;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
 
+        cursorStartRow = 6;
+        cursorStartColumn = 0;
+
         pointsSys = new PointSystem(10);
 
-        backgroundText();
+        //backgroundText();
 
         levelPath();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
-
-        backgroundMusic();
     }
 
     @Override
     protected void backgroundText(){
 
-        prose();
     }
 
     @Override
@@ -48,8 +46,8 @@ public class DevLevel extends Level{
 
     @Override
     protected void levelPath() {
-        tagBuiltLevel();
-        //vimWordObjectCourse();
+        //tagBuiltLevel();
+        vimWordObjectCourse();
 
         labyrinthText.batchSetLetterType("O", LetterType.RED, false);
         labyrinthText.batchSetLetterType("X", LetterType.YELLOW, false);
@@ -76,16 +74,16 @@ public class DevLevel extends Level{
     }
 
     private void vimWordObjectCourse(){
-        labyrinthText.setHorizontalString("word word word word", 0,0,true, false, LetterType.WHITE);
-        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true, false, LetterType.WHITE);
-        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true, false,LetterType.WHITE);
-        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true, false,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word word word word", 0,0,true, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("word. word. word. word.", 1,0,true, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString(".word. .word. .word. .word.", 2,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("..wo!rd. .wo!rd. .wo!rd. wo!rd.  ", 3,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word !!word !!word !word ", 4,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("{{word} {word} {word} word} ", 5,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word () word () word () ord () ", 6,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true, true,LetterType.WHITE);
+        labyrinthText.setHorizontalString("word    word    word    word", 9,0,true, true,LetterType.WHITE);
     }
 
     private void prose(){
@@ -126,8 +124,6 @@ public class DevLevel extends Level{
 
     @Override
     public void render(SpriteBatch sb) {
-        super.render(sb);
-
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
