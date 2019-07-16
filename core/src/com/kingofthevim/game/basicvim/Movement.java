@@ -49,7 +49,7 @@ public class Movement {
         int currColumn = cursor.getCurrColumn();
 
         if(currColumn + move < 0
-                || currColumn + move > colunmTotal){
+                || currColumn + move > colunmTotal - 1){
             System.out.println("MOVE OUT OF BOUNDS!");
             return false;
         }
@@ -310,7 +310,7 @@ public class Movement {
         if(match >= 0
                 && (currColumn - match) >= 0){
 
-            return currColumn - match;
+            return - (currColumn - match);
         }
 
         return 0;
@@ -368,13 +368,7 @@ public class Movement {
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
             move = traversePreviousWord(cursor,
-                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
-            );
-
-            if(isLegitHorizontalMove( cursor, - move )){
-                return - move;
-            }
-
+                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT));
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
@@ -382,29 +376,17 @@ public class Movement {
             move = traverseWord(cursor,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     true);
-
-            if(isLegitHorizontalMove(cursor, move)){
-
-                return move;
-            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
-
             move = traverseWord(cursor,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     false);
-
-
-            if(isLegitHorizontalMove(cursor, move)){
-
-                return move;
-            }
         }
 
-        //circumflex accent
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)){
 
             move = traverseWholeLine(cursor, true);
@@ -416,10 +398,10 @@ public class Movement {
         && Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)){
 
             move = traverseWholeLine(cursor, false);
-            System.out.println("36!");
         }
 
-        if(isLegitHorizontalMove(cursor, move)){
+        if(move != 0
+        && isLegitHorizontalMove(cursor, move)){
 
             return move;
         }
