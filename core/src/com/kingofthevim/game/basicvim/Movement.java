@@ -3,15 +3,15 @@ package com.kingofthevim.game.basicvim;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Movement {
 
-    Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]*)");
-    Pattern wordLetNum = Pattern.compile("(\\w*)");
-    Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]*)");
+    private Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]+)");
+    private Pattern wordLetNum = Pattern.compile("(\\w+)");
+    private Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]+)");
+
     /**
      * Checks if horizontal move is possible from the
      * current place by checking the current position
@@ -176,8 +176,16 @@ public class Movement {
     }
 
 
-    // Experimental method to get all word-movement over to regex
-    private int traversePREVWordREGEX(Cursor cursor, boolean shiftHeld){
+    /**
+     * Takes care of the vim b/B-movements.
+     *
+     * This is done with regex-patterns that follow the
+     * word/WORD-movement-rules. If not match, zero is returned
+     * @param cursor the cursor to be moved in the matrix
+     * @param shiftHeld if true WORD-rules are applied
+     * @return the number of steps to perform asked movement
+     */
+    private int traversePreviousWord(Cursor cursor, boolean shiftHeld){
 
         VimWorldMatrix matrix = cursor.getVimMatrix();
 
@@ -189,13 +197,12 @@ public class Movement {
         int wordMatch = 0;
         int match = -1;
 
-        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, true);
+        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn+1, false);
 
         Matcher wordMatcher = wordLetNum.matcher(row);
         Matcher symbolMatcher = wordSym.matcher(row);
         Matcher capitalMatcher = wordCap.matcher(row);
 
-        ArrayList<String > matchList = new ArrayList<>();
 
         if(shiftHeld) {
 
@@ -205,16 +212,13 @@ public class Movement {
                     continue;
                 }
 
-
-                if(capitalMatcher.start() > 0) {
+                if(capitalMatcher.start() != currColumn) {
                     match = capitalMatcher.start();
-                    break;
                 }
             }
         }
 
         else {
-
 
             while (symbolMatcher.find()) {
 
@@ -222,18 +226,11 @@ public class Movement {
                     continue;
                 }
 
-                matchList.add(symbolMatcher.group());
-
-                if(symbolMatcher.end() > 0){
-
-                    symbolMatch = symbolMatcher.end();
-                    break;
+                if(symbolMatcher.start() != currColumn){
+                    symbolMatch = symbolMatcher.start();
                 }
 
-
             }
-            System.out.println("symbolArray: " + matchList);
-            matchList.clear();
 
             while (wordMatcher.find()) {
 
@@ -241,147 +238,30 @@ public class Movement {
                     continue;
                 }
 
-                matchList.add(wordMatcher.group());
-
-                if(wordMatcher.end() > 0){
-                    wordMatch = wordMatcher.end();
-                    break;
+                if(wordMatcher.start() != currColumn){
+                    wordMatch = wordMatcher.start();
                 }
 
             }
-
-            System.out.println("symbolArray: " + matchList);
 
             // sets the matchBgn to an initial value to stop if-deadlock
             match = (wordMatch == 0) ? symbolMatch : wordMatch;
 
 
-            if (wordMatch <= symbolMatch
-                    && wordMatch != 0) match = wordMatch;
             if (wordMatch >= symbolMatch
+                    && wordMatch != 0) match = wordMatch;
+            if (wordMatch <= symbolMatch
                     && symbolMatch != 0) match = symbolMatch;
-
-            System.out.println("\nMatch: " + match +
-                                "\nsymbol: " + symbolMatch +
-                                "\nword: " + wordMatch);
-
         }
 
-        if(match > 0
-                && (match + currColumn) <= colunmTotal ){
+        if(match >= 0
+                && (currColumn - match) >= 0){
 
-            return match -1;
+            return currColumn - match;
         }
 
         return 0;
     }
-
-
-    /**
-     * Takes care of the vim b/B-movements.
-     *
-     * This is done by iterating of cellMatrix and checking
-     * the cell-chars in pairs against the VIM rules, if a
-     * match is found, the loops breaks and returns the count
-     * it took to find said pair.
-     * @return the number of steps to perform asked movement
-     */
-    private int traversePreviousWord(Cursor cursor){
-
-        ArrayList<ArrayList<Cell>> cellMatrix = cursor.getCellMatrix();
-
-        int currColumn = cursor.getCurrColumn();
-        int currRow = cursor.getCurrRow();
-
-        int count = 0;
-
-        char currChar = cellMatrix.get(currRow).get(currColumn).getCellChar();
-
-        char prevChar = currChar;
-
-        char cellChar = currChar;
-
-        for (int i = currColumn; i >= 0; i--) {
-
-            cellChar = cellMatrix.get(currRow).get(i).getCellChar();
-
-            if(count > 0)prevChar = cellMatrix.get(currRow).get(i + 1).getCellChar();
-
-            count++;
-
-            //System.out.println("prevChar: " + prevChar + " - cellChar: " + cellChar + " - Count " + count);
-
-            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-
-                if((cellChar == ' '
-                        && prevChar != ' ')
-                        && count > 2){
-
-                    return count - 2;
-                }
-            }
-            else {
-
-                if(wordMovementRules(cellChar, prevChar)
-                        &&  count > 2){
-
-                    return count - 2;
-                }
-            }
-        }
-
-        //System.out.println("Count: " + (count) + "\n");
-
-        return count - 1;
-    }
-
-    /** TODO discontinue and use regex instead
-     * support method to traversePreviouWord()
-     *
-     * the method aspires to contain all the word-movement
-     * rules to be used in the word-movement-methods. it
-     * checks between the current and privius char according
-     * to rules divided by if-statements. If any rule is true,
-     * it returns true.
-     * @param currCellChar the char of the current cell
-     * @param prevCellChar the char of the previus cell
-     * @return true if a ruled if followed.
-     */
-    private boolean wordMovementRules(char currCellChar, char prevCellChar){
-        if(isLetterChar(prevCellChar)
-        && isLetterChar(currCellChar)){
-            return false;
-        }
-        if(isSymbol(prevCellChar)
-                && isSymbol(currCellChar)){
-            return false;
-        }
-
-        if( isLetterChar(prevCellChar)
-                && currCellChar == ' '){
-            return true;
-        }
-
-        if( isSymbol(prevCellChar)
-                && currCellChar == ' '){
-            return true;
-        }
-
-        if( isSymbol(prevCellChar)
-                && isLetterChar(currCellChar)){
-            return true;
-        }
-
-        if( isLetterChar(prevCellChar)
-                && isSymbol(currCellChar)){
-            return true;
-        }
-
-
-        return false;
-    }
-
-    //dsdsdd####sadad
 
     /**
      * Handles one char vertical move events
@@ -469,13 +349,10 @@ public class Movement {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
-            move = traversePreviousWord(cursor);
+            move = traversePreviousWord(cursor,
+                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
+            );
 
-
-            /* //TODO make work!
-            move = traversePREVWordREGEX(cursor,
-                    false);
-             */
             if(isLegitHorizontalMove( cursor, - move )){
                 return - move;
             }
@@ -513,6 +390,14 @@ public class Movement {
     }
 
 
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////// SUPPORTER METHODS //////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Checks if char is a symbol and thus next to each
      * other constitutes a word. Is used together with
@@ -541,6 +426,52 @@ public class Movement {
         return ((character >= '0' && character <= '9')
                 || (character >= 'a' && character <= 'z')
                 || (character >= 'A' && character <= 'Z'));
+    }
+
+    /**
+     * VIM-movement-rules based on chars
+     *
+     * the method aspires to contain all the word-movement
+     * rules to be used in the word-movement-methods. it
+     * checks between the current and privius char according
+     * to rules divided by if-statements. If any rule is true,
+     * it returns true.
+     * @param currCellChar the char of the current cell
+     * @param prevCellChar the char of the previus cell
+     * @return true if a ruled if followed.
+     */
+    private boolean wordMovementRules(char currCellChar, char prevCellChar){
+        if(isLetterChar(prevCellChar)
+                && isLetterChar(currCellChar)){
+            return false;
+        }
+        if(isSymbol(prevCellChar)
+                && isSymbol(currCellChar)){
+            return false;
+        }
+
+        if( isLetterChar(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
+
+        if( isSymbol(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
+
+        if( isSymbol(prevCellChar)
+                && isLetterChar(currCellChar)){
+            return true;
+        }
+
+        if( isLetterChar(prevCellChar)
+                && isSymbol(currCellChar)){
+            return true;
+        }
+
+
+        return false;
     }
 
 }
