@@ -244,7 +244,6 @@ public class Movement {
 
         int currColumn = cursor.getCurrColumn();
         int currRow = cursor.getCurrRow();
-        int colunmTotal = cursor.getColunmTotal();
 
         int symbolMatch = 0;
         int wordMatch = 0;
@@ -317,6 +316,12 @@ public class Movement {
     }
 
 
+    /**
+     * Goes to end or beginning of line
+     * @param cursor The cursor that is to be moved
+     * @param toEnd if true, end of line; false, beginning of line
+     * @return the integer to add or subtract to go to start or end
+     */
     private int traverseWholeLine(Cursor cursor, boolean toEnd){
         int currColumn = cursor.getCurrColumn();
         int colunmTotal = cursor.getColunmTotal();
