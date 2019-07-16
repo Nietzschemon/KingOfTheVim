@@ -1,9 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class Cursor implements VimObject {
     }
 
 
-    public boolean setRow(int rowMove) {
+    public boolean setRelativeRow(int rowMove) {
 
         if(rowMove != 0){
             doBeforePosiUpdate();
@@ -86,7 +83,7 @@ public class Cursor implements VimObject {
     }
 
     //TODO make default reset for fonts work
-    public boolean setColumn(int columnMove) {
+    public boolean setRelativeColumn(int columnMove) {
 
         if(columnMove != 0){
             doBeforePosiUpdate();
@@ -102,10 +99,55 @@ public class Cursor implements VimObject {
         return false;
     }
 
+    /**
+     * Moves the cursor directly to
+     * the specified row
+     * @param row to move cursor to
+     * @return true if success, false if not
+     */
+    public boolean setAbsoluteRow(int row){
+
+        if(row >= 0
+                && row < colunmTotal){
+            doBeforePosiUpdate();
+
+            position.y = cellHeight * row;
+            currRow = row;
+            points.onMove(this);
+
+            doAfterPosiUpdate();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Moves the cursor directly to
+     * the specified column
+     * @param column to move cursor to
+     * @return true if success, false if not
+     */
+    public boolean setAbsoluteColumn(int column){
+
+        if(column >= 0
+        && column < colunmTotal){
+            doBeforePosiUpdate();
+
+            position.x = cellWidth * column;
+            currColumn = column;
+            points.onMove(this);
+
+            doAfterPosiUpdate();
+            return true;
+        }
+
+        return false;
+    }
     public void update(){
 
-        setRow(mover.verticalMove(this));
-        setColumn(mover.horizontalMove(this));
+        setRelativeRow(mover.verticalMove(this));
+        setRelativeColumn(mover.horizontalMove(this));
     }
 
     private void doBeforePosiUpdate(){
