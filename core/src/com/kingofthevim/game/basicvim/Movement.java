@@ -12,6 +12,30 @@ public class Movement {
     private Pattern wordLetNum = Pattern.compile("(\\w+)");
     private Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]+)");
 
+
+
+    /**
+     * Checks if vertical move is possible from the
+     * current place by checking the current position
+     * in the matrix of the cursor against the move
+     * where it would be if the move parameter is added
+     * @param move number of steps - positive or negative
+     * @return True if possible, false if not
+     */
+    private boolean isLegitVerticalMove(Cursor cursor, int move){
+        int rowTotal = cursor.getRowTotal();
+        int currRow = cursor.getCurrRow();
+
+        if(currRow + move < 0
+                || currRow + move > rowTotal-1){
+            System.out.println("MOVE OUT OF BOUNDS!");
+            return false;
+        }
+
+        return true;
+    }
+
+
     /**
      * Checks if horizontal move is possible from the
      * current place by checking the current position
@@ -35,24 +59,53 @@ public class Movement {
 
 
     /**
-     * Checks if vertical move is possible from the
-     * current place by checking the current position
-     * in the matrix of the cursor against the move
-     * where it would be if the move parameter is added
-     * @param move number of steps - positive or negative
-     * @return True if possible, false if not
+     * Handles one char vertical move events
+     * by either returning a positive or negative
+     * 1 or zero
+     * @param cursor The cursor to be moved
+     * @return positive or negative one if legit
+     * and zero if not.
      */
-    private boolean isLegitVerticalMove(Cursor cursor, int move){
-        int rowTotal = cursor.getRowTotal();
-        int currRow = cursor.getCurrRow();
+    private int charVerticalMove(Cursor cursor){
 
-        if(currRow + move < 0
-                || currRow + move > rowTotal-1){
-            System.out.println("MOVE OUT OF BOUNDS!");
-            return false;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
+                && isLegitVerticalMove(cursor, 1))
+        {
+            return 1;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
+                && isLegitVerticalMove(cursor, -1))
+        {
+            return -1;
+        }
+        return 0;
+    }
+
+
+    /**
+     * Handles one char horizontal move events
+     * by either returning a positive or negative
+     * 1 or zero
+     * @param cursor The cursor to be moved
+     * @return positive or negative one if legit
+     * and zero if not.
+     */
+    private int charHorizontalMove(Cursor cursor){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
+                && isLegitHorizontalMove(cursor, -1))
+        {
+            return -1;
         }
 
-        return true;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
+                && isLegitHorizontalMove(cursor, 1))
+        {
+            return 1;
+
+        }
+
+        return 0;
     }
 
 
@@ -263,55 +316,6 @@ public class Movement {
         return 0;
     }
 
-    /**
-     * Handles one char vertical move events
-     * by either returning a positive or negative
-     * 1 or zero
-     * @param cursor The cursor to be moved
-     * @return positive or negative one if legit
-     * and zero if not.
-     */
-    private int charVerticalMove(Cursor cursor){
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
-                && isLegitVerticalMove(cursor, 1))
-        {
-            return 1;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
-                && isLegitVerticalMove(cursor, -1))
-        {
-            return -1;
-        }
-        return 0;
-    }
-
-    /**
-     * Handles one char horizontal move events
-     * by either returning a positive or negative
-     * 1 or zero
-     * @param cursor The cursor to be moved
-     * @return positive or negative one if legit
-     * and zero if not.
-     */
-    private int charHorizontalMove(Cursor cursor){
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
-                && isLegitHorizontalMove(cursor, -1))
-        {
-            return -1;
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
-                && isLegitHorizontalMove(cursor, 1))
-        {
-            return 1;
-
-        }
-
-        return 0;
-    }
-
 
     /**
      * The main method for all vertical moves. It passes
@@ -328,6 +332,7 @@ public class Movement {
 
         return charVerticalMove(cursor);
     }
+
 
     /**
      * The main method for all horizontal moves. It passes
@@ -397,6 +402,8 @@ public class Movement {
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// SUPPORTER METHODS //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     /**
      * Checks if char is a symbol and thus next to each
