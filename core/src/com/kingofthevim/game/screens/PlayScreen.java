@@ -10,6 +10,7 @@ import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.states.DevLevel;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Level_1;
+import com.kingofthevim.game.states.MenuState;
 
 public class PlayScreen implements Screen {
 
@@ -30,7 +31,7 @@ public class PlayScreen implements Screen {
 
         gameCam.position.set(gamePort.getWorldHeight() / 2, gamePort.getWorldWidth() / 2, 0);
 
-        gsm.push(new Level_1(gsm));
+        gsm.push(new MenuState(gsm));
     }
 
 
