@@ -2,7 +2,11 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -335,6 +339,38 @@ public class Movement {
     }
 
 
+    /** TODO do not modify cursor directly
+     * TEMPORARY method for jumping to first non-blank char
+     * in line. NOTE modifies the cursor passed directly!
+     * @param cursor MODIFIES cursor position directly
+     * @return true if success
+     */
+    public boolean goToFirstNonBlankChar(Cursor cursor){
+
+        int currRow = cursor.getCurrRow();
+        int currColumn = cursor.getCurrColumn();
+        int firstNonBlank = -1;
+
+        String row = cursor.getVimMatrix().getStringIndexToRowBeginning(currRow, currColumn, false);
+        //System.out.println("ROW STRING: " + row);
+        Matcher firstNonBlankMatcher = wordCap.matcher(row);
+
+        if(firstNonBlankMatcher.find()){
+            /*
+            System.out.println("ROW MATCHER: " + firstNonBlankMatcher.group() + firstNonBlankMatcher.groupCount());
+            System.out.println("ROW MATCHER Start: " + firstNonBlankMatcher.start());
+            System.out.println("ROW MATCHER end: " + firstNonBlankMatcher.end());
+            System.out.println("currCol: " + currColumn);
+
+             */
+
+            cursor.setAbsoluteColumn(firstNonBlankMatcher.start());
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * The main method for all vertical moves. It passes
      * Cursor to the appropriate methods and if any key is
@@ -398,11 +434,18 @@ public class Movement {
         }
 
 
-        // dollar-sign
+        //TODO create inputprocessor and get char from keyboard
+        //dollar-sign
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)
-        && Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)){
+                && Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)){
 
             move = traverseWholeLine(cursor, false);
+        }
+
+        //TODO remove pro-tem key
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+
+            goToFirstNonBlankChar(cursor);
         }
 
         if(move != 0
@@ -413,9 +456,6 @@ public class Movement {
 
         return charHorizontalMove(cursor);
     }
-
-
-
 
 
 
