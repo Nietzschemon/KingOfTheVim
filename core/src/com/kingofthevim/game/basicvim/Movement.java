@@ -317,6 +317,19 @@ public class Movement {
     }
 
 
+    private int traverseWholeLine(Cursor cursor, boolean toEnd){
+        int currColumn = cursor.getCurrColumn();
+        int colunmTotal = cursor.getColunmTotal();
+
+        if(toEnd){
+            return colunmTotal - currColumn - 1;
+        }
+        else {
+            return -currColumn;
+        }
+    }
+
+
     /**
      * The main method for all vertical moves. It passes
      * Cursor to the appropriate methods and if any key is
@@ -389,6 +402,26 @@ public class Movement {
 
                 return move;
             }
+        }
+
+        //circumflex accent
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)){
+
+            move = traverseWholeLine(cursor, true);
+        }
+
+
+        // dollar-sign
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)
+        && Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)){
+
+            move = traverseWholeLine(cursor, false);
+            System.out.println("36!");
+        }
+
+        if(isLegitHorizontalMove(cursor, move)){
+
+            return move;
         }
 
         return charHorizontalMove(cursor);
