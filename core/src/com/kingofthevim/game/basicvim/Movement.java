@@ -2,19 +2,16 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Movement {
+public class Movement extends Control {
 
     private Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]+)");
     private Pattern wordLetNum = Pattern.compile("(\\w+)");
     private Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]+)");
+
 
 
 
@@ -430,20 +427,17 @@ public class Movement {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)){
 
-            move = traverseWholeLine(cursor, true);
-        }
-
-
-        //TODO create inputprocessor and get char from keyboard
-        //dollar-sign
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)
-                && Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)){
-
             move = traverseWholeLine(cursor, false);
         }
 
-        //TODO remove pro-tem key
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+
+        //dollar-sign
+        if (keyPressedIsChar('$')){
+
+            move = traverseWholeLine(cursor, true);
+        }
+
+        if (keyPressedIsChar('^')){
 
             goToFirstNonBlankChar(cursor);
         }
