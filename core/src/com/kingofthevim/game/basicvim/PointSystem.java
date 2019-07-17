@@ -77,7 +77,7 @@ public class PointSystem {
             redMultiplier = 1;
         }
         if(cursor.isOnType(LetterType.WHITE)){
-            points /= actualMoves;
+            points = points - (20 * actualMoves);
             yellowMultiplier = 1;
             redMultiplier = 1;
         }
