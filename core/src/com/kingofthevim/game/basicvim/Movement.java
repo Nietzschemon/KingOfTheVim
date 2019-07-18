@@ -74,12 +74,12 @@ public class Movement extends InputHandler {
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)
                 && isLegitVerticalMove(cursor, 1))
         {
-            return 1;
+            return (getIterationInt() < 1) ? 1 : getResetIterationInt();
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)
                 && isLegitVerticalMove(cursor, -1))
         {
-            return -1;
+            return (getIterationInt() < 1) ? (-1) : (- getResetIterationInt());
         }
         return 0;
     }
@@ -98,13 +98,13 @@ public class Movement extends InputHandler {
         if (Gdx.input.isKeyJustPressed(Input.Keys.H)
                 && isLegitHorizontalMove(cursor, -1))
         {
-            return -1;
+            return (getIterationInt() < 1) ? (-1) : (- getResetIterationInt());
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)
                 && isLegitHorizontalMove(cursor, 1))
         {
-            return 1;
+            return (getIterationInt() < 1) ? 1 : getResetIterationInt();
 
         }
 
@@ -408,6 +408,7 @@ public class Movement extends InputHandler {
 
         if(move != 0
         && isLegitHorizontalMove(cursor, move)){
+            resetIteration(); // in case a method doesn't
             return move;
         }
 
