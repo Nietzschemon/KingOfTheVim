@@ -60,8 +60,22 @@ public class InputHandler implements InputProcessor {
             intProspect < 58){
             iterationString += String.valueOf(intProspect);
 
-            iterationInt = Integer.parseInt(iterationString);
+            iterationInt = tryParseInt(iterationString);
             System.out.println("itString: " + iterationString);
+        }
+    }
+
+    /**
+     * tries to parse integer, if
+     * fail, it returns zero
+     * @param string that which is to be parsed
+     * @return parsed integer or zero
+     */
+    private int tryParseInt(String string){
+        try{
+            return Integer.parseInt(string);
+        } catch (NumberFormatException e){
+            return 0;
         }
     }
 
