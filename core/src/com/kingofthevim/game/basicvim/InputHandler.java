@@ -11,13 +11,18 @@ public class InputHandler implements InputProcessor {
     private char currChar = 0;
 
     private int iterationInt = 0;
+    private String iterationString = "0";
 
-    public int getIterationInt() {
+    int getIterationInt() {
         return iterationInt;
     }
-    public void setIterationInt(int iterations) {
-        iterationInt = iterations;
+    int getResetIterationInt() {
+        int iter = iterationInt;
+        iterationString = "0";
+        iterationInt = 0;
+        return iter;
     }
+    void resetIteration(){iterationString = "0";}
 
     InputHandler(){
         Gdx.input.setInputProcessor(this);
@@ -51,10 +56,12 @@ public class InputHandler implements InputProcessor {
      */
     private void integerMaker(char intProspect){
 
-        if(intProspect > 48 &&
+        if(intProspect > 47 &&
             intProspect < 58){
-            iterationInt += Character.getNumericValue(intProspect);
-            System.out.println("iterationInt: " + iterationInt);
+            iterationString += String.valueOf(intProspect);
+
+            iterationInt = Integer.parseInt(iterationString);
+            System.out.println("itString: " + iterationString);
         }
     }
 
