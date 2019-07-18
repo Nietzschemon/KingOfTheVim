@@ -62,53 +62,46 @@ public class Movement extends InputHandler {
 
 
     /**
-     * Handles one char vertical move events
-     * by either returning a positive or negative
-     * 1 or zero
-     * @param cursor The cursor to be moved
-     * @return positive or negative one if legit
-     * and zero if not.
+     * Handles per char vertical move events
+     * returning a positive or negative number
+     * multiplied with iteration if entered.
+     * @param cursor cursor to move
+     * @param down handles up/down-moves
+     * @return a positive or negative integer
      */
-    private int charVerticalMove(Cursor cursor){
+    private int charVerticalMove(Cursor cursor, boolean down){
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)
-                && isLegitVerticalMove(cursor, 1))
+       int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
+       int endRow =  cursor.getRowTotal() - cursor.getCurrRow() - 1;
+
+        if(down)
         {
-            return (getIterationInt() < 1) ? 1 : getResetIterationInt();
+            return (isLegitVerticalMove(cursor, move)) ? move : endRow;
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)
-                && isLegitVerticalMove(cursor, -1))
-        {
-            return (getIterationInt() < 1) ? (-1) : (- getResetIterationInt());
-        }
-        return 0;
+
+        return (isLegitVerticalMove(cursor, - move)) ? ( - move ) : ( - (cursor.getCurrRow()));
     }
 
 
     /**
-     * Handles one char horizontal move events
-     * by either returning a positive or negative
-     * 1 or zero
-     * @param cursor The cursor to be moved
-     * @return positive or negative one if legit
-     * and zero if not.
+     * Handles per char vertical move events
+     * returning a positive or negative number
+     * multiplied with iteration if entered.
+     * @param cursor cursor to move
+     * @param forward handles backward/forward-moves
+     * @return a positive or negative integer
      */
-    private int charHorizontalMove(Cursor cursor){
+    private int charHorizontalMove(Cursor cursor, boolean forward){
+        int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
+        int endColumn = cursor.getColunmTotal() - cursor.getCurrColumn() - 1;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)
-                && isLegitHorizontalMove(cursor, -1))
+        if (forward)
         {
-            return (getIterationInt() < 1) ? (-1) : (- getResetIterationInt());
+            return (isLegitHorizontalMove(cursor, move)) ? move : endColumn;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
-                && isLegitHorizontalMove(cursor, 1))
-        {
-            return (getIterationInt() < 1) ? 1 : getResetIterationInt();
+        return (isLegitHorizontalMove(cursor, - move)) ? ( - move ) : ( - (cursor.getCurrColumn()));
 
-        }
-
-        return 0;
     }
 
 
@@ -346,7 +339,18 @@ public class Movement extends InputHandler {
      */
     int verticalMove(Cursor cursor){
 
-        return charVerticalMove(cursor);
+        int move = 0;
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+            move = charVerticalMove(cursor, false);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
+            move = charVerticalMove(cursor, true);
+        }
+
+        if(isLegitVerticalMove(cursor,move)) return move;
+
+        return 0;
     }
 
 
@@ -367,6 +371,13 @@ public class Movement extends InputHandler {
         int currColumn = cursor.getCurrColumn();
 
         int move = 0;
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
+            move = charHorizontalMove(cursor, false);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            move = charHorizontalMove(cursor, true);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
@@ -407,12 +418,9 @@ public class Movement extends InputHandler {
         }
 
         if(move != 0
-        && isLegitHorizontalMove(cursor, move)){
-            resetIteration(); // in case a method doesn't
-            return move;
-        }
+        && isLegitHorizontalMove(cursor, move)) return move;
 
-        return charHorizontalMove(cursor);
+        return 0;
     }
 
 
