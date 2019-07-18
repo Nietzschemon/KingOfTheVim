@@ -394,13 +394,13 @@ public class Movement extends InputHandler {
 
         if(shiftHeld) {
 
-            allMatches = matcherApplier(capitalMatcher);
+            allMatches = matcherApplier(capitalMatcher, false);
         }
 
         else {
 
-            allMatches = matcherApplier(symbolMatcher);
-            allMatches.addAll(matcherApplier(wordMatcher));
+            allMatches = matcherApplier(symbolMatcher, false);
+            allMatches.addAll(matcherApplier(wordMatcher, false));
         }
 
         match = iterationApplier(allMatches);
@@ -444,17 +444,18 @@ public class Movement extends InputHandler {
         return 0;
     }
 
-    private ArrayList<Integer> matcherApplier(Matcher matcher){
+    private ArrayList<Integer> matcherApplier(Matcher matcher, boolean matchEnd){
 
         ArrayList<Integer> matchList = new ArrayList<>();
 
         while (matcher.find()) {
 
-            if (matcher.group().isEmpty()) {
-                continue;
-            }
+            if (matcher.group().isEmpty()) continue;
 
-            matchList.add(matcher.start());
+            if(matchEnd) matchList.add(matcher.end());
+            else matchList.add(matcher.start());
+
+
         }
 
         return matchList;
