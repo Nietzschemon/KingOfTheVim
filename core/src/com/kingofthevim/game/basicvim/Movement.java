@@ -127,15 +127,14 @@ public class Movement extends InputHandler {
 
         VimWorldMatrix matrix = cursor.getVimMatrix();
 
+        ArrayList<Integer> allMatches;
+
         int currColumn = cursor.getCurrColumn();
         int currRow = cursor.getCurrRow();
         int colunmTotal = cursor.getColunmTotal();
+        int step;
 
-        int symbolMatch = 0;
-        int wordMatch = 0;
-        int finalMatch = -1;
-
-        String row = matrix.getIndexToRowEndString(currRow, currColumn);
+        String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
 
         Matcher wordMatcher = wordLetNum.matcher(row);
         Matcher symbolMatcher = wordSym.matcher(row);
@@ -143,227 +142,38 @@ public class Movement extends InputHandler {
 
         if(shiftHeld) {
 
-            while (capitalMatcher.find()){
-
-                if(capitalMatcher.group().isEmpty()){
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(capitalMatcher.start() > 0){
-                        finalMatch = capitalMatcher.start();
-                        break;
-                    }
-                }
-                else {
-
-                    if(capitalMatcher.end() > 1){
-                        finalMatch = capitalMatcher.end();
-                        break;
-                    }
-                }
+            if(wordBgn){
+                allMatches = matcherApplier(capitalMatcher, false);
+            }
+            else {
+                allMatches = matcherApplier(capitalMatcher, true);
             }
         }
 
         else {
 
-
-            while (symbolMatcher.find()) {
-
-                if (symbolMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(symbolMatcher.start() > 0){
-                        symbolMatch = symbolMatcher.start();
-                        break;
-                    }
-                }
-
-                else {
-
-                    if(symbolMatcher.end() > 1){
-                        symbolMatch = symbolMatcher.end();
-                        break;
-                    }
-                }
+            if(wordBgn){
+                allMatches = matcherApplier(wordMatcher, false);
+                allMatches.addAll(matcherApplier(symbolMatcher, false));
             }
-
-
-            while (wordMatcher.find()) {
-
-                if (wordMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(wordMatcher.start() > 0){
-                        wordMatch = wordMatcher.start();
-                        break;
-                    }
-                }
-                else {
-                    if(wordMatcher.end() > 1){
-                        wordMatch = wordMatcher.end();
-                        break;
-                    }
-                }
-
+            else {
+                allMatches = matcherApplier(wordMatcher, true);
+                allMatches.addAll(matcherApplier(symbolMatcher, true));
             }
-
-            finalMatch = (wordMatch == 0) ? symbolMatch : wordMatch;
-
-            // sets the matchBgn to an initial value to stop if-deadlock
-
-            if (wordMatch <= symbolMatch
-                    && wordMatch != 0) finalMatch = wordMatch;
-            if (wordMatch >= symbolMatch
-                    && symbolMatch != 0) finalMatch = symbolMatch;
-
         }
 
-        if(finalMatch > 0
-                && (finalMatch + currColumn) <= colunmTotal ){
 
-            int itTimes = 0;
-            while (itTimes < getIterationInt() - 1){
+        step = iterationApplier(allMatches, false);
 
-                finalMatch += traverseWord(cursor, currRow, currColumn+finalMatch, colunmTotal, shiftHeld, wordBgn);
-                itTimes++;
-            }
 
-            setIterationInt(0);
+        if(step >= 0
+                && (currColumn + step) <= colunmTotal){
 
-            return (wordBgn) ? finalMatch : finalMatch - 1;
+            return (wordBgn) ? step + 1: step;
         }
 
         return 0;
     }
-
-
-    /**
-     * Overloaded method for iteration-purposes
-     *
-     * currRow, currColumn and columnTotal is entered
-     * manually to be added on after first pass of the
-     * default traverseWord()-method.
-     *
-     * NOTE: returned value differs of e/E-movement differs from
-     * default method and does not remove one column from the result!
-     * @param cursor the cursor to be moved in the matrix
-     * @param currRow current row of the Vim-object
-     * @param currColumn current column of the Vim-object
-     * @param columnTotal the total amount of columns
-     * @param shiftHeld if true WORD-rules are applied
-     * @param wordBgn if true w/W-rules applies, else e/E-rules
-     * @return the number of steps to perform asked movement
-     */
-    private int traverseWord(Cursor cursor, int currRow, int currColumn, int columnTotal, boolean shiftHeld, boolean wordBgn){
-
-        VimWorldMatrix matrix = cursor.getVimMatrix();
-
-        int symbolMatch = 0;
-        int wordMatch = 0;
-        int finalMatch = -1;
-
-        String row = matrix.getIndexToRowEndString(currRow, currColumn);
-
-        Matcher wordMatcher = wordLetNum.matcher(row);
-        Matcher symbolMatcher = wordSym.matcher(row);
-        Matcher capitalMatcher = wordCap.matcher(row);
-
-        if(shiftHeld) {
-
-            while (capitalMatcher.find()){
-
-                if(capitalMatcher.group().isEmpty()){
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(capitalMatcher.start() > 0){
-                        finalMatch = capitalMatcher.start();
-                        break;
-                    }
-                }
-                else {
-
-                    if(capitalMatcher.end() > 1){
-                        finalMatch = capitalMatcher.end();
-                        break;
-                    }
-                }
-            }
-        }
-
-        else {
-
-
-            while (symbolMatcher.find()) {
-
-                if (symbolMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(symbolMatcher.start() > 0){
-                        symbolMatch = symbolMatcher.start();
-                        break;
-                    }
-                }
-
-                else {
-
-                    if(symbolMatcher.end() > 1){
-                        symbolMatch = symbolMatcher.end();
-                        break;
-                    }
-                }
-            }
-
-
-            while (wordMatcher.find()) {
-
-                if (wordMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(wordBgn){
-                    if(wordMatcher.start() > 0){
-                        wordMatch = wordMatcher.start();
-                        break;
-                    }
-                }
-                else {
-                    if(wordMatcher.end() > 1){
-                        wordMatch = wordMatcher.end();
-                        break;
-                    }
-                }
-
-            }
-
-            finalMatch = (wordMatch == 0) ? symbolMatch : wordMatch;
-
-            // sets the matchBgn to an initial value to stop if-deadlock
-
-            if (wordMatch <= symbolMatch
-                    && wordMatch != 0) finalMatch = wordMatch;
-            if (wordMatch >= symbolMatch
-                    && symbolMatch != 0) finalMatch = symbolMatch;
-
-        }
-
-        if(finalMatch > 0
-                && (finalMatch + currColumn) <= columnTotal ){
-
-            return finalMatch;
-        }
-
-        return 0;
-    }
-
 
     /**
      * Takes care of the vim b/B-movements.
@@ -377,13 +187,11 @@ public class Movement extends InputHandler {
     private int traversePreviousWord(Cursor cursor, boolean shiftHeld){
 
         VimWorldMatrix matrix = cursor.getVimMatrix();
+        ArrayList<Integer> allMatches;
 
         int currColumn = cursor.getCurrColumn();
         int currRow = cursor.getCurrRow();
-
-        int match = -1;
-
-        ArrayList<Integer> allMatches = new ArrayList<>();
+        int step;
 
         String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, false);
 
@@ -403,12 +211,12 @@ public class Movement extends InputHandler {
             allMatches.addAll(matcherApplier(wordMatcher, false));
         }
 
-        match = iterationApplier(allMatches);
+        step = iterationApplier(allMatches, true);
 
-        if(match >= 0
-                && (currColumn - match) >= 0){
+        if(step >= 0
+                && (currColumn - step) >= 0){
 
-            return - (currColumn - match);
+            return - (currColumn - step);
         }
 
         return 0;
@@ -421,21 +229,27 @@ public class Movement extends InputHandler {
      * Always reset the current iterationInt.
      * @param matchList list from which an int shall be
      *                  returned a
+     * @param iterateBackward used for matchLists that need
+     *                        to iterated backwards
      * @return the appropriate value in the array or zero
      */
-    private int iterationApplier(ArrayList<Integer> matchList){
+    private int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward){
 
         int iterations = (getIterationInt() > 0) ? getIterationInt() - 1 : 0;
 
         // resets iterations
         setIterationInt(0);
 
+        if(! iterateBackward) matchList.removeIf(p -> p == 0);
+
         if (matchList.size() > 0){
+
+
 
             iterations = (iterations < matchList.size()) ? iterations : matchList.size() - 1;
 
             Collections.sort(matchList);
-            Collections.reverse(matchList);
+            if(iterateBackward)Collections.reverse(matchList);
 
 
             return matchList.get(iterations);
