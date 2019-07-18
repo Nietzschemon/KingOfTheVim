@@ -224,7 +224,7 @@ public class Movement extends InputHandler {
 
     /**
      * checks that the current iteration-input from
-     * the user if within the given array, if not it
+     * the user is within the given array, if not it
      * will return the last value of the array
      * Always reset the current iterationInt.
      * @param matchList list from which an int shall be
@@ -258,6 +258,16 @@ public class Movement extends InputHandler {
         return 0;
     }
 
+    /**
+     * Applies a given initialized matcher and puts
+     * all integers of either .start or .end matches
+     * into an ArrayList that is returned
+     * @param matcher an initialized matcher to iterate over
+     * @param matchEnd if .end or .start of matcher should
+     *                 be used
+     * @return an ArrayList with integers made up of either
+     * all .start- or .end-subroutines of the given matcher
+     */
     private ArrayList<Integer> matcherApplier(Matcher matcher, boolean matchEnd){
 
         ArrayList<Integer> matchList = new ArrayList<>();
