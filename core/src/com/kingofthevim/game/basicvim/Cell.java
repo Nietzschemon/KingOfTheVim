@@ -177,6 +177,20 @@ public class Cell {
 
 
     /**
+     * Clears cell of all textures, sets
+     * char to space LetterType to empathy
+     * and finally calls dispose()
+     */
+    public void clearCell(){
+
+        cellLook = null;
+        cellLookDefault = null;
+        cellChar = ' ';
+        letterType = LetterType.EMPATHY;
+        dispose();
+    }
+
+    /**
      * Disposes the resourses used by the cell
      */
     public void dispose(){
