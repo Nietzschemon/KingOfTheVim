@@ -385,7 +385,7 @@ public class Movement extends InputHandler {
 
         ArrayList<Integer> allMatches = new ArrayList<>();
 
-        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn+1, false);
+        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, false);
 
         Matcher wordMatcher = wordLetNum.matcher(row);
         Matcher symbolMatcher = wordSym.matcher(row);
@@ -394,47 +394,13 @@ public class Movement extends InputHandler {
 
         if(shiftHeld) {
 
-            while (capitalMatcher.find()){
-
-                if(capitalMatcher.group().isEmpty()){
-                    continue;
-                }
-
-                if(capitalMatcher.start() != currColumn) {
-
-                    allMatches.add(capitalMatcher.start());
-                }
-            }
+            allMatches = matcherApplier(capitalMatcher);
         }
 
         else {
 
-            while (symbolMatcher.find()) {
-
-                if (symbolMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(symbolMatcher.start() != currColumn){
-
-                    allMatches.add(symbolMatcher.start());
-                }
-
-            }
-
-            while (wordMatcher.find()) {
-
-                if (wordMatcher.group().isEmpty()) {
-                    continue;
-                }
-
-                if(wordMatcher.start() != currColumn){
-
-                    allMatches.add(wordMatcher.start());
-                }
-
-            }
-
+            allMatches = matcherApplier(symbolMatcher);
+            allMatches.addAll(matcherApplier(wordMatcher));
         }
 
         match = iterationApplier(allMatches);
@@ -476,6 +442,22 @@ public class Movement extends InputHandler {
         }
 
         return 0;
+    }
+
+    private ArrayList<Integer> matcherApplier(Matcher matcher){
+
+        ArrayList<Integer> matchList = new ArrayList<>();
+
+        while (matcher.find()) {
+
+            if (matcher.group().isEmpty()) {
+                continue;
+            }
+
+            matchList.add(matcher.start());
+        }
+
+        return matchList;
     }
 
     /**
