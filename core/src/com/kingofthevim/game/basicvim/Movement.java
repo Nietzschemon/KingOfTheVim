@@ -2,7 +2,6 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -235,10 +234,8 @@ public class Movement extends InputHandler {
      */
     private int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward){
 
-        int iterations = (getIterationInt() > 0) ? getIterationInt() - 1 : 0;
-
-        // resets iterations
-        setIterationInt(0);
+        int iterations = getResetIterationInt();
+        iterations = (iterations > 0) ? iterations - 1 : 0;
 
         if(! iterateBackward) matchList.removeIf(p -> p == 0);
 
@@ -393,7 +390,8 @@ public class Movement extends InputHandler {
         }
 
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)
+            && (getIterationInt() <= 0)){
 
             move = traverseWholeLine(cursor, false);
         }
@@ -410,7 +408,6 @@ public class Movement extends InputHandler {
 
         if(move != 0
         && isLegitHorizontalMove(cursor, move)){
-
             return move;
         }
 
