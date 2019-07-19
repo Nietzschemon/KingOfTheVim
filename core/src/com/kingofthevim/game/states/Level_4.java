@@ -29,7 +29,7 @@ public class Level_4 extends Level {
     @Override
     protected void backgroundText(){
 
-        String[] conversionArray;
+        ArrayList<String> conversionArray;
 
         conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found" +
                 "himself transformed in his bed into a horrible vermin.  He lay on" +
@@ -58,7 +58,7 @@ public class Level_4 extends Level {
                 "must have tried it a hundred times, shut his eyes so that he" +
                 "wouldn't have to look at the floundering legs, and only stopped when" +
                 "he began to feel a mild, dull pain there that he had never felt" +
-                "before.");
+                "before.", true);
 
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }

@@ -89,7 +89,6 @@ public class DevLevel extends Level{
                         "<<cl20,41>>" +
                         "<rg>###</rg>" +
                         "<<cl19,42>>" +
-                        //"<<co40>>"
                         "<lf># ## ### ###### ####</lf>" +
                         "<up>#</up>" +
                         "<lf># ##</lf>" +
@@ -135,7 +134,7 @@ public class DevLevel extends Level{
 
     private void prose(){
 
-        String[] conversionArray;
+        ArrayList<String> conversionArray;
 
         conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found" +
                 "himself transformed in his bed into a horrible vermin.  He lay on" +
@@ -164,7 +163,7 @@ public class DevLevel extends Level{
                 "must have tried it a hundred times, shut his eyes so that he" +
                 "wouldn't have to look at the floundering legs, and only stopped when" +
                 "he began to feel a mild, dull pain there that he had never felt" +
-                "before.");
+                "before.", false);
 
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }

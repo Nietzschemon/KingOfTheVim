@@ -10,22 +10,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
-    /*TODO Level maker
-     make methods
-        - addBackgroundText()
-
-        - textLevelMaker(String string, boolean fatWordsLevel, boolean )
-                string - everything not covered bellow gets grayed
-                fatWordsLevel - the level words: chars gets nomralized
-                starsBad - letters between stars gets marked as bad (*word*)
-                starsGood - letters between two ~ gets marked as good (~~wo~~rd)
-        - setPoints(LetterType type, int points)
-        - setPoints(LetterType type, int row, int points)
-        - setPoints(LetterType type, String chars, int points)
-        - setPoints(LetterType type, String chars, int row, int points)
-        EVERY EVENT has an analogous plethora of signatures as in setPoints above.
-     */
-
 //TODO LATER use properties to store the file paths.
 // https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
 public class LetterManager extends TagSystem {
@@ -246,6 +230,15 @@ public class LetterManager extends TagSystem {
         }
     }
 
+    public void setHorizontalStringArray(ArrayList<String> stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
+
+        for (int i = 0; i < stringArray.size(); i++) {
+
+            if(stringArray.get(i) != null)
+                setHorizontalString(stringArray.get(i), startRow + i, startColumn, overwriteExisting, replaceChar, type);
+        }
+    }
+
     public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
@@ -255,35 +248,68 @@ public class LetterManager extends TagSystem {
         }
     }
 
+    public void setVerticalStringArray(ArrayList<String> stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
+
+        for (int i = 0; i < stringArray.size(); i++) {
+
+            if(stringArray.get(i) != null)
+                setVerticalString(stringArray.get(i), startRow + i, startColumn, overwriteExisting, replaceChar, type);
+        }
+    }
 
     /**
      * Makes a string array that fits the current
-     * cellmatrix
+     * cellMatrix
      * @param string string to turn to an array
      * @return a fitted string array
      */
-    public String[] makeStringArray(String string){
+    public ArrayList<String> makeStringArray(String string, boolean breakWords){
 
-        String[] returnArray = new String[rowTotal];
+        ArrayList<String> returnArray = new ArrayList<>();
+        String subString;
 
         int startIndex = 0;
-        int endIndex = cellMatrix.get(0).size();
+        int endIndex;
+
+        int wordRounding;
+        int lastSpace;
+
+        // because we can decide where to break
+        string = string.replaceAll("\n", " ");
 
         for (int i = 0; i < cellMatrix.size(); i++) {
 
-            if(startIndex + endIndex > string.length()){
-                returnArray[i] = string.substring(startIndex);
+
+            endIndex = startIndex + cellMatrix.get(i).size();
+
+            if(endIndex > string.length()){
+                returnArray.set(i, string.substring(startIndex));
                 break;
             }
 
-            returnArray[i] = string.substring(startIndex, startIndex + endIndex);
 
-            startIndex = startIndex + endIndex;
-            endIndex = cellMatrix.get(i).size();
+            subString = string.substring(startIndex, endIndex);
+
+            if(breakWords){
+
+                lastSpace = Tools.lastSpaceLocation(subString);
+
+                wordRounding = subString.length() - lastSpace;
+                subString = subString.substring(0, lastSpace);
+
+                endIndex -= (wordRounding - 1);
+            }
+
+
+            returnArray.add(subString);
+            startIndex = endIndex;
         }
+
 
         return returnArray;
     }
+
+
 
     //TODO make public when made ready
     private String[] makeStringArray(String string, int stopAtColumn){
