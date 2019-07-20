@@ -22,4 +22,8 @@ public interface VimObject {
 
     boolean setAbsoluteColumn(int column);
 
+    boolean isOnLetter(char letter);
+
+    boolean isOnType(LetterType type);
+
 }
