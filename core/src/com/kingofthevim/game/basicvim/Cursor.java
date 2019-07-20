@@ -65,6 +65,7 @@ public class Cursor implements VimObject {
     }
 
 
+    @Override
     public boolean setRelativeRow(int rowMove) {
 
         if(rowMove != 0){
@@ -83,6 +84,7 @@ public class Cursor implements VimObject {
     }
 
     //TODO make default reset for fonts work
+    @Override
     public boolean setRelativeColumn(int columnMove) {
 
         if(columnMove != 0){
@@ -105,6 +107,7 @@ public class Cursor implements VimObject {
      * @param row to move cursor to
      * @return true if success, false if not
      */
+    @Override
     public boolean setAbsoluteRow(int row){
 
         if(row >= 0
@@ -128,6 +131,7 @@ public class Cursor implements VimObject {
      * @param column to move cursor to
      * @return true if success, false if not
      */
+    @Override
     public boolean setAbsoluteColumn(int column){
 
         if(column >= 0
@@ -144,6 +148,8 @@ public class Cursor implements VimObject {
 
         return false;
     }
+
+    @Override
     public void update(){
 
         setRelativeRow(mover.verticalMove(this));
@@ -176,7 +182,7 @@ public class Cursor implements VimObject {
     }
 
 
-
+    @Override
     public boolean isOnLetter(char letter){
         if(cellMatrix.get(currRow).get(currColumn).getCellChar() == letter){
             //System.out.println("is on letter \"" + letter + "\"");
@@ -184,6 +190,8 @@ public class Cursor implements VimObject {
         return cellMatrix.get(currRow).get(currColumn).getCellChar() == letter;
     }
 
+
+    @Override
     public boolean isOnType(LetterType type){
         if(cellMatrix.get(currRow).get(currColumn).getLetterType() == type){
             //System.out.println("is on type \"" + type + "\"");
@@ -217,6 +225,7 @@ public class Cursor implements VimObject {
         this.movesLeft = movesLeft;
     }
 
+    @Override
     public int getRowTotal() {
         return rowTotal;
     }
@@ -225,6 +234,7 @@ public class Cursor implements VimObject {
         this.rowTotal = rowTotal;
     }
 
+    @Override
     public int getColunmTotal() {
         return colunmTotal;
     }
@@ -241,6 +251,7 @@ public class Cursor implements VimObject {
         this.cellMatrix = cellMatrix;
     }
 
+    @Override
     public int getCurrRow() {
         return currRow;
     }
@@ -249,6 +260,7 @@ public class Cursor implements VimObject {
         this.currRow = currRow;
     }
 
+    @Override
     public int getCurrColumn() {
         return currColumn;
     }
