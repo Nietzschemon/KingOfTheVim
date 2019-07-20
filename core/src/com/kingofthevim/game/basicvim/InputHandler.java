@@ -3,12 +3,19 @@ package com.kingofthevim.game.basicvim;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.PooledLinkedList;
+
+import java.util.LinkedList;
 
 public class InputHandler implements InputProcessor {
 
-    VimObject vimObj;
-
     private char currChar = 0;
+
+    private char currOperator = ' ';
+
+    boolean activeOperator = false;
+
+    private LinkedList<Character> inputHistory;
 
     private int iterationInt = 0;
     private String iterationString = "0";
@@ -22,18 +29,26 @@ public class InputHandler implements InputProcessor {
         iterationInt = 0;
         return iter;
     }
+
+    public char getCurrOperator() {
+        return currOperator;
+    }
+
+    public void setCurrOperator(char currOperator) {
+        this.currOperator = currOperator;
+    }
+
+    public char getResetOperator(){
+        char oper = currOperator;
+        currOperator = ' ';
+        return oper;
+    }
+
     void resetIteration(){iterationString = "0";}
 
     InputHandler(){
         Gdx.input.setInputProcessor(this);
-    }
-
-    InputHandler(VimObject object){
-        new InputHandler();
-
-        vimObj = object;
-
-
+        inputHistory = new LinkedList<>();
     }
 
 
@@ -47,6 +62,16 @@ public class InputHandler implements InputProcessor {
     }
 
 
+
+    private void addToInputHistory(char character){
+
+        if(Tools.isLetterOrNumber(character)
+        || Tools.isSymbol(character)){
+
+            inputHistory.add(character);
+        }
+    }
+
     /**
      * checks if a char can be converted to an int
      * and if so adds it to iterationInt, if not iterationInt
@@ -59,9 +84,7 @@ public class InputHandler implements InputProcessor {
         if(intProspect > 47 &&
             intProspect < 58){
             iterationString += String.valueOf(intProspect);
-
             iterationInt = tryParseInt(iterationString);
-            System.out.println("itString: " + iterationString);
         }
     }
 
@@ -91,22 +114,23 @@ public class InputHandler implements InputProcessor {
         switch (keycode){
 
             case Input.Keys.B:
-                System.out.println("Is B");
+                //System.out.println("Is B");
                 break;
 
             case Input.Keys.E:
-                System.out.println("Is E");
+                //System.out.println("Is E");
                 break;
 
             case Input.Keys.W:
-                System.out.println("Is W");
+                //System.out.println("Is W");
                 break;
 
             case Input.Keys.H:
-                System.out.println("Is H");
+                //System.out.println("Is H");
                 break;
 
         }
+
         return false;
     }
 
@@ -114,6 +138,7 @@ public class InputHandler implements InputProcessor {
     public boolean keyTyped(char character) {
         currChar = character;
         integerMaker(character);
+        addToInputHistory(character);
         return false;
     }
 

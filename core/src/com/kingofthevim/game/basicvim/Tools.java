@@ -21,16 +21,6 @@ public class Tools {
         return charIsLetter(upperLstChar) && charIsLetter(lowerFrsChar);
     }
 
-    static boolean charIsLetter(char charToCheck){
-
-        if(charToCheck > 64 && charToCheck < 90)
-            return true;
-
-        if(charToCheck > 96 && charToCheck < 122)
-            return true;
-
-        return false;
-    }
 
     static boolean lastCharInStringIsLetter(String string, boolean checkCapitals){
         char strChar = string.charAt(string.length() - 1);
@@ -44,6 +34,107 @@ public class Tools {
 
             return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Checks if char is a symbol and thus next to each
+     * other constitutes a word. Is used together with
+     * isSymbol() to separate between words and WORDS.
+     * Space is not included
+     * @param character char to check
+     * @return true if char is a symbol
+     */
+    static boolean isSymbol(char character ){
+        return ((character >= '!' && character <= '/')
+                || (character >= ':' && character <= '@')
+                || (character >= '[' && character <= '_')
+                || (character >= '{' && character <= '~'));
+    }
+
+    /**
+     * Checks if char is a letter.
+     * Space is not included
+     * @param character char to check
+     * @return true if char is a letter or number
+     */
+    static boolean charIsLetter(char character){
+
+        if(character > 64 && character < 90)
+            return true;
+
+        if(character > 96 && character < 122)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Checks if char is a letter or number and thus
+     * next to each other constitutes a word. Is used
+     * together with isSymbol() to separate between
+     * words and WORDS. Space is not included
+     * @param character char to check
+     * @return true if char is a letter or number
+     */
+    static boolean isLetterOrNumber(char character ){
+        return ((character >= '0' && character <= '9')
+                || (character >= 'a' && character <= 'z')
+                || (character >= 'A' && character <= 'Z'));
+    }
+
+    /**
+     * Checks if char is a operator
+     * @param character char to check
+     * @return true if char is a vim-operator
+     */
+    static boolean isOperator(char character){
+        return character == 'd';
+    }
+
+    /**
+     * VIM-movement-rules based on chars
+     *
+     * the method aspires to contain all the word-movement
+     * rules to be used in the word-movement-methods. it
+     * checks between the current and privius char according
+     * to rules divided by if-statements. If any rule is true,
+     * it returns true.
+     * @param currCellChar the char of the current cell
+     * @param prevCellChar the char of the previus cell
+     * @return true if a ruled if followed.
+     */
+    static boolean wordMovementRules(char currCellChar, char prevCellChar){
+        if(isLetterOrNumber(prevCellChar)
+                && isLetterOrNumber(currCellChar)){
+            return false;
+        }
+        if(isSymbol(prevCellChar)
+                && isSymbol(currCellChar)){
+            return false;
+        }
+
+        if( isLetterOrNumber(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
+
+        if( isSymbol(prevCellChar)
+                && currCellChar == ' '){
+            return true;
+        }
+
+        if( isSymbol(prevCellChar)
+                && isLetterOrNumber(currCellChar)){
+            return true;
+        }
+
+        if( isLetterOrNumber(prevCellChar)
+                && isSymbol(currCellChar)){
+            return true;
+        }
+
 
         return false;
     }

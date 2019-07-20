@@ -17,4 +17,11 @@ public class Operations {
         cellList.get(vimObj.getColunmTotal() - 1).clearCell();
 
     }
+
+    void deleteCharBatch(VimObject vimObj, int num){
+        for (int i = 0; i < num; i++) {
+
+            deleteChar(vimObj);
+        }
+    }
 }

@@ -343,18 +343,23 @@ public class Movement extends InputHandler {
         int move = 0;
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            move = charVerticalMove(cursor, false);
+           move = charVerticalMove(cursor, false);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             move = charVerticalMove(cursor, true);
         }
 
-        if(isLegitVerticalMove(cursor,move)) return move;
+        if(isLegitVerticalMove(cursor,move)
+        && move != 0){
+            activeOperator = false;
+            return move;
+        }
 
         return 0;
     }
 
 
+    //TODO make backwards delete work
     /**
      * The main method for all horizontal moves. It passes
      * Cursor to the appropriate methods and if any key is
@@ -376,19 +381,32 @@ public class Movement extends InputHandler {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
             operation.deleteChar(cursor);
+
+            activeOperator = false;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
             move = charHorizontalMove(cursor, false);
+
+            activeOperator = false;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
             move = charHorizontalMove(cursor, true);
+
+            if(activeOperator){
+
+                operation.deleteChar(cursor);
+                activeOperator = false;
+                return 0;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
             move = traversePreviousWord(cursor,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT));
+
+            activeOperator = false;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
@@ -396,6 +414,13 @@ public class Movement extends InputHandler {
             move = traverseWord(cursor,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     true);
+
+            if(activeOperator){
+
+                operation.deleteCharBatch(cursor, move);
+                activeOperator = false;
+                return 0;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
@@ -404,6 +429,13 @@ public class Movement extends InputHandler {
             move = traverseWord(cursor,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     false);
+
+            if(activeOperator){
+
+                operation.deleteCharBatch(cursor, move + 1);
+                activeOperator = false;
+                return 0;
+            }
         }
 
 
@@ -411,16 +443,31 @@ public class Movement extends InputHandler {
             && (getIterationInt() <= 0)){
 
             move = traverseWholeLine(cursor, false);
+
+                activeOperator = false;
         }
 
         if (keyPressedIsChar('$')){
 
             move = traverseWholeLine(cursor, true);
+
+            if(activeOperator){
+
+                operation.deleteCharBatch(cursor, move + 1);
+                activeOperator = false;
+                return 0;
+            }
         }
 
         if (keyPressedIsChar('^')){
 
             goToFirstNonBlankChar(cursor);
+            activeOperator = false;
+        }
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            activeOperator = true;
         }
 
         if(move != 0
@@ -429,88 +476,5 @@ public class Movement extends InputHandler {
         return 0;
     }
 
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////// SUPPORTER METHODS //////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    /**
-     * Checks if char is a symbol and thus next to each
-     * other constitutes a word. Is used together with
-     * isSymbol() to separate between words and WORDS.
-     * Space is not included
-     * @param character char to check
-     * @return true if char is a symbol
-     */
-    private boolean isSymbol(char character ){
-        return ((character >= '!' && character <= '/')
-                || (character >= ':' && character <= '@')
-                || (character >= '[' && character <= '_')
-                || (character >= '{' && character <= '~'));
-    }
-
-
-    /**
-     * Checks if char is a letter or number and thus
-     * next to each other constitutes a word. Is used
-     * together with isSymbol() to separate between
-     * words and WORDS. Space is not included
-     * @param character char to check
-     * @return true if char is a symbol
-     */
-    private boolean isLetterChar(char character ){
-        return ((character >= '0' && character <= '9')
-                || (character >= 'a' && character <= 'z')
-                || (character >= 'A' && character <= 'Z'));
-    }
-
-    /**
-     * VIM-movement-rules based on chars
-     *
-     * the method aspires to contain all the word-movement
-     * rules to be used in the word-movement-methods. it
-     * checks between the current and privius char according
-     * to rules divided by if-statements. If any rule is true,
-     * it returns true.
-     * @param currCellChar the char of the current cell
-     * @param prevCellChar the char of the previus cell
-     * @return true if a ruled if followed.
-     */
-    private boolean wordMovementRules(char currCellChar, char prevCellChar){
-        if(isLetterChar(prevCellChar)
-                && isLetterChar(currCellChar)){
-            return false;
-        }
-        if(isSymbol(prevCellChar)
-                && isSymbol(currCellChar)){
-            return false;
-        }
-
-        if( isLetterChar(prevCellChar)
-                && currCellChar == ' '){
-            return true;
-        }
-
-        if( isSymbol(prevCellChar)
-                && currCellChar == ' '){
-            return true;
-        }
-
-        if( isSymbol(prevCellChar)
-                && isLetterChar(currCellChar)){
-            return true;
-        }
-
-        if( isLetterChar(prevCellChar)
-                && isSymbol(currCellChar)){
-            return true;
-        }
-
-
-        return false;
-    }
 
 }
