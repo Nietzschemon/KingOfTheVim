@@ -3,4 +3,23 @@ package com.kingofthevim.game.basicvim;
 public interface VimObject {
 
     VimWorldMatrix getVimMatrix();
+
+    int getRowTotal();
+
+    int getColunmTotal();
+
+    int getCurrRow();
+
+    int getCurrColumn();
+
+    void update();
+
+    boolean setRelativeRow(int rowMove);
+
+    boolean setAbsoluteRow(int row);
+
+    boolean setRelativeColumn(int columnMove);
+
+    boolean setAbsoluteColumn(int column);
+
 }
