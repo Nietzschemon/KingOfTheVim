@@ -9,17 +9,13 @@ import java.util.ArrayList;
  * number of cells and their sizes. All VIM actions are limited to
  * happen within the bounds set here by interaction with the cellMatrix
  */
-public class VimWorldMatrix implements VimObject {
+public class VimWorldMatrix  {
 
     static int rowTotal;
     static int colunmTotal;
     static int fontHeight = 66;
     static int fontWidth = 33;
 
-    @Override
-    public VimWorldMatrix getVimMatrix() {
-        return this;
-    }
 
     private enum Font {
         SIZE64,
