@@ -30,15 +30,20 @@ public class Cell {
 
     private static Font font = new Font();
 
-    private char cellChar = ' ';
-    private Texture cellLook;
-    private Texture cellLookDefault;
     private Vector2 cartesianPosition;
-    private LetterType letterType = LetterType.EMPATHY;
+    private Properties cellProperties;
 
+    public class Properties {
+
+        char cellChar = ' ';
+        Texture cellLook;
+        Texture cellLookDefault;
+        LetterType letterType = LetterType.EMPATHY;
+    }
 
     Cell( float x, float y){
 
+        cellProperties = new Properties();
         cartesianPosition = new Vector2();
         cartesianPosition.x = x;
         cartesianPosition.y = y;
@@ -49,11 +54,11 @@ public class Cell {
     }
     Cell(Texture look, Vector2 position){
 
-        cellLook = look;
+        cellProperties.cellLook = look;
         cartesianPosition = position;
     }
     public Texture getCellLook(){
-        return cellLook;
+        return this.cellProperties.cellLook;
     }
 
     /**
@@ -75,55 +80,55 @@ public class Cell {
         switch (type) {
 
             case BLACK:
-                this.cellLook = blackFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = blackFont.get(cellChar);
+                this.cellProperties.cellLook = blackFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = blackFont.get(cellChar);
                 break;
 
             case BLACK_YELLOW:
-                this.cellLook = blackYellowFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = blackYellowFont.get(cellChar);
+                this.cellProperties.cellLook = blackYellowFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = blackYellowFont.get(cellChar);
                 break;
 
             case GRAY:
-                this.cellLook = grayFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = grayFont.get(cellChar);
+                this.cellProperties.cellLook = grayFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = grayFont.get(cellChar);
                 break;
 
 
             case RED:
-                this.cellLook = redFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = redFont.get(cellChar);
+                this.cellProperties.cellLook = redFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = redFont.get(cellChar);
                 break;
 
             case YELLOW:
-                this.cellLook = yellowFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = yellowFont.get(cellChar);
+                this.cellProperties.cellLook = yellowFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = yellowFont.get(cellChar);
                 break;
 
             case WHITE:
-                this.cellLook = whiteFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = whiteFont.get(cellChar);
+                this.cellProperties.cellLook = whiteFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = whiteFont.get(cellChar);
                 break;
 
             case WHITE_GREEN:
-                this.cellLook = whiteGreenFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = whiteGreenFont.get(cellChar);
+                this.cellProperties.cellLook = whiteGreenFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = whiteGreenFont.get(cellChar);
                 break;
 
             case WHITE_RED:
-                this.cellLook = whiteRedFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = whiteRedFont.get(cellChar);
+                this.cellProperties.cellLook = whiteRedFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = whiteRedFont.get(cellChar);
                 break;
 
             case WHITE_PURPLE:
-                this.cellLook = whitePurpleFont.get(cellChar);
-                if(isDefault)this.cellLookDefault = whitePurpleFont.get(cellChar);
+                this.cellProperties.cellLook = whitePurpleFont.get(cellChar);
+                if(isDefault)this.cellProperties.cellLookDefault = whitePurpleFont.get(cellChar);
                 break;
 
         }
 
-        if(replaceChar)this.cellChar = cellChar;
-        if(isDefault) this.letterType = type;
+        if(replaceChar)this.cellProperties.cellChar = cellChar;
+        if(isDefault) this.cellProperties.letterType = type;
     }
 
 
@@ -132,7 +137,7 @@ public class Cell {
      * @return the char of the cell
      */
     public char getCellChar() {
-        return cellChar;
+        return cellProperties.cellChar;
     }
 
     /**
@@ -164,7 +169,7 @@ public class Cell {
      */
     public void setCellLookTemp(LetterType letterType){
 
-        setCellLook(cellChar, letterType, false, false);
+        setCellLook(cellProperties.cellChar, letterType, false, false);
 
     }
 
@@ -172,7 +177,7 @@ public class Cell {
      * Resets the cell to it's default look
      */
     public void setCellLookToDefault(){
-        this.cellLook = this.cellLookDefault;
+        this.cellProperties.cellLook = this.cellProperties.cellLookDefault;
     }
 
 
@@ -183,19 +188,18 @@ public class Cell {
      */
     public void clearCell(){
 
-        cellLook = null;
-        cellLookDefault = null;
-        cellChar = ' ';
-        letterType = LetterType.EMPATHY;
-        dispose();
+        cellProperties.cellLook = null;
+        cellProperties.cellLookDefault = null;
+        cellProperties.cellChar = ' ';
+        cellProperties.letterType = LetterType.EMPATHY;
     }
 
     /**
      * Disposes the resourses used by the cell
      */
     public void dispose(){
-        cellLook.dispose();
-        cellLookDefault.dispose();
+        cellProperties.cellLook.dispose();
+        cellProperties.cellLookDefault.dispose();
     }
 
     /**
@@ -203,7 +207,7 @@ public class Cell {
      * @return the LetterType of letterType field
      */
     public Enum<LetterType> getLetterType() {
-        return letterType;
+        return cellProperties.letterType;
     }
 
     /**
@@ -215,7 +219,7 @@ public class Cell {
      */
     public void setLetterType(LetterType letterType) {
 
-        this.setCellLook(cellChar, letterType, true, false);
+        this.setCellLook(cellProperties.cellChar, letterType, true, false);
     }
 
     /**
@@ -228,7 +232,7 @@ public class Cell {
      */
     public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
 
-        if(this.letterType != LetterType.GRAY
+        if(this.cellProperties.letterType != LetterType.GRAY
         || includeGrayFont){
             this.setCellLook(letter, letterType, true, true);
         }
