@@ -31,6 +31,15 @@ public class Cell {
     private static Font font = new Font();
 
     private Vector2 cartesianPosition;
+
+    public Properties getCellProperties() {
+        return cellProperties;
+    }
+
+    public void setCellProperties(Properties cellProperties) {
+        this.cellProperties = cellProperties;
+    }
+
     private Properties cellProperties;
 
     public class Properties {
@@ -39,6 +48,9 @@ public class Cell {
         Texture cellLook;
         Texture cellLookDefault;
         LetterType letterType = LetterType.EMPATHY;
+    }
+    Cell(){
+        cellProperties = new Properties();
     }
 
     Cell( float x, float y){
@@ -188,10 +200,11 @@ public class Cell {
      */
     public void clearCell(){
 
-        cellProperties.cellLook = null;
-        cellProperties.cellLookDefault = null;
-        cellProperties.cellChar = ' ';
-        cellProperties.letterType = LetterType.EMPATHY;
+        cellProperties = new Properties();
+        //cellProperties.cellLook = null;
+        //cellProperties.cellLookDefault = null;
+        //cellProperties.cellChar = ' ';
+        //cellProperties.letterType = LetterType.EMPATHY;
     }
 
     /**

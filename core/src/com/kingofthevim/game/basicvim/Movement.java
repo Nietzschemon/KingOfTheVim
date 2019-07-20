@@ -14,6 +14,7 @@ public class Movement extends InputHandler {
     private Pattern wordLetNum = Pattern.compile("(\\w+)");
     private Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]+)");
 
+    private Operations operation = new Operations();
 
 
 
@@ -371,6 +372,11 @@ public class Movement extends InputHandler {
         int currColumn = cursor.getCurrColumn();
 
         int move = 0;
+
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+            operation.deleteChar(cursor);
+        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
             move = charHorizontalMove(cursor, false);

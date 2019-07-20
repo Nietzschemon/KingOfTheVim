@@ -4,6 +4,9 @@ public interface VimObject {
 
     VimWorldMatrix getVimMatrix();
 
+    default Cell getCurrentCell(){
+        return getVimMatrix().getCellMatrix().get(getCurrRow()).get(getCurrColumn());
+    }
     int getRowTotal();
 
     int getColunmTotal();
