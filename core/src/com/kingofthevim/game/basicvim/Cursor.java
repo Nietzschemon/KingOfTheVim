@@ -58,8 +58,9 @@ public class Cursor implements VimObject {
 
     @Override
     public void update(){
+        doBeforePosiUpdate();
         mover.move(this);
-        setPosition(mover.getObjectPosition());
+        doAfterPosiUpdate();
     }
 
     private void doBeforePosiUpdate(){
@@ -159,6 +160,7 @@ public class Cursor implements VimObject {
     @Override
     public void setPosition(Position position) {
 
+        this.position = position;
     }
     //</editor-fold desc="bla">
 }
