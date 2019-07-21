@@ -21,10 +21,9 @@ public class Cursor implements VimObject {
     private int colunmTotal;
     private ArrayList<ArrayList<Cell>> cellMatrix;
 
-    private int currRow;
-    private int currColumn;
+    private Location position;
 
-    private Vector2 position;
+    //private Vector2 position;
 
     //TODO remove and put as parameters in constructor
     private Size cursorSize;
@@ -49,13 +48,11 @@ public class Cursor implements VimObject {
         colunmTotal = VimWorldMatrix.colunmTotal;
 
 
+        position = new Location(this, startRow, startRowCell);
 
-        position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
+        //position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
 
         texture = new Texture("markers/marker_44purple.png");
-
-        currRow = startRow;
-        currColumn = startRowCell;
 
         mover = new Movement();
         this.points = points;
@@ -72,8 +69,9 @@ public class Cursor implements VimObject {
         if(rowMove != 0){
             doBeforePosiUpdate();
 
-            position.y = position.y + (cursorSize.getHeight() * rowMove);
-            currRow += rowMove;
+            //position.y = position.y + (cursorSize.getHeight() * rowMove);
+            //currRow += rowMove;
+            position.setCurrRow(position.getCurrRow() + rowMove);
             points.onMove(this);
 
             doAfterPosiUpdate();
@@ -91,8 +89,9 @@ public class Cursor implements VimObject {
         if(columnMove != 0){
             doBeforePosiUpdate();
 
-            position.x = position.x + (cursorSize.getWidth() * columnMove);
-            currColumn += columnMove;
+            //position.x = position.x + (cursorSize.getWidth() * columnMove);
+            //currColumn += columnMove;
+            position.setCurrColumn(position.getCurrColumn() + columnMove);
             points.onMove(this);
 
             doAfterPosiUpdate();
@@ -115,8 +114,8 @@ public class Cursor implements VimObject {
                 && row < colunmTotal){
             doBeforePosiUpdate();
 
-            position.y = cursorSize.getHeight() * row;
-            currRow = row;
+            //position.y = cursorSize.getHeight() * row;
+            //currRow = row;
             points.onMove(this);
 
             doAfterPosiUpdate();
@@ -139,8 +138,8 @@ public class Cursor implements VimObject {
         && column < colunmTotal){
             doBeforePosiUpdate();
 
-            position.x = cursorSize.getWidth() * column;
-            currColumn = column;
+            //position.x = cursorSize.getWidth() * column;
+            //currColumn = column;
             points.onMove(this);
 
             doAfterPosiUpdate();
@@ -158,12 +157,18 @@ public class Cursor implements VimObject {
     }
 
     private void doBeforePosiUpdate(){
+        int currRow = position.getCurrRow();
+        int currColumn = position.getCurrColumn();
+
         cellMatrix.get(currRow).get(currColumn).setCellLookToDefault();
     }
 
     //TODO make a general method that looks what color the cursor is
     // and the letter according to a scheme
     private void doAfterPosiUpdate(){
+
+        int currRow = position.getCurrRow();
+        int currColumn = position.getCurrColumn();
 
         if(isOnType(LetterType.RED)){
             cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_RED);
@@ -185,6 +190,10 @@ public class Cursor implements VimObject {
 
     @Override
     public boolean isOnLetter(char letter){
+
+        int currRow = position.getCurrRow();
+        int currColumn = position.getCurrColumn();
+
         if(cellMatrix.get(currRow).get(currColumn).getCellChar() == letter){
             //System.out.println("is on letter \"" + letter + "\"");
         }
@@ -194,6 +203,9 @@ public class Cursor implements VimObject {
 
     @Override
     public boolean isOnType(LetterType type){
+        int currRow = position.getCurrRow();
+        int currColumn = position.getCurrColumn();
+
         if(cellMatrix.get(currRow).get(currColumn).getLetterType() == type){
             //System.out.println("is on type \"" + type + "\"");
         }
@@ -207,7 +219,7 @@ public class Cursor implements VimObject {
     }
 
     public Vector2 getPosition(){
-        return position;
+        return position.getCartesianPosition();
     }
 
     public int getMoveCounter() {
@@ -254,25 +266,22 @@ public class Cursor implements VimObject {
 
     @Override
     public int getCurrRow() {
-        return currRow;
+        return position.getCurrRow();
     }
 
     public void setCurrRow(int currRow) {
-        this.currRow = currRow;
+        this.position.setCurrRow(currRow);
     }
 
     @Override
     public int getCurrColumn() {
-        return currColumn;
+        return position.getCurrColumn();
     }
 
     public void setCurrColumn(int currColumn) {
-        this.currColumn = currColumn;
+        this.position.setCurrColumn(currColumn);
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
 
     public void setTexture(Texture texture) {
         this.texture = texture;

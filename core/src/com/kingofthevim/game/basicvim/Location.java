@@ -12,6 +12,7 @@ public class Location {
 
     Location(VimObject vimObject, int row, int column){
         this.vimObject = vimObject;
+        cartesianPosition = new Vector2();
         setCurrRow(row);
         setCurrColumn(column);
     }
@@ -25,7 +26,7 @@ public class Location {
     }
 
     public void setCurrRow(int currRow) {
-        cartesianPosition.x = vimObject.getSize().getWidth() * currRow;
+        cartesianPosition.y = vimObject.getSize().getHeight() * currRow;
         this.currRow = currRow;
     }
 
@@ -34,7 +35,7 @@ public class Location {
     }
 
     public void setCurrColumn(int currColumn) {
-        cartesianPosition.y = vimObject.getSize().getHeight() * currColumn;
+        cartesianPosition.x = vimObject.getSize().getWidth() * currColumn;
         this.currColumn = currColumn;
     }
 
