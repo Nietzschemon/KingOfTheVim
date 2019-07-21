@@ -8,7 +8,7 @@ public interface VimObject {
         return getVimMatrix().getCellMatrix().get(getCurrRow()).get(getCurrColumn());
     }
 
-    int getSize();
+    Size getSize();
 
     int getRowTotal();
 

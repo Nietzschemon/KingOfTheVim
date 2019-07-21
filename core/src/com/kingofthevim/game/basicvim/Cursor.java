@@ -27,8 +27,7 @@ public class Cursor implements VimObject {
     private Vector2 position;
 
     //TODO remove and put as parameters in constructor
-    private int cellWidth = 22;
-    private int cellHeight = 44;
+    private Size cursorSize;
     private Texture texture;
 
     private PointSystem points;
@@ -41,6 +40,8 @@ public class Cursor implements VimObject {
     //TODO inherit from cell
 
     public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell, PointSystem points){
+
+        cursorSize = new Size(22, 44);
 
         this.vimMatrix = vimMatrix;
         cellMatrix = vimMatrix.getCellMatrix();
@@ -71,7 +72,7 @@ public class Cursor implements VimObject {
         if(rowMove != 0){
             doBeforePosiUpdate();
 
-            position.y = position.y + (cellHeight * rowMove);
+            position.y = position.y + (cursorSize.getHeight() * rowMove);
             currRow += rowMove;
             points.onMove(this);
 
@@ -90,7 +91,7 @@ public class Cursor implements VimObject {
         if(columnMove != 0){
             doBeforePosiUpdate();
 
-            position.x = position.x + (cellWidth * columnMove);
+            position.x = position.x + (cursorSize.getWidth() * columnMove);
             currColumn += columnMove;
             points.onMove(this);
 
@@ -114,7 +115,7 @@ public class Cursor implements VimObject {
                 && row < colunmTotal){
             doBeforePosiUpdate();
 
-            position.y = cellHeight * row;
+            position.y = cursorSize.getHeight() * row;
             currRow = row;
             points.onMove(this);
 
@@ -138,7 +139,7 @@ public class Cursor implements VimObject {
         && column < colunmTotal){
             doBeforePosiUpdate();
 
-            position.x = cellWidth * column;
+            position.x = cursorSize.getWidth() * column;
             currColumn = column;
             points.onMove(this);
 
@@ -273,22 +274,6 @@ public class Cursor implements VimObject {
         this.position = position;
     }
 
-    public int getCellWidth() {
-        return cellWidth;
-    }
-
-    public void setCellWidth(int cellWidth) {
-        this.cellWidth = cellWidth;
-    }
-
-    public int getCellHeight() {
-        return cellHeight;
-    }
-
-    public void setCellHeight(int cellHeight) {
-        this.cellHeight = cellHeight;
-    }
-
     public void setTexture(Texture texture) {
         this.texture = texture;
     }
@@ -304,6 +289,11 @@ public class Cursor implements VimObject {
     @Override
     public VimWorldMatrix getVimMatrix() {
         return vimMatrix;
+    }
+
+    @Override
+    public Size getSize() {
+        return cursorSize;
     }
     //</editor-fold desc="bla">
 }
