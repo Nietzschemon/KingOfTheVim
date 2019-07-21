@@ -16,19 +16,28 @@ public class Movement extends InputHandler {
 
     private Operations operation = new Operations();
 
+    private Position objectPosition;
+
+    public Position getObjectPosition() {
+        return objectPosition;
+    }
+
+    public void setObjectPosition(Position objectPosition) {
+        this.objectPosition = objectPosition;
+    }
 
 
     /**
      * Checks if vertical move is possible from the
      * current place by checking the current position
-     * in the matrix of the cursor against the move
+     * in the matrix of the object against the move
      * where it would be if the move parameter is added
      * @param move number of steps - positive or negative
      * @return True if possible, false if not
      */
-    private boolean isLegitVerticalMove(Cursor cursor, int move){
-        int rowTotal = cursor.getRowTotal();
-        int currRow = cursor.getCurrRow();
+    private boolean isLegitVerticalMove(VimObject object, int move){
+        int rowTotal = object.getRowTotal();
+        int currRow = object.getCurrRow();
 
         if(currRow + move < 0
                 || currRow + move > rowTotal-1){
@@ -43,14 +52,14 @@ public class Movement extends InputHandler {
     /**
      * Checks if horizontal move is possible from the
      * current place by checking the current position
-     * in the matrix of the cursor against themove
+     * in the matrix of the object against themove
      * where it would be if the move parameter is added
      * @param move number of steps - positive or negative
      * @return True if possible, false if not
      */
-    private boolean isLegitHorizontalMove(Cursor cursor, int move){
-        int colunmTotal = cursor.getColunmTotal();
-        int currColumn = cursor.getCurrColumn();
+    private boolean isLegitHorizontalMove(VimObject object, int move){
+        int colunmTotal = object.getColunmTotal();
+        int currColumn = object.getCurrColumn();
 
         if(currColumn + move < 0
                 || currColumn + move > colunmTotal - 1){
@@ -66,21 +75,21 @@ public class Movement extends InputHandler {
      * Handles per char vertical move events
      * returning a positive or negative number
      * multiplied with iteration if entered.
-     * @param cursor cursor to move
+     * @param object object to move
      * @param down handles up/down-moves
      * @return a positive or negative integer
      */
-    private int charVerticalMove(Cursor cursor, boolean down){
+    private int charVerticalMove(VimObject object, boolean down){
 
        int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
-       int endRow =  cursor.getRowTotal() - cursor.getCurrRow() - 1;
+       int endRow =  object.getRowTotal() - object.getCurrRow() - 1;
 
         if(down)
         {
-            return (isLegitVerticalMove(cursor, move)) ? move : endRow;
+            return (isLegitVerticalMove(object, move)) ? move : endRow;
         }
 
-        return (isLegitVerticalMove(cursor, - move)) ? ( - move ) : ( - (cursor.getCurrRow()));
+        return (isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getCurrRow()));
     }
 
 
@@ -88,20 +97,20 @@ public class Movement extends InputHandler {
      * Handles per char vertical move events
      * returning a positive or negative number
      * multiplied with iteration if entered.
-     * @param cursor cursor to move
+     * @param object object to move
      * @param forward handles backward/forward-moves
      * @return a positive or negative integer
      */
-    private int charHorizontalMove(Cursor cursor, boolean forward){
+    private int charHorizontalMove(VimObject object, boolean forward){
         int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
-        int endColumn = cursor.getColunmTotal() - cursor.getCurrColumn() - 1;
+        int endColumn = object.getColunmTotal() - object.getCurrColumn() - 1;
 
         if (forward)
         {
-            return (isLegitHorizontalMove(cursor, move)) ? move : endColumn;
+            return (isLegitHorizontalMove(object, move)) ? move : endColumn;
         }
 
-        return (isLegitHorizontalMove(cursor, - move)) ? ( - move ) : ( - (cursor.getCurrColumn()));
+        return (isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getCurrColumn()));
 
     }
 
@@ -111,20 +120,20 @@ public class Movement extends InputHandler {
      *
      * This is done with regex-patterns that follow the
      * word/WORD-movement-rules. If not match, zero is returned
-     * @param cursor the cursor to be moved in the matrix
+     * @param object the object to be moved in the matrix
      * @param shiftHeld if true WORD-rules are applied
      * @param wordBgn if true w/W-rules applies, else e/E-rules
      * @return the number of steps to perform asked movement
      */
-    private int traverseWord(Cursor cursor, boolean shiftHeld, boolean wordBgn){
+    private int traverseWord(VimObject object, boolean shiftHeld, boolean wordBgn){
 
-        VimWorldMatrix matrix = cursor.getVimMatrix();
+        VimWorldMatrix matrix = object.getVimMatrix();
 
         ArrayList<Integer> allMatches;
 
-        int currColumn = cursor.getCurrColumn();
-        int currRow = cursor.getCurrRow();
-        int colunmTotal = cursor.getColunmTotal();
+        int currColumn = object.getCurrColumn();
+        int currRow = object.getCurrRow();
+        int colunmTotal = object.getColunmTotal();
         int step;
 
         String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
@@ -173,17 +182,17 @@ public class Movement extends InputHandler {
      *
      * This is done with regex-patterns that follow the
      * word/WORD-movement-rules. If not match, zero is returned
-     * @param cursor the cursor to be moved in the matrix
+     * @param object the object to be moved in the matrix
      * @param shiftHeld if true WORD-rules are applied
      * @return the number of steps to perform asked movement
      */
-    private int traversePreviousWord(Cursor cursor, boolean shiftHeld){
+    private int traversePreviousWord(VimObject object, boolean shiftHeld){
 
-        VimWorldMatrix matrix = cursor.getVimMatrix();
+        VimWorldMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
 
-        int currColumn = cursor.getCurrColumn();
-        int currRow = cursor.getCurrRow();
+        int currColumn = object.getCurrColumn();
+        int currRow = object.getCurrRow();
         int step;
 
         String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, false);
@@ -278,13 +287,13 @@ public class Movement extends InputHandler {
 
     /**
      * Goes to end or beginning of line
-     * @param cursor The cursor that is to be moved
+     * @param object The object that is to be moved
      * @param toEnd if true, end of line; false, beginning of line
      * @return the integer to add or subtract to go to start or end
      */
-    private int traverseWholeLine(Cursor cursor, boolean toEnd){
-        int currColumn = cursor.getCurrColumn();
-        int colunmTotal = cursor.getColunmTotal();
+    private int traverseWholeLine(VimObject object, boolean toEnd){
+        int currColumn = object.getCurrColumn();
+        int colunmTotal = object.getColunmTotal();
 
         if(toEnd){
             return colunmTotal - currColumn - 1;
@@ -295,19 +304,19 @@ public class Movement extends InputHandler {
     }
 
 
-    /** TODO do not modify cursor directly
+    /** TODO do not modify object directly
      * TEMPORARY method for jumping to first non-blank char
-     * in line. NOTE modifies the cursor passed directly!
-     * @param cursor MODIFIES cursor position directly
+     * in line. NOTE modifies the object passed directly!
+     * @param object MODIFIES object position directly
      * @return true if success
      */
-    public boolean goToFirstNonBlankChar(Cursor cursor){
+    public boolean goToFirstNonBlankChar(VimObject object){
 
-        int currRow = cursor.getCurrRow();
-        int currColumn = cursor.getCurrColumn();
+        int currRow = object.getCurrRow();
+        int currColumn = object.getCurrColumn();
         int firstNonBlank = -1;
 
-        String row = cursor.getVimMatrix().getStringIndexToRowBeginning(currRow, currColumn, false);
+        String row = object.getVimMatrix().getStringIndexToRowBeginning(currRow, currColumn, false);
         //System.out.println("ROW STRING: " + row);
         Matcher firstNonBlankMatcher = wordCap.matcher(row);
 
@@ -320,7 +329,7 @@ public class Movement extends InputHandler {
 
              */
 
-            cursor.setAbsoluteColumn(firstNonBlankMatcher.start());
+            object.setAbsoluteColumn(firstNonBlankMatcher.start());
             return true;
         }
 
@@ -329,81 +338,84 @@ public class Movement extends InputHandler {
 
     /**
      * The main method for all vertical moves. It passes
-     * Cursor to the appropriate methods and if any key is
+     * object to the appropriate methods and if any key is
      * pressed will return the number of steps in the
      * matrix that was returned by that method. If no
      * valid moves are made it returns zero via
      * charVerticalMove()
-     * @param cursor the cursor to be moved
+     * @param object the object to be moved
      * @return An integer representing the number of
      * steps that is to be taken between rows in the matrix
      */
-    int verticalMove(Cursor cursor){
+    void verticalMove(VimObject object){
 
         int move = 0;
+        objectPosition = object.getPosition();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-           move = charVerticalMove(cursor, false);
+           move = charVerticalMove(object, false);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            move = charVerticalMove(cursor, true);
+            move = charVerticalMove(object, true);
         }
 
-        if(isLegitVerticalMove(cursor,move)
+        if(isLegitVerticalMove(object,move)
         && move != 0){
             activeOperator = false;
-            return move;
+            objectPosition.setCurrRow(objectPosition.getCurrRow() + move);
         }
 
-        return 0;
     }
 
 
     //TODO make backwards delete work
     /**
      * The main method for all horizontal moves. It passes
-     * Cursor to the appropriate methods and if any key is
+     * object to the appropriate methods and if any key is
      * pressed will return the number of steps in the
      * matrix that was returned by that method. If no
      * valid moves are made it returns zero via
      * charVerticalMove()
-     * @param cursor the cursor to be moved
+     * @param object the object to be moved
      * @return An integer representing the number of
      * steps that is to be taken between rows in the matrix
      */
-    int horizontalMove(Cursor cursor){
+    void horizontalMove(VimObject object){
 
-        int colunmTotal = cursor.getColunmTotal();
-        int currColumn = cursor.getCurrColumn();
+        int colunmTotal = object.getColunmTotal();
+        int currColumn = object.getCurrColumn();
 
         int move = 0;
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            activeOperator = true;
+        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
-            operation.deleteChar(cursor);
+            operation.deleteChar(object);
 
             activeOperator = false;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-            move = charHorizontalMove(cursor, false);
+            move = charHorizontalMove(object, false);
 
             activeOperator = false;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            move = charHorizontalMove(cursor, true);
+            move = charHorizontalMove(object, true);
 
             if(activeOperator){
 
-                operation.deleteChar(cursor);
+                operation.deleteChar(object);
                 activeOperator = false;
-                return 0;
+                move = 0;
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
 
-            move = traversePreviousWord(cursor,
+            move = traversePreviousWord(object,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT));
 
             activeOperator = false;
@@ -411,30 +423,30 @@ public class Movement extends InputHandler {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
 
-            move = traverseWord(cursor,
+            move = traverseWord(object,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     true);
 
             if(activeOperator){
 
-                operation.deleteCharBatch(cursor, move);
+                operation.deleteCharBatch(object, move);
                 activeOperator = false;
-                return 0;
+                move = 0;
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)
                 && currColumn != colunmTotal){
 
-            move = traverseWord(cursor,
+            move = traverseWord(object,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
                     false);
 
             if(activeOperator){
 
-                operation.deleteCharBatch(cursor, move + 1);
+                operation.deleteCharBatch(object, move + 1);
                 activeOperator = false;
-                return 0;
+                move = 0;
             }
         }
 
@@ -442,38 +454,44 @@ public class Movement extends InputHandler {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)
             && (getIterationInt() <= 0)){
 
-            move = traverseWholeLine(cursor, false);
+            move = traverseWholeLine(object, false);
 
                 activeOperator = false;
         }
 
         if (keyPressedIsChar('$')){
 
-            move = traverseWholeLine(cursor, true);
+            move = traverseWholeLine(object, true);
 
             if(activeOperator){
 
-                operation.deleteCharBatch(cursor, move + 1);
+                operation.deleteCharBatch(object, move + 1);
                 activeOperator = false;
-                return 0;
+                move = 0;
             }
         }
 
         if (keyPressedIsChar('^')){
 
-            goToFirstNonBlankChar(cursor);
+            goToFirstNonBlankChar(object);
             activeOperator = false;
         }
 
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
-            activeOperator = true;
-        }
 
         if(move != 0
-        && isLegitHorizontalMove(cursor, move)) return move;
+        && isLegitHorizontalMove(object, move)) {
+            objectPosition.setCurrColumn(objectPosition.getCurrColumn() + move);
+        }
 
-        return 0;
+    }
+
+    void move(VimObject object){
+        objectPosition = object.getPosition();
+
+        verticalMove(object);
+        horizontalMove(object);
+
     }
 
 

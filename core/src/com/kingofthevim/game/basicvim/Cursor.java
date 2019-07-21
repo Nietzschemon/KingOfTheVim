@@ -143,9 +143,8 @@ public class Cursor implements VimObject {
 
     @Override
     public void update(){
-
-        setRelativeRow(mover.verticalMove(this));
-        setRelativeColumn(mover.horizontalMove(this));
+        mover.move(this);
+        setPosition(mover.getObjectPosition());
     }
 
     private void doBeforePosiUpdate(){
