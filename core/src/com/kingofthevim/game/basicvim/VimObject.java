@@ -10,6 +10,10 @@ public interface VimObject {
 
     Size getSize();
 
+    Location getLocation();
+
+    void setLocation(Location location);
+
     int getRowTotal();
 
     int getColunmTotal();
