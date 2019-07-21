@@ -7,14 +7,14 @@ public class Operations {
 
     void deleteChar(VimObject vimObj){
 
-        ArrayList<Cell> cellList = vimObj.getVimMatrix().getCellMatrix().get(vimObj.getCurrRow());
+        ArrayList<Cell> cellList = vimObj.getVimMatrix().getCellMatrix().get(vimObj.getPosition().getCurrRow());
 
-        for (int i = vimObj.getCurrColumn(); i < cellList.size() - 1; i++) {
+        for (int i = vimObj.getPosition().getCurrColumn(); i < cellList.size() - 1; i++) {
 
             cellList.get(i).setCellProperties(cellList.get( i + 1 ).getCellProperties());
         }
 
-        cellList.get(vimObj.getColunmTotal() - 1).clearCell();
+        cellList.get(vimObj.getPosition().getColunmTotal() - 1).clearCell();
 
     }
 

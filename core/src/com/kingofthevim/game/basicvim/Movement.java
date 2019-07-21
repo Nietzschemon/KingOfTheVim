@@ -36,8 +36,8 @@ public class Movement extends InputHandler {
      * @return True if possible, false if not
      */
     private boolean isLegitVerticalMove(VimObject object, int move){
-        int rowTotal = object.getRowTotal();
-        int currRow = object.getCurrRow();
+        int rowTotal = object.getPosition().getRowTotal();
+        int currRow = object.getPosition().getCurrRow();
 
         if(currRow + move < 0
                 || currRow + move > rowTotal-1){
@@ -58,8 +58,8 @@ public class Movement extends InputHandler {
      * @return True if possible, false if not
      */
     private boolean isLegitHorizontalMove(VimObject object, int move){
-        int colunmTotal = object.getColunmTotal();
-        int currColumn = object.getCurrColumn();
+        int colunmTotal = object.getPosition().getColunmTotal();
+        int currColumn = object.getPosition().getCurrColumn();
 
         if(currColumn + move < 0
                 || currColumn + move > colunmTotal - 1){
@@ -82,14 +82,14 @@ public class Movement extends InputHandler {
     private int charVerticalMove(VimObject object, boolean down){
 
        int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
-       int endRow =  object.getRowTotal() - object.getCurrRow() - 1;
+       int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
 
         if(down)
         {
             return (isLegitVerticalMove(object, move)) ? move : endRow;
         }
 
-        return (isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getCurrRow()));
+        return (isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrRow()));
     }
 
 
@@ -103,14 +103,14 @@ public class Movement extends InputHandler {
      */
     private int charHorizontalMove(VimObject object, boolean forward){
         int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
-        int endColumn = object.getColunmTotal() - object.getCurrColumn() - 1;
+        int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
 
         if (forward)
         {
             return (isLegitHorizontalMove(object, move)) ? move : endColumn;
         }
 
-        return (isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getCurrColumn()));
+        return (isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrColumn()));
 
     }
 
@@ -131,9 +131,9 @@ public class Movement extends InputHandler {
 
         ArrayList<Integer> allMatches;
 
-        int currColumn = object.getCurrColumn();
-        int currRow = object.getCurrRow();
-        int colunmTotal = object.getColunmTotal();
+        int currColumn = object.getPosition().getCurrColumn();
+        int currRow = object.getPosition().getCurrRow();
+        int colunmTotal = object.getPosition().getColunmTotal();
         int step;
 
         String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
@@ -191,8 +191,8 @@ public class Movement extends InputHandler {
         VimWorldMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
 
-        int currColumn = object.getCurrColumn();
-        int currRow = object.getCurrRow();
+        int currColumn = object.getPosition().getCurrColumn();
+        int currRow = object.getPosition().getCurrRow();
         int step;
 
         String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, false);
@@ -292,8 +292,8 @@ public class Movement extends InputHandler {
      * @return the integer to add or subtract to go to start or end
      */
     private int traverseWholeLine(VimObject object, boolean toEnd){
-        int currColumn = object.getCurrColumn();
-        int colunmTotal = object.getColunmTotal();
+        int currColumn = object.getPosition().getCurrColumn();
+        int colunmTotal = object.getPosition().getColunmTotal();
 
         if(toEnd){
             return colunmTotal - currColumn - 1;
@@ -312,8 +312,8 @@ public class Movement extends InputHandler {
      */
     public boolean goToFirstNonBlankChar(VimObject object){
 
-        int currRow = object.getCurrRow();
-        int currColumn = object.getCurrColumn();
+        int currRow = object.getPosition().getCurrRow();
+        int currColumn = object.getPosition().getCurrColumn();
         int firstNonBlank = -1;
 
         String row = object.getVimMatrix().getStringIndexToRowBeginning(currRow, currColumn, false);
@@ -329,7 +329,7 @@ public class Movement extends InputHandler {
 
              */
 
-            object.setAbsoluteColumn(firstNonBlankMatcher.start());
+            objectPosition.setAbsoluteColumn(firstNonBlankMatcher.start());
             return true;
         }
 
@@ -362,7 +362,7 @@ public class Movement extends InputHandler {
         if(isLegitVerticalMove(object,move)
         && move != 0){
             activeOperator = false;
-            objectPosition.setCurrRow(objectPosition.getCurrRow() + move);
+            objectPosition.setRelativeRow( move);
         }
 
     }
@@ -382,8 +382,8 @@ public class Movement extends InputHandler {
      */
     void horizontalMove(VimObject object){
 
-        int colunmTotal = object.getColunmTotal();
-        int currColumn = object.getCurrColumn();
+        int colunmTotal = object.getPosition().getColunmTotal();
+        int currColumn = object.getPosition().getCurrColumn();
 
         int move = 0;
 
@@ -481,7 +481,7 @@ public class Movement extends InputHandler {
 
         if(move != 0
         && isLegitHorizontalMove(object, move)) {
-            objectPosition.setCurrColumn(objectPosition.getCurrColumn() + move);
+            objectPosition.setRelativeColumn(move);
         }
 
     }

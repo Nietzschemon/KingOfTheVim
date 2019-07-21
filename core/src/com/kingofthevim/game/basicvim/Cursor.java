@@ -17,8 +17,6 @@ public class Cursor implements VimObject {
     private int moveCounter = 0;
     private int movesLeft = 10;
 
-    private int rowTotal;
-    private int colunmTotal;
     private ArrayList<ArrayList<Cell>> cellMatrix;
 
     private Position position;
@@ -42,13 +40,9 @@ public class Cursor implements VimObject {
 
         this.vimMatrix = vimMatrix;
         cellMatrix = vimMatrix.getCellMatrix();
-        rowTotal = VimWorldMatrix.rowTotal;
-        colunmTotal = VimWorldMatrix.colunmTotal;
 
 
-        position = new Position(this, startRow, startRowCell);
-
-        //position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
+        position = new Position(this, startRow, startRowCell, VimWorldMatrix.rowTotal, VimWorldMatrix.colunmTotal);
 
         texture = new Texture("markers/marker_44purple.png");
 
@@ -61,85 +55,6 @@ public class Cursor implements VimObject {
     }
 
 
-    @Override
-    public boolean setRelativeRow(int rowMove) {
-
-        if(rowMove != 0){
-            doBeforePosiUpdate();
-
-            position.setCurrRow(position.getCurrRow() + rowMove);
-            points.onMove(this);
-
-            doAfterPosiUpdate();
-
-            return true;
-        }
-
-        return false;
-    }
-
-
-    @Override
-    public boolean setRelativeColumn(int columnMove) {
-
-        if(columnMove != 0){
-            doBeforePosiUpdate();
-
-            position.setCurrColumn(position.getCurrColumn() + columnMove);
-            points.onMove(this);
-
-            doAfterPosiUpdate();
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Moves the cursor directly to
-     * the specified row
-     * @param row to move cursor to
-     * @return true if success, false if not
-     */
-    @Override
-    public boolean setAbsoluteRow(int row){
-
-        if(row >= 0
-                && row < colunmTotal){
-            doBeforePosiUpdate();
-
-            position.setCurrRow(row);
-            points.onMove(this);
-
-            doAfterPosiUpdate();
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Moves the cursor directly to
-     * the specified column
-     * @param column to move cursor to
-     * @return true if success, false if not
-     */
-    @Override
-    public boolean setAbsoluteColumn(int column){
-
-        if(column >= 0
-        && column < colunmTotal){
-            doBeforePosiUpdate();
-
-            position.setCurrColumn(column);
-            points.onMove(this);
-
-            doAfterPosiUpdate();
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public void update(){
@@ -224,63 +139,6 @@ public class Cursor implements VimObject {
 
     public void setMovesLeft(int movesLeft) {
         this.movesLeft = movesLeft;
-    }
-
-    @Override
-    public int getRowTotal() {
-        return rowTotal;
-    }
-
-    public void setRowTotal(int rowTotal) {
-        this.rowTotal = rowTotal;
-    }
-
-    @Override
-    public int getColunmTotal() {
-        return colunmTotal;
-    }
-
-    public void setColunmTotal(int colunmTotal) {
-        this.colunmTotal = colunmTotal;
-    }
-
-    public ArrayList<ArrayList<Cell>> getCellMatrix() {
-        return cellMatrix;
-    }
-
-    public void setCellMatrix(ArrayList<ArrayList<Cell>> cellMatrix) {
-        this.cellMatrix = cellMatrix;
-    }
-
-    @Override
-    public int getCurrRow() {
-        return position.getCurrRow();
-    }
-
-    public void setCurrRow(int currRow) {
-        this.position.setCurrRow(currRow);
-    }
-
-    @Override
-    public int getCurrColumn() {
-        return position.getCurrColumn();
-    }
-
-    public void setCurrColumn(int currColumn) {
-        this.position.setCurrColumn(currColumn);
-    }
-
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
-    public Movement getMover() {
-        return mover;
-    }
-
-    public void setMover(Movement mover) {
-        this.mover = mover;
     }
 
     @Override
