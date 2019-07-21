@@ -28,6 +28,7 @@ public class KingOfTheVimMain extends Game {
 		batch = new SpriteBatch();
 
 		setScreen(new PlayScreen(this));
+		Gdx.graphics.setContinuousRendering(false);
 
 
 		/*
