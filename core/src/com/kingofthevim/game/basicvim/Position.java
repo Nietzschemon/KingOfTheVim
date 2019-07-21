@@ -2,7 +2,7 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Location {
+public class Position {
 
     private VimObject vimObject;
     private Vector2 cartesianPosition;
@@ -10,7 +10,7 @@ public class Location {
     private int currColumn;
 
 
-    Location(VimObject vimObject, int row, int column){
+    Position(VimObject vimObject, int row, int column){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
         setCurrRow(row);

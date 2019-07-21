@@ -21,7 +21,7 @@ public class Cursor implements VimObject {
     private int colunmTotal;
     private ArrayList<ArrayList<Cell>> cellMatrix;
 
-    private Location position;
+    private Position position;
 
     //private Vector2 position;
 
@@ -48,7 +48,7 @@ public class Cursor implements VimObject {
         colunmTotal = VimWorldMatrix.colunmTotal;
 
 
-        position = new Location(this, startRow, startRowCell);
+        position = new Position(this, startRow, startRowCell);
 
         //position = new Vector2(cellMatrix.get(startRow).get(startRowCell).getCartesianPosition());
 
@@ -303,6 +303,16 @@ public class Cursor implements VimObject {
     @Override
     public Size getSize() {
         return cursorSize;
+    }
+
+    @Override
+    public Position getLocation() {
+        return position;
+    }
+
+    @Override
+    public void setLocation(Position position) {
+
     }
     //</editor-fold desc="bla">
 }
