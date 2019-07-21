@@ -15,8 +15,8 @@ public class Position {
     Position(VimObject vimObject, int row, int column, int rowTotal, int colunmTotal){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
-        setAbsoluteRow(row);
-        setAbsoluteColumn(column);
+        setRelativeRow(row);
+        setRelativeColumn(column);
 
         this.rowTotal = rowTotal;
         this.colunmTotal = colunmTotal;
