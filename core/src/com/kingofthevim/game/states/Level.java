@@ -106,7 +106,7 @@ public abstract class Level extends State {
             cursor.dispose();
             cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
         }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
         }
 
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){

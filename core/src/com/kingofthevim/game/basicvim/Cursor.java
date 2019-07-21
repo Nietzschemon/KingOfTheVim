@@ -210,9 +210,6 @@ public class Cursor implements VimObject {
         return texture;
     }
 
-    public Vector2 getPosition(){
-        return position.getCartesianPosition();
-    }
 
     public int getMoveCounter() {
         return moveCounter;
@@ -298,12 +295,12 @@ public class Cursor implements VimObject {
     }
 
     @Override
-    public Position getLocation() {
+    public Position getPosition() {
         return position;
     }
 
     @Override
-    public void setLocation(Position position) {
+    public void setPosition(Position position) {
 
     }
     //</editor-fold desc="bla">

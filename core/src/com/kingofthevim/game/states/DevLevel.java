@@ -179,7 +179,7 @@ public class DevLevel extends Level{
            //cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
 
         }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
+            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
         }
 
 
