@@ -23,8 +23,6 @@ public class Cursor implements VimObject {
 
     private Position position;
 
-    //private Vector2 position;
-
     //TODO remove and put as parameters in constructor
     private Size cursorSize;
     private Texture texture;
@@ -69,8 +67,6 @@ public class Cursor implements VimObject {
         if(rowMove != 0){
             doBeforePosiUpdate();
 
-            //position.y = position.y + (cursorSize.getHeight() * rowMove);
-            //currRow += rowMove;
             position.setCurrRow(position.getCurrRow() + rowMove);
             points.onMove(this);
 
@@ -82,15 +78,13 @@ public class Cursor implements VimObject {
         return false;
     }
 
-    //TODO make default reset for fonts work
+
     @Override
     public boolean setRelativeColumn(int columnMove) {
 
         if(columnMove != 0){
             doBeforePosiUpdate();
 
-            //position.x = position.x + (cursorSize.getWidth() * columnMove);
-            //currColumn += columnMove;
             position.setCurrColumn(position.getCurrColumn() + columnMove);
             points.onMove(this);
 
@@ -114,8 +108,7 @@ public class Cursor implements VimObject {
                 && row < colunmTotal){
             doBeforePosiUpdate();
 
-            //position.y = cursorSize.getHeight() * row;
-            //currRow = row;
+            position.setCurrRow(row);
             points.onMove(this);
 
             doAfterPosiUpdate();
@@ -138,8 +131,7 @@ public class Cursor implements VimObject {
         && column < colunmTotal){
             doBeforePosiUpdate();
 
-            //position.x = cursorSize.getWidth() * column;
-            //currColumn = column;
+            position.setCurrColumn(column);
             points.onMove(this);
 
             doAfterPosiUpdate();
