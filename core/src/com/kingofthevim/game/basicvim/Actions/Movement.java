@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Actions;
 
 import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Position;

@@ -1,9 +1,10 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Actions.MoveInput;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 public class InputManager implements InputProcessor {

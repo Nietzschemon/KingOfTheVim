@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Actions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,7 +10,7 @@ public class MoveInput extends Movement implements InputProcessor {
     private char currChar = 0;
     Cursor cursor;
 
-    MoveInput(Cursor cursor){
+    public MoveInput(Cursor cursor){
 
         this.cursor = cursor;
         setObjectPosition(cursor.getPosition());
