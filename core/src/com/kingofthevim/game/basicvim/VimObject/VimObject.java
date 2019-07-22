@@ -1,4 +1,8 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.VimObject;
+
+import com.kingofthevim.game.basicvim.Cell;
+import com.kingofthevim.game.basicvim.LetterType;
+import com.kingofthevim.game.basicvim.VimWorldMatrix;
 
 public interface VimObject {
 

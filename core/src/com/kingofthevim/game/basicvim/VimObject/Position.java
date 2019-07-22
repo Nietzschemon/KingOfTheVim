@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.VimObject;
 
 import com.badlogic.gdx.math.Vector2;
 

@@ -1,6 +1,7 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.VimObject;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.kingofthevim.game.basicvim.*;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class Cursor implements VimObject {
         cellMatrix = vimMatrix.getCellMatrix();
 
 
-        position = new Position(this, startRow, startRowCell, VimWorldMatrix.rowTotal, VimWorldMatrix.colunmTotal);
+        position = new Position(this, startRow, startRowCell, VimWorldMatrix.getRowTotal(), VimWorldMatrix.getColunmTotal());
 
         texture = new Texture("markers/marker_44purple.png");
 

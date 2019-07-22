@@ -11,10 +11,26 @@ import java.util.ArrayList;
  */
 public class VimWorldMatrix  {
 
-    static int rowTotal;
-    static int colunmTotal;
-    static int fontHeight = 66;
-    static int fontWidth = 33;
+    private static int rowTotal;
+    private static int colunmTotal;
+    private static int fontHeight = 66;
+    private static int fontWidth = 33;
+
+    public static int getRowTotal() {
+        return rowTotal;
+    }
+
+    public static int getColunmTotal() {
+        return colunmTotal;
+    }
+
+    public static int getFontHeight() {
+        return fontHeight;
+    }
+
+    public static int getFontWidth() {
+        return fontWidth;
+    }
 
 
     private enum Font {
@@ -22,7 +38,7 @@ public class VimWorldMatrix  {
         SIZE42
     }
 
-    static ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
+    private static ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area

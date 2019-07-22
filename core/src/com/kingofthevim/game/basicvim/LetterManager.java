@@ -23,8 +23,8 @@ public class LetterManager extends TagSystem {
 
     cellMatrix = matrix.getCellMatrix();
 
-    rowTotal = VimWorldMatrix.rowTotal;
-    colunmTotal = VimWorldMatrix.colunmTotal;
+    rowTotal = VimWorldMatrix.getRowTotal();
+    colunmTotal = VimWorldMatrix.getColunmTotal();
 
     }
 

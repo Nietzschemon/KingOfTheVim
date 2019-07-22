@@ -3,6 +3,7 @@ package com.kingofthevim.game.basicvim;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 public class MoveInput extends Movement implements InputProcessor {
 

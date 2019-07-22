@@ -1,7 +1,7 @@
 package com.kingofthevim.game.basicvim;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.kingofthevim.game.basicvim.VimObject.Position;
+import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;

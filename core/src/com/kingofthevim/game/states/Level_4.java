@@ -2,8 +2,7 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kingofthevim.game.basicvim.Cell;
-import com.kingofthevim.game.basicvim.Cursor;
+import com.kingofthevim.game.basicvim.VimObject.Cursor;
 import com.kingofthevim.game.basicvim.LetterType;
 import com.kingofthevim.game.basicvim.PointSystem;
 

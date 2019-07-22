@@ -3,8 +3,7 @@ package com.kingofthevim.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.*;
-
-import java.util.ArrayList;
+import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 public class Level_1 extends Level{
 
