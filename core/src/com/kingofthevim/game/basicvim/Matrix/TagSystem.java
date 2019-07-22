@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Matrix;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

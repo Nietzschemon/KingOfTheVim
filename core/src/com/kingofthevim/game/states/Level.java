@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
 import com.kingofthevim.game.basicvim.*;
+import com.kingofthevim.game.basicvim.Matrix.Cell;
+import com.kingofthevim.game.basicvim.Matrix.LetterManager;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
+import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 import com.kingofthevim.game.scens.Hud;
 

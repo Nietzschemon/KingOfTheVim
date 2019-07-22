@@ -1,8 +1,8 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Matrix;
 
 public class Tools {
 
-    static int lastSpaceLocation(String string){
+    public static int lastSpaceLocation(String string){
         char[] charArray = string.toCharArray();
 
         for (int i = charArray.length - 1; i > 0; i--) {
@@ -14,7 +14,7 @@ public class Tools {
         return -1;
     }
 
-    static boolean isBrokenUpStringPair(String upper, String lower){
+    public static boolean isBrokenUpStringPair(String upper, String lower){
         char upperLstChar = upper.charAt(upper.length() - 1);
         char lowerFrsChar = lower.charAt(0);
 
@@ -22,7 +22,7 @@ public class Tools {
     }
 
 
-    static boolean lastCharInStringIsLetter(String string, boolean checkCapitals){
+    public static boolean lastCharInStringIsLetter(String string, boolean checkCapitals){
         char strChar = string.charAt(string.length() - 1);
 
         if(strChar > 64 && strChar < 90){
@@ -46,7 +46,7 @@ public class Tools {
      * @param character char to check
      * @return true if char is a symbol
      */
-    static boolean isSymbol(char character ){
+    public static boolean isSymbol(char character ){
         return ((character >= '!' && character <= '/')
                 || (character >= ':' && character <= '@')
                 || (character >= '[' && character <= '_')
@@ -59,7 +59,7 @@ public class Tools {
      * @param character char to check
      * @return true if char is a letter or number
      */
-    static boolean charIsLetter(char character){
+    public static boolean charIsLetter(char character){
 
         if(character > 64 && character < 90)
             return true;
@@ -78,7 +78,7 @@ public class Tools {
      * @param character char to check
      * @return true if char is a letter or number
      */
-    static boolean isLetterOrNumber(char character ){
+    public static boolean isLetterOrNumber(char character ){
         return ((character >= '0' && character <= '9')
                 || (character >= 'a' && character <= 'z')
                 || (character >= 'A' && character <= 'Z'));
@@ -89,7 +89,7 @@ public class Tools {
      * @param character char to check
      * @return true if char is a vim-operator
      */
-    static boolean isOperator(char character){
+    public static boolean isOperator(char character){
         return character == 'd';
     }
 
@@ -105,7 +105,7 @@ public class Tools {
      * @param prevCellChar the char of the previus cell
      * @return true if a ruled if followed.
      */
-    static boolean wordMovementRules(char currCellChar, char prevCellChar){
+    public static boolean wordMovementRules(char currCellChar, char prevCellChar){
         if(isLetterOrNumber(prevCellChar)
                 && isLetterOrNumber(currCellChar)){
             return false;

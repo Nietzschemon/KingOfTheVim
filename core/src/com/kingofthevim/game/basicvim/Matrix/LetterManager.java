@@ -2,7 +2,7 @@
 //anno 2019-06-22
 //github RawNietzsche
 
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.basicvim.Matrix;
 
 import java.util.*;
 import java.util.regex.Matcher;

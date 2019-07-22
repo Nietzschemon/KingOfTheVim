@@ -1,6 +1,7 @@
 package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.utils.Timer;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 //TODO mark used up yellow letter with colorShift

@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
+import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 

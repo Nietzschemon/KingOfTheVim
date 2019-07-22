@@ -2,7 +2,7 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
-import com.kingofthevim.game.basicvim.LetterType;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.PointSystem;
 
 public class Level_2 extends Level {

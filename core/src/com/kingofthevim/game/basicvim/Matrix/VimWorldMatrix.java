@@ -1,6 +1,4 @@
-package com.kingofthevim.game.basicvim;
-
-import com.badlogic.gdx.graphics.Texture;
+package com.kingofthevim.game.basicvim.Matrix;
 
 import java.util.ArrayList;
 

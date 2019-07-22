@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
+import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;

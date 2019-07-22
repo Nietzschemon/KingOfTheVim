@@ -2,6 +2,9 @@ package com.kingofthevim.game.basicvim.VimObject;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.basicvim.*;
+import com.kingofthevim.game.basicvim.Matrix.Cell;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
+import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 
 import java.util.ArrayList;
 
