@@ -1,7 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -27,8 +26,7 @@ public class Cursor implements VimObject {
 
     private PointSystem points;
 
-    private Movement mover;
-
+    private InputManager inputManager;
     //</editor-fold desc="bla">
 
 
@@ -46,8 +44,10 @@ public class Cursor implements VimObject {
 
         texture = new Texture("markers/marker_44purple.png");
 
-        mover = new Movement();
+        //mover = new Movement();
         this.points = points;
+
+        inputManager = new InputManager(this);
     }
 
     public void dispose(){
@@ -58,9 +58,10 @@ public class Cursor implements VimObject {
 
     @Override
     public void update(){
-        doBeforePosiUpdate();
-        mover.move(this);
-        doAfterPosiUpdate();
+        //doBeforePosiUpdate();
+        //mover.move(this);
+        //inputManager.getAction().setObject(this);
+        //doAfterPosiUpdate();
     }
 
     private void doBeforePosiUpdate(){

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Movement extends InputHandler {
+public class Movement  {
 
     private Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]+)");
     private Pattern wordLetNum = Pattern.compile("(\\w+)");
@@ -35,7 +35,7 @@ public class Movement extends InputHandler {
      * @param move number of steps - positive or negative
      * @return True if possible, false if not
      */
-    private boolean isLegitVerticalMove(VimObject object, int move){
+    protected boolean isLegitVerticalMove(VimObject object, int move){
         int rowTotal = object.getPosition().getRowTotal();
         int currRow = object.getPosition().getCurrRow();
 
@@ -57,7 +57,7 @@ public class Movement extends InputHandler {
      * @param move number of steps - positive or negative
      * @return True if possible, false if not
      */
-    private boolean isLegitHorizontalMove(VimObject object, int move){
+    protected boolean isLegitHorizontalMove(VimObject object, int move){
         int colunmTotal = object.getPosition().getColunmTotal();
         int currColumn = object.getPosition().getCurrColumn();
 
@@ -79,17 +79,20 @@ public class Movement extends InputHandler {
      * @param down handles up/down-moves
      * @return a positive or negative integer
      */
-    private int charVerticalMove(VimObject object, boolean down){
+    public boolean charVerticalMove(VimObject object, boolean down, int iteration){
 
-       int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
-       int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
+        int move = (iteration < 1) ? 1 : iteration;
+        int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
+        Position position = object.getPosition();
+
 
         if(down)
         {
-            return (isLegitVerticalMove(object, move)) ? move : endRow;
+
+            return position.setRelativeRow((isLegitVerticalMove(object, move)) ? move : endRow);
         }
 
-        return (isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrRow()));
+        return position.setRelativeRow((isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrRow())));
     }
 
 
@@ -101,16 +104,17 @@ public class Movement extends InputHandler {
      * @param forward handles backward/forward-moves
      * @return a positive or negative integer
      */
-    private int charHorizontalMove(VimObject object, boolean forward){
-        int move = (getIterationInt() < 1) ? 1 : getResetIterationInt();
+    public boolean charHorizontalMove(VimObject object, boolean forward, int iteration){
+        int move = (iteration < 1) ? 1 : iteration;
         int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
+        Position position = object.getPosition();
 
         if (forward)
         {
-            return (isLegitHorizontalMove(object, move)) ? move : endColumn;
+            return position.setRelativeColumn((isLegitHorizontalMove(object, move)) ? move : endColumn);
         }
 
-        return (isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrColumn()));
+        return position.setRelativeColumn((isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrColumn())));
 
     }
 
@@ -125,10 +129,11 @@ public class Movement extends InputHandler {
      * @param wordBgn if true w/W-rules applies, else e/E-rules
      * @return the number of steps to perform asked movement
      */
-    private int traverseWord(VimObject object, boolean shiftHeld, boolean wordBgn){
+    protected boolean traverseWord(VimObject object, boolean shiftHeld, boolean wordBgn, int iterations){
 
         VimWorldMatrix matrix = object.getVimMatrix();
 
+        Position position = object.getPosition();
         ArrayList<Integer> allMatches;
 
         int currColumn = object.getPosition().getCurrColumn();
@@ -165,16 +170,17 @@ public class Movement extends InputHandler {
         }
 
 
-        step = iterationApplier(allMatches, false);
+        step = iterationApplier(allMatches, false, iterations);
 
 
         if(step >= 0
                 && (currColumn + step) <= colunmTotal){
 
-            return (wordBgn) ? step + 1: step;
+            return position.setRelativeColumn( (wordBgn) ? step + 1: step);
+
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -186,10 +192,12 @@ public class Movement extends InputHandler {
      * @param shiftHeld if true WORD-rules are applied
      * @return the number of steps to perform asked movement
      */
-    private int traversePreviousWord(VimObject object, boolean shiftHeld){
+    protected boolean traversePreviousWord(VimObject object, boolean shiftHeld, int iterations){
 
         VimWorldMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
+
+        Position position = object.getPosition();
 
         int currColumn = object.getPosition().getCurrColumn();
         int currRow = object.getPosition().getCurrRow();
@@ -213,15 +221,15 @@ public class Movement extends InputHandler {
             allMatches.addAll(matcherApplier(wordMatcher, false));
         }
 
-        step = iterationApplier(allMatches, true);
+        step = iterationApplier(allMatches, true, iterations);
 
         if(step >= 0
                 && (currColumn - step) >= 0){
 
-            return - (currColumn - step);
+            return position.setRelativeColumn( - (currColumn - step));
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -235,9 +243,8 @@ public class Movement extends InputHandler {
      *                        to iterated backwards
      * @return the appropriate value in the array or zero
      */
-    private int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward){
+    protected int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward, int iterations){
 
-        int iterations = getResetIterationInt();
         iterations = (iterations > 0) ? iterations - 1 : 0;
 
         if(! iterateBackward) matchList.removeIf(p -> p == 0);
@@ -268,7 +275,7 @@ public class Movement extends InputHandler {
      * @return an ArrayList with integers made up of either
      * all .start- or .end-subroutines of the given matcher
      */
-    private ArrayList<Integer> matcherApplier(Matcher matcher, boolean matchEnd){
+    protected ArrayList<Integer> matcherApplier(Matcher matcher, boolean matchEnd){
 
         ArrayList<Integer> matchList = new ArrayList<>();
 
@@ -291,20 +298,21 @@ public class Movement extends InputHandler {
      * @param toEnd if true, end of line; false, beginning of line
      * @return the integer to add or subtract to go to start or end
      */
-    private int traverseWholeLine(VimObject object, boolean toEnd){
+    protected boolean traverseWholeLine(VimObject object, boolean toEnd){
         int currColumn = object.getPosition().getCurrColumn();
         int colunmTotal = object.getPosition().getColunmTotal();
+        Position position = object.getPosition();
 
         if(toEnd){
-            return colunmTotal - currColumn - 1;
+            return position.setRelativeColumn(colunmTotal - currColumn - 1);
         }
         else {
-            return -currColumn;
+            return position.setRelativeColumn(-currColumn);
         }
     }
 
 
-    /** TODO do not modify object directly
+    /**
      * TEMPORARY method for jumping to first non-blank char
      * in line. NOTE modifies the object passed directly!
      * @param object MODIFIES object position directly
@@ -314,23 +322,12 @@ public class Movement extends InputHandler {
 
         int currRow = object.getPosition().getCurrRow();
         int currColumn = object.getPosition().getCurrColumn();
-        int firstNonBlank = -1;
 
         String row = object.getVimMatrix().getStringIndexToRowBeginning(currRow, currColumn, false);
-        //System.out.println("ROW STRING: " + row);
         Matcher firstNonBlankMatcher = wordCap.matcher(row);
 
         if(firstNonBlankMatcher.find()){
-            /*
-            System.out.println("ROW MATCHER: " + firstNonBlankMatcher.group() + firstNonBlankMatcher.groupCount());
-            System.out.println("ROW MATCHER Start: " + firstNonBlankMatcher.start());
-            System.out.println("ROW MATCHER end: " + firstNonBlankMatcher.end());
-            System.out.println("currCol: " + currColumn);
-
-             */
-
-            objectPosition.setAbsoluteColumn(firstNonBlankMatcher.start());
-            return true;
+            return objectPosition.setAbsoluteColumn(firstNonBlankMatcher.start());
         }
 
         return false;
@@ -347,6 +344,7 @@ public class Movement extends InputHandler {
      * @return An integer representing the number of
      * steps that is to be taken between rows in the matrix
      */
+    /*
     void verticalMove(VimObject object){
 
         int move = 0;
@@ -367,6 +365,8 @@ public class Movement extends InputHandler {
 
     }
 
+     */
+
 
     //TODO make backwards delete work
     /**
@@ -380,6 +380,7 @@ public class Movement extends InputHandler {
      * @return An integer representing the number of
      * steps that is to be taken between rows in the matrix
      */
+    /*
     void horizontalMove(VimObject object){
 
         int colunmTotal = object.getPosition().getColunmTotal();
@@ -388,19 +389,19 @@ public class Movement extends InputHandler {
         int move = 0;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
-            activeOperator = true;
+            //activeOperator = true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
             operation.deleteChar(object);
 
-            activeOperator = false;
+            //activeOperator = false;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
             move = charHorizontalMove(object, false);
 
-            activeOperator = false;
+            //activeOperator = false;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
             move = charHorizontalMove(object, true);
@@ -408,7 +409,7 @@ public class Movement extends InputHandler {
             if(activeOperator){
 
                 operation.deleteChar(object);
-                activeOperator = false;
+                //activeOperator = false;
                 move = 0;
             }
         }
@@ -418,7 +419,7 @@ public class Movement extends InputHandler {
             move = traversePreviousWord(object,
                     Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT));
 
-            activeOperator = false;
+            //activeOperator = false;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
@@ -430,7 +431,7 @@ public class Movement extends InputHandler {
             if(activeOperator){
 
                 operation.deleteCharBatch(object, move);
-                activeOperator = false;
+                //activeOperator = false;
                 move = 0;
             }
         }
@@ -445,7 +446,7 @@ public class Movement extends InputHandler {
             if(activeOperator){
 
                 operation.deleteCharBatch(object, move + 1);
-                activeOperator = false;
+                //activeOperator = false;
                 move = 0;
             }
         }
@@ -456,7 +457,7 @@ public class Movement extends InputHandler {
 
             move = traverseWholeLine(object, false);
 
-                activeOperator = false;
+                //activeOperator = false;
         }
 
         if (keyPressedIsChar('$')){
@@ -466,7 +467,7 @@ public class Movement extends InputHandler {
             if(activeOperator){
 
                 operation.deleteCharBatch(object, move + 1);
-                activeOperator = false;
+                //activeOperator = false;
                 move = 0;
             }
         }
@@ -474,7 +475,7 @@ public class Movement extends InputHandler {
         if (keyPressedIsChar('^')){
 
             goToFirstNonBlankChar(object);
-            activeOperator = false;
+            //activeOperator = false;
         }
 
 
@@ -493,6 +494,7 @@ public class Movement extends InputHandler {
         horizontalMove(object);
 
     }
+     */
 
 
 }
