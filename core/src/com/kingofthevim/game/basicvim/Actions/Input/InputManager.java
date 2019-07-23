@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Actions.Action;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
-public class InputManager implements InputProcessor {
+public class InputManager extends Action implements InputProcessor {
 
 
     Cursor cursor;

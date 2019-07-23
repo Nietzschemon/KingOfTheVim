@@ -1,19 +1,18 @@
-package com.kingofthevim.game.basicvim.Actions.Input;
+package com.kingofthevim.game.basicvim.Actions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Matrix.Tools;
 
 import java.util.LinkedList;
 
-public class InputHandler implements InputProcessor {
+public class Action {
 
     private char currChar = 0;
 
     private char currOperator = ' ';
 
-    boolean activeOperator = false;
+    private boolean activeOperator = false;
 
     private LinkedList<Character> inputHistory;
 
@@ -46,8 +45,7 @@ public class InputHandler implements InputProcessor {
 
     void resetIteration(){iterationString = "0";}
 
-    InputHandler(){
-        Gdx.input.setInputProcessor(this);
+    public Action(){
         inputHistory = new LinkedList<>();
     }
 
@@ -102,39 +100,7 @@ public class InputHandler implements InputProcessor {
         }
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
 
-    //TODO make reset iterationInt
-    @Override
-    public boolean keyUp(int keycode) {
-
-        switch (keycode){
-
-            case Input.Keys.B:
-                //System.out.println("Is B");
-                break;
-
-            case Input.Keys.E:
-                //System.out.println("Is E");
-                break;
-
-            case Input.Keys.W:
-                //System.out.println("Is W");
-                break;
-
-            case Input.Keys.H:
-                //System.out.println("Is H");
-                break;
-
-        }
-
-        return false;
-    }
-
-    @Override
     public boolean keyTyped(char character) {
         currChar = character;
         integerMaker(character);
@@ -142,29 +108,39 @@ public class InputHandler implements InputProcessor {
         return false;
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+    public char getCurrChar() {
+        return currChar;
     }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+    public void setCurrChar(char currChar) {
+        this.currChar = currChar;
     }
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+    public boolean isActiveOperator() {
+        return activeOperator;
     }
 
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+    public void setActiveOperator(boolean activeOperator) {
+        this.activeOperator = activeOperator;
     }
 
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public LinkedList<Character> getInputHistory() {
+        return inputHistory;
     }
 
+    public void setInputHistory(LinkedList<Character> inputHistory) {
+        this.inputHistory = inputHistory;
+    }
+
+    public void setIterationInt(int iterationInt) {
+        this.iterationInt = iterationInt;
+    }
+
+    public String getIterationString() {
+        return iterationString;
+    }
+
+    public void setIterationString(String iterationString) {
+        this.iterationString = iterationString;
+    }
 }

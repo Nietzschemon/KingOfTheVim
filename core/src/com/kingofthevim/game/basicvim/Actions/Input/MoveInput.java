@@ -8,7 +8,6 @@ import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 public class MoveInput extends Movement implements InputProcessor {
 
-    private char currChar = 0;
     Cursor cursor;
 
     public MoveInput(Cursor cursor){
@@ -17,15 +16,6 @@ public class MoveInput extends Movement implements InputProcessor {
         setObjectPosition(cursor.getPosition());
     }
 
-
-    public boolean keyPressedIsChar(char dasChar){
-
-        if(currChar == dasChar){
-            currChar = '0';
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -75,7 +65,7 @@ public class MoveInput extends Movement implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        currChar = character;
+        setCurrChar(character);
         return false;
     }
 
