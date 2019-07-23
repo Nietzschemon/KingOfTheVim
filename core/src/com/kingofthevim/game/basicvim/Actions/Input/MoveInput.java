@@ -1,8 +1,9 @@
-package com.kingofthevim.game.basicvim.Actions;
+package com.kingofthevim.game.basicvim.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Actions.Movement;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
 public class MoveInput extends Movement implements InputProcessor {
