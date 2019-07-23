@@ -19,10 +19,11 @@ public class Action {
     private int iterationInt = 0;
     private String iterationString = "0";
 
-    int getIterationInt() {
+    public int getIterationInt() {
+        System.out.println("it-int-get: " + iterationInt);
         return iterationInt;
     }
-    int getResetIterationInt() {
+    protected int getResetIterationInt() {
         int iter = iterationInt;
         iterationString = "0";
         iterationInt = 0;
@@ -76,14 +77,27 @@ public class Action {
      * is reset
      * @param intProspect char to check for int
      *                    conversion possibility
+     * @return true if intProspect could be parsed
      */
-    private void integerMaker(char intProspect){
+    public boolean integerMaker(char intProspect){
 
         if(intProspect > 47 &&
             intProspect < 58){
+            int integer;
             iterationString += String.valueOf(intProspect);
-            iterationInt = tryParseInt(iterationString);
+            integer = tryParseInt(iterationString);
+
+            if(iterationInt + integer == 0){
+                iterationString = "0";
+                return false;
+            }
+
+            iterationInt = integer;
+
+            System.out.println("it-int: " + iterationInt);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -100,13 +114,6 @@ public class Action {
         }
     }
 
-
-    public boolean keyTyped(char character) {
-        currChar = character;
-        integerMaker(character);
-        addToInputHistory(character);
-        return false;
-    }
 
     public char getCurrChar() {
         return currChar;

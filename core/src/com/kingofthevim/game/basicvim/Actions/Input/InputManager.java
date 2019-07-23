@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.basicvim.Actions.Action;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
-public class InputManager extends Action implements InputProcessor {
+public class InputManager implements InputProcessor {
 
 
     Cursor cursor;
@@ -29,9 +28,36 @@ public class InputManager extends Action implements InputProcessor {
 
         switch (keycode){
 
-            case Input.Keys.M:
-                //inputMultiplexer.addProcessor(0, action);
-                return true;
+            case Input.Keys.NUM_1:
+                return moveInput.integerMaker('1');
+
+            case Input.Keys.NUM_2:
+                return moveInput.integerMaker('2');
+
+            case Input.Keys.NUM_3:
+                return moveInput.integerMaker('3');
+
+            case Input.Keys.NUM_4:
+                return moveInput.integerMaker('4');
+
+            case Input.Keys.NUM_5:
+                return moveInput.integerMaker('5');
+
+            case Input.Keys.NUM_6:
+                return moveInput.integerMaker('6');
+
+            case Input.Keys.NUM_7:
+                return moveInput.integerMaker('7');
+
+            case Input.Keys.NUM_8:
+                return moveInput.integerMaker('8');
+
+            case Input.Keys.NUM_9:
+                return moveInput.integerMaker('9');
+
+            case Input.Keys.NUM_0:
+                return moveInput.integerMaker('0');
+
             case Input.Keys.ESCAPE:
                 inputMultiplexer.removeProcessor(moveInput);
                 System.out.println("ESC");

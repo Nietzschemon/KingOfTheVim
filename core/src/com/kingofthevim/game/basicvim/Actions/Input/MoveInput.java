@@ -2,6 +2,7 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Actions.Movement;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
@@ -29,27 +30,28 @@ public class MoveInput extends Movement implements InputProcessor {
         switch (keycode){
 
             case Input.Keys.J:
-                return charVerticalMove(cursor, true, 1);
+                return charVerticalMove(cursor, true, getResetIterationInt());
 
             case Input.Keys.K:
-                return charVerticalMove(cursor, false, 1);
+                return charVerticalMove(cursor, false, getResetIterationInt());
 
             case Input.Keys.L:
-                return charHorizontalMove(cursor, true, 1);
+                return charHorizontalMove(cursor, true, getResetIterationInt());
 
             case Input.Keys.H:
-                return charHorizontalMove(cursor, false, 1);
+                return charHorizontalMove(cursor, false, getResetIterationInt());
 
             case Input.Keys.E:
-                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), false, 1);
+                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), false, getResetIterationInt());
 
             case Input.Keys.W:
-                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), true, 1);
+                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), true, getResetIterationInt());
 
             case Input.Keys.B:
-                return traversePreviousWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), 1);
+                return traversePreviousWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), getResetIterationInt());
 
             case Input.Keys.NUM_0:
+                if(getIterationInt() > 0) return false;
                 return traverseWholeLine(cursor, false);
 
 
