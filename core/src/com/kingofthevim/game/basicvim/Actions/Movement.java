@@ -311,7 +311,7 @@ public class Movement extends Action {
      * @param down handles up/down-moves
      * @return a positive or negative integer
      */
-    public int charVerticalMove(VimObject object, int iteration, boolean down){
+    public int charVertical_Int(VimObject object, int iteration, boolean down){
 
         int move = (iteration < 1) ? 1 : iteration;
         int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
@@ -333,7 +333,7 @@ public class Movement extends Action {
      * @param forward handles backward/forward-moves
      * @return a positive or negative integer
      */
-    public int charHorizontalMove(VimObject object, int iteration, boolean forward){
+    public int charHorizontal_Int(VimObject object, int iteration, boolean forward){
         int move = (iteration < 1) ? 1 : iteration;
         int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
 
@@ -358,7 +358,7 @@ public class Movement extends Action {
      * @param shiftHeld if true WORD-rules are applied
      * @return the number of steps to perform asked movement
      */
-    protected int traverseWord(VimObject object,  boolean wordBgn, int iterations, boolean shiftHeld){
+    protected int traverseWord_Int(VimObject object,  boolean wordBgn, int iterations, boolean shiftHeld){
 
         VimWorldMatrix matrix = object.getVimMatrix();
 
@@ -420,7 +420,7 @@ public class Movement extends Action {
      * @param shiftHeld if true WORD-rules are applied
      * @return the number of steps to perform asked movement
      */
-    protected int traversePreviousWord(VimObject object, int iterations, boolean shiftHeld){
+    protected int traversePreviousWord_Int(VimObject object, int iterations, boolean shiftHeld){
 
         VimWorldMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
@@ -464,7 +464,7 @@ public class Movement extends Action {
      * @param object The object that is to be moved
      * @return the integer to add or subtract to go to start or end
      */
-    protected int traverseWholeLine(boolean toEnd, VimObject object){
+    protected int traverseWholeLine_Int(boolean toEnd, VimObject object){
         int currColumn = object.getPosition().getCurrColumn();
         int colunmTotal = object.getPosition().getColunmTotal();
 
