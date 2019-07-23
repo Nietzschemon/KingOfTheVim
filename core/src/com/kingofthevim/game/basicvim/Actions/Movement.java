@@ -307,11 +307,11 @@ public class Movement extends Action {
      * returning a positive or negative number
      * multiplied with iteration if entered.
      * @param object object to move
-     * @param iteration number of times to apply move
      * @param down handles up/down-moves
+     * @param iteration number of times to apply move
      * @return a positive or negative integer
      */
-    public int charVertical_Int(VimObject object, int iteration, boolean down){
+    public int charVertical_Int(VimObject object,boolean down, int iteration){
 
         int move = (iteration < 1) ? 1 : iteration;
         int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
@@ -329,11 +329,11 @@ public class Movement extends Action {
      * returning a positive or negative number
      * multiplied with iteration if entered.
      * @param object object to move
-     * @param iteration number of times to apply move
      * @param forward handles backward/forward-moves
+     * @param iteration number of times to apply move
      * @return a positive or negative integer
      */
-    public int charHorizontal_Int(VimObject object, int iteration, boolean forward){
+    public int charHorizontal_Int(VimObject object,boolean forward, int iteration){
         int move = (iteration < 1) ? 1 : iteration;
         int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
 
@@ -353,12 +353,12 @@ public class Movement extends Action {
      * This is done with regex-patterns that follow the
      * word/WORD-movement-rules. If not match, zero is returned
      * @param object the object to be moved in the matrix
+     * @param shiftHeld if true WORD-rules are applied
      * @param wordBgn if true w/W-rules applies, else e/E-rules
      * @param iterations number of times to apply move
-     * @param shiftHeld if true WORD-rules are applied
      * @return the number of steps to perform asked movement
      */
-    protected int traverseWord_Int(VimObject object,  boolean wordBgn, int iterations, boolean shiftHeld){
+    protected int traverseWord_Int(VimObject object, boolean shiftHeld,  boolean wordBgn, int iterations){
 
         VimWorldMatrix matrix = object.getVimMatrix();
 
@@ -416,11 +416,11 @@ public class Movement extends Action {
      * This is done with regex-patterns that follow the
      * word/WORD-movement-rules. If not match, zero is returned
      * @param object the object to be moved in the matrix
-     * @param iterations number of times to apply move
      * @param shiftHeld if true WORD-rules are applied
+     * @param iterations number of times to apply move
      * @return the number of steps to perform asked movement
      */
-    protected int traversePreviousWord_Int(VimObject object, int iterations, boolean shiftHeld){
+    protected int traversePreviousWord_Int(VimObject object, boolean shiftHeld, int iterations){
 
         VimWorldMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
@@ -460,11 +460,11 @@ public class Movement extends Action {
 
     /**
      * Goes to end or beginning of line
-     * @param toEnd if true, end of line; false, beginning of line
      * @param object The object that is to be moved
+     * @param toEnd if true, end of line; false, beginning of line
      * @return the integer to add or subtract to go to start or end
      */
-    protected int traverseWholeLine_Int(boolean toEnd, VimObject object){
+    protected int traverseWholeLine_Int(VimObject object, boolean toEnd){
         int currColumn = object.getPosition().getCurrColumn();
         int colunmTotal = object.getPosition().getColunmTotal();
 
