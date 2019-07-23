@@ -233,38 +233,6 @@ public class Movement extends Action {
         return false;
     }
 
-    /**
-     * checks that the current iteration-input from
-     * the user is within the given array, if not it
-     * will return the last value of the array
-     * Always reset the current iterationInt.
-     * @param matchList list from which an int shall be
-     *                  returned a
-     * @param iterateBackward used for matchLists that need
-     *                        to iterated backwards
-     * @return the appropriate value in the array or zero
-     */
-    protected int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward, int iterations){
-
-        iterations = (iterations > 0) ? iterations - 1 : 0;
-
-        if(! iterateBackward) matchList.removeIf(p -> p == 0);
-
-        if (matchList.size() > 0){
-
-
-
-            iterations = (iterations < matchList.size()) ? iterations : matchList.size() - 1;
-
-            Collections.sort(matchList);
-            if(iterateBackward)Collections.reverse(matchList);
-
-
-            return matchList.get(iterations);
-        }
-
-        return 0;
-    }
 
     /**
      * Applies a given initialized matcher and puts
@@ -335,167 +303,179 @@ public class Movement extends Action {
     }
 
     /**
-     * The main method for all vertical moves. It passes
-     * object to the appropriate methods and if any key is
-     * pressed will return the number of steps in the
-     * matrix that was returned by that method. If no
-     * valid moves are made it returns zero via
-     * charVerticalMove()
-     * @param object the object to be moved
-     * @return An integer representing the number of
-     * steps that is to be taken between rows in the matrix
+     * Handles per char vertical move events
+     * returning a positive or negative number
+     * multiplied with iteration if entered.
+     * @param object object to move
+     * @param iteration number of times to apply move
+     * @param down handles up/down-moves
+     * @return a positive or negative integer
      */
-    /*
-    void verticalMove(VimObject object){
+    public int charVerticalMove(VimObject object, int iteration, boolean down){
 
-        int move = 0;
-        objectPosition = object.getPosition();
+        int move = (iteration < 1) ? 1 : iteration;
+        int endRow =  object.getPosition().getRowTotal() - object.getPosition().getCurrRow() - 1;
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-           move = charVerticalMove(object, false);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            move = charVerticalMove(object, true);
+        if(down)
+        {
+            return (isLegitVerticalMove(object, move)) ? move : endRow;
         }
 
-        if(isLegitVerticalMove(object,move)
-        && move != 0){
-            activeOperator = false;
-            objectPosition.setRelativeRow( move);
-        }
-
+        return (isLegitVerticalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrRow()));
     }
 
-     */
-
-
-    //TODO make backwards delete work
     /**
-     * The main method for all horizontal moves. It passes
-     * object to the appropriate methods and if any key is
-     * pressed will return the number of steps in the
-     * matrix that was returned by that method. If no
-     * valid moves are made it returns zero via
-     * charVerticalMove()
-     * @param object the object to be moved
-     * @return An integer representing the number of
-     * steps that is to be taken between rows in the matrix
+     * Handles per char vertical move events
+     * returning a positive or negative number
+     * multiplied with iteration if entered.
+     * @param object object to move
+     * @param iteration number of times to apply move
+     * @param forward handles backward/forward-moves
+     * @return a positive or negative integer
      */
-    /*
-    void horizontalMove(VimObject object){
+    public int charHorizontalMove(VimObject object, int iteration, boolean forward){
+        int move = (iteration < 1) ? 1 : iteration;
+        int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
 
-        int colunmTotal = object.getPosition().getColunmTotal();
+        if (forward)
+        {
+            return (isLegitHorizontalMove(object, move)) ? move : endColumn;
+        }
+
+        return (isLegitHorizontalMove(object, - move)) ? ( - move ) : ( - (object.getPosition().getCurrColumn()));
+
+    }
+
+
+    /**
+     * Takes care of the vim w/W- and e/E-movements.
+     *
+     * This is done with regex-patterns that follow the
+     * word/WORD-movement-rules. If not match, zero is returned
+     * @param object the object to be moved in the matrix
+     * @param wordBgn if true w/W-rules applies, else e/E-rules
+     * @param iterations number of times to apply move
+     * @param shiftHeld if true WORD-rules are applied
+     * @return the number of steps to perform asked movement
+     */
+    protected int traverseWord(VimObject object,  boolean wordBgn, int iterations, boolean shiftHeld){
+
+        VimWorldMatrix matrix = object.getVimMatrix();
+
+        ArrayList<Integer> allMatches;
+
         int currColumn = object.getPosition().getCurrColumn();
+        int currRow = object.getPosition().getCurrRow();
+        int colunmTotal = object.getPosition().getColunmTotal();
+        int step;
 
-        int move = 0;
+        String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
-            //activeOperator = true;
-        }
+        Matcher wordMatcher = wordLetNum.matcher(row);
+        Matcher symbolMatcher = wordSym.matcher(row);
+        Matcher capitalMatcher = wordCap.matcher(row);
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
-            operation.deleteChar(object);
+        if(shiftHeld) {
 
-            //activeOperator = false;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.H)){
-            move = charHorizontalMove(object, false);
-
-            //activeOperator = false;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            move = charHorizontalMove(object, true);
-
-            if(activeOperator){
-
-                operation.deleteChar(object);
-                //activeOperator = false;
-                move = 0;
+            if(wordBgn){
+                allMatches = matcherApplier(capitalMatcher, false);
+            }
+            else {
+                allMatches = matcherApplier(capitalMatcher, true);
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.B)){
+        else {
 
-            move = traversePreviousWord(object,
-                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT));
-
-            //activeOperator = false;
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
-
-            move = traverseWord(object,
-                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
-                    true);
-
-            if(activeOperator){
-
-                operation.deleteCharBatch(object, move);
-                //activeOperator = false;
-                move = 0;
+            if(wordBgn){
+                allMatches = matcherApplier(wordMatcher, false);
+                allMatches.addAll(matcherApplier(symbolMatcher, false));
             }
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)
-                && currColumn != colunmTotal){
-
-            move = traverseWord(object,
-                    Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT),
-                    false);
-
-            if(activeOperator){
-
-                operation.deleteCharBatch(object, move + 1);
-                //activeOperator = false;
-                move = 0;
+            else {
+                allMatches = matcherApplier(wordMatcher, true);
+                allMatches.addAll(matcherApplier(symbolMatcher, true));
             }
         }
 
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)
-            && (getIterationInt() <= 0)){
+        step = iterationApplier(allMatches, false, iterations);
 
-            move = traverseWholeLine(object, false);
 
-                //activeOperator = false;
+        if(step >= 0
+                && (currColumn + step) <= colunmTotal){
+
+            return (wordBgn) ? step + 1: step;
         }
 
-        if (keyPressedIsChar('$')){
-
-            move = traverseWholeLine(object, true);
-
-            if(activeOperator){
-
-                operation.deleteCharBatch(object, move + 1);
-                //activeOperator = false;
-                move = 0;
-            }
-        }
-
-        if (keyPressedIsChar('^')){
-
-            goToFirstNonBlankChar(object);
-            //activeOperator = false;
-        }
-
-
-
-        if(move != 0
-        && isLegitHorizontalMove(object, move)) {
-            objectPosition.setRelativeColumn(move);
-        }
-
+        return 0;
     }
 
-    void move(VimObject object){
-        objectPosition = object.getPosition();
-
-        verticalMove(object);
-        horizontalMove(object);
-
-    }
+    /**
+     * Takes care of the vim b/B-movements.
+     *
+     * This is done with regex-patterns that follow the
+     * word/WORD-movement-rules. If not match, zero is returned
+     * @param object the object to be moved in the matrix
+     * @param iterations number of times to apply move
+     * @param shiftHeld if true WORD-rules are applied
+     * @return the number of steps to perform asked movement
      */
+    protected int traversePreviousWord(VimObject object, int iterations, boolean shiftHeld){
+
+        VimWorldMatrix matrix = object.getVimMatrix();
+        ArrayList<Integer> allMatches;
+
+        int currColumn = object.getPosition().getCurrColumn();
+        int currRow = object.getPosition().getCurrRow();
+        int step;
+
+        String row = matrix.getStringIndexToRowBeginning(currRow, currColumn, false);
+
+        Matcher wordMatcher = wordLetNum.matcher(row);
+        Matcher symbolMatcher = wordSym.matcher(row);
+        Matcher capitalMatcher = wordCap.matcher(row);
+
+
+        if(shiftHeld) {
+
+            allMatches = matcherApplier(capitalMatcher, false);
+        }
+
+        else {
+
+            allMatches = matcherApplier(symbolMatcher, false);
+            allMatches.addAll(matcherApplier(wordMatcher, false));
+        }
+
+        step = iterationApplier(allMatches, true, iterations);
+
+        if(step >= 0
+                && (currColumn - step) >= 0){
+
+            return - (currColumn - step);
+        }
+
+        return 0;
+    }
+
+    /**
+     * Goes to end or beginning of line
+     * @param toEnd if true, end of line; false, beginning of line
+     * @param object The object that is to be moved
+     * @return the integer to add or subtract to go to start or end
+     */
+    protected int traverseWholeLine(boolean toEnd, VimObject object){
+        int currColumn = object.getPosition().getCurrColumn();
+        int colunmTotal = object.getPosition().getColunmTotal();
+
+        if(toEnd){
+            return colunmTotal - currColumn - 1;
+        }
+        else {
+            return -currColumn;
+        }
+    }
+
 
 
 }
