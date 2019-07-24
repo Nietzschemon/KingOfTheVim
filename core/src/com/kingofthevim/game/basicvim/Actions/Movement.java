@@ -280,9 +280,10 @@ public class Movement {
 
 
     /**
-     * TEMPORARY method for jumping to first non-blank char
-     * in line. NOTE modifies the object passed directly!
-     * @param object MODIFIES object position directly
+     * Moves the VimObject to the first non-blank char in
+     * the row.
+     *
+     * @param object VimObject to move
      * @return true if success
      */
     public boolean goToFirstNonBlankChar(VimObject object){
