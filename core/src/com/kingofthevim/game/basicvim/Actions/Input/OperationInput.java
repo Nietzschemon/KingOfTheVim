@@ -3,7 +3,6 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.basicvim.Actions.Movement;
 import com.kingofthevim.game.basicvim.Actions.Operations;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
@@ -43,12 +42,12 @@ public class OperationInput extends Operations implements InputProcessor {
                 return true;
 
             case Input.Keys.L:
-                deleteCharBatch(cursor, deleteNum);
+                deleteCharHorizontal(cursor, true, deleteNum);
                 hasExectued = true;
                 return true;
 
             case Input.Keys.H:
-                //deleteCharBatch(cursor, deleteNum);
+                deleteCharHorizontal(cursor, false, deleteNum);
                 hasExectued = true;
                 return true;
 
