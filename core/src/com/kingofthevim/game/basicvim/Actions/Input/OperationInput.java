@@ -28,6 +28,7 @@ public class OperationInput extends Operations implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         int deleteNum = (iteration > 0) ? iteration : 1;
+        boolean shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
 
         switch (keycode){
 
@@ -53,18 +54,18 @@ public class OperationInput extends Operations implements InputProcessor {
 
             case Input.Keys.E:
 
-                deleteWordInFront(cursor, false, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
+                deleteWordInFront(cursor, false, shiftHeld, iteration);
                 hasExectued = true;
                 return true;
 
             case Input.Keys.W:
 
-                deleteWordInFront(cursor, true, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
+                deleteWordInFront(cursor, true, shiftHeld, iteration);
                 hasExectued = true;
                 return true;
 
             case Input.Keys.B:
-                deleteWordBehind(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
+                deleteWordBehind(cursor, shiftHeld, iteration);
                 hasExectued = true;
                 return true;
 
