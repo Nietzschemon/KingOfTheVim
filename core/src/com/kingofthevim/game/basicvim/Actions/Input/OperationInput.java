@@ -83,7 +83,6 @@ public class OperationInput extends Operations implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        int deleteNum = (iteration > 0) ? iteration : 1;
 
         if(character == '$'){
             deleteLineHorizontal(cursor, true);
@@ -91,7 +90,7 @@ public class OperationInput extends Operations implements InputProcessor {
             return true;
         }
         if(character == '^'){
-            //goToFirstNonBlankChar(cursor);
+            deleteToLineBgn(cursor);
             hasExectued = true;
             return true;
         }

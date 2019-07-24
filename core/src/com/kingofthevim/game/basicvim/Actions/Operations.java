@@ -85,6 +85,13 @@ public class Operations extends Movement{
         }
     }
 
+    protected void deleteCharBatch(int startColumn, int endColumn, VimObject vimObj){
+        for (int i = 0; i < endColumn; i++) {
+
+            deleteChar(vimObj, startColumn);
+        }
+    }
+
     /**
      * "Deletes" a specified cell on the row that is occupied by the
      * VimObject and as many left or the right of it as specified
@@ -144,5 +151,15 @@ public class Operations extends Movement{
             deleteCharBatch(vimObj, deleteNum + 1);
 
         }
+    }
+
+    protected void deleteToLineBgn(VimObject vimObj){
+
+        int endColumn = vimObj.getPosition().getCurrColumn() - 1;
+        goToFirstNonBlankChar(vimObj);
+        int startColumn = vimObj.getPosition().getCurrColumn();
+
+        deleteCharBatch(startColumn, endColumn, vimObj);
+
     }
 }
