@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim.Actions;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
@@ -116,4 +117,12 @@ public class Operations extends Movement{
         else deleteCharBatch(vimObj, deleteNum + 1);
     }
 
+    protected void deleteWordBehind(VimObject vimObj, boolean shiftHeld, int iteration){
+
+        int deleteNum = traversePreviousWord_Int(vimObj, shiftHeld, iteration);
+        deleteNum = Math.abs(deleteNum);
+        traversePreviousWord(vimObj, shiftHeld, iteration);
+
+        deleteCharBatch(vimObj, deleteNum, vimObj.getPosition().getCurrColumn());
+    }
 }

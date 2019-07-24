@@ -64,7 +64,7 @@ public class OperationInput extends Operations implements InputProcessor {
                 return true;
 
             case Input.Keys.B:
-                //deleteNum = traversePreviousWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
+                deleteWordBehind(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
                 hasExectued = true;
                 return true;
 
