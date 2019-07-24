@@ -1,5 +1,6 @@
 package com.kingofthevim.game.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -95,6 +96,8 @@ public abstract class Level extends State {
                 || cursor.isOnType(LetterType.EMPATHY)){
             cursor.dispose();
             cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+            cursor.doAfterPosiUpdate();
+            Gdx.graphics.requestRendering();
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
         }

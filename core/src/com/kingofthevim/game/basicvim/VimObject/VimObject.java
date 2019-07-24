@@ -24,4 +24,8 @@ public interface VimObject {
 
     boolean isOnType(LetterType type);
 
+    void doAfterPosiUpdate();
+
+    void doBeforePosiUpdate();
+
 }

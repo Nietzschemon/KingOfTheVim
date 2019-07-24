@@ -15,8 +15,12 @@ public class Position {
     Position(VimObject vimObject, int row, int column, int rowTotal, int colunmTotal){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
-        setRelativeRow(row);
-        setRelativeColumn(column);
+
+        //done manually to avoid extra code for nullPointer in set-methods
+        cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * row);
+        currRow += row;
+        cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * column);
+        currColumn += column;
 
         this.rowTotal = rowTotal;
         this.colunmTotal = colunmTotal;
@@ -45,10 +49,12 @@ public class Position {
     public boolean setRelativeRow(int rowMove) {
 
         if(rowMove != 0){
+            vimObject.doBeforePosiUpdate();
 
             cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * rowMove);
             currRow += rowMove;
 
+            vimObject.doAfterPosiUpdate();
             return true;
         }
 
@@ -60,10 +66,12 @@ public class Position {
     public boolean setRelativeColumn(int columnMove) {
 
         if(columnMove != 0){
+            vimObject.doBeforePosiUpdate();
 
             cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * columnMove);
             currColumn += columnMove;
 
+            vimObject.doAfterPosiUpdate();
             return true;
         }
 
@@ -80,10 +88,12 @@ public class Position {
 
         if(row >= 0
                 && row < rowTotal){
+            vimObject.doBeforePosiUpdate();
 
             cartesianPosition.y = vimObject.getSize().getHeight() * row;
             this.currRow = row;
 
+            vimObject.doAfterPosiUpdate();
             return true;
         }
 
@@ -100,10 +110,12 @@ public class Position {
 
         if(column >= 0
                 && column < colunmTotal){
+            vimObject.doBeforePosiUpdate();
 
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
             this.currColumn = column;
 
+            vimObject.doAfterPosiUpdate();
             return true;
         }
 

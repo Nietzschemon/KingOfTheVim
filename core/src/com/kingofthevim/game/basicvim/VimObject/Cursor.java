@@ -63,13 +63,11 @@ public class Cursor implements VimObject {
 
     @Override
     public void update(){
-        //doBeforePosiUpdate();
-        //mover.move(this);
-        //inputManager.getAction().setObject(this);
-        //doAfterPosiUpdate();
     }
 
-    private void doBeforePosiUpdate(){
+
+    @Override
+    public void doBeforePosiUpdate(){
         int currRow = position.getCurrRow();
         int currColumn = position.getCurrColumn();
 
@@ -78,7 +76,8 @@ public class Cursor implements VimObject {
 
     //TODO make a general method that looks what color the cursor is
     // and the letter according to a scheme
-    private void doAfterPosiUpdate(){
+    @Override
+    public void doAfterPosiUpdate(){
 
         int currRow = position.getCurrRow();
         int currColumn = position.getCurrColumn();
