@@ -53,15 +53,13 @@ public class OperationInput extends Operations implements InputProcessor {
 
             case Input.Keys.E:
 
-                deleteNum = traverseWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), false, iteration);
-                deleteCharBatch(cursor, deleteNum + 1);
+                deleteWordInFront(cursor, false, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
                 hasExectued = true;
                 return true;
 
             case Input.Keys.W:
 
-                deleteNum = traverseWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), true, iteration);
-                deleteCharBatch(cursor, deleteNum);
+                deleteWordInFront(cursor, true, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
                 hasExectued = true;
                 return true;
 

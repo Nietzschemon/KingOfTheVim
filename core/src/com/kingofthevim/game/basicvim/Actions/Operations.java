@@ -108,4 +108,12 @@ public class Operations extends Movement{
 
     }
 
+
+    protected void deleteWordInFront(VimObject vimObj, boolean bgnWord, boolean shiftHeld, int iteration){
+
+        int deleteNum = traverseWord_Int(vimObj, shiftHeld, bgnWord, iteration);
+        if(bgnWord) deleteCharBatch(vimObj, deleteNum);
+        else deleteCharBatch(vimObj, deleteNum + 1);
+    }
+
 }
