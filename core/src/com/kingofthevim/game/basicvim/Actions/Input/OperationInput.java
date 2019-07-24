@@ -2,18 +2,18 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Actions.Movement;
+import com.kingofthevim.game.basicvim.Actions.Operations;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
-public class MoveInput extends Movement implements InputProcessor {
+public class OperationInput extends Operations implements InputProcessor {
 
-    Cursor cursor;
-    int iteration = 0;
+    private Cursor cursor;
+    int iteration = 1;
     boolean hasExectued = false;
 
-    public MoveInput(Cursor cursor){
+    public OperationInput(Cursor cursor){
 
         this.cursor = cursor;
         setObjectPosition(cursor.getPosition());
@@ -28,40 +28,55 @@ public class MoveInput extends Movement implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        int deleteNum = (iteration > 0) ? iteration : 1;
 
         switch (keycode){
 
             case Input.Keys.J:
+                //deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
-                return charVerticalMove(cursor, true, iteration);
+                return true;
 
             case Input.Keys.K:
+                //deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
-                return charVerticalMove(cursor, false, iteration);
+                return true;
 
             case Input.Keys.L:
+                deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
-                return charHorizontalMove(cursor, true, iteration);
+                return true;
 
             case Input.Keys.H:
+                //deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
-                return charHorizontalMove(cursor, false, iteration);
+                return true;
 
             case Input.Keys.E:
+
+                deleteNum = traverseWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), false, iteration);
+                deleteCharBatch(cursor, deleteNum + 1);
                 hasExectued = true;
-                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), false, iteration);
+                return true;
 
             case Input.Keys.W:
+
+                deleteNum = traverseWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), true, iteration);
+                deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
-                return traverseWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), true, iteration);
+                return true;
 
             case Input.Keys.B:
+                //deleteNum = traversePreviousWord_Int(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
                 hasExectued = true;
-                return traversePreviousWord(cursor, Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT), iteration);
+                return true;
 
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
-                return traverseWholeLine(cursor, false);
+                //deleteNum = traverseWholeLine_Int(cursor, false);
+                hasExectued = true;
+                return true;
+
 
         }
 
@@ -70,11 +85,18 @@ public class MoveInput extends Movement implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        int deleteNum = (iteration > 0) ? iteration : 1;
+
         if(character == '$'){
-            return traverseWholeLine(cursor, true);
+            deleteNum = traverseWholeLine_Int(cursor, true);
+            deleteCharBatch(cursor, deleteNum + 1);
+            hasExectued = true;
+            return true;
         }
         if(character == '^'){
-            return goToFirstNonBlankChar(cursor);
+            //goToFirstNonBlankChar(cursor);
+            hasExectued = true;
+            return true;
         }
         return false;
     }

@@ -9,13 +9,11 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Movement extends Action {
+public class Movement {
 
     private Pattern wordCap = Pattern.compile("([\\w$-/:-?{-~!\"^'\\[\\]#]+)");
     private Pattern wordLetNum = Pattern.compile("(\\w+)");
     private Pattern wordSym = Pattern.compile("([$-/:-?{-~!\"^'\\[\\]#]+)");
-
-    private Operations operation = new Operations();
 
     private Position objectPosition;
 
@@ -477,5 +475,37 @@ public class Movement extends Action {
     }
 
 
+    /**
+     * checks that the current iteration-input from
+     * the user is within the given array, if not it
+     * will return the last value of the array
+     * Always reset the current iterationInt.
+     * @param matchList list from which an int shall be
+     *                  returned a
+     * @param iterateBackward used for matchLists that need
+     *                        to iterated backwards
+     * @return the appropriate value in the array or zero
+     */
+    protected int iterationApplier(ArrayList<Integer> matchList, boolean iterateBackward, int iterations){
+
+        iterations = (iterations > 0) ? iterations - 1 : 0;
+
+        if(! iterateBackward) matchList.removeIf(p -> p == 0);
+
+        if (matchList.size() > 0){
+
+
+
+            iterations = (iterations < matchList.size()) ? iterations : matchList.size() - 1;
+
+            Collections.sort(matchList);
+            if(iterateBackward)Collections.reverse(matchList);
+
+
+            return matchList.get(iterations);
+        }
+
+        return 0;
+    }
 
 }

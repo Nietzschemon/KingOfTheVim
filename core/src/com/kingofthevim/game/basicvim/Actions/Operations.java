@@ -5,10 +5,10 @@ import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 
-public class Operations {
+public class Operations extends Movement{
 
 
-    void deleteChar(VimObject vimObj){
+    protected void deleteChar(VimObject vimObj){
 
         ArrayList<Cell> cellList = vimObj.getVimMatrix().getCellMatrix().get(vimObj.getPosition().getCurrRow());
 
@@ -21,7 +21,7 @@ public class Operations {
 
     }
 
-    void deleteCharBatch(VimObject vimObj, int num){
+    protected void deleteCharBatch(VimObject vimObj, int num){
         for (int i = 0; i < num; i++) {
 
             deleteChar(vimObj);

@@ -138,4 +138,19 @@ public class Tools {
 
         return false;
     }
+
+    /**
+     * tries to parse integer, if
+     * fail, it returns zero
+     * @param string that which is to be parsed
+     * @return parsed integer or zero
+     */
+    public static int tryParseInt(String string){
+        try{
+            return Integer.parseInt(string);
+        } catch (NumberFormatException e){
+            return 0;
+        }
+    }
+
 }
