@@ -125,4 +125,24 @@ public class Operations extends Movement{
 
         deleteCharBatch(vimObj, deleteNum, vimObj.getPosition().getCurrColumn());
     }
+
+    protected void deleteLineHorizontal(VimObject vimObj, boolean inFrontOf){
+
+        int deleteNum = traverseWholeLine_Int(vimObj, inFrontOf);
+
+        if(inFrontOf){
+
+            deleteCharBatch(vimObj, deleteNum + 1);
+
+            // for the one step back
+            charHorizontalMove(vimObj, false, 1);
+        } else {
+            deleteNum = Math.abs(deleteNum);
+
+            traverseWholeLine(vimObj, false);
+
+            deleteCharBatch(vimObj, deleteNum + 1);
+
+        }
+    }
 }

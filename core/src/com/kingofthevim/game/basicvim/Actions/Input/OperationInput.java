@@ -71,7 +71,7 @@ public class OperationInput extends Operations implements InputProcessor {
 
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
-                //deleteNum = traverseWholeLine_Int(cursor, false);
+                deleteLineHorizontal(cursor, false);
                 hasExectued = true;
                 return true;
 
@@ -86,8 +86,7 @@ public class OperationInput extends Operations implements InputProcessor {
         int deleteNum = (iteration > 0) ? iteration : 1;
 
         if(character == '$'){
-            deleteNum = traverseWholeLine_Int(cursor, true);
-            deleteCharBatch(cursor, deleteNum + 1);
+            deleteLineHorizontal(cursor, true);
             hasExectued = true;
             return true;
         }
