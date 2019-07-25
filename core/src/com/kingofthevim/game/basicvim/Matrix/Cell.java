@@ -48,25 +48,21 @@ public class Cell {
         Texture cellLookDefault;
         LetterType letterType = LetterType.EMPATHY;
     }
-    Cell(){
-        cellProperties = new Properties();
-    }
-
-    Cell( float x, float y){
-
+    public Cell(){
         cellProperties = new Properties();
         cartesianPosition = new Vector2();
+    }
+
+    public Cell( float x, float y){
+        this();
         cartesianPosition.x = x;
         cartesianPosition.y = y;
     }
-    Cell(Vector2 position){
 
-        cartesianPosition = position;
-    }
-    Cell(Texture look, Vector2 position){
+    public Cell(char letter,  LetterType letterType){
+        this();
+        setCellLook(letter, letterType, true, true);
 
-        cellProperties.cellLook = look;
-        cartesianPosition = position;
     }
     public Texture getCellLook(){
         return this.cellProperties.cellLook;
