@@ -1,9 +1,15 @@
 package com.kingofthevim.game.basicvim.Matrix;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.kingofthevim.game.basicvim.Matrix.Tools.charIsLetter;
+import static com.kingofthevim.game.basicvim.Matrix.Tools.tryParseInt;
 
 /*
 Syntax <direction> <color>  words <<thing>> wor</color>ds </direction>
@@ -293,4 +299,262 @@ public class TagSystem {
 
     }
 
+    public ArrayList<String> makeCellTagsOfCurrentMatrix(VimWorldMatrix matrix){
+        ArrayList<ArrayList<Cell>> cellMatrix = matrix.getCellMatrix();
+
+        ArrayList<String> tagArray = new ArrayList<>();
+
+        for (int i = 0; i < cellMatrix.size() - 1; i++) {
+
+            for (int j = 0; j < cellMatrix.get(i).size() - 1; j++) {
+
+                char cellChar = cellMatrix.get(i).get(j).getCellProperties().cellChar;
+                String letterType = cellMatrix.get(i).get(j).getCellProperties().letterType.getTagName();
+
+                //System.out.println("<<|" + i + "|" + j + "|" + cellChar + "|" + letterType + "|>>");
+
+                tagArray.add("<<||r:" + i + "|c:" + j + "|l:" + cellChar +"|t:" + letterType + "||>>");
+
+            }
+        }
+
+        tagArray.add("<<||r:" + cellMatrix.size() + "|c:" + cellMatrix.get(0).size() + "|f:fontsize||>>");
+
+        //buildMapFromCellTags(tagArray);
+
+        System.out.println("TagArray: " + tagArray);
+        return tagArray;
+    }
+
+    //TODO delete if unused
+    public CellTag readCellTag(String cellTagStr){
+
+        ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
+        String iterationString = "0";
+        int totalRows = 0;
+        int totalColums = 0;
+        CellTag cellTag = new CellTag();
+
+        char[] charArray = cellTagStr.toCharArray();
+
+        boolean identifier = false;
+
+        for (int i = 0, charArrayLength = charArray.length; i < charArrayLength; i++) {
+            char c = charArray[i];
+
+            if (c > 47 &&
+                    c < 58) {
+                iterationString += String.valueOf(c);
+
+            }
+            if (charArray[i] == ':' && charArray[i + 1] == 'r') {
+                totalRows = tryParseInt(iterationString);
+                iterationString = "0";
+            }
+            if (charArray[i] == ':' && charArray[i + 1] == 'c') {
+                totalColums  = tryParseInt(iterationString);
+                iterationString = "0";
+            }
+
+        }
+
+        return cellTag;
+    }
+
+    public ArrayList<CellSubTag> createSubTagArray(String cellTag){
+
+        char[] cellTagChars = cellTag.toCharArray();
+        char identifier = ' ';
+        int startPosition = 0;
+        int endPosition = 0;
+        ArrayList<CellSubTag> subTags = new ArrayList<>();
+
+        for (int i = 0; i < cellTagChars.length; i++) {
+
+            if(cellTagChars[i + 1] == ':'
+                    && charIsLetter(cellTagChars[i])){
+                identifier = cellTagChars[i];
+                startPosition = i + 2;
+            }
+
+            if(cellTagChars[i] == '|'
+                    && cellTagChars[i - 1] != '|'){
+
+                endPosition = i + 1;
+            }
+
+            if(identifier != ' '
+                    && startPosition != 0
+                    && endPosition != 0){
+
+                subTags.add(new CellSubTag(identifier, startPosition, endPosition));
+
+                identifier = ' ';
+                startPosition = 0;
+                endPosition = 0;
+            }
+
+        }
+
+        return subTags;
+    }
+
+    public CellTag createCellTag(String cellTagStr){
+
+        int row = 0;
+        int column = 0;
+        LetterType letterType = LetterType.EMPATHY;
+        char letter = ' ';
+
+        ArrayList<CellSubTag> cellSubTags = createSubTagArray(cellTagStr);
+
+        for(CellSubTag sTag : cellSubTags){
+
+            if(sTag.identifier == 'r'){
+
+                row = Tools.tryParseInt(
+                        cellTagStr.substring(
+                                sTag.startPosition,
+                                sTag.endPosition));
+            }
+
+            if(sTag.identifier == 'c'){
+
+                column = Tools.tryParseInt(
+                        cellTagStr.substring(
+                                sTag.startPosition,
+                                sTag.endPosition));
+            }
+        }
+
+
+
+        return new CellTag(row, column, letterType, letter);
+    }
+
+
+
+    public ArrayList<ArrayList<Cell>> buildCellArray(ArrayList<String> cellTagArray){
+
+
+        ArrayList<ArrayList<Cell>> cellMatrix = new ArrayList<>();
+        String iterationString = "0";
+        int totalRows = 0;
+        int totalColums = 0;
+
+        char[] charArray = cellTagArray.get(cellTagArray.size() - 1).toCharArray();
+
+        for (int i = 0, charArrayLength = charArray.length; i < charArrayLength; i++) {
+            char c = charArray[i];
+
+            if (c > 47 &&
+                    c < 58) {
+                iterationString += String.valueOf(c);
+
+            }
+            if (charArray[i] == ':' && charArray[i + 1] == 'r') {
+                totalRows = tryParseInt(iterationString);
+                iterationString = "0";
+            }
+            if (charArray[i] == ':' && charArray[i + 1] == 'c') {
+                totalColums  = tryParseInt(iterationString);
+                iterationString = "0";
+            }
+
+        }
+
+        System.out.println("total row: " + totalRows + " - Total columns: " + totalColums);
+
+        cellMatrix.ensureCapacity(totalRows);//TODO get value from last tag that contains all metadata
+
+        for (ArrayList<Cell> p : cellMatrix) {
+            p.ensureCapacity(totalColums);
+        }
+
+        return cellMatrix;
+    }
+
+    //TODO searchForSubTag() -> when subtag found break and return value
+
+    public void buildMapFromCellTags(ArrayList<String> cellTagArray){
+
+
+        ArrayList<ArrayList<Cell>> cellMatrix = buildCellArray(cellTagArray);
+
+
+        for (int i = 0; i < cellMatrix.size(); i++) {
+
+            char[] charTag = cellTagArray.get(i).toCharArray();
+
+            char cellChar = '0';
+            LetterType letterType = LetterType.EMPATHY;
+
+            for (int j = 0; j < cellMatrix.get(i).size(); j++) {
+
+
+                if (charTag[j] == ':' && charTag[j + 1] == 'l') {
+                    cellChar = charTag[j - 1];
+                }
+
+                if (charTag[j] == ':' && charTag[j + 1] == 't') {
+                    //letterType = LetterType.valueOf(charTag[j - 1]);
+                }
+
+
+                cellMatrix.get(i).set(j, new Cell(cellChar, letterType));
+
+                //System.out.println("<<|" + i + "|" + j + "|" + cellChar + "|" + letterType + "|>>");
+
+            }
+        }
+
+        System.out.println("cellMatrix: " + cellMatrix);
+    }
+
+
+    //TODO put the cell speficic tag-interpreting methods in cell
+    // and make the constructor take a tag-string and depoly them
+    // in constructor
+    private class CellTag{
+
+        int totalRows;
+
+
+        int totalColumns;
+        int rows;
+        int columns;
+        LetterType letterType;
+        char letter;
+
+        public CellTag(){}
+
+        public CellTag(int totalRows, int totalColumns){
+            this.totalRows = totalRows;
+            this.totalColumns = totalColumns;
+        }
+        public CellTag(int rows, int columns, LetterType letterType, char letter) {
+            this.rows = rows;
+            this.columns = columns;
+            this.letterType = letterType;
+            this.letter = letter;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
+    }
+
+    private class CellSubTag{
+        char identifier;
+        int startPosition;
+        int endPosition;
+
+        public CellSubTag(char identifier, int startPosition, int endPosition) {
+            this.identifier = identifier;
+            this.startPosition = startPosition;
+            this.endPosition = endPosition;
+        }
+
+    }
 }
