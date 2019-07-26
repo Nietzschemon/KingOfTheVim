@@ -2,6 +2,7 @@ package com.kingofthevim.game.basicvim.Matrix;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.kingofthevim.game.basicvim.Properties;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,26 +32,32 @@ public class Cell {
 
     private Vector2 cartesianPosition;
 
+    private Texture cellLook;
+    private Texture cellLookDefault;
+
     public Properties getCellProperties() {
         return cellProperties;
     }
 
     public void setCellProperties(Properties cellProperties) {
-        this.cellProperties = cellProperties;
+        if(cellProperties.cellChar == ' '){
+            clearCell();
+            return;
+        }
+        setCellLook(cellProperties.cellChar, cellProperties.letterType, true, true);
+    }
+
+    public void setCellProperties(char letter, LetterType letterType) {
+
+        this.cellProperties = new Properties(letter, letterType);
     }
 
     private Properties cellProperties;
 
-    public class Properties {
-
-        char cellChar = ' ';
-        Texture cellLook;
-        Texture cellLookDefault;
-        LetterType letterType = LetterType.EMPATHY;
-    }
     public Cell(){
         cellProperties = new Properties();
         cartesianPosition = new Vector2();
+
     }
 
     public Cell( float x, float y){
@@ -65,7 +72,7 @@ public class Cell {
 
     }
     public Texture getCellLook(){
-        return this.cellProperties.cellLook;
+        return this.cellLook;
     }
 
     /**
@@ -87,49 +94,49 @@ public class Cell {
         switch (type) {
 
             case BLACK:
-                this.cellProperties.cellLook = blackFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = blackFont.get(cellChar);
+                this.cellLook = blackFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = blackFont.get(cellChar);
                 break;
 
             case BLACK_YELLOW:
-                this.cellProperties.cellLook = blackYellowFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = blackYellowFont.get(cellChar);
+                this.cellLook = blackYellowFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = blackYellowFont.get(cellChar);
                 break;
 
             case GRAY:
-                this.cellProperties.cellLook = grayFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = grayFont.get(cellChar);
+                this.cellLook = grayFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = grayFont.get(cellChar);
                 break;
 
 
             case RED:
-                this.cellProperties.cellLook = redFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = redFont.get(cellChar);
+                this.cellLook = redFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = redFont.get(cellChar);
                 break;
 
             case YELLOW:
-                this.cellProperties.cellLook = yellowFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = yellowFont.get(cellChar);
+                this.cellLook = yellowFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = yellowFont.get(cellChar);
                 break;
 
             case WHITE:
-                this.cellProperties.cellLook = whiteFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = whiteFont.get(cellChar);
+                this.cellLook = whiteFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = whiteFont.get(cellChar);
                 break;
 
             case WHITE_GREEN:
-                this.cellProperties.cellLook = whiteGreenFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = whiteGreenFont.get(cellChar);
+                this.cellLook = whiteGreenFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = whiteGreenFont.get(cellChar);
                 break;
 
             case WHITE_RED:
-                this.cellProperties.cellLook = whiteRedFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = whiteRedFont.get(cellChar);
+                this.cellLook = whiteRedFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = whiteRedFont.get(cellChar);
                 break;
 
             case WHITE_PURPLE:
-                this.cellProperties.cellLook = whitePurpleFont.get(cellChar);
-                if(isDefault)this.cellProperties.cellLookDefault = whitePurpleFont.get(cellChar);
+                this.cellLook = whitePurpleFont.get(cellChar);
+                if(isDefault)this.cellLookDefault = whitePurpleFont.get(cellChar);
                 break;
 
         }
@@ -184,7 +191,7 @@ public class Cell {
      * Resets the cell to it's default look
      */
     public void setCellLookToDefault(){
-        this.cellProperties.cellLook = this.cellProperties.cellLookDefault;
+        this.cellLook = this.cellLookDefault;
     }
 
 
@@ -195,19 +202,17 @@ public class Cell {
      */
     public void clearCell(){
 
-        cellProperties = new Properties();
-        //cellProperties.cellLook = null;
-        //cellProperties.cellLookDefault = null;
-        //cellProperties.cellChar = ' ';
-        //cellProperties.letterType = LetterType.EMPATHY;
+        this.cellProperties = new Properties();
+        this.cellLook = null;
+        this.cellLookDefault = null;
     }
 
     /**
      * Disposes the resourses used by the cell
      */
     public void dispose(){
-        cellProperties.cellLook.dispose();
-        cellProperties.cellLookDefault.dispose();
+        cellLook.dispose();
+        cellLookDefault.dispose();
     }
 
     /**

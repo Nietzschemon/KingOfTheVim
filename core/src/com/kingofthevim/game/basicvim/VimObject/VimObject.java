@@ -8,10 +8,6 @@ public interface VimObject {
 
     VimWorldMatrix getVimMatrix();
 
-    default Cell getCurrentCell(){
-        return getVimMatrix().getCellMatrix().get(getPosition().getCurrRow()).get(getPosition().getCurrColumn());
-    }
-
     Size getSize();
 
     Position getPosition();
