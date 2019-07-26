@@ -64,7 +64,8 @@ public class Level_4 extends Level {
 
     @Override
     protected void backgroundMusic() {
-        if(backgroundMusic.isPlaying()){
+        if(backgroundMusic != null
+                && backgroundMusic.isPlaying()){
             backgroundMusic.stop();
             backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                     "sound/music/laborintMusic/labMusic2pcm.wav"));

@@ -96,7 +96,7 @@ public class VimWorldMatrix  {
             for (int j = 0; j < colunmTotal; j++) {
 
 
-                cellMatrix.get(i).add(new Cell(j * width, i * height));
+                cellMatrix.get(i).add(new Cell(j * width, i * height, i, j));
 
                 System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }

@@ -40,11 +40,11 @@ public class Cell {
     }
 
     public void setCellProperties(Properties cellProperties) {
-        if(cellProperties.cellChar == ' '){
+        if(cellProperties.getCellChar() == ' '){
             clearCell();
             return;
         }
-        setCellLook(cellProperties.cellChar, cellProperties.letterType, true, true);
+        setCellLook(cellProperties.getCellChar(), cellProperties.getLetterType(), true, true);
     }
 
     public void setCellProperties(char letter, LetterType letterType) {
@@ -64,6 +64,12 @@ public class Cell {
         this();
         cartesianPosition.x = x;
         cartesianPosition.y = y;
+    }
+
+    public Cell( float x, float y, int row, int column){
+        this(x, y);
+        cellProperties.setRow(row);
+        cellProperties.setColumn(column);
     }
 
     public Cell(char letter,  LetterType letterType){
@@ -141,8 +147,8 @@ public class Cell {
 
         }
 
-        if(replaceChar)this.cellProperties.cellChar = cellChar;
-        if(isDefault) this.cellProperties.letterType = type;
+        if(replaceChar) this.cellProperties.setCellChar(cellChar);
+        if(isDefault) this.cellProperties.setLetterType(type);
     }
 
 
@@ -151,7 +157,7 @@ public class Cell {
      * @return the char of the cell
      */
     public char getCellChar() {
-        return cellProperties.cellChar;
+        return cellProperties.getCellChar();
     }
 
     /**
@@ -183,7 +189,7 @@ public class Cell {
      */
     public void setCellLookTemp(LetterType letterType){
 
-        setCellLook(cellProperties.cellChar, letterType, false, false);
+        setCellLook(cellProperties.getCellChar(), letterType, false, false);
 
     }
 
@@ -220,7 +226,7 @@ public class Cell {
      * @return the LetterType of letterType field
      */
     public Enum<LetterType> getLetterType() {
-        return cellProperties.letterType;
+        return cellProperties.getLetterType();
     }
 
     /**
@@ -232,7 +238,7 @@ public class Cell {
      */
     public void setLetterType(LetterType letterType) {
 
-        this.setCellLook(cellProperties.cellChar, letterType, true, false);
+        this.setCellLook(cellProperties.getCellChar(), letterType, true, false);
     }
 
     /**
@@ -245,7 +251,7 @@ public class Cell {
      */
     public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
 
-        if(this.cellProperties.letterType != LetterType.GRAY
+        if(this.cellProperties.getLetterType() != LetterType.GRAY
         || includeGrayFont){
             this.setCellLook(letter, letterType, true, true);
         }

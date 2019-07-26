@@ -1,8 +1,5 @@
 package com.kingofthevim.game.basicvim.Matrix;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Json;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
@@ -308,8 +305,8 @@ public class TagSystem {
 
             for (int j = 0; j < cellMatrix.get(i).size() - 1; j++) {
 
-                char cellChar = cellMatrix.get(i).get(j).getCellProperties().cellChar;
-                String letterType = cellMatrix.get(i).get(j).getCellProperties().letterType.getTagName();
+                char cellChar = cellMatrix.get(i).get(j).getCellProperties().getCellChar();
+                String letterType = cellMatrix.get(i).get(j).getCellProperties().getLetterType().getTagName();
 
                 //System.out.println("<<|" + i + "|" + j + "|" + cellChar + "|" + letterType + "|>>");
 
