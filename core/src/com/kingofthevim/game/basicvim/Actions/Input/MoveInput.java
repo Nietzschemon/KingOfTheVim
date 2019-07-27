@@ -3,7 +3,6 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.utils.Json;
 import com.kingofthevim.game.basicvim.Actions.Movement;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
@@ -65,24 +64,17 @@ public class MoveInput extends Movement implements InputProcessor {
                 return traverseWholeLine(cursor, false);
             case Input.Keys.F1:
 
-                MatrixSerialization matrixSerialization = new MatrixSerialization();
 
-                matrixSerialization.saveCurrentMatrix(cursor);
-
+                matrixSerialization.saveAll(cursor);
                 return true;
 
-                /*
             case Input.Keys.F2:
 
-                Json json2 = new Json();
-                json2.setUsePrototypes(false);
 
-                MatrixSerialization matrixSerialization1 = json2.fromJson(MatrixSerialization.class, cellSave);
+                matrixSerialization.loadAll(cursor, MatrixSerialization.jsonString);
 
-                System.out.println(json2.prettyPrint(matrixSerialization1));
                 return true;
 
-                 */
 
 
 
@@ -90,6 +82,8 @@ public class MoveInput extends Movement implements InputProcessor {
 
         return false;
     }
+
+    MatrixSerialization matrixSerialization = new MatrixSerialization();
 
     @Override
     public boolean keyTyped(char character) {

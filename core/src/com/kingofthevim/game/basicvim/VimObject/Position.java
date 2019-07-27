@@ -12,6 +12,9 @@ public class Position {
     private int colunmTotal;
 
 
+    public Position(){ }
+
+
     Position(VimObject vimObject, int row, int column, int rowTotal, int colunmTotal){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
