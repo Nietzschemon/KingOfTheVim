@@ -12,10 +12,12 @@ public class MoveInput extends Movement implements InputProcessor {
     Cursor cursor;
     int iteration = 0;
     boolean hasExectued = false;
+    MatrixSerialization matrixSerialization;
 
     public MoveInput(Cursor cursor){
 
         this.cursor = cursor;
+        matrixSerialization = new MatrixSerialization(cursor);
         setObjectPosition(cursor.getPosition());
     }
 
@@ -62,28 +64,20 @@ public class MoveInput extends Movement implements InputProcessor {
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
                 return traverseWholeLine(cursor, false);
+
             case Input.Keys.F1:
-
-
-                matrixSerialization.saveAll(cursor);
+                matrixSerialization.saveAll();
                 return true;
 
             case Input.Keys.F2:
-
-
-                matrixSerialization.loadAll(cursor, MatrixSerialization.jsonString);
-
+                matrixSerialization.loadAll();
                 return true;
-
-
-
 
         }
 
         return false;
     }
 
-    MatrixSerialization matrixSerialization = new MatrixSerialization();
 
     @Override
     public boolean keyTyped(char character) {
