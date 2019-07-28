@@ -23,8 +23,29 @@ public class Builder implements InputProcessor {
             case Input.Keys.R:
                 cursor.getCurrentCell().setLetterType(LetterType.RED);
                 return true;
+
+            case Input.Keys.Y:
+                cursor.getCurrentCell().setLetterType(LetterType.YELLOW);
+                return true;
+
+            case Input.Keys.G:
+                cursor.getCurrentCell().setLetterType(LetterType.GRAY);
+                return true;
+
+            case Input.Keys.W:
+                cursor.getCurrentCell().setLetterType(LetterType.WHITE);
+                return true;
+
+            case Input.Keys.F:
+                cursor.getCurrentCell().setLetterType(LetterType.WHITE_GREEN);
+                return true;
         }
+
         return false;
+    }
+
+    public LetterType nextSubType(){
+        return null;
     }
 
     @Override
