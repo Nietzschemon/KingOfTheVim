@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
-import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 public class Builder implements InputProcessor {
 
@@ -44,9 +43,6 @@ public class Builder implements InputProcessor {
         return false;
     }
 
-    public LetterType nextSubType(){
-        return null;
-    }
 
     @Override
     public boolean keyUp(int keycode) {

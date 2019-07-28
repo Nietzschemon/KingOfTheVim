@@ -207,10 +207,12 @@ public class DevLevel extends Level{
 
     @Override
     protected void levelChange() {
+        /*
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
             dispose();
             gsm.push(new Level_1(gsm));
         }
+         */
     }
 
     @Override
