@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Builder;
 import com.kingofthevim.game.basicvim.Matrix.Tools;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
@@ -18,12 +19,15 @@ public class InputManager implements InputProcessor {
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
     MoveInput moveInput;
     OperationInput operationInput;
+    Builder builder;
 
     private char currChar = 0;
 
     private char currOperator = ' ';
 
     private boolean activeOperator = false;
+
+    private boolean builderActive = false;
 
     private LinkedList<Character> inputHistory;
 
@@ -35,6 +39,7 @@ public class InputManager implements InputProcessor {
         inputHistory = new LinkedList<>();
         moveInput = new MoveInput(cursor);
         operationInput = new OperationInput(cursor);
+        builder = new Builder(cursor);
 
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(moveInput);
@@ -57,6 +62,16 @@ public class InputManager implements InputProcessor {
                 inputMultiplexer.addProcessor(0, operationInput);
                 System.out.println("D pressed");
                 operationInput.hasExectued = false;
+                return true;
+
+            case Input.Keys.F5:
+                if (builderActive){
+                    inputMultiplexer.removeProcessor(builder);
+                }
+                else {
+                    inputMultiplexer.addProcessor(0, builder);
+                    builderActive = true;
+                }
                 return true;
 
             case Input.Keys.NUM_1:
