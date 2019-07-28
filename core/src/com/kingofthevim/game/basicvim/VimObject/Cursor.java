@@ -9,9 +9,6 @@ import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 
 import java.util.ArrayList;
 
-//TODO TEXTURES look into TextureAtlas and sprites to see if the
-// visual effect in spacemacs of a combination of the cursor and
-// a letter in spacemacs can be achieved.
 public class Cursor implements VimObject {
 
 
@@ -25,18 +22,16 @@ public class Cursor implements VimObject {
 
     private Position position;
 
-    //TODO remove and put as parameters in constructor
     private Size cursorSize;
     private Texture texture;
 
     private PointSystem points;
 
     private InputManager inputManager;
-    //</editor-fold desc="bla">
+    //</editor-fold desc="Fields">
 
 
     //TODO inherit from cell
-
     public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell, PointSystem points){
 
         cursorSize = new Size(22, 44);
@@ -65,63 +60,66 @@ public class Cursor implements VimObject {
     public void update(){
     }
 
+    /**
+     * Gets the current cell of the cursor
+     * in the matrix.
+     *
+     * This is used as a shorthand for
+     * a lot of things in the game.
+     *
+     * @return Current cell of cursor.
+     */
+    public Cell getCurrentCell(){
+        return this.cellMatrix.get(this.position.getCurrRow()).get(this.position.getCurrColumn());
+    }
 
     @Override
     public void doBeforePosiUpdate(){
-        int currRow = position.getCurrRow();
-        int currColumn = position.getCurrColumn();
-
-        cellMatrix.get(currRow).get(currColumn).setCellLookToDefault();
+        this.getCurrentCell().setCellLookToDefault();
     }
 
-    //TODO make a general method that looks what color the cursor is
-    // and the letter according to a scheme
+
     @Override
     public void doAfterPosiUpdate(){
+        visualChanges();
+    }
 
-        int currRow = position.getCurrRow();
-        int currColumn = position.getCurrColumn();
+    /**
+     * Handles VISUAL changes associated withe cursor.
+     * Some methods in here can do other things, but
+     * if they are here they are not used in that way.
+     */
+    private void visualChanges(){
+        ifOnChangeTo(LetterType.RED, LetterType.WHITE_RED);
+        ifOnChangeTo(LetterType.YELLOW, LetterType.BLACK_YELLOW);
+        ifOnChangeTo(LetterType.WHITE, LetterType.BLACK);
+        ifOnChangeTo(LetterType.WHITE_GREEN, LetterType.WHITE_PURPLE);
 
-        if(isOnType(LetterType.RED)){
-            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_RED);
-        }
+    }
 
-        if(isOnType(LetterType.YELLOW)){
-            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.BLACK_YELLOW);
-        }
 
-        if(isOnType(LetterType.WHITE)){
-            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.BLACK);
-        }
-
-        if(isOnType(LetterType.WHITE_GREEN)){
-            cellMatrix.get(currRow).get(currColumn).setCellLookTemp(LetterType.WHITE_PURPLE);
+    /**
+     * Changes the underlying LetterType of the
+     * cursor/cell when its on a specified LetterType.
+     * @param isOn LetterType that triggers the change
+     * @param changeTo LetterType to change to
+     */
+    private void ifOnChangeTo(LetterType isOn, LetterType changeTo){
+        if(isOnType(isOn)){
+            this.getCurrentCell().setCellLookTemp(changeTo);
         }
     }
 
 
     @Override
     public boolean isOnLetter(char letter){
-
-        int currRow = position.getCurrRow();
-        int currColumn = position.getCurrColumn();
-
-        if(cellMatrix.get(currRow).get(currColumn).getCellChar() == letter){
-            //System.out.println("is on letter \"" + letter + "\"");
-        }
-        return cellMatrix.get(currRow).get(currColumn).getCellChar() == letter;
+        return this.getCurrentCell().getCellChar() == letter;
     }
 
 
     @Override
     public boolean isOnType(LetterType type){
-        int currRow = position.getCurrRow();
-        int currColumn = position.getCurrColumn();
-
-        if(cellMatrix.get(currRow).get(currColumn).getLetterType() == type){
-            //System.out.println("is on type \"" + type + "\"");
-        }
-        return cellMatrix.get(currRow).get(currColumn).getLetterType() == type;
+        return this.getCurrentCell().getLetterType() == type;
     }
 
     //<editor-fold desc="Getters and setters">
