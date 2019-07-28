@@ -126,6 +126,7 @@ public class InputManager implements InputProcessor {
 
             case Input.Keys.ESCAPE:
                 //inputMultiplexer.removeProcessor(moveInput);
+                resetIteration();
                 System.out.println("ESC");
                 return true;
 
@@ -228,7 +229,13 @@ public class InputManager implements InputProcessor {
         return oper;
     }
 
-    void resetIteration(){iterationString = "0";}
+    //TODO make iteration work with ONE!
+    void resetIteration(){
+        iterationString = "0";
+        iterationInt = 0;
+        moveInput.iteration = 0;
+        operationInput.iteration = 0;
+    }
 
     @Override
     public boolean keyUp(int keycode) {
