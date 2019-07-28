@@ -105,7 +105,7 @@ public class Cursor implements VimObject {
      * @param isOn LetterType that triggers the change
      * @param changeTo LetterType to change to
      */
-    private void ifOnChangeTo(LetterType isOn, LetterType changeTo){
+    public void ifOnChangeTo(LetterType isOn, LetterType changeTo){
         if(isOnType(isOn)){
             this.getCurrentCell().setCellLookTemp(changeTo);
         }
