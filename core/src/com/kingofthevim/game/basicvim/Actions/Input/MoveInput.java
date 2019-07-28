@@ -69,7 +69,7 @@ public class MoveInput extends Movement implements InputProcessor {
                 matrixSerialization.saveAll();
                 return true;
 
-            case Input.Keys.F2:
+            case Input.Keys.F9:
                 matrixSerialization.loadAll();
                 return true;
 
