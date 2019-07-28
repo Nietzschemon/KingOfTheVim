@@ -12,6 +12,8 @@ public interface VimObject {
 
     Position getPosition();
 
+    Cell getCurrentCell();
+
     void setPosition(Position position);
 
     void update();

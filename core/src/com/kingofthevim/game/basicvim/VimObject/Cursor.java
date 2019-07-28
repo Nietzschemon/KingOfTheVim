@@ -69,6 +69,7 @@ public class Cursor implements VimObject {
      *
      * @return Current cell of cursor.
      */
+    @Override
     public Cell getCurrentCell(){
         return this.cellMatrix.get(this.position.getCurrRow()).get(this.position.getCurrColumn());
     }
