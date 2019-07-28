@@ -20,6 +20,7 @@ public class InputManager implements InputProcessor {
     MoveInput moveInput;
     OperationInput operationInput;
     Builder builder;
+    TextInput textInput;
 
     private char currChar = 0;
 
@@ -40,6 +41,7 @@ public class InputManager implements InputProcessor {
         moveInput = new MoveInput(cursor);
         operationInput = new OperationInput(cursor);
         builder = new Builder(cursor);
+        textInput = new TextInput(cursor);
 
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(moveInput);
@@ -54,7 +56,14 @@ public class InputManager implements InputProcessor {
             inputMultiplexer.removeProcessor(operationInput);
             inputMultiplexer.addProcessor(0, moveInput);
         }
+
+        if(textInput.hasExecuted){
+            inputMultiplexer.removeProcessor(textInput);
+            inputMultiplexer.addProcessor(0, moveInput);
+        }
+
         iterationSync();
+
         switch (keycode){
 
             case Input.Keys.D:
@@ -64,13 +73,24 @@ public class InputManager implements InputProcessor {
                 operationInput.hasExectued = false;
                 return true;
 
-            case Input.Keys.F5:
+            case Input.Keys.TAB:
                 if (builderActive){
                     inputMultiplexer.removeProcessor(builder);
+                    builderActive = false;
                 }
                 else {
                     inputMultiplexer.addProcessor(0, builder);
                     builderActive = true;
+                }
+                return true;
+
+            case Input.Keys.R:
+                if(oneBeforeLast() != 'r'){
+                    textInput.operatorChar = 'r';
+                    inputMultiplexer.removeProcessor(moveInput);
+                    inputMultiplexer.addProcessor(0, textInput);
+                    System.out.println("R pressed");
+                    textInput.hasExecuted = false;
                 }
                 return true;
 
@@ -105,7 +125,7 @@ public class InputManager implements InputProcessor {
                 return integerMaker('0');
 
             case Input.Keys.ESCAPE:
-                inputMultiplexer.removeProcessor(moveInput);
+                //inputMultiplexer.removeProcessor(moveInput);
                 System.out.println("ESC");
                 return true;
 
@@ -116,13 +136,15 @@ public class InputManager implements InputProcessor {
 
     private void iterationSync(){
         if(operationInput.hasExectued
-        || moveInput.hasExectued){
+        || moveInput.hasExectued
+        || textInput.hasExecuted){
             operationInput.iteration = 0;
             moveInput.iteration = 0;
             iterationInt = 0;
             iterationString = "0";
             operationInput.hasExectued = false;
             moveInput.hasExectued = false;
+            textInput.hasExecuted = false;
         }
 
         if(iterationInt > 0){
@@ -131,6 +153,17 @@ public class InputManager implements InputProcessor {
         }
     }
 
+    /**
+     * Gives back the second last char
+     * from the input history.
+     * @return the second last char typed
+     */
+    private char oneBeforeLast(){
+        if(inputHistory.size() > 0){
+            return inputHistory.get(inputHistory.size() - 1);
+        }
+        return ' ';
+    }
 
     private void addToInputHistory(char character){
 

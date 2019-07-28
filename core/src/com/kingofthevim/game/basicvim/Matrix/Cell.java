@@ -151,6 +151,9 @@ public class Cell {
         if(isDefault) this.cellProperties.setLetterType(type);
     }
 
+    public void setLetter(char letter){
+        setCellLook(letter, this.getLetterType(), true, true);
+    }
 
     /**
      * Gets the cells associated char
@@ -225,7 +228,7 @@ public class Cell {
      * Getter for LetterType field
      * @return the LetterType of letterType field
      */
-    public Enum<LetterType> getLetterType() {
+    public LetterType getLetterType() {
         return cellProperties.getLetterType();
     }
 
