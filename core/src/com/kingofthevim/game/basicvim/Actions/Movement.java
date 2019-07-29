@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim.Actions;
 
+import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
@@ -299,6 +300,40 @@ public class Movement {
         }
 
         return false;
+    }
+
+    public boolean goToLetter(VimObject vimObject, char letter){
+
+        int row = vimObject.getPosition().getCurrRow();
+        int column = vimObject.getPosition().getCurrColumn();
+
+        char[] charArray = vimObject.getVimMatrix().getIndexToRowEndString(row, column).toCharArray();
+
+        for (int i = 1; i < charArray.length; i++) {
+
+            if(charArray[i] == letter){
+                vimObject.getPosition().setRelativeColumn(i);
+                return true;
+            }
+
+
+        }
+
+        return false;
+    }
+
+    public int goToLetter_Int(VimObject vimObject, char letter){
+
+        int row = vimObject.getPosition().getCurrRow();
+        int column = vimObject.getPosition().getCurrColumn();
+
+        char[] charArray = vimObject.getVimMatrix().getIndexToRowEndString(row, column).toCharArray();
+
+        for (int i = 0; i < charArray.length; i++) {
+            if(charArray[i] == letter) return i;
+        }
+
+        return 0;
     }
 
     /**
