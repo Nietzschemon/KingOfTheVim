@@ -33,13 +33,18 @@ public class TextInput implements InputProcessor {
             return false;
         }
 
+        changeLetter(character);
+
+        return false;
+    }
+
+    private void changeLetter(char character){
         if(character > 32 && character < 126){
             vimObject.getCurrentCell().setLetter(character);
             hasExecuted = true;
         }
-
-        return false;
     }
+
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {

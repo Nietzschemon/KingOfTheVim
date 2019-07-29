@@ -22,12 +22,6 @@ public class InputManager implements InputProcessor {
     Builder builder;
     TextInput textInput;
 
-    private char currChar = 0;
-
-    private char currOperator = ' ';
-
-    private boolean activeOperator = false;
-
     private boolean builderActive = false;
 
     private LinkedList<Character> inputHistory;
@@ -37,6 +31,7 @@ public class InputManager implements InputProcessor {
 
 
     public InputManager(Cursor cursor){
+        this.cursor = cursor;
         inputHistory = new LinkedList<>();
         moveInput = new MoveInput(cursor);
         operationInput = new OperationInput(cursor);
@@ -204,30 +199,6 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
-    public int getIterationInt() {
-        System.out.println("it-int-get: " + iterationInt);
-        return iterationInt;
-    }
-    protected int getResetIterationInt() {
-        int iter = iterationInt;
-        iterationString = "0";
-        iterationInt = 0;
-        return iter;
-    }
-
-    public char getCurrOperator() {
-        return currOperator;
-    }
-
-    public void setCurrOperator(char currOperator) {
-        this.currOperator = currOperator;
-    }
-
-    public char getResetOperator(){
-        char oper = currOperator;
-        currOperator = ' ';
-        return oper;
-    }
 
     //TODO make iteration work with ONE!
     void resetIteration(){
