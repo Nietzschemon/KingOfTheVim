@@ -4,17 +4,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
+import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.basicvim.VimObject.Cursor;
+import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 
 public class MatrixSerialization {
 
+    private Cursor cursor;
     private VimObject vimObject;
     private static String fileName = "levels/builder/LevelBuilder_0.txt";
     private static int counter;
     private Json json;
     private Save save;
+
+    public MatrixSerialization(){
+        json = new Json();
+        json.setUsePrototypes(false);
+        save = new Save();
+
+    }
 
     public MatrixSerialization(VimObject vimObject){
 
@@ -131,10 +142,26 @@ public class MatrixSerialization {
      */
     public void loadAll(String filePath){
         Save save = loadSave(filePath);
-        loadMatrix(save);
         loadObject(save);
+        loadMatrix(save);
     }
 
+    /**
+     * Loads a specific level into a given matrix
+     * and returns a Cursor connected to it
+     *
+     * @param filePath name of file to load from
+     * @param matrix to load level into
+     * @return Cursor connected given matrix
+     */
+    public Cursor loadLevel(String filePath, VimWorldMatrix matrix){
+        Save save = loadSave(filePath);
+        loadMatrix(save, matrix);
+
+        cursor = new Cursor(matrix, save.cursorRow, save.cursorColumn, new PointSystem());
+
+        return cursor;
+    }
 
     /**
      * Loads Save class from file
@@ -142,14 +169,15 @@ public class MatrixSerialization {
      * @param filePath name of file to load from
      * @return a Save object
      */
-    private Save loadSave(String filePath){
+    public Save loadSave(String filePath){
         FileHandle file = Gdx.files.local(filePath);
         return json.fromJson(Save.class, file);
     }
 
 
     /**
-     * Loads level matrix into static grid
+     * Loads level matrix into static grid of
+     * the constructor given VimObject
      *
      * @param save to load from
      */
@@ -170,6 +198,29 @@ public class MatrixSerialization {
 
     }
 
+    /**
+     * Loads level matrix into static grid of
+     * the given VimObject
+     *
+     * @param save to load from
+     * @param matrix to load level into
+     */
+    private void loadMatrix(Save save, VimWorldMatrix matrix){
+
+        ArrayList<ArrayList<Cell>> cellMatrix = matrix.getCellMatrix();
+
+        ArrayList<ArrayList<Properties>> propList = save.savedMatrix;
+
+        for (int i = 0; i < cellMatrix.size(); i++) {
+
+            for (int j = 0; j < cellMatrix.get(i).size(); j++) {
+
+                matrix.getCellMatrix().get(i).get(j).setCellProperties(propList.get(i).get(j));
+
+            }
+        }
+
+    }
 
     /**
      * loads object into grid

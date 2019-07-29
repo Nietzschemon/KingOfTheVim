@@ -21,15 +21,9 @@ public class DevLevel extends Level{
 
         pointsSys = new PointSystem(10);
 
-        backgroundText();
-
-        levelPath();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
-    }
-
-    @Override
-    protected void backgroundText(){
-        prose();
+        serial = new MatrixSerialization(cursor);
+        serial.loadAll("levels/game/Level_5.txt");
     }
 
     @Override
@@ -47,80 +41,6 @@ public class DevLevel extends Level{
         backgroundMusic.play();
     }
 
-    @Override
-    protected void levelPath() {
-        tagBuiltLevel();
-        //vimWordObjectCourse();
-
-        labyrinthText.batchSetLetterType("O", LetterType.RED, false);
-        labyrinthText.batchSetLetterType("^$0", LetterType.YELLOW, false);
-
-    }
-
-    private void tagBuiltLevel(){
-
-        //TODO build level so one start at the sides and then worked oneself up to the top
-        // by going all the way up the middle using w/W/b/B/e/E
-        labyrinthText.createMap(
-                "<dw>##</dw>" +
-                        "<<cl01,43>>" +
-                        "<dw>0##</dw>" +
-
-                        "<<cl03,00>>" +
-                        "<dw>$##</dw>" +
-
-                        "<<cl05,43>>" +
-                        "<dw>###</dw>" +
-
-                        "<<cl07,00>>" +
-                        "<dw>###</dw>" +
-
-                        "<<cl09,43>>" +
-                        "<dw>##</dw>" +
-
-                        "<<cl10,01>>" +
-                        "<dw>^##</dw>"+
-
-                        "<<cl12,43>>" +
-                        "<dw>###</dw>"+
-                        "<<cl14,00>>" +
-                        "<dw>###</dw>"+
-                        "<<cl16,43>>" +
-                        "<dw>##</dw>" +
-                        "<<cl17,01>>" +
-                        "<dw>####</dw>" +
-                        "<<cl20,41>>" +
-                        "<rg>###</rg>" +
-                        "<<cl19,42>>" +
-                        "<lf># ## ### ###### ####</lf>" +
-                        "<up>#</up>" +
-                        "<lf># ##</lf>" +
-                        "<up>#</up>" +
-                        "<rg>#</rg>" +
-                        "<rg+09>#</rg>" +
-                        "<<cl17,28>>" +
-                "<up>#</up>" +
-                        "<lf-07>#</lf>"
-
-
-                        //"<dw>##</dw>" +
-                        //"<dw>##</dw>" +
-                //"<dw>#</dw>"
-
-                //"<rg>##</rg>"
-
-                /*
-                        "<<cl08,01>>" +
-                        "<dw>##</dw>" +
-                        "<<cl11,43>>" +
-                        "<dw>##</dw>" +
-                        "<<cll5,01>>" +
-                        "<dw>##</dw>"
-
-                 */
-                );
-        //labyrinthText.createMap("<rg>green</rg>", true, LetterType.WHITE_GREEN);
-    }
 
     private void vimWordObjectCourse(){
         labyrinthText.setHorizontalString("word word word word", 0,0,true, true, LetterType.WHITE);
@@ -186,9 +106,6 @@ public class DevLevel extends Level{
         }
 
 
-        //sb.draw(cursor.getTexture(), cursor.getPosition().x, cursor.getPosition().y);
-
-
         for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
 
             for(Cell cell : cellRow){
@@ -210,7 +127,7 @@ public class DevLevel extends Level{
         /*
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
             dispose();
-            gsm.push(new Level_1(gsm));
+            gsm.push(new MenuState(gsm));
         }
          */
     }
@@ -218,14 +135,6 @@ public class DevLevel extends Level{
     @Override
     public void update(float dt) {
         handleInput();
-        //cursor.update();
-
-        //TODO The cam should be able to follow the y axis OR the x axis
-        //cam.position.x = cursor.getPosition().x + 80;
-
-        ////TODO reset cursor if it falls of.
-        //if(cursor.getPosition() logic for on gray letters)
-        //gsm.set(new MenuState(gsm));
 
         //Tells GDX that cam been repositioned.
         cam.update();

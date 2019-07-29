@@ -63,6 +63,7 @@ public class MoveInput extends Movement implements InputProcessor {
 
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
+                hasExectued = true;
                 return traverseWholeLine(cursor, false);
 
             case Input.Keys.F1:
@@ -82,9 +83,11 @@ public class MoveInput extends Movement implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         if(character == '$'){
+            hasExectued = true;
             return traverseWholeLine(cursor, true);
         }
         if(character == '^'){
+            hasExectued = true;
             return goToFirstNonBlankChar(cursor);
         }
         return false;

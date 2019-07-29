@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
-import com.kingofthevim.game.states.DevLevel;
-import com.kingofthevim.game.states.GameStateManager;
-import com.kingofthevim.game.states.Level_1;
-import com.kingofthevim.game.states.MenuState;
+import com.kingofthevim.game.states.*;
 
 public class PlayScreen implements Screen {
 

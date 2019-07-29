@@ -28,15 +28,16 @@ public abstract class Level extends State {
     protected LetterManager labyrinthText;
     protected VimWorldMatrix vimMatrix;
 
-    //Static to cary effectivly between levels
+    //Static to cary effectively between levels
     protected static Music backgroundMusic;
 
     protected PointSystem pointsSys;
 
     protected Hud hud;
 
-    protected int cursorStartRow = 4;
-    protected int cursorStartColumn = 8;
+    protected int cursorStartRow;
+    protected int cursorStartColumn;
+    protected MatrixSerialization serial;
 
 
     //TODO implement
@@ -46,8 +47,6 @@ public abstract class Level extends State {
 
     protected Level(GameStateManager gsm) {
         super(gsm);
-
-        // "3" ds
 
         //TODO use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
@@ -63,15 +62,6 @@ public abstract class Level extends State {
         stage = hud.stage;
     }
 
-
-    //TODO put in methods
-    // score()
-    // events()
-    // cursorRules()
-
-    protected abstract void levelPath();
-
-    protected abstract void backgroundText();
 
     protected abstract void backgroundMusic();
 
@@ -119,10 +109,7 @@ public abstract class Level extends State {
 
     @Override
     public void handleInput() {
-
         cursor.update();
-
-
     }
 
     @Override
