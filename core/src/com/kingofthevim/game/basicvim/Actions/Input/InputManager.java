@@ -82,7 +82,7 @@ public class InputManager implements InputProcessor {
                     builderActive = false;
                 }
                 else {
-                    inputMultiplexer.addProcessor(0, builder);
+                    inputMultiplexer.addProcessor(1, builder);
                     builderActive = true;
                 }
                 return true;
@@ -91,7 +91,7 @@ public class InputManager implements InputProcessor {
                 if(oneBeforeLast() != 'r'){
                     textInput.operatorChar = 'r';
                     inputMultiplexer.removeProcessor(moveInput);
-                    inputMultiplexer.addProcessor(0, textInput);
+                    inputMultiplexer.addProcessor(1, textInput);
                     System.out.println("R pressed");
                     textInput.hasExecuted = false;
                 }
