@@ -90,7 +90,7 @@ public class Tools {
      * @return true if char is a letter, number or symbol
      */
     public static boolean isLetterNumberSymbol(char character){
-        return isSymbol(character) || isLetterNumberSymbol(character);
+        return isSymbol(character) || isLetterOrNumber(character);
     }
 
     /**
