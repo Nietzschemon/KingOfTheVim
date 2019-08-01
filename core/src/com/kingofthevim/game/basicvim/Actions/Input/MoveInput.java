@@ -12,7 +12,10 @@ public class MoveInput extends Movement implements InputProcessor {
     Cursor cursor;
     int iteration = 0;
     boolean hasExectued = false;
+    private boolean fMoveActive = false;
     MatrixSerialization matrixSerialization;
+    boolean shiftHeld = false;
+    String keyString;
 
     public MoveInput(Cursor cursor){
 
@@ -24,12 +27,16 @@ public class MoveInput extends Movement implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-
-        return false;
+        return true;
     }
+
 
     @Override
     public boolean keyUp(int keycode) {
+        shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        keyString = Input.Keys.toString(keycode);
+
+        if(fMoveApplier()) return true;
 
         switch (keycode){
 
@@ -74,6 +81,11 @@ public class MoveInput extends Movement implements InputProcessor {
                 matrixSerialization.loadAll();
                 return true;
 
+            case Input.Keys.F:
+                fMoveActive = true;
+                return true;
+
+
         }
 
         return false;
@@ -89,6 +101,25 @@ public class MoveInput extends Movement implements InputProcessor {
         if(character == '^'){
             hasExectued = true;
             return goToFirstNonBlankChar(cursor);
+        }
+        return false;
+    }
+
+    /**
+     * Applies the goToLetter method if fMoveActive is true.
+     *
+     * @return true if an attempt was made.
+     */
+    private boolean fMoveApplier(){
+        if(fMoveActive && keyString.length() < 2) {
+
+            if(! shiftHeld) keyString = keyString.toLowerCase();
+
+            char key = keyString.charAt(0);
+            goToLetter(cursor, key);
+            fMoveActive = false;
+            hasExectued = true;
+            return true;
         }
         return false;
     }
