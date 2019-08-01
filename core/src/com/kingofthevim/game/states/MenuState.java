@@ -2,6 +2,7 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.KingOfTheVimMain;
@@ -16,20 +17,31 @@ public class MenuState extends State{
         super(gsm);
         developerLevel = new Texture("menu/DevLevel.png");
         level_1 = new Texture("menu/Level1.png");
+
+        Gdx.input.setInputProcessor(new InputAdapter(){
+            @Override
+            public boolean keyUp(int keycode) {
+                switch (keycode){
+
+                    case Input.Keys.SPACE:
+
+                    case Input.Keys.ENTER:
+                        gsm.set(new DevLevel(gsm));
+                        return true;
+
+                    case Input.Keys.NUM_1:
+                        gsm.set(new Labyrinth(gsm));
+                        return true;
+
+                }
+                return false;
+            }
+        });
     }
 
     //clicks Playbutton
     @Override
     public void handleInput() {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-                || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-
-            gsm.set(new DevLevel(gsm));
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
-            gsm.set(new Labyrinth(gsm));
-        }
 
     }
 
