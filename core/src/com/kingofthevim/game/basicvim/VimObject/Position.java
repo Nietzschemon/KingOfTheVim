@@ -51,7 +51,7 @@ public class Position {
 
     public boolean setRelativeRow(int rowMove) {
 
-        if(rowMove != 0){
+        if(rowMove != 0 && rowMove + currRow < rowTotal){
             vimObject.doBeforePosiUpdate();
 
             cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * rowMove);
@@ -68,7 +68,7 @@ public class Position {
 
     public boolean setRelativeColumn(int columnMove) {
 
-        if(columnMove != 0){
+        if(columnMove != 0 && columnMove + currColumn < colunmTotal){
             vimObject.doBeforePosiUpdate();
 
             cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * columnMove);
