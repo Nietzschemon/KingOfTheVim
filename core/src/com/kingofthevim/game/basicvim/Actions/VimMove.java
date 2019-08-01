@@ -36,6 +36,14 @@ public class VimMove {
         this.iteration = iteration;
     }
 
+    public void add(int moveKeyCode, int iteration, char operator, boolean shiftHeld){
+        String keyString = Input.Keys.toString(moveKeyCode);
+
+        this.move = (shiftHeld) ? keyString.charAt(0) : keyString.toLowerCase().charAt(0);
+        this.iteration = iteration;
+        this.operator = operator;
+    }
+
     public void add(char move, int iteration, char operator){
         this.move = move;
         this.iteration = iteration;
