@@ -89,7 +89,7 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
                 hasExectued = true;
-                vimMove.add(keycode, iteration, shiftHeld);
+                vimMove.add('0', iteration);
                 return traverseWholeLine(cursor, false);
 
             case Input.Keys.F1:
@@ -116,10 +116,12 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
 
         if(character == '$'){
             hasExectued = true;
+            vimMove.add(character, iteration);
             traverseWholeLine(cursor, true);
         }
         if(character == '^'){
             hasExectued = true;
+            vimMove.add(character, iteration);
             goToFirstNonBlankChar(cursor);
         }
 
