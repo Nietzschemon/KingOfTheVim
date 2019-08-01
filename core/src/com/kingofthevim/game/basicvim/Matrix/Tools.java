@@ -85,6 +85,15 @@ public class Tools {
     }
 
     /**
+     * Checks if char is a letter, number or symbol
+     * @param character char to check
+     * @return true if char is a letter, number or symbol
+     */
+    public static boolean isLetterNumberSymbol(char character){
+        return isSymbol(character) || isLetterNumberSymbol(character);
+    }
+
+    /**
      * Checks if char is a operator
      * @param character char to check
      * @return true if char is a vim-operator
