@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Actions.VimMove;
+import com.kingofthevim.game.basicvim.Actions.VimMovement;
 import com.kingofthevim.game.basicvim.Builder;
-import com.kingofthevim.game.basicvim.Matrix.Tools;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static com.kingofthevim.game.basicvim.Matrix.Tools.tryParseInt;
@@ -28,6 +30,10 @@ public class InputManager implements InputProcessor {
 
     int iterationInt = 0;
     String iterationString = "0";
+    boolean addToHistory = false;
+
+    ArrayList<VimMove> vimMoveList;
+
 
 
     public InputManager(Cursor cursor){
@@ -37,6 +43,7 @@ public class InputManager implements InputProcessor {
         operationInput = new OperationInput(cursor);
         builder = new Builder(cursor);
         textInput = new TextInput(cursor);
+        vimMoveList = new ArrayList<>();
 
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(moveInput);
@@ -45,16 +52,16 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-
+        addToHistory = true;
 
         if(operationInput.hasExectued){
             inputMultiplexer.removeProcessor(operationInput);
-            inputMultiplexer.addProcessor(0, moveInput);
+            inputMultiplexer.addProcessor(1, moveInput);
         }
 
         if(textInput.hasExecuted){
             inputMultiplexer.removeProcessor(textInput);
-            inputMultiplexer.addProcessor(0, moveInput);
+            inputMultiplexer.addProcessor(1, moveInput);
         }
 
         iterationSync();
@@ -63,9 +70,10 @@ public class InputManager implements InputProcessor {
 
             case Input.Keys.D:
                 inputMultiplexer.removeProcessor(moveInput);
-                inputMultiplexer.addProcessor(0, operationInput);
+                inputMultiplexer.addProcessor(1, operationInput);
                 System.out.println("D pressed");
                 operationInput.hasExectued = false;
+                //operationInput.vimMove.operator = 'd';
                 return true;
 
             case Input.Keys.TAB:
@@ -134,6 +142,10 @@ public class InputManager implements InputProcessor {
         if(operationInput.hasExectued
         || moveInput.hasExectued
         || textInput.hasExecuted){
+
+            addVimMove(moveInput);
+
+
             operationInput.iteration = 0;
             moveInput.iteration = 0;
             iterationInt = 0;
@@ -141,6 +153,7 @@ public class InputManager implements InputProcessor {
             operationInput.hasExectued = false;
             moveInput.hasExectued = false;
             textInput.hasExecuted = false;
+
         }
 
         if(iterationInt > 0){
@@ -159,15 +172,6 @@ public class InputManager implements InputProcessor {
             return inputHistory.get(inputHistory.size() - 1);
         }
         return ' ';
-    }
-
-    private void addToInputHistory(char character){
-
-        if(Tools.isLetterOrNumber(character)
-                || Tools.isSymbol(character)){
-
-            inputHistory.add(character);
-        }
     }
 
     /**
@@ -210,14 +214,30 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        addToHistory = false;
+
         return false;
     }
 
+
     @Override
     public boolean keyTyped(char character) {
-        addToInputHistory(character);
+        if(addToHistory) inputHistory.add(character);
+
         return false;
     }
+
+
+    /**
+     * adds a legit VimMove to history
+     */
+    private void addVimMove(VimMovement vimMove){
+
+        if(vimMove.hasMove()){
+            vimMoveList.add(vimMove.getResetVimMove());
+        }
+    }
+
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
