@@ -4,18 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Actions.Operations;
+import com.kingofthevim.game.basicvim.Actions.VimMove;
+import com.kingofthevim.game.basicvim.Actions.VimMovement;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
-public class OperationInput extends Operations implements InputProcessor {
+public class OperationInput extends Operations implements InputProcessor, VimMovement {
 
     private Cursor cursor;
     int iteration = 1;
     boolean hasExectued = false;
+    VimMove vimMove;
 
     public OperationInput(Cursor cursor){
 
         this.cursor = cursor;
         setObjectPosition(cursor.getPosition());
+        vimMove = new VimMove();
     }
 
 
@@ -45,6 +49,7 @@ public class OperationInput extends Operations implements InputProcessor {
             case Input.Keys.L:
                 deleteCharHorizontal(cursor, true, deleteNum);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, shiftHeld);
                 return true;
 
             case Input.Keys.H:
@@ -95,6 +100,28 @@ public class OperationInput extends Operations implements InputProcessor {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public VimMove getVimMove() {
+        return vimMove;
+    }
+
+    @Override
+    public void setVimMove(VimMove vimMove) {
+        this.vimMove = vimMove;
+    }
+
+    @Override
+    public VimMove getResetVimMove() {
+        VimMove move = vimMove;
+        vimMove = new VimMove();
+        return move;
+    }
+
+    @Override
+    public boolean hasMove() {
+        return vimMove.move != '\u0000';
     }
 
     @Override
