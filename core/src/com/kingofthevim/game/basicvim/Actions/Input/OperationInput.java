@@ -39,45 +39,52 @@ public class OperationInput extends Operations implements InputProcessor, VimMov
             case Input.Keys.J:
                 //deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.K:
                 //deleteCharBatch(cursor, deleteNum);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.L:
                 deleteCharHorizontal(cursor, true, deleteNum);
                 hasExectued = true;
-                vimMove.add(keycode, iteration, shiftHeld);
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.H:
                 deleteCharHorizontal(cursor, false, deleteNum);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.E:
 
                 deleteWordInFront(cursor, false, shiftHeld, iteration);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.W:
 
                 deleteWordInFront(cursor, true, shiftHeld, iteration);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.B:
                 deleteWordBehind(cursor, shiftHeld, iteration);
                 hasExectued = true;
+                vimMove.add(keycode, iteration, 'd', shiftHeld);
                 return true;
 
             case Input.Keys.NUM_0:
                 if(iteration > 0) return false;
                 deleteLineHorizontal(cursor, false);
                 hasExectued = true;
+                vimMove.add('0', iteration, 'd');
                 return true;
 
 
@@ -92,11 +99,13 @@ public class OperationInput extends Operations implements InputProcessor, VimMov
         if(character == '$'){
             deleteLineHorizontal(cursor, true);
             hasExectued = true;
+            vimMove.add(character, iteration, 'd');
             return true;
         }
         if(character == '^'){
             deleteToLineBgn(cursor);
             hasExectued = true;
+            vimMove.add(character, iteration, 'd');
             return true;
         }
         return false;

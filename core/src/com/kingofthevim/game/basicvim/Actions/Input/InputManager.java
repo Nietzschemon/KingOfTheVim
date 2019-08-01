@@ -144,6 +144,7 @@ public class InputManager implements InputProcessor {
         || textInput.hasExecuted){
 
             addVimMove(moveInput);
+            addVimMove(operationInput);
 
 
             operationInput.iteration = 0;
