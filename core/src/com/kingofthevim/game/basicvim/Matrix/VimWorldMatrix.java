@@ -164,5 +164,15 @@ public class VimWorldMatrix  {
         return rowString.toString();
     }
 
+    /**
+     * Returns the Cell from the matrix given by
+     * the parameters row and column
+     * @param row the row of the cell
+     * @param column the column of the cell
+     * @return a Cell from the matrix
+     */
+    public Cell getCell(int row, int column){
+        return cellMatrix.get(row).get(column);
+    }
 
 }
