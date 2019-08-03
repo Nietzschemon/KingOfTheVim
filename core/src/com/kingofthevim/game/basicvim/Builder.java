@@ -6,9 +6,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 
+import java.util.ArrayList;
+
 public class Builder implements InputProcessor {
 
     Cursor cursor;
+    LetterType letterType;
 
     public Builder(Cursor cursor){
         this.cursor = cursor;
@@ -34,32 +37,43 @@ public class Builder implements InputProcessor {
                 return true;
 
             case Input.Keys.B:
-                cursor.getCurrentCell().setLetterType(LetterType.BLACK);
+                changeWithinRange('b');
                 return true;
 
             case Input.Keys.R:
-                cursor.getCurrentCell().setLetterType(LetterType.RED);
+                changeWithinRange('r');
                 return true;
 
             case Input.Keys.Y:
-                cursor.getCurrentCell().setLetterType(LetterType.YELLOW);
-                return true;
-
-            case Input.Keys.G:
-                cursor.getCurrentCell().setLetterType(LetterType.GRAY);
+                changeWithinRange('y');
                 return true;
 
             case Input.Keys.W:
-                cursor.getCurrentCell().setLetterType(LetterType.WHITE);
+                changeWithinRange('w');
                 return true;
-
-            case Input.Keys.F:
-                cursor.getCurrentCell().setLetterType(LetterType.WHITE_GREEN);
-                return true;
-
         }
+
         return false;
     }
+
+    /**
+     * Gets a subset of LetterTypes with the prefix-char
+     * and gets the next in line every time it is called
+     * @param typeRange prefix of LetterType subset i.e. in g_w use 'g'
+     */
+    private void changeWithinRange(char typeRange){
+
+        LetterType letterType = cursor.getCurrentCell().getLetterType();
+        ArrayList<LetterType> matched = LetterType.getMatched(typeRange);
+
+        if(matched.contains(letterType)){
+            int matchIndex = matched.indexOf(letterType);
+            cursor.getCurrentCell().setLetterType ((matchIndex < matched.size() - 1) ? matched.get(matchIndex + 1) : matched.get(0));
+            return;
+        }
+        cursor.getCurrentCell().setLetterType(matched.get(0));
+    }
+
 
     @Override
     public boolean keyTyped(char character) {

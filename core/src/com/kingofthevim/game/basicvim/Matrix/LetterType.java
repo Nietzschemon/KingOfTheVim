@@ -1,5 +1,8 @@
 package com.kingofthevim.game.basicvim.Matrix;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public enum LetterType {
     BLACK("b"),
     BLACK_YELLOW("b_y"),
@@ -13,6 +16,20 @@ public enum LetterType {
     EMPATHY("e");
 
     private final String tagName;
+
+    public static ArrayList<LetterType> getMatched(char tagPrefixChar){
+
+        LetterType[] typeArray = LetterType.values();
+        ArrayList<LetterType> returnList = new ArrayList<>();
+
+        for(LetterType type : typeArray){
+            if(type.tagName.charAt(0) == tagPrefixChar){
+                returnList.add(type);
+            }
+        }
+
+        return returnList;
+    }
 
     LetterType(String tag){
         tagName = tag;
