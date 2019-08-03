@@ -7,22 +7,31 @@ import com.kingofthevim.game.basicvim.*;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
+import com.kingofthevim.game.gametype.FallMechanic;
 
 import java.util.ArrayList;
 
 public class DevLevel extends Level{
 
+    FallMechanic fall;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
 
-        cursorStartRow = 6;
+        cursorStartRow = 2;
         cursorStartColumn = 0;
 
         pointsSys = new PointSystem(10);
 
+
         prose();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+        fall = new FallMechanic(cursor);
+
+        labyrinthText.setHorizontalString("word word word word", 4,0,true, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("word word word word", 7,0,true, true, LetterType.WHITE);
+        labyrinthText.setHorizontalString("word word word word", 8,0,true, true, LetterType.RED);
+        labyrinthText.setHorizontalString("word word word word", 10,0,true, true, LetterType.WHITE);
     }
 
     @Override
@@ -135,6 +144,7 @@ public class DevLevel extends Level{
     public void update(float dt) {
         handleInput();
 
+        fall.timeBeforeFall(dt, 0.4f);
         //Tells GDX that cam been repositioned.
         cam.update();
 

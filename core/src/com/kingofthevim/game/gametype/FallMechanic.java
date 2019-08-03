@@ -22,27 +22,79 @@ public class FallMechanic {
         currColumn = vimObject.getPosition().getCurrColumn();
     }
 
-    public boolean canFall(){
-        updatePosition();
-        Cell ground = vimObject.getVimMatrix().getCell(currRow, currColumn);
-        return ground.getLetterType() == LetterType.EMPATHY;
+
+    /**
+     * checks if the vimObject is on the ground.
+     * i.e. cannot fall.
+     *
+     * @return true if on ground
+     */
+    public boolean onGround(){
+        return onGround(LetterType.WHITE);
     }
 
-    public boolean canFall(LetterType letterType){
+
+    /**
+     * checks if the vimObject is on the ground.
+     * i.e. cannot fall.
+     *
+     * @param letterType That count as ground
+     * @return true if on ground
+     */
+    public boolean onGround(LetterType letterType){
         updatePosition();
-        Cell ground = vimObject.getVimMatrix().getCell(currRow, currColumn);
-        return ground.getLetterType() == letterType;
+        return  vimObject.isOnType(letterType);
+    }
+
+    /**
+     * checks if the vimObject is on the ground.
+     * i.e. cannot fall.
+     *
+     * @param letterTypeArray LetterTypes that count as ground
+     * @return true if on ground
+     */
+    public boolean onGround(LetterType[] letterTypeArray){
+        updatePosition();
+
+        for (LetterType letterType : letterTypeArray){
+            if(vimObject.isOnType(letterType)) return true;
+        }
+        return  false;
+    }
+
+    /**
+     * The object falls in a straight trajectory
+     * to the closes legit LetterType changing the
+     * intervening cells on the way.
+     *
+     * @return true if fallen
+     */
+    public boolean fall(){
+        return fall(true);
     }
 
     /**
      * The object falls in a straight trajectory
      * to the closes legit LetterType.
+     * @param changeCells if cells passed should be changed
      * @return true if fallen
      */
-    public boolean fall(){
+    public boolean fall(boolean changeCells){
+        return fall(changeCells, LetterType.RED);
+    }
+
+    /**
+     * The object falls in a straight trajectory
+     * to the closes legit LetterType.
+     *
+     * @param changeCells if cell passed should be changed
+     * @param changeTo what the cells should be changed to
+     * @return true if fallen
+     */
+    public boolean fall(boolean changeCells, LetterType changeTo){
         updatePosition();
 
-        if( ! vimObject.isOnType(LetterType.WHITE) ){
+        if( ! onGround() ){
 
             VimWorldMatrix matrix = vimObject.getVimMatrix();
 
@@ -50,7 +102,7 @@ public class FallMechanic {
 
                 Cell cell = matrix.getCell(currRow + i, currColumn);
 
-                matrix.getCell(currRow + i - 1, currColumn).setCellLookTemp(LetterType.RED);
+                if(changeCells)matrix.getCell(currRow + i - 1, currColumn).setCellLookTemp(changeTo);
 
                 if(cell.getLetterType() == LetterType.WHITE){
                     vimObject.getPosition().setAbsoluteRow(currRow + i);
@@ -63,11 +115,20 @@ public class FallMechanic {
         return false;
     }
 
-    public boolean fall(boolean changeChars){
+    /**
+     * Calls fall() after a given set of seconds.
+     *
+     * @param dt deltaTime to check against
+     * @param timeBeforeFall time until fall in called
+     * @return true if fall was called.
+     */
+    public boolean timeBeforeFall(float dt, float timeBeforeFall){
+
+        if(timeBeforeFall < dt){
+            this.fall();
+            return true;
+        }
         return false;
     }
 
-    public boolean fallTime(float deltaTime){
-        return false;
-    }
 }
