@@ -28,7 +28,7 @@ public class PlayScreen implements Screen {
 
         gameCam.position.set(gamePort.getWorldHeight() / 2, gamePort.getWorldWidth() / 2, 0);
 
-        gsm.push(new MenuState(gsm));
+        gsm.push(new Menu(gsm));
     }
 
 

@@ -67,7 +67,7 @@ public class Labyrinth extends Level{
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
 
             if(levels.empty()){
-                gsm.push(new MenuState(gsm));
+                gsm.push(new Menu(gsm));
                 dispose();
             }
             else {

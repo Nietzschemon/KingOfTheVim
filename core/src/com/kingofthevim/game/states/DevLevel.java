@@ -28,10 +28,10 @@ public class DevLevel extends Level{
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
         fall = new FallMechanic(cursor);
 
-        labyrinthText.setHorizontalString("word word word word", 4,0,true, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("word word word word", 7,0,true, true, LetterType.WHITE);
-        labyrinthText.setHorizontalString("word word word word", 8,0,true, true, LetterType.RED);
-        labyrinthText.setHorizontalString("word word word word", 10,0,true, true, LetterType.WHITE);
+        //labyrinthText.setHorizontalString("word word word word", 4,0,true, true, LetterType.WHITE);
+        //labyrinthText.setHorizontalString("word word word word", 7,0,true, true, LetterType.WHITE);
+        //labyrinthText.setHorizontalString("word word word word", 8,0,true, true, LetterType.RED);
+        //labyrinthText.setHorizontalString("word word word word", 10,0,true, true, LetterType.WHITE);
     }
 
     @Override
@@ -67,6 +67,36 @@ public class DevLevel extends Level{
 
         ArrayList<String> conversionArray;
 
+        conversionArray = backgroundText.makeStringArray("One morning, when Stefan Ekblom woke from troubled dreams, he found " +
+                "himself transformed in his bed into a horrible coder. He lay on " +
+                "his armour-like back, and if he lifted his head a little he could " +
+                "see his big belly, slightly domed and divided by arches. " +
+                "The bedding was hardly able to cover it and seemed ready " +
+                "to slide off any moment. His two legs, pitifully thin compared " +
+                "with the size of the rest of him, waved about helplessly as he " +
+                "looked. " +
+                "\"What's happened to me?\" he thought. It wasn't a new game. His score, " +
+                "a proper human score although a little too small, lay peacefully " +
+                "between its four familiar walls. A collection of code samples " +
+                "lay spread out on the desktop - Stefan loved options - and " +
+                "above it there hung a picture that he had recently cut out of an " +
+                "illustrated magazine. It showed " +
+                "Linus Torvalds fitted out with a fur hat and fur boa who sat upright, " +
+                "raising a heavy fur muff that covered the whole of his lower arm " +
+                "towards the viewer. " +
+                "Gregor then turned to look out the window at the dull weather. " +
+                "Drops of rain could be heard hitting the pane, which made him feel " +
+                "quite sad. \"How about if I sleep a little bit longer and forget all " +
+                "this nonsense\", he thought, but that was something he was unable to " +
+                "do because he was used to sleeping on his right, and in his present " +
+                "state couldn't get into that position.  However hard he threw " +
+                "himself onto his right, he always rolled back to where he was.  He " +
+                "must have tried it a hundred times, shut his eyes so that he " +
+                "wouldn't have to look at the floundering legs, and only stopped when " +
+                "he began to feel a mild, dull pain there that he had never felt " +
+                "before.", true);
+
+        /*
         conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found " +
                 "himself transformed in his bed into a horrible vermin.  He lay on " +
                 "his armour-like back, and if he lifted his head a little he could " +
@@ -96,6 +126,7 @@ public class DevLevel extends Level{
                 "he began to feel a mild, dull pain there that he had never felt " +
                 "before.", false);
 
+         */
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }
 
@@ -144,7 +175,7 @@ public class DevLevel extends Level{
     public void update(float dt) {
         handleInput();
 
-        fall.timeBeforeFall(dt, 0.4f);
+        //fall.timeBeforeFall(dt, 0.4f);
         //Tells GDX that cam been repositioned.
         cam.update();
 
