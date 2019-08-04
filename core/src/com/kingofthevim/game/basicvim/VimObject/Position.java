@@ -2,6 +2,8 @@ package com.kingofthevim.game.basicvim.VimObject;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public class Position {
 
     private VimObject vimObject;
@@ -10,6 +12,8 @@ public class Position {
     private int currColumn;
     private int rowTotal;
     private int colunmTotal;
+    private ArrayList<Integer> rowHistory;
+    private ArrayList<Integer> columnHistory;
 
 
     public Position(){ }
@@ -18,6 +22,8 @@ public class Position {
     Position(VimObject vimObject, int row, int column, int rowTotal, int colunmTotal){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
+        rowHistory = new ArrayList<>();
+        columnHistory = new ArrayList<>();
 
         //done manually to avoid extra code for nullPointer in set-methods
         cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * row);
@@ -57,6 +63,9 @@ public class Position {
             cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * rowMove);
             currRow += rowMove;
 
+            rowHistory.add(currRow);
+            columnHistory.add(currColumn);
+
             vimObject.doAfterPosiUpdate();
             return true;
         }
@@ -73,6 +82,9 @@ public class Position {
 
             cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * columnMove);
             currColumn += columnMove;
+
+            rowHistory.add(currRow);
+            columnHistory.add(currColumn);
 
             vimObject.doAfterPosiUpdate();
             return true;
@@ -96,6 +108,9 @@ public class Position {
             cartesianPosition.y = vimObject.getSize().getHeight() * row;
             this.currRow = row;
 
+            rowHistory.add(currRow);
+            columnHistory.add(currColumn);
+
             vimObject.doAfterPosiUpdate();
             return true;
         }
@@ -118,10 +133,31 @@ public class Position {
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
             this.currColumn = column;
 
+            rowHistory.add(currRow);
+            columnHistory.add(currColumn);
+
             vimObject.doAfterPosiUpdate();
             return true;
         }
 
         return false;
     }
+
+
+    public ArrayList<Integer> getRowHistory() {
+        return rowHistory;
+    }
+
+    public void setRowHistory(ArrayList<Integer> rowHistory) {
+        this.rowHistory = rowHistory;
+    }
+
+    public ArrayList<Integer> getColumnHistory() {
+        return columnHistory;
+    }
+
+    public void setColumnHistory(ArrayList<Integer> columnHistory) {
+        this.columnHistory = columnHistory;
+    }
+
 }
