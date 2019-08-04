@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.PointSystem;
+import com.kingofthevim.game.basicvim.SoundEffect;
 
 import java.util.Stack;
 
@@ -74,6 +75,7 @@ public class Labyrinth extends Level{
             else {
                 String load = levels.pop();
 
+                SoundEffect.hitGoal.play();
                 cursor = serial.loadLevel(load, vimMatrix);
                 cursor.setPointSystem(pointsSys);
                 pointsSys.newLevel(load);
