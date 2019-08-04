@@ -1,5 +1,6 @@
 package com.kingofthevim.game.basicvim;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
@@ -75,6 +76,7 @@ public class PointSystem {
             redMultiplier = 1;
         }
 
+        Gdx.graphics.requestRendering();
 
         /*
         System.out.println("\n\nActualMoves: " + actualMoves +
