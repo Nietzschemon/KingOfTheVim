@@ -143,6 +143,20 @@ public class Position {
         return false;
     }
 
+    public boolean setAbsolutePosition(int row, int column){
+
+        if(row < rowTotal && column < colunmTotal){
+
+            cartesianPosition.x = vimObject.getSize().getWidth() * column;
+            cartesianPosition.y = vimObject.getSize().getHeight() * row;
+            this.currRow = row;
+            this.currColumn = column;
+
+            return true;
+        }
+
+        return false;
+    }
 
     public ArrayList<Integer> getRowHistory() {
         return rowHistory;

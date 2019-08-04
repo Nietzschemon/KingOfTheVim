@@ -26,6 +26,8 @@ public class Cursor implements VimObject {
     private Texture texture;
 
     private InputManager inputManager;
+
+    private PointSystem pointSystem;
     //</editor-fold desc="Fields">
 
 
@@ -79,6 +81,7 @@ public class Cursor implements VimObject {
     @Override
     public void doAfterPosiUpdate(){
         visualChanges();
+        pointSystem.onMove(this);
     }
 
     /**
@@ -161,6 +164,14 @@ public class Cursor implements VimObject {
     public void setPosition(Position position) {
 
         this.position = position;
+    }
+
+    public PointSystem getPointSystem() {
+        return pointSystem;
+    }
+
+    public void setPointSystem(PointSystem pointSystem) {
+        this.pointSystem = pointSystem;
     }
     //</editor-fold desc="bla">
 }

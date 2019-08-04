@@ -28,6 +28,7 @@ public class Labyrinth extends Level{
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
+        cursor.setPointSystem(pointsSys);
         backgroundMusic();
     }
 
@@ -74,6 +75,7 @@ public class Labyrinth extends Level{
                 String load = levels.pop();
 
                 cursor = serial.loadLevel(load, vimMatrix);
+                cursor.setPointSystem(pointsSys);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();
 
