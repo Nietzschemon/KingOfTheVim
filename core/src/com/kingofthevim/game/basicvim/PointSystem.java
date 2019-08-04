@@ -66,6 +66,7 @@ public class PointSystem {
             points += yellowPoints * yellowMultiplier;
             yellowMultiplier++;
             redMultiplier = 1;
+            vimObject.getCurrentCell().setLetterType(LetterType.WHITE);
         }
 
         if(vimObject.isOnType(LetterType.GRAY)){
