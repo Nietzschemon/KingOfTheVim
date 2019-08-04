@@ -69,6 +69,9 @@ public class PointSystem {
             redMultiplier = 1;
             vimObject.getCurrentCell().setLetterType(LetterType.WHITE);
             SoundEffect.hitYellow.play();
+
+            Gdx.graphics.requestRendering();
+            return;
         }
 
         if(vimObject.isOnType(LetterType.GRAY)){
@@ -95,8 +98,8 @@ public class PointSystem {
 
     private void resetAllButPoints(){
         actualMoves = 0;
-        yellowMultiplier = 0;
-        redMultiplier = 0;
+        yellowMultiplier = 1;
+        redMultiplier = 1;
         maxTime = 0;
         maxMoves = 0;
     }
