@@ -81,7 +81,7 @@ public class Cursor implements VimObject {
     @Override
     public void doAfterPosiUpdate(){
         visualChanges();
-        pointSystem.onMove(this);
+        if(pointSystem != null)pointSystem.onMove(this);
     }
 
     /**

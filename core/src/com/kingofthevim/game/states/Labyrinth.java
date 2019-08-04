@@ -21,7 +21,7 @@ public class Labyrinth extends Level{
         levels.add("levels/game/Level_3.txt");
         levels.add("levels/game/Level_2.txt");
 
-        pointsSys = new PointSystem();
+        pointsSys = new PointSystem("levels/game/Level_1.txt");
         serial = new MatrixSerialization();
 
         cursor = serial.loadLevel("levels/game/Level_1.txt", vimMatrix);
@@ -76,6 +76,7 @@ public class Labyrinth extends Level{
 
                 cursor = serial.loadLevel(load, vimMatrix);
                 cursor.setPointSystem(pointsSys);
+                pointsSys.newLevel(load);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();
 

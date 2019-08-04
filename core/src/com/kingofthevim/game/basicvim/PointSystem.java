@@ -2,10 +2,10 @@ package com.kingofthevim.game.basicvim;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.Timer;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.VimObject.Cursor;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
+
+import java.util.HashMap;
 
 //TODO mark used up yellow letter with colorShift
 public class PointSystem {
@@ -13,7 +13,6 @@ public class PointSystem {
     private int points = 10000;
 
 
-    private VimObject vimObject;
     private int maxMoves = 0;
     private int actualMoves = 0;
     private int redPoints = -100;
@@ -23,13 +22,17 @@ public class PointSystem {
     private long maxTime = 0;
     private int yellowMultiplier = 1;
     private int redMultiplier = 1;
+    private HashMap<String, HashMap<String, Integer>> pointHistory;
+    private String levelName;
 
     public PointSystem(){
         time = new TimeUtils();
+        pointHistory = new HashMap<>();
     }
 
-    public PointSystem(VimObject vimObject){
-        this.vimObject = vimObject;
+    public PointSystem(String levelName){
+        this();
+        this.levelName = levelName;
     }
 
     public PointSystem(int maxMoves, int redPoints, int yellowPoints, int grayPoints, long maxTime){
@@ -86,10 +89,27 @@ public class PointSystem {
          */
     }
 
+    private void resetAllButPoints(){
+        actualMoves = 0;
+        yellowMultiplier = 0;
+        redMultiplier = 0;
+        maxTime = 0;
+        maxMoves = 0;
+    }
 
+    private void storePreviousData(){
+        HashMap<String, Integer> data = new HashMap<>();
 
-    private boolean cursorOnX(){
-        return false;
+        data.put("points", points);
+        data.put("actualMoves", actualMoves);
+        data.put("maxMoves", maxMoves);
+        pointHistory.put(levelName, data);
+    }
+
+    public void newLevel(String levelName){
+        storePreviousData();
+        resetAllButPoints();
+        this.levelName = levelName;
     }
 
     public int getPoints() {
@@ -104,11 +124,8 @@ public class PointSystem {
         return time;
     }
 
-    public VimObject getVimObject() {
-        return vimObject;
+    public HashMap<String, HashMap<String, Integer>> getPointHistory() {
+        return pointHistory;
     }
 
-    public void setVimObject(VimObject vimObject) {
-        this.vimObject = vimObject;
-    }
 }
