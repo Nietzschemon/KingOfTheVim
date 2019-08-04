@@ -25,7 +25,7 @@ public class DevLevel extends Level{
 
 
         prose();
-        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+        cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         fall = new FallMechanic(cursor);
 
         //labyrinthText.setHorizontalString("word word word word", 4,0,true, true, LetterType.WHITE);

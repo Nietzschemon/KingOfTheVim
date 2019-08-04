@@ -25,14 +25,12 @@ public class Cursor implements VimObject {
     private Size cursorSize;
     private Texture texture;
 
-    private PointSystem points;
-
     private InputManager inputManager;
     //</editor-fold desc="Fields">
 
 
     //TODO inherit from cell
-    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell, PointSystem points){
+    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell){
 
         cursorSize = new Size(22, 44);
 
@@ -44,8 +42,6 @@ public class Cursor implements VimObject {
 
         texture = new Texture("markers/marker_44purple.png");
 
-        //mover = new Movement();
-        this.points = points;
 
         inputManager = new InputManager(this);
     }

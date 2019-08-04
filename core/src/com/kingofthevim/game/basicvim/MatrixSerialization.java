@@ -158,7 +158,7 @@ public class MatrixSerialization {
         Save save = loadSave(filePath);
         loadMatrix(save, matrix);
 
-        cursor = new Cursor(matrix, save.cursorRow, save.cursorColumn, new PointSystem());
+        cursor = new Cursor(matrix, save.cursorRow, save.cursorColumn);
 
         return cursor;
     }

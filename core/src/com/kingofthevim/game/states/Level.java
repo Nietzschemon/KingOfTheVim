@@ -85,7 +85,7 @@ public abstract class Level extends State {
         if(cursor.isOnType(LetterType.GRAY)
                 || cursor.isOnType(LetterType.EMPATHY)){
             cursor.dispose();
-            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn, pointsSys);
+            cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
             cursor.doAfterPosiUpdate();
             Gdx.graphics.requestRendering();
         }else{
