@@ -22,11 +22,19 @@ public class Menu extends Level{
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
+        backgroundMusic();
     }
 
     @Override
     protected void backgroundMusic() {
 
+        if(backgroundMusic != null
+                && backgroundMusic.isPlaying()) backgroundMusic.stop();
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/trumpet.wav"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
 
     @Override

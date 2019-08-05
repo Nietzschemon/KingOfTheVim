@@ -39,10 +39,13 @@ public class Labyrinth extends Level{
                 && backgroundMusic.isPlaying()) backgroundMusic.stop();
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
+                "sound/music/laborintMusic/bunny.wav"));
+        backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
         /*
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
+                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
 
         if(backgroundMusic != null
                 && backgroundMusic.isPlaying()){
