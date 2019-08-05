@@ -44,6 +44,10 @@ public class Builder implements InputProcessor {
                 changeWithinRange('r');
                 return true;
 
+            case Input.Keys.G:
+                changeWithinRange('g');
+                return true;
+
             case Input.Keys.Y:
                 changeWithinRange('y');
                 return true;
