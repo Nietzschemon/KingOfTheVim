@@ -28,6 +28,8 @@ public class Cursor implements VimObject {
     private InputManager inputManager;
 
     private PointSystem pointSystem;
+
+    private GameSound gameSound;
     //</editor-fold desc="Fields">
 
 
@@ -46,6 +48,10 @@ public class Cursor implements VimObject {
 
 
         inputManager = new InputManager(this);
+
+        gameSound = new GameSound();
+
+        position.addListener(gameSound);
     }
 
     public void dispose(){

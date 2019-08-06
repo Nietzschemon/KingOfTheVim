@@ -2,15 +2,14 @@ package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kingofthevim.game.basicvim.ChangedPosition;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.PointSystem;
-import com.kingofthevim.game.basicvim.SoundEffect;
+import com.kingofthevim.game.basicvim.GameSound;
 
 import java.util.Stack;
 
-public class Labyrinth extends Level implements ChangedPosition {
+public class Labyrinth extends Level {
 
     private Stack<String> levels;
 
@@ -31,7 +30,6 @@ public class Labyrinth extends Level implements ChangedPosition {
         cursorStartRow = cursor.getPosition().getCurrRow();
 
         cursor.setPointSystem(pointsSys);
-        cursor.getPosition().addListener(this);
         backgroundMusic();
     }
 
@@ -80,7 +78,7 @@ public class Labyrinth extends Level implements ChangedPosition {
             else {
                 String load = levels.pop();
 
-                SoundEffect.hitGoal.play();
+                GameSound.hitGoal.play();
                 cursor = serial.loadLevel(load, vimMatrix);
                 cursor.setPointSystem(pointsSys);
                 pointsSys.newLevel(load);
@@ -102,11 +100,4 @@ public class Labyrinth extends Level implements ChangedPosition {
         cam.update();
     }
 
-    @Override
-    public void onChange() {
-
-        if(cursor.isOnType(LetterType.EMPATHY)){
-            SoundEffect.hitGray.play();
-        }
-    }
 }

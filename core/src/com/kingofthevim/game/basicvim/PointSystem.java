@@ -61,14 +61,12 @@ public class PointSystem {
             points += redPoints * actualMoves * redMultiplier;
             yellowMultiplier = 1;
             redMultiplier++;
-            SoundEffect.hitRed.play();
         }
         if(vimObject.isOnType(LetterType.YELLOW)){
             points += yellowPoints * yellowMultiplier;
             yellowMultiplier++;
             redMultiplier = 1;
             vimObject.getCurrentCell().setLetterType(LetterType.WHITE);
-            SoundEffect.hitYellow.play();
 
             Gdx.graphics.requestRendering();
             return;
@@ -78,7 +76,6 @@ public class PointSystem {
             points += grayPoints;
             yellowMultiplier = 1;
             redMultiplier = 1;
-            SoundEffect.hitGray.play();
         }
         if(vimObject.isOnType(LetterType.WHITE)){
             points = points - (20 * actualMoves);

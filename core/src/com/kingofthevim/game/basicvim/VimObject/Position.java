@@ -62,11 +62,11 @@ public class Position {
         if(rowMove != 0 && rowMove + currRow < rowTotal){
             vimObject.doBeforePosiUpdate();
 
-            changed();
 
             cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * rowMove);
             currRow += rowMove;
 
+            changed();
             rowHistory.add(currRow);
             columnHistory.add(currColumn);
 
@@ -84,11 +84,11 @@ public class Position {
         if(columnMove != 0 && columnMove + currColumn < columnTotal){
             vimObject.doBeforePosiUpdate();
 
-            changed();
 
             cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * columnMove);
             currColumn += columnMove;
 
+            changed();
             rowHistory.add(currRow);
             columnHistory.add(currColumn);
 
@@ -111,11 +111,11 @@ public class Position {
                 && row < rowTotal){
             vimObject.doBeforePosiUpdate();
 
-            changed();
 
             cartesianPosition.y = vimObject.getSize().getHeight() * row;
             this.currRow = row;
 
+            changed();
             rowHistory.add(currRow);
             columnHistory.add(currColumn);
 
@@ -138,11 +138,11 @@ public class Position {
                 && column < columnTotal){
             vimObject.doBeforePosiUpdate();
 
-            changed();
 
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
             this.currColumn = column;
 
+            changed();
             rowHistory.add(currRow);
             columnHistory.add(currColumn);
 
@@ -191,7 +191,7 @@ public class Position {
 
     private void changed(){
         for (ChangedPosition c : listeners){
-            c.onChange();
+            c.onChange(vimObject);
         }
     }
 }
