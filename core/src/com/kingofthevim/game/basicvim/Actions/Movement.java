@@ -1,6 +1,5 @@
 package com.kingofthevim.game.basicvim.Actions;
 
-import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
@@ -58,7 +57,7 @@ public class Movement {
      * @return True if possible, false if not
      */
     protected boolean isLegitHorizontalMove(VimObject object, int move){
-        int colunmTotal = object.getPosition().getColunmTotal();
+        int colunmTotal = object.getPosition().getColumnTotal();
         int currColumn = object.getPosition().getCurrColumn();
 
         if(currColumn + move < 0
@@ -106,7 +105,7 @@ public class Movement {
      */
     public boolean charHorizontalMove(VimObject object, boolean forward, int iteration){
         int move = (iteration < 1) ? 1 : iteration;
-        int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
+        int endColumn = object.getPosition().getColumnTotal() - object.getPosition().getCurrColumn() - 1;
         Position position = object.getPosition();
 
         if (forward)
@@ -138,7 +137,7 @@ public class Movement {
 
         int currColumn = object.getPosition().getCurrColumn();
         int currRow = object.getPosition().getCurrRow();
-        int colunmTotal = object.getPosition().getColunmTotal();
+        int colunmTotal = object.getPosition().getColumnTotal();
         int step;
 
         String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
@@ -268,7 +267,7 @@ public class Movement {
      */
     protected boolean traverseWholeLine(VimObject object, boolean toEnd){
         int currColumn = object.getPosition().getCurrColumn();
-        int colunmTotal = object.getPosition().getColunmTotal();
+        int colunmTotal = object.getPosition().getColumnTotal();
         Position position = object.getPosition();
 
         if(toEnd){
@@ -369,7 +368,7 @@ public class Movement {
      */
     public int charHorizontal_Int(VimObject object,boolean forward, int iteration){
         int move = (iteration < 1) ? 1 : iteration;
-        int endColumn = object.getPosition().getColunmTotal() - object.getPosition().getCurrColumn() - 1;
+        int endColumn = object.getPosition().getColumnTotal() - object.getPosition().getCurrColumn() - 1;
 
         if (forward)
         {
@@ -400,7 +399,7 @@ public class Movement {
 
         int currColumn = object.getPosition().getCurrColumn();
         int currRow = object.getPosition().getCurrRow();
-        int colunmTotal = object.getPosition().getColunmTotal();
+        int colunmTotal = object.getPosition().getColumnTotal();
         int step;
 
         String row = matrix.getIndexToRowEndString(currRow, currColumn+1);
@@ -500,7 +499,7 @@ public class Movement {
      */
     protected int traverseWholeLine_Int(VimObject object, boolean toEnd){
         int currColumn = object.getPosition().getCurrColumn();
-        int colunmTotal = object.getPosition().getColunmTotal();
+        int colunmTotal = object.getPosition().getColumnTotal();
 
         if(toEnd){
             return colunmTotal - currColumn - 1;

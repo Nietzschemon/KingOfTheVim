@@ -12,7 +12,7 @@ public class Position {
     private int currRow;
     private int currColumn;
     private int rowTotal;
-    private int colunmTotal;
+    private int columnTotal;
     private ArrayList<Integer> rowHistory;
     private ArrayList<Integer> columnHistory;
     private ArrayList<ChangedPosition> listeners = new ArrayList<>();
@@ -21,7 +21,7 @@ public class Position {
     public Position(){ }
 
 
-    Position(VimObject vimObject, int row, int column, int rowTotal, int colunmTotal){
+    Position(VimObject vimObject, int row, int column, int rowTotal, int columnTotal){
         this.vimObject = vimObject;
         cartesianPosition = new Vector2();
         rowHistory = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Position {
         currColumn += column;
 
         this.rowTotal = rowTotal;
-        this.colunmTotal = colunmTotal;
+        this.columnTotal = columnTotal;
     }
 
     public Vector2 getCartesianPosition() {
@@ -45,8 +45,8 @@ public class Position {
         return rowTotal;
     }
 
-    public int getColunmTotal() {
-        return colunmTotal;
+    public int getColumnTotal() {
+        return columnTotal;
     }
 
     public int getCurrRow() {
@@ -81,7 +81,7 @@ public class Position {
 
     public boolean setRelativeColumn(int columnMove) {
 
-        if(columnMove != 0 && columnMove + currColumn < colunmTotal){
+        if(columnMove != 0 && columnMove + currColumn < columnTotal){
             vimObject.doBeforePosiUpdate();
 
             changed();
@@ -135,7 +135,7 @@ public class Position {
     public boolean setAbsoluteColumn(int column){
 
         if(column >= 0
-                && column < colunmTotal){
+                && column < columnTotal){
             vimObject.doBeforePosiUpdate();
 
             changed();
@@ -155,7 +155,7 @@ public class Position {
 
     public boolean setAbsolutePosition(int row, int column){
 
-        if(row < rowTotal && column < colunmTotal){
+        if(row < rowTotal && column < columnTotal){
 
             changed();
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
