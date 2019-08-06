@@ -57,6 +57,11 @@ public class PointSystem {
 
         actualMoves++;
 
+        if(vimObject.isOnType(LetterType.WHITE)){
+            points = points - (20 * actualMoves);
+            yellowMultiplier = 1;
+            redMultiplier = 1;
+        }
         if(vimObject.isOnType(LetterType.RED)){
             points += redPoints * actualMoves * redMultiplier;
             yellowMultiplier = 1;
@@ -67,30 +72,17 @@ public class PointSystem {
             yellowMultiplier++;
             redMultiplier = 1;
             vimObject.getCurrentCell().setLetterType(LetterType.WHITE);
-
-            Gdx.graphics.requestRendering();
-            return;
         }
 
-        if(vimObject.isOnType(LetterType.GRAY)){
+        if(vimObject.isOnType(LetterType.GRAY)
+        || vimObject.isOnType(LetterType.EMPATHY)){
             points += grayPoints;
-            yellowMultiplier = 1;
-            redMultiplier = 1;
-        }
-        if(vimObject.isOnType(LetterType.WHITE)){
-            points = points - (20 * actualMoves);
             yellowMultiplier = 1;
             redMultiplier = 1;
         }
 
         Gdx.graphics.requestRendering();
 
-        /*
-        System.out.println("\n\nActualMoves: " + actualMoves +
-                "\nPoints: " + points +
-                "\nTime: " + time.toString());
-
-         */
     }
 
     private void resetAllButPoints(){
