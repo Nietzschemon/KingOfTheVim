@@ -1,6 +1,7 @@
 package com.kingofthevim.game.basicvim.VimObject;
 
 import com.badlogic.gdx.math.Vector2;
+import com.kingofthevim.game.basicvim.ChangedPosition;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class Position {
     private int colunmTotal;
     private ArrayList<Integer> rowHistory;
     private ArrayList<Integer> columnHistory;
+    private ArrayList<ChangedPosition> listeners = new ArrayList<>();
 
 
     public Position(){ }
@@ -60,6 +62,8 @@ public class Position {
         if(rowMove != 0 && rowMove + currRow < rowTotal){
             vimObject.doBeforePosiUpdate();
 
+            changed();
+
             cartesianPosition.y = cartesianPosition.y + (vimObject.getSize().getHeight() * rowMove);
             currRow += rowMove;
 
@@ -79,6 +83,8 @@ public class Position {
 
         if(columnMove != 0 && columnMove + currColumn < colunmTotal){
             vimObject.doBeforePosiUpdate();
+
+            changed();
 
             cartesianPosition.x = cartesianPosition.x + (vimObject.getSize().getWidth() * columnMove);
             currColumn += columnMove;
@@ -105,6 +111,8 @@ public class Position {
                 && row < rowTotal){
             vimObject.doBeforePosiUpdate();
 
+            changed();
+
             cartesianPosition.y = vimObject.getSize().getHeight() * row;
             this.currRow = row;
 
@@ -130,6 +138,8 @@ public class Position {
                 && column < colunmTotal){
             vimObject.doBeforePosiUpdate();
 
+            changed();
+
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
             this.currColumn = column;
 
@@ -147,6 +157,7 @@ public class Position {
 
         if(row < rowTotal && column < colunmTotal){
 
+            changed();
             cartesianPosition.x = vimObject.getSize().getWidth() * column;
             cartesianPosition.y = vimObject.getSize().getHeight() * row;
             this.currRow = row;
@@ -174,4 +185,13 @@ public class Position {
         this.columnHistory = columnHistory;
     }
 
+    public void addListener(ChangedPosition listener){
+        listeners.add(listener);
+    }
+
+    private void changed(){
+        for (ChangedPosition c : listeners){
+            c.onChange();
+        }
+    }
 }
