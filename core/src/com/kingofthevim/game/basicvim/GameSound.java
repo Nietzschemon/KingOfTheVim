@@ -38,5 +38,9 @@ public class GameSound implements ChangedPosition {
                 || vimObject.isOnType(LetterType.EMPATHY)){
                         GameSound.hitGray.play();
                 }
+
+                if(vimObject.isOnType(LetterType.WHITE_GREEN)){
+                        GameSound.hitGoal.play();
+                }
         }
 }
