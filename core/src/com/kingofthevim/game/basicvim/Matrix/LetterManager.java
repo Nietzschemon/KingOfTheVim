@@ -10,9 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
-//TODO LATER use properties to store the file paths.
-// https://docs.oracle.com/javase/tutorial/essential/environment/properties.html
-public class LetterManager extends TagSystem {
+public class LetterManager {
 
 
     private int rowTotal;
@@ -28,117 +26,7 @@ public class LetterManager extends TagSystem {
 
     }
 
-    //public void setPropertiesAllChars(char[] propertiesChar, PropObject prop)
 
-    public void createMap(String tagString) {
-
-        createMap(tagString,  LetterType.WHITE, true, true);
-    }
-
-    public void createMap(String tagString, LetterType type) {
-
-        createMap(tagString,  type, true, true);
-    }
-
-    public void createMap(String tagString, boolean overwrite, LetterType type) {
-
-        createMap(tagString,  type, overwrite, true);
-    }
-
-    //TODO set a variable in text that leaves chars intact but changes everything else
-    // as it should. i.e. "####" will change every letter property of "word" but not
-    // the chars
-    //TODO segment into more methods
-    /**
-     * Takes a string that contains tags and makes a path out of it
-     *
-     * The path is made by keeping track of the current row and column
-     * of which the path ends. Tags are used to for direction and to
-     * shift to a new starting point. The path can overwrite existing
-     * text if overwrite is true, keep chars if "#" is written in the
-     * tag-string and change lettertype.
-     *
-     * @param tagString the tag-string to be parsed
-     * @param defaultType LetterType to use when there is not color tags info
-     * @param overwrite if a cell that is occupied should be overwritten
-     * @param charKeep if "#" in the tagString should be supplemented for
-     *                 the char already occupying the cell
-     */
-    public void createMap(String tagString,  LetterType defaultType, boolean overwrite, boolean charKeep){
-
-        ArrayList<String> tagSetsArray = new ArrayList<>();
-
-        // counted from where the end of the last string was set
-
-        tagSetsArray = createTagArray(tagString, false);
-
-        for (String string : tagSetsArray){
-
-            String endString;
-
-            ArrayList<String> colorTagArray = new ArrayList<>();
-            HashMap<LetterType, Integer> colorIndexChangeMap = new HashMap<>();
-
-            Matcher overrideTagMatcher = overrideTags.matcher(string);
-            Matcher startTagMatcher = startTags.matcher(string);
-            Matcher colorTagMatcher = colorTagString.matcher(string);
-
-            // checks if object-tag or tag-pair type
-            // and then looks for override operator
-            if(string.substring(0, 2).equals("<<")){
-                overrideOperator = string.substring(4,5);
-            }
-            else{
-
-                overrideOperator = string.substring(3,4);
-            }
-            if(overrideOperator.equals("+")
-                    || overrideOperator.equals("-")){
-                isOverride = true;
-            }
-
-            if(isSelfClosingTag(string)) continue;
-
-            implementOverride(string, overrideTagMatcher);
-
-            if(startTagMatcher.find()){ //remove tags and add to cellMatrix
-
-                // trims the current string depending on if it is overridden or not
-                if(isOverride) endString = string.substring(7, string.length() - 5);
-                else endString = string.substring(4, string.length() - 5);
-
-                System.out.println("curr word " + endString + " at row " + currRow + " colum " + currCol);
-
-                if(string.substring(0, 3).equals("<up")){
-
-                    currRow = currRow - endString.length();//+ 1; // to make it go "up"
-                    setVerticalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
-                }
-
-                if(string.substring(0, 3).equals("<dw")){
-
-                    setVerticalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
-                    currRow += endString.length();
-                }
-
-                if(string.substring(0, 3).equals("<lf")){
-                    currCol = currCol - endString.length(); // to make it go "left"
-                    setHorizontalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
-                }
-
-                if(string.substring(0, 3).equals("<rg")){
-
-                    setHorizontalString(endString, currRow, currCol, overwrite, charKeep, defaultType);
-                    currCol += endString.length();
-                }
-
-                isOverride = false;
-            }
-
-        }
-
-        System.out.println("TagSetsArray: " + tagSetsArray);
-    }
 
     /**
      * Writes a VERTICAL string at the given location
@@ -209,7 +97,7 @@ public class LetterManager extends TagSystem {
 
             if((cellMatrix.get(startRow).get(startColumn + i).getCellLook() != null
             && ! overwriteExisting)
-            || cellMatrix.get(startRow).get(startColumn + i).getLetterType() == type){
+            && cellMatrix.get(startRow).get(startColumn + i).getLetterType() == type){
                 System.out.println("There is already a char there!");
                 iterations++;
                 continue;
@@ -239,6 +127,14 @@ public class LetterManager extends TagSystem {
         }
     }
 
+    public void setHorizontalStringArray(ArrayList<String> stringArray, int startRow, int rowSpaceBetween, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
+
+        for (int i = 0; i < stringArray.size(); i++) {
+
+            if(stringArray.get(i) != null)
+                setHorizontalString(stringArray.get(i), startRow + i * rowSpaceBetween, startColumn, overwriteExisting, replaceChar, type);
+        }
+    }
     public void setVerticalStringArray(String[] stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         for (int i = 0; i < stringArray.length; i++) {
@@ -380,85 +276,4 @@ public class LetterManager extends TagSystem {
             }
         }
     }
-    /*
-    helper method to createMap() for color tags
-
-    method takes currRow and currColumn
-    adds string.lengh to either currRow or currColumn as end-points minus tag-lenghts
-
-
-            use LinkedHashMap, posision = row || column, key = char, value = LetterType
-
-     */
-    //TODO set public when done
-    private void batchSetLetterType(LinkedHashMap<String, String> colorMap){
-
-        colorMap.forEach((colorTag, letters)-> {
-
-            //batchSetLetterType();
-        });
-    }
-
-
-
-
-    ///////////////////////// Ideas and non functioning functions /////////////////////////
-
-
-    //TODO this dosnt work properly with an identical pattern the horVert
-    // variable in setNotationstring() as parameter
-    private int checkNumOfPattern(String stringToCheck, String patternToFind){
-
-        Pattern pattern = Pattern.compile(patternToFind);
-
-        Matcher patternMatcher = pattern.matcher(stringToCheck);
-
-        int numOfMatches = 0;
-
-        while (patternMatcher.find()) {
-            System.out.println("patterns found: " + patternMatcher.find());
-
-            numOfMatches++;
-            System.out.println("num of patters found " + numOfMatches);
-        }
-        return numOfMatches;
-    }
-
-
-    /**
-     * Creates a string array with one element per
-     * new line.
-     *
-     * Mainly useful for creating custom backgrounds
-     * by editing them slightly in a text editor and
-     * then copying them directly into the method as
-     * a string.
-     * @param string newline separated string.
-     */
-    //Todo sett public when done
-    private void loadLevelFromEscapeString(String string){
-
-        String[] testArray = new String[colunmTotal];
-
-        String exemple = " \n" +
-                "Dag 6\n" +
-                "    - Skapa metoder för att enklare kunna skapa banor\n" +
-                "      - För att skapa en eller flera horisontella eller vertikala rader\n" +
-                "    - Skrev en notation för att kunna skriva banor snabbt för hand och senare editor.\n" +
-                "      - Notationen är ett simpelt tag-system likt HTML eller XML och fungerar genom regulära uttryck\n" +
-                "      - Tog ett tag att få till ett propert regulärt uttryck för detta.\n";
-
-        System.out.println(string.indexOf("\n"));
-
-        for (int i = 0; i < string.length(); i++) {
-
-        }
-
-    }
-
-    //Todo sett public when done
-    private void loadLevelFromFile(Stream stream){
-
-    }
-
 }

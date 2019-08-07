@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
+import com.kingofthevim.game.basicvim.Matrix.LetterManager;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
 import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MatrixSerialization {
 
@@ -19,6 +22,7 @@ public class MatrixSerialization {
     private static int counter;
     private Json json;
     private Save save;
+    private LetterManager letterManager;
 
     public MatrixSerialization(){
         json = new Json();
@@ -33,6 +37,7 @@ public class MatrixSerialization {
         json = new Json();
         save = new Save();
         json.setUsePrototypes(false);
+        letterManager = new LetterManager(vimObject.getVimMatrix());
     }
 
 
@@ -144,6 +149,19 @@ public class MatrixSerialization {
         Save save = loadSave(filePath);
         loadObject(save);
         loadMatrix(save);
+    }
+
+    /**
+     * List files at the screen
+     */
+    public void listFiles(){
+
+        FileHandle[] files = Gdx.files.internal("levels/builder/").list();
+        ArrayList<String> pathList = new ArrayList<>();
+
+        for(FileHandle f : files){ pathList.add(f.name()); }
+
+        letterManager.setHorizontalStringArray(pathList, 2, 2, 2, true, true, LetterType.WHITE);
     }
 
     /**
