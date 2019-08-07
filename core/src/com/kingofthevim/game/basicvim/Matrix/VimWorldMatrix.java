@@ -1,6 +1,9 @@
 package com.kingofthevim.game.basicvim.Matrix;
 
+import com.kingofthevim.game.basicvim.VimObject.VimObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This organizes the world cells into the VIM world. It sets the
@@ -173,6 +176,85 @@ public class VimWorldMatrix  {
      */
     public Cell getCell(int row, int column){
         return cellMatrix.get(row).get(column);
+    }
+
+    /**
+     * Creates a list of strings representation of the matrix
+     * @return a list of strings
+     */
+    public List<String> createStringArray(){
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < rowTotal ; i++) {
+            list.add(getIndexToRowEndString(i, 0));
+        }
+
+        return list;
+    }
+
+    /**
+     * Gets the position of all words that mach the
+     * parameter string. The WordPosition-object has
+     * a row-number, a start- and end-column.
+     * @param word string to search for in matrix
+     * @return a list with all the positions that matched
+     * the parameter
+     */
+    public ArrayList<WordPosition> getWordPositions(String word){
+        ArrayList<WordPosition> wordPos = new ArrayList<>();
+
+        List<String> matrix = createStringArray();
+
+
+        for (int i = 0; i < matrix.size(); i++) {
+            int startColumn = matrix.get(i).indexOf(word);
+
+            if(startColumn >= 0){
+                int endColumn = startColumn + word.length();
+                wordPos.add(new WordPosition(i, startColumn, endColumn));
+            }
+
+        }
+
+
+        return wordPos;
+    }
+
+
+    /**
+     * Checks if the vimObject is on a specific
+     * word in the matrix.
+     * @param vimObject to check if it is on given word
+     * @param word to check if vimObject is on
+     * @return true if it is on the given word
+     */
+    public boolean isOnWord(VimObject vimObject, String word){
+
+        ArrayList<WordPosition> wordPos = getWordPositions(word);
+
+        int vimObjRow = vimObject.getPosition().getCurrRow();
+        int vimObjColumn = vimObject.getPosition().getCurrColumn();
+
+        for(WordPosition ws : wordPos){
+
+            if(ws.row == vimObjRow){
+                if(ws.startColumn <= vimObjColumn && ws.endColumn > vimObjColumn) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public class WordPosition{
+        int row;
+        int startColumn;
+        int endColumn;
+
+        WordPosition(int row, int startColumn, int endColumn){
+            this.row = row;
+            this.startColumn = startColumn;
+            this.endColumn = endColumn;
+        }
     }
 
 }

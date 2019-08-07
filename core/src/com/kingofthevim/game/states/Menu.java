@@ -45,8 +45,8 @@ public class Menu extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new DevLevel(gsm));
 
-        if(cursor.isOnType(LetterType.WHITE)
-        && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
+        && vimMatrix.isOnWord(cursor, "new game")){
 
             gsm.push(new Labyrinth(gsm));
 

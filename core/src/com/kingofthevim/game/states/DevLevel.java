@@ -1,6 +1,7 @@
 package com.kingofthevim.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.kingofthevim.game.basicvim.*;
@@ -134,6 +135,7 @@ public class DevLevel extends Level{
     public void render(SpriteBatch sb) {
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new Menu(gsm));
         sb.begin();
 
         if(cursor.isOnType(LetterType.WHITE_GREEN)){
