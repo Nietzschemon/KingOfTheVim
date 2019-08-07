@@ -189,6 +189,8 @@ public class Position {
         listeners.add(listener);
     }
 
+    public void removeListener(ChangedPosition listener) {listeners.remove(listener);}
+
     private void changed(){
         for (ChangedPosition c : listeners){
             c.onChange(vimObject);
