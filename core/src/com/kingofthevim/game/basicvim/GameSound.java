@@ -14,6 +14,7 @@ public class GameSound implements ChangedPosition {
         public static com.badlogic.gdx.audio.Sound hitRed = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/fail2.wav"));
         public static com.badlogic.gdx.audio.Sound hitGray = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/fail.mp3"));
         public static com.badlogic.gdx.audio.Sound hitGoal = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/success.mp3"));
+        public static com.badlogic.gdx.audio.Sound scratch1 = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/scratch1.wav"));
 
         @Override
         public void onChange(VimObject vimObject) {

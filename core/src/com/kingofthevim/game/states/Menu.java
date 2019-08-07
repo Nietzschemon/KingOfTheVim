@@ -3,6 +3,7 @@ package com.kingofthevim.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
@@ -48,6 +49,7 @@ public class Menu extends Level{
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
         && vimMatrix.isOnWord(cursor, "new game")){
 
+            GameSound.scratch1.play();
             gsm.push(new Labyrinth(gsm));
 
         }else{

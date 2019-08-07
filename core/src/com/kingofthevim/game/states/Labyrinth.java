@@ -12,7 +12,6 @@ import java.util.Stack;
 public class Labyrinth extends Level {
 
     private Stack<String> levels;
-    private GameSound gameSound;
 
     public Labyrinth(GameStateManager gsm) {
         super(gsm);
@@ -31,7 +30,6 @@ public class Labyrinth extends Level {
         cursorStartRow = cursor.getPosition().getCurrRow();
 
         cursor.setPointSystem(pointsSys);
-        gameSound = new GameSound();
         cursor.getPosition().addListener(gameSound);
         backgroundMusic();
     }

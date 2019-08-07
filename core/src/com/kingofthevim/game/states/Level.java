@@ -39,6 +39,7 @@ public abstract class Level extends State {
     protected int cursorStartColumn;
     protected MatrixSerialization serial;
 
+    protected GameSound gameSound;
 
     //TODO implement
     public Stage stage;
@@ -60,6 +61,8 @@ public abstract class Level extends State {
         hud = new Hud();
 
         stage = hud.stage;
+
+        gameSound = new GameSound();
     }
 
 
