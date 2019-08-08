@@ -13,6 +13,7 @@ import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class MatrixSerialization {
 
@@ -23,6 +24,9 @@ public class MatrixSerialization {
     private Json json;
     private Save save;
     private LetterManager letterManager;
+    private int numberOfSaves = 0;
+    private int currentSave = 0;
+    private ArrayList<String> filePaths;
 
     public MatrixSerialization(){
         json = new Json();
@@ -38,6 +42,7 @@ public class MatrixSerialization {
         save = new Save();
         json.setUsePrototypes(false);
         letterManager = new LetterManager(vimObject.getVimMatrix());
+        filePaths = new ArrayList<>();
     }
 
 
@@ -139,6 +144,76 @@ public class MatrixSerialization {
         loadAll(fileName);
     }
 
+    /**
+     * Loads the next save
+     * @return true if successful
+     */
+    public boolean loadNextFile(){
+
+        getFiles();
+
+        if(! updateFileNum()) return false;
+
+        currentSave++;
+        safeLoadCurrentSave();
+
+        return true;
+    }
+
+
+    /**
+     * Loads the previous save
+     * @return true if successful
+     */
+    public boolean loadPreviousFile(){
+
+        getFiles();
+
+        if(! updateFileNum()) return false;
+
+        currentSave--;
+        safeLoadCurrentSave();
+
+        return true;
+    }
+
+
+    /**
+     * Uses the currentSave integer to load a game
+     * from filePaths. If it detects that currentSave
+     * is too low it will set the highest number and load
+     * that and if to high, it will reset before loading.
+     */
+    private void safeLoadCurrentSave(){
+
+        if(currentSave < 0) {
+            currentSave = numberOfSaves - 1;
+            loadAll("levels/builder/" + filePaths.get( currentSave));
+            return;
+        }
+
+        if(currentSave < numberOfSaves) {
+            loadAll("levels/builder/" + filePaths.get( currentSave));
+        }
+
+        if(currentSave >= numberOfSaves){
+            currentSave = 0;
+            loadAll("levels/builder/" + filePaths.get( currentSave));
+        }
+    }
+
+
+    /**
+     * Updates the file number and looks if the
+     * file-list is empty.
+     * @return true if files exist
+     */
+    private boolean updateFileNum(){
+        if(filePaths.isEmpty()) return false;
+
+        if(filePaths.size() > numberOfSaves) numberOfSaves = filePaths.size();
+        return true;
+    }
 
     /**
      * Loads a specific save
@@ -151,17 +226,20 @@ public class MatrixSerialization {
         loadMatrix(save);
     }
 
+    private void getFiles(){
+
+        FileHandle[] files = Gdx.files.internal("levels/builder/").list();
+        filePaths = new ArrayList<>();
+        for(FileHandle f : files){ filePaths.add(f.name()); }
+        Collections.sort(filePaths);
+    }
+
     /**
      * List files at the screen
      */
     public void listFiles(){
 
-        FileHandle[] files = Gdx.files.internal("levels/builder/").list();
-        ArrayList<String> pathList = new ArrayList<>();
-
-        for(FileHandle f : files){ pathList.add(f.name()); }
-
-        letterManager.setHorizontalStringArray(pathList, 2, 2, 2, true, true, LetterType.WHITE);
+        letterManager.setHorizontalStringArray(filePaths, 2, 2, 2, true, true, LetterType.WHITE);
     }
 
     /**

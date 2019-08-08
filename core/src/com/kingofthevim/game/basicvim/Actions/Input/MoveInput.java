@@ -96,8 +96,16 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
                 matrixSerialization.saveAll();
                 return true;
 
-            case Input.Keys.F8:
+            case Input.Keys.F6:
                 matrixSerialization.listFiles();
+                return true;
+
+            case Input.Keys.F7:
+                matrixSerialization.loadPreviousFile();
+                return true;
+
+            case Input.Keys.F8:
+                matrixSerialization.loadNextFile();
                 return true;
 
             case Input.Keys.F9:
