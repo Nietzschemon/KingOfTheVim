@@ -7,6 +7,7 @@ import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
+import com.kingofthevim.game.basicvim.MusicTracks;
 import com.kingofthevim.game.basicvim.PointSystem;
 
 import java.util.ArrayList;
@@ -29,13 +30,8 @@ public class Menu extends Level{
     @Override
     protected void backgroundMusic() {
 
-        if(backgroundMusic != null
-                && backgroundMusic.isPlaying()) backgroundMusic.stop();
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/trumpet.wav"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+        gameSound.choseMusic(MusicTracks.TRUMPET);
+        gameSound.playMusic();
     }
 
     @Override
@@ -51,6 +47,7 @@ public class Menu extends Level{
 
             GameSound.scratch1.play();
             gsm.push(new Labyrinth(gsm));
+            dispose();
 
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
+import com.kingofthevim.game.basicvim.MusicTracks;
 import com.kingofthevim.game.basicvim.PointSystem;
 import com.kingofthevim.game.basicvim.GameSound;
 
@@ -36,6 +37,9 @@ public class Labyrinth extends Level {
 
     @Override
     protected void backgroundMusic() {
+        gameSound.choseMusic(MusicTracks.BUNNY);
+        gameSound.playMusic();
+        /*
         if(backgroundMusic != null
                 && backgroundMusic.isPlaying()) backgroundMusic.stop();
 
@@ -44,7 +48,7 @@ public class Labyrinth extends Level {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
-        /*
+        //
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
 
@@ -73,6 +77,7 @@ public class Labyrinth extends Level {
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
 
             if(levels.empty()){
+                GameSound.scratch1.play();
                 gsm.push(new Menu(gsm));
                 dispose();
             }
