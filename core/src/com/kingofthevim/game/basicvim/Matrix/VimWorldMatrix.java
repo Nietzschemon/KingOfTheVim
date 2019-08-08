@@ -246,14 +246,27 @@ public class VimWorldMatrix  {
     }
 
     public class WordPosition{
-        int row;
-        int startColumn;
-        int endColumn;
+
+        private int row;
+        private int startColumn;
+        private int endColumn;
 
         WordPosition(int row, int startColumn, int endColumn){
             this.row = row;
             this.startColumn = startColumn;
             this.endColumn = endColumn;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getStartColumn() {
+            return startColumn;
+        }
+
+        public int getEndColumn() {
+            return endColumn;
         }
     }
 

@@ -115,6 +115,7 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
             case Input.Keys.F:
                 vimMove.add(iteration, 'f');
                 fMoveActive = true;
+                shiftWasHeld = shiftHeld;
                 return true;
 
         }
@@ -152,15 +153,18 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
             if(! shiftHeld) keyString = keyString.toLowerCase();
 
             char key = keyString.charAt(0);
-            goToLetter(cursor, key);
+            goToPattern(cursor, keyString.substring(0), shiftWasHeld);
             fMoveActive = false;
             hasExectued = true;
 
             vimMove.move = key;
+            shiftWasHeld = false;
             return true;
         }
         return false;
     }
+
+    private boolean shiftWasHeld = false;
 
     @Override
     public VimMove getVimMove() {

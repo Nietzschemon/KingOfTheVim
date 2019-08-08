@@ -301,25 +301,56 @@ public class Movement {
         return false;
     }
 
-    public boolean goToLetter(VimObject vimObject, char letter){
+
+    /**
+     * Moves the VimObject to the index of a given pattern if it
+     * exists in the matrix.
+     *
+     * @param vimObject to move
+     * @param pattern to search and move to
+     * @param shiftHeld if true, it searces forward, false backward,
+     *                  from the VimObject
+     * @return true if something was found and a move was performed
+     */
+    public boolean goToPattern(VimObject vimObject, String pattern, boolean shiftHeld){
 
         int row = vimObject.getPosition().getCurrRow();
         int column = vimObject.getPosition().getCurrColumn();
+        String rowString;
 
-        char[] charArray = vimObject.getVimMatrix().getIndexToRowEndString(row, column).toCharArray();
+        //TODO put in VimMatrix class
+        if(shiftHeld){
+            rowString = vimObject.getVimMatrix().getStringIndexToRowBeginning(row, column, false);
+        }
+        else {
+            rowString = vimObject.getVimMatrix().getIndexToRowEndString(row, column);
+        }
+        Pattern pat = Pattern.compile(pattern);
+        Matcher customMatch = pat.matcher(rowString);
 
-        for (int i = 1; i < charArray.length; i++) {
+        ArrayList<Integer> matches = matcherApplier(customMatch, true);
 
-            if(charArray[i] == letter){
-                vimObject.getPosition().setRelativeColumn(i);
-                return true;
+        if(matches.size() > 0){
+            int newColumn = matches.get(0);
+
+            if(matches.size() > 1
+            && newColumn == 0) {
+                newColumn = matches.get(1);
             }
 
-
+            if(shiftHeld){
+                vimObject.getPosition().setAbsoluteColumn(newColumn - 1);
+                return true;
+            }
+            else {
+                vimObject.getPosition().setRelativeColumn(newColumn - 1);
+                return true;
+            }
         }
 
         return false;
     }
+
 
     public int goToLetter_Int(VimObject vimObject, char letter){
 
