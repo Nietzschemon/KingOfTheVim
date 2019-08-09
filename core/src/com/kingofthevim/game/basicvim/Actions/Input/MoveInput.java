@@ -35,13 +35,6 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
     @Override
     public boolean keyDown(int keycode) {
         addToHistory = false;
-        return true;
-    }
-
-
-    @Override
-    public boolean keyUp(int keycode) {
-        addToHistory = true;
 
         shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         keyString = Input.Keys.toString(keycode);
@@ -119,6 +112,16 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
                 return true;
 
         }
+
+
+        return false;
+    }
+
+
+    @Override
+    public boolean keyUp(int keycode) {
+        addToHistory = true;
+
 
         return false;
     }

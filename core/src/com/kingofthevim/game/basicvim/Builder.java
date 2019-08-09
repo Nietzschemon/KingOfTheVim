@@ -21,6 +21,36 @@ public class Builder implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        boolean shiftHeld = (Gdx.input.isKeyPressed(59) || Gdx.input.isKeyPressed(60));
+
+        if(! shiftHeld) {
+            switch (keycode) {
+
+                case Input.Keys.E:
+                    cursor.getCurrentCell().clearCell();
+                    return true;
+
+                case Input.Keys.B:
+                    changeWithinRange('b');
+                    return true;
+
+                case Input.Keys.R:
+                    changeWithinRange('r');
+                    return true;
+
+                case Input.Keys.G:
+                    changeWithinRange('g');
+                    return true;
+
+                case Input.Keys.Y:
+                    changeWithinRange('y');
+                    return true;
+
+                case Input.Keys.W:
+                    changeWithinRange('w');
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -28,36 +58,8 @@ public class Builder implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
 
-        boolean shiftHeld = (Gdx.input.isKeyPressed(59) || Gdx.input.isKeyPressed(60));
 
-        switch (keycode){
-
-            case Input.Keys.E:
-                cursor.getCurrentCell().clearCell();
-                return true;
-
-            case Input.Keys.B:
-                changeWithinRange('b');
-                return true;
-
-            case Input.Keys.R:
-                changeWithinRange('r');
-                return true;
-
-            case Input.Keys.G:
-                changeWithinRange('g');
-                return true;
-
-            case Input.Keys.Y:
-                changeWithinRange('y');
-                return true;
-
-            case Input.Keys.W:
-                changeWithinRange('w');
-                return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**

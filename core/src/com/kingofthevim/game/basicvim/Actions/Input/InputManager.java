@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.kingofthevim.game.basicvim.Actions.VimMove;
 import com.kingofthevim.game.basicvim.Actions.VimMovement;
 import com.kingofthevim.game.basicvim.Builder;
@@ -77,16 +78,10 @@ public class InputManager implements InputProcessor {
                 return true;
 
             case Input.Keys.TAB:
-                if (builderActive){
-                    inputMultiplexer.removeProcessor(builder);
-                    builderActive = false;
-                }
-                else {
-                    inputMultiplexer.addProcessor(1, builder);
-                    builderActive = true;
-                }
+                inputMultiplexer.addProcessor(0, builder);
                 return true;
 
+                /*
             case Input.Keys.R:
                 if(oneBeforeLast() != 'r'){
                     textInput.operatorChar = 'r';
@@ -96,6 +91,8 @@ public class InputManager implements InputProcessor {
                     textInput.hasExecuted = false;
                 }
                 return true;
+
+                 */
 
             case Input.Keys.NUM_1:
                 return integerMaker('1');
@@ -127,11 +124,14 @@ public class InputManager implements InputProcessor {
             case Input.Keys.NUM_0:
                 return integerMaker('0');
 
-            case Input.Keys.I:
-                inputMultiplexer.addProcessor(0, textInput);
-                inputMultiplexer.removeProcessor(moveInput);
-                textInput.hasExecuted = false;
-                return true;
+            case Input.Keys.R:
+                if(checkIfNormalMode()){
+                    inputMultiplexer.addProcessor(0, textInput);
+                    inputMultiplexer.removeProcessor(moveInput);
+                    textInput.hasExecuted = false;
+                    return true;
+                }
+                return false;
 
             case Input.Keys.ESCAPE:
                 resetIteration();
@@ -141,6 +141,17 @@ public class InputManager implements InputProcessor {
 
         }
 
+        return false;
+    }
+
+    private boolean checkIfNormalMode(){
+        SnapshotArray<InputProcessor> processors = inputMultiplexer.getProcessors();
+
+        for (InputProcessor p : processors) {
+            if (p.equals(moveInput)) {
+                return true;
+            }
+        }
         return false;
     }
 

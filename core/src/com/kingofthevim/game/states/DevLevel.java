@@ -29,22 +29,13 @@ public class DevLevel extends Level{
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         fall = new FallMechanic(cursor);
 
-        //labyrinthText.setHorizontalString("word word word word", 4,0,true, true, LetterType.WHITE);
-        //labyrinthText.setHorizontalString("word word word word", 7,0,true, true, LetterType.WHITE);
-        //labyrinthText.setHorizontalString("word word word word", 8,0,true, true, LetterType.RED);
-        //labyrinthText.setHorizontalString("word word word word", 10,0,true, true, LetterType.WHITE);
+        gameSound.stopMusic();
     }
 
     @Override
     protected void backgroundMusic() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
                 "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
-
-        /*
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic2pcm.wav"));
-
-         */
 
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -68,6 +59,25 @@ public class DevLevel extends Level{
 
         ArrayList<String> conversionArray;
 
+        conversionArray = backgroundText.makeStringArray(
+                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
+                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                false
+        );
+
+        /*
         conversionArray = backgroundText.makeStringArray("One morning, when Stefan Ekblom woke from troubled dreams, he found " +
                 "himself transformed in his bed into a horrible coder. He lay on " +
                 "his armour-like back, and if he lifted his head a little he could " +
@@ -95,7 +105,9 @@ public class DevLevel extends Level{
                 "must have tried it a hundred times, shut his eyes so that he " +
                 "wouldn't have to look at the floundering legs, and only stopped when " +
                 "he began to feel a mild, dull pain there that he had never felt " +
-                "before.", true);
+                "before.", false);
+
+         */
 
         /*
         conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found " +
