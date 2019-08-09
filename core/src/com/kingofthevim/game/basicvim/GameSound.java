@@ -44,6 +44,13 @@ public class GameSound implements ChangedPosition {
         public void playMusic(){
                 backgroundMusic.play();
         }
+
+        public void stopMusic(){
+                if(backgroundMusic != null
+                && backgroundMusic.isPlaying()){
+                        backgroundMusic.stop();
+                }
+        }
         /**
          * Handles the sounds the different letters make
          * when a VimObject is over them
