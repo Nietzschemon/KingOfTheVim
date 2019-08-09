@@ -3,6 +3,7 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.basicvim.Matrix.Tools;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 public class TextInput implements InputProcessor {
@@ -24,7 +25,7 @@ public class TextInput implements InputProcessor {
         shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         keyString = Input.Keys.toString(keycode);
 
-        return writeLetter();
+        return writeLetter(keycode);
 
     }
 
@@ -53,7 +54,7 @@ public class TextInput implements InputProcessor {
         }
     }
 
-    private boolean writeLetter(){
+    private boolean writeLetter(int keycode){
         if(keyString.length() < 2) {
 
             if(! shiftHeld) keyString = keyString.toLowerCase();
@@ -63,6 +64,13 @@ public class TextInput implements InputProcessor {
             vimObject.getPosition().setRelativeColumn(1);
             return true;
         }
+
+        if(Input.Keys.SPACE == keycode){
+            vimObject.getCurrentCell().clearCell();
+            vimObject.getPosition().setRelativeColumn(1);
+            return true;
+        }
+
         return false;
     }
 
