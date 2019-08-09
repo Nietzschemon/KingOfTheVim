@@ -159,7 +159,7 @@ public class LetterManager {
      * @param string string to turn to an array
      * @return a fitted string array
      */
-    public ArrayList<String> makeStringArray(String string, boolean breakWords){
+    public ArrayList<String> makeStringArray(String string, boolean splitWords){
 
         ArrayList<String> returnArray = new ArrayList<>();
         String subString;
@@ -179,21 +179,25 @@ public class LetterManager {
             endIndex = startIndex + cellMatrix.get(i).size();
 
             if(endIndex > string.length()){
-                returnArray.set(i, string.substring(startIndex));
+                //returnArray.set(i, string.substring(startIndex));
+                returnArray.add(string.substring(startIndex));
                 break;
             }
 
 
             subString = string.substring(startIndex, endIndex);
 
-            if(breakWords){
+            if(! splitWords){
 
                 lastSpace = Tools.lastSpaceLocation(subString);
 
-                wordRounding = subString.length() - lastSpace;
-                subString = subString.substring(0, lastSpace);
+                if(lastSpace > 0) {
 
-                endIndex -= (wordRounding - 1);
+                    wordRounding = subString.length() - lastSpace;
+                    subString = subString.substring(0, lastSpace);
+
+                    endIndex -= (wordRounding - 1);
+                }
             }
 
 
