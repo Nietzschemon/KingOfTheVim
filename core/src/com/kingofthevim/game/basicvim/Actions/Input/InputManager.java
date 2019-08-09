@@ -127,15 +127,27 @@ public class InputManager implements InputProcessor {
             case Input.Keys.NUM_0:
                 return integerMaker('0');
 
+            case Input.Keys.I:
+                inputMultiplexer.addProcessor(0, textInput);
+                inputMultiplexer.removeProcessor(moveInput);
+                textInput.hasExecuted = false;
+                return true;
+
             case Input.Keys.ESCAPE:
-                //inputMultiplexer.removeProcessor(moveInput);
                 resetIteration();
+                resetInputProcessors();
                 System.out.println("ESC");
                 return true;
 
         }
 
         return false;
+    }
+
+    private void resetInputProcessors(){
+        inputMultiplexer.clear();
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(1, moveInput);
     }
 
     private void iterationSync(){

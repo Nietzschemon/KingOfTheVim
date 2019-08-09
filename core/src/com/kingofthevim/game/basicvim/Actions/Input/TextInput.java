@@ -1,5 +1,7 @@
 package com.kingofthevim.game.basicvim.Actions.Input;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
@@ -9,6 +11,8 @@ public class TextInput implements InputProcessor {
     char operatorChar;
     boolean hasExecuted = false;
     char currChar;
+    String keyString;
+    boolean shiftHeld = false;
 
     public TextInput(VimObject vimObject){
         this.vimObject = vimObject;
@@ -17,7 +21,11 @@ public class TextInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        return false;
+        shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        keyString = Input.Keys.toString(keycode);
+
+        return writeLetter();
+
     }
 
     @Override
@@ -33,7 +41,7 @@ public class TextInput implements InputProcessor {
             return false;
         }
 
-        changeLetter(character);
+        //changeLetter(character);
 
         return false;
     }
@@ -45,6 +53,18 @@ public class TextInput implements InputProcessor {
         }
     }
 
+    private boolean writeLetter(){
+        if(keyString.length() < 2) {
+
+            if(! shiftHeld) keyString = keyString.toLowerCase();
+
+            char key = keyString.charAt(0);
+            vimObject.getCurrentCell().setLetter(key);
+            vimObject.getPosition().setRelativeColumn(1);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
