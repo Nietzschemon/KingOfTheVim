@@ -150,7 +150,6 @@ public class DevLevel extends Level{
     public void render(SpriteBatch sb) {
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new Menu(gsm));
         functionKeys();
         sb.begin();
 
@@ -202,6 +201,12 @@ public class DevLevel extends Level{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5)){
+            gsm.push(new Menu(gsm));
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
+            serialization.saveAll();
             serialization.listFiles();
             return true;
         }
