@@ -16,6 +16,7 @@ public class DevLevel extends Level{
 
     FallMechanic fall;
     MatrixSerialization serialization;
+    private boolean testMode = false;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
@@ -153,9 +154,10 @@ public class DevLevel extends Level{
         functionKeys();
         sb.begin();
 
-        if(cursor.isOnType(LetterType.WHITE_GREEN)){
-           //cursor.dispose();
-           //cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
+        if(testMode
+        && (cursor.isOnType(LetterType.GRAY)
+        || cursor.isOnType(LetterType.EMPATHY))){
+            cursor.getPosition().setAbsolutePosition(0, 0);
 
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
@@ -181,6 +183,11 @@ public class DevLevel extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
             serialization.saveAll();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F2)){
+            testMode = !testMode;
             return true;
         }
 
