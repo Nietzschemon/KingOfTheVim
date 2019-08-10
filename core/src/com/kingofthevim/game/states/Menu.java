@@ -42,14 +42,24 @@ public class Menu extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new DevLevel(gsm));
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)
-        && vimMatrix.isOnWord(cursor, "new game")){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            if(vimMatrix.isOnWord(cursor, "new game")){
 
-            GameSound.scratch1.play();
-            gsm.push(new Labyrinth(gsm));
-            dispose();
+                GameSound.scratch1.play();
+                gsm.push(new Labyrinth(gsm));
+                dispose();
+            }
 
-        }else{
+            if(vimMatrix.isOnWord(cursor, "tutorial")){
+
+                GameSound.scratch1.play();
+                gsm.push(new Tutorial(gsm));
+                dispose();
+            }
+        }
+
+
+        else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
         }
 
