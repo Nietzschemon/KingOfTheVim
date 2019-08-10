@@ -17,6 +17,7 @@ public class DevLevel extends Level{
     FallMechanic fall;
     MatrixSerialization serialization;
     private boolean testMode = false;
+    private boolean fallMode = false;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
@@ -56,6 +57,127 @@ public class DevLevel extends Level{
         labyrinthText.setHorizontalString("!!!word!!!! !!!word!!! !!!word!!! !!!word!!!", 7,0,true, true,LetterType.WHITE);
         labyrinthText.setHorizontalString("word.0!) word.0!) word.0!) word.0!)", 8,0,true, true,LetterType.WHITE);
         labyrinthText.setHorizontalString("word    word    word    word", 9,0,true, true,LetterType.WHITE);
+    }
+
+
+    @Override
+    public void render(SpriteBatch sb) {
+        // Shows sprite-batch where to draw things on screen.
+        sb.setProjectionMatrix(cam.combined);
+        functionKeys();
+        sb.begin();
+
+        if(fallMode){
+            if(! fall.onGround()){
+                fall.fall();
+            }
+        }
+        if(testMode
+        && (cursor.isOnType(LetterType.GRAY)
+        || cursor.isOnType(LetterType.EMPATHY))){
+            cursor.getPosition().setAbsolutePosition(0, 0);
+
+        }else{
+            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
+        }
+
+
+        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
+
+            for(Cell cell : cellRow){
+
+                if(cell.getCellLook() != null){
+                    sb.draw(cell.getCellLook(),
+                            cell.getCartesianPosition().x,
+                            cell.getCartesianPosition().y);
+                }
+            }
+        }
+        sb.end();
+
+    }
+
+    private boolean functionKeys(){
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            serialization.saveAll();
+            return true;
+        }
+
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F3)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5)){
+            gsm.push(new Menu(gsm));
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
+            serialization.saveAll();
+            serialization.listFiles();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
+            serialization.loadPreviousFile();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
+            serialization.loadNextFile();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
+            serialization.loadAll();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)){
+            fallMode = !fallMode;
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F12)){
+            testMode = !testMode;
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected void levelChange() {
+        /*
+        if(cursor.isOnType(LetterType.WHITE_GREEN)) {
+            dispose();
+            gsm.push(new MenuState(gsm));
+        }
+         */
+    }
+
+    @Override
+    public void update(float dt) {
+        handleInput();
+
+        //fall.timeBeforeFall(dt, 0.4f);
+        //Tells GDX that cam been repositioned.
+        cam.update();
+
+        levelChange();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 
     private void prose(){
@@ -145,115 +267,4 @@ public class DevLevel extends Level{
          */
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
     }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        // Shows sprite-batch where to draw things on screen.
-        sb.setProjectionMatrix(cam.combined);
-        functionKeys();
-        sb.begin();
-
-        if(testMode
-        && (cursor.isOnType(LetterType.GRAY)
-        || cursor.isOnType(LetterType.EMPATHY))){
-            cursor.getPosition().setAbsolutePosition(0, 0);
-
-        }else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
-        }
-
-
-        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
-        sb.end();
-
-    }
-
-    private boolean functionKeys(){
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
-            serialization.saveAll();
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F2)){
-            testMode = !testMode;
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F3)){
-            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
-            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F5)){
-            gsm.push(new Menu(gsm));
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
-            serialization.saveAll();
-            serialization.listFiles();
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
-            serialization.loadPreviousFile();
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
-            serialization.loadNextFile();
-            return true;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
-            serialization.loadAll();
-            return true;
-        }
-
-
-        return false;
-    }
-
-    @Override
-    protected void levelChange() {
-        /*
-        if(cursor.isOnType(LetterType.WHITE_GREEN)) {
-            dispose();
-            gsm.push(new MenuState(gsm));
-        }
-         */
-    }
-
-    @Override
-    public void update(float dt) {
-        handleInput();
-
-        //fall.timeBeforeFall(dt, 0.4f);
-        //Tells GDX that cam been repositioned.
-        cam.update();
-
-        levelChange();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
-
 }
