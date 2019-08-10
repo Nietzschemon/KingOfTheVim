@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class DevLevel extends Level{
 
     FallMechanic fall;
+    MatrixSerialization serialization;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
@@ -30,6 +31,7 @@ public class DevLevel extends Level{
         fall = new FallMechanic(cursor);
 
         gameSound.stopMusic();
+        serialization = new MatrixSerialization(cursor);
     }
 
     @Override
@@ -148,6 +150,7 @@ public class DevLevel extends Level{
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new Menu(gsm));
+        functionKeys();
         sb.begin();
 
         if(cursor.isOnType(LetterType.WHITE_GREEN)){
@@ -172,7 +175,47 @@ public class DevLevel extends Level{
         }
         sb.end();
 
+    }
 
+    private boolean functionKeys(){
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            serialization.saveAll();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F3)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5)){
+            serialization.listFiles();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
+            serialization.loadPreviousFile();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
+            serialization.loadNextFile();
+            return true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
+            serialization.loadAll();
+            return true;
+        }
+
+
+        return false;
     }
 
     @Override

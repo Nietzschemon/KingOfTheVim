@@ -16,7 +16,6 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
     int iteration = 0;
     boolean hasExectued = false;
     private boolean fMoveActive = false;
-    MatrixSerialization matrixSerialization;
     boolean shiftHeld = false;
     String keyString;
 
@@ -26,7 +25,6 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
     public MoveInput(Cursor cursor){
 
         this.cursor = cursor;
-        matrixSerialization = new MatrixSerialization(cursor);
         setObjectPosition(cursor.getPosition());
         vimMove = new VimMove();
     }
@@ -85,25 +83,6 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
                 vimMove.add('0', iteration);
                 return traverseWholeLine(cursor, false);
 
-            case Input.Keys.F1:
-                matrixSerialization.saveAll();
-                return true;
-
-            case Input.Keys.F6:
-                matrixSerialization.listFiles();
-                return true;
-
-            case Input.Keys.F7:
-                matrixSerialization.loadPreviousFile();
-                return true;
-
-            case Input.Keys.F8:
-                matrixSerialization.loadNextFile();
-                return true;
-
-            case Input.Keys.F9:
-                matrixSerialization.loadAll();
-                return true;
 
             case Input.Keys.F:
                 vimMove.add(iteration, 'f');

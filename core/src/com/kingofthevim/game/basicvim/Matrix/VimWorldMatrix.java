@@ -245,6 +245,33 @@ public class VimWorldMatrix  {
         return false;
     }
 
+    public void changeAllCellTypes(LetterType ifType, LetterType changeTo){
+
+        for (ArrayList<Cell> arrayList : cellMatrix){
+            for(Cell cell : arrayList){
+
+                if(cell.getLetterType() == ifType){
+                    cell.setLetterType(changeTo);
+                }
+            }
+        }
+    }
+
+
+    public void changeAllCellTypes(LetterType ifType, char ifChar, LetterType changeTo){
+
+        for (ArrayList<Cell> arrayList : cellMatrix){
+            for(Cell cell : arrayList){
+
+                if(cell.getLetterType() == ifType
+                && cell.getCellChar() == ifChar){
+                    cell.setLetterType(changeTo);
+                }
+            }
+        }
+    }
+
+
     public class WordPosition{
 
         private int row;
