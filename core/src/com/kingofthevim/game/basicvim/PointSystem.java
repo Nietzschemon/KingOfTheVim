@@ -100,6 +100,8 @@ public class PointSystem {
         data.put("actualMoves", actualMoves);
         data.put("maxMoves", maxMoves);
         pointHistory.put(levelName, data);
+        MatrixSerialization serialization = new MatrixSerialization();
+        serialization.saveScore(pointHistory);
     }
 
     public void newLevel(String levelName){

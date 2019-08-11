@@ -13,6 +13,7 @@ import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class MatrixSerialization {
@@ -27,22 +28,20 @@ public class MatrixSerialization {
     private int numberOfSaves = 0;
     private int currentSave = 0;
     private ArrayList<String> filePaths;
+    private PointsData pointsData;
 
     public MatrixSerialization(){
         json = new Json();
         json.setUsePrototypes(false);
         save = new Save();
-
+        pointsData = new PointsData();
+        filePaths = new ArrayList<>();
     }
 
     public MatrixSerialization(VimObject vimObject){
-
+        this();
         this.vimObject = vimObject;
-        json = new Json();
-        save = new Save();
-        json.setUsePrototypes(false);
         letterManager = new LetterManager(vimObject.getVimMatrix());
-        filePaths = new ArrayList<>();
     }
 
 
@@ -94,6 +93,38 @@ public class MatrixSerialization {
             cursorColumn = vimObject.getPosition().getCurrColumn();
 
         }
+    }
+
+    private static class PointsData{
+        HashMap<String, HashMap<String, Integer>> data;
+        PointsData(){
+            data = new HashMap<>();
+        }
+
+    }
+
+    /**
+     * To be used bit by a PointSystem object.
+     * Saves a score-data hashmap and a level
+     * name to a json file.
+     * @param score a set of score values
+     */
+    public void saveScore(HashMap<String, HashMap<String, Integer>> score){
+        pointsData.data = score;
+        FileHandle file = Gdx.files.local("gamedata/score");
+        json.toJson(pointsData, file);
+        loadScore();
+    }
+
+
+    /**
+     * To be used bit by a PointSystem object.
+     * Loads a score-data hashmap and a level
+     * name from a json file.
+     */
+    public void loadScore(){
+        FileHandle file = Gdx.files.local("gamedata/score");
+        pointsData = json.fromJson(PointsData.class, file);
     }
 
     /**
