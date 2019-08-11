@@ -5,33 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
 import com.kingofthevim.game.basicvim.PointSystem;
 
 import java.util.ArrayList;
 
-public class Menu extends Level{
+public class Score extends Level {
 
-    public Menu(GameStateManager gsm) {
+    public Score(GameStateManager gsm) {
         super(gsm);
 
         pointsSys = new PointSystem();
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("menu/menu1.txt", vimMatrix);
+        cursor = serial.loadLevel("gamedata/scoreBoard", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
-        backgroundMusic();
     }
 
     @Override
     protected void backgroundMusic() {
 
-        gameSound.choseMusic(MusicTracks.TRUMPET);
-        gameSound.playMusic();
     }
 
     @Override
@@ -43,6 +39,7 @@ public class Menu extends Level{
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new DevLevel(gsm));
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            /*
             if(vimMatrix.isOnWord(cursor, "new game")){
 
                 GameSound.scratch1.play();
@@ -50,17 +47,13 @@ public class Menu extends Level{
                 dispose();
             }
 
-            if(vimMatrix.isOnWord(cursor, "tutorial")){
+             */
+
+
+            if(vimMatrix.isOnWord(cursor, "back")){
 
                 GameSound.scratch1.play();
-                gsm.push(new Tutorial(gsm));
-                dispose();
-            }
-
-            if(vimMatrix.isOnWord(cursor, "score")){
-
-                GameSound.scratch1.play();
-                gsm.push(new Score(gsm));
+                gsm.push(new Menu(gsm));
                 dispose();
             }
         }
