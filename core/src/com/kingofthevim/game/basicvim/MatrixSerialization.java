@@ -102,6 +102,10 @@ public class MatrixSerialization {
      */
     public void saveAll( ){
 
+        if(! Gdx.files.local("levels/builder/").exists()){
+            Gdx.files.local("levels/builder/").mkdirs();
+        }
+
         while (Gdx.files.local(fileName).exists()){
             fileName = "levels/builder/LevelBuilder_" + counter++ + ".txt";
         }
