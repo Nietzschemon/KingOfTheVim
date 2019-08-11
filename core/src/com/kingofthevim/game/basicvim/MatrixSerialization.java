@@ -113,7 +113,6 @@ public class MatrixSerialization {
         pointsData.data = score;
         FileHandle file = Gdx.files.local("gamedata/score");
         json.toJson(pointsData, file);
-        loadScore();
     }
 
 
