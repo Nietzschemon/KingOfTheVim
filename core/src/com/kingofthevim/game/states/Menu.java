@@ -20,7 +20,7 @@ public class Menu extends Level{
         pointsSys = new PointSystem();
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("menu/menu1.txt", vimMatrix);
+        cursor = serial.loadLevel("menu/menu1", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 

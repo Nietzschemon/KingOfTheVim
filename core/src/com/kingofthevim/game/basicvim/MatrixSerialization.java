@@ -20,7 +20,7 @@ public class MatrixSerialization {
 
     private Cursor cursor;
     private VimObject vimObject;
-    private static String fileName = "levels/builder/LevelBuilder_0.txt";
+    private static String fileName = "levels/builder/LevelBuilder_0";
     private static int counter;
     private Json json;
     private Save save;
@@ -137,7 +137,7 @@ public class MatrixSerialization {
         }
 
         while (Gdx.files.local(fileName).exists()){
-            fileName = "levels/builder/LevelBuilder_" + counter++ + ".txt";
+            fileName = "levels/builder/LevelBuilder_" + counter++;
         }
 
         saveAll(fileName);

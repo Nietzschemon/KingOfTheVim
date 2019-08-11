@@ -50,7 +50,7 @@ public class Score extends Level {
              */
 
 
-            if(vimMatrix.isOnWord(cursor, "back")){
+            if(vimMatrix.isOnWord(cursor, "Back")){
 
                 GameSound.scratch1.play();
                 gsm.push(new Menu(gsm));

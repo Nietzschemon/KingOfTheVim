@@ -19,12 +19,13 @@ public class Tutorial extends Level {
         super(gsm);
 
         levels = new Stack<>();
-        levels.add("levels/tutorial/Tutorial_2.txt");
+        levels.add("levels/tutorial/Tutorial_3");
+        levels.add("levels/tutorial/Tutorial_2");
 
-        pointsSys = new PointSystem("levels/tutorial/Tutorial_1.txt");
+        pointsSys = new PointSystem("levels/tutorial/Tutorial_1");
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("levels/tutorial/Tutorial_1.txt", vimMatrix);
+        cursor = serial.loadLevel("levels/tutorial/Tutorial_1", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 

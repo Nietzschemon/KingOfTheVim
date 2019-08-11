@@ -18,15 +18,15 @@ public class Labyrinth extends Level {
         super(gsm);
 
         levels = new Stack<>();
-        levels.add("levels/game/Level_5.txt");
-        levels.add("levels/game/Level_4.txt");
-        levels.add("levels/game/Level_3.txt");
-        levels.add("levels/game/Level_2.txt");
+        levels.add("levels/game/Level_5");
+        levels.add("levels/game/Level_4");
+        levels.add("levels/game/Level_3");
+        levels.add("levels/game/Level_2");
 
-        pointsSys = new PointSystem("levels/game/Level_1.txt");
+        pointsSys = new PointSystem("levels/game/Level_1");
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("levels/game/Level_1.txt", vimMatrix);
+        cursor = serial.loadLevel("levels/game/Level_1", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
