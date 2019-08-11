@@ -54,17 +54,6 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         addToHistory = true;
-
-        if(operationInput.hasExectued){
-            inputMultiplexer.removeProcessor(operationInput);
-            inputMultiplexer.addProcessor(1, moveInput);
-        }
-
-        if(textInput.hasExecuted){
-            inputMultiplexer.removeProcessor(textInput);
-            inputMultiplexer.addProcessor(1, moveInput);
-        }
-
         iterationSync();
 
         switch (keycode){
@@ -240,6 +229,15 @@ public class InputManager implements InputProcessor {
     public boolean keyUp(int keycode) {
         addToHistory = false;
 
+        if(operationInput.hasExectued){
+            inputMultiplexer.removeProcessor(operationInput);
+            inputMultiplexer.addProcessor(1, moveInput);
+        }
+
+        if(textInput.hasExecuted){
+            inputMultiplexer.removeProcessor(textInput);
+            inputMultiplexer.addProcessor(1, moveInput);
+        }
         return false;
     }
 

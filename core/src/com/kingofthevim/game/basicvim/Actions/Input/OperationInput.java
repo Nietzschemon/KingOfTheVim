@@ -25,12 +25,6 @@ public class OperationInput extends Operations implements InputProcessor, VimMov
 
     @Override
     public boolean keyDown(int keycode) {
-
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
         int deleteNum = (iteration > 0) ? iteration : 1;
         boolean shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
 
@@ -89,6 +83,11 @@ public class OperationInput extends Operations implements InputProcessor, VimMov
 
 
         }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
 
         return false;
     }
