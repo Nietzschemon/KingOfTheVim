@@ -251,7 +251,7 @@ public class VimWorldMatrix  {
             for(Cell cell : arrayList){
 
                 if(cell.getLetterType() == ifType){
-                    cell.setLetterType(changeTo);
+                    cell.setCellLook(changeTo);
                 }
             }
         }
@@ -265,7 +265,7 @@ public class VimWorldMatrix  {
 
                 if(cell.getLetterType() == ifType
                 && cell.getCellChar() == ifChar){
-                    cell.setLetterType(changeTo);
+                    cell.setCellLook(changeTo);
                 }
             }
         }

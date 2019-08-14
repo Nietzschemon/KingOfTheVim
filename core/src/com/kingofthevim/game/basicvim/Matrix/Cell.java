@@ -14,10 +14,6 @@ import java.util.Map;
  */
 public class Cell {
 
-    public static Map<Character, Texture> getWhiteFont() {
-        return whiteFont;
-    }
-
     private static Map<Character, Texture> whiteFont = new HashMap<>();
     private static Map<Character, Texture> whiteGreenFont = new HashMap<>();
     private static Map<Character, Texture> whiteRedFont = new HashMap<>();
@@ -31,28 +27,10 @@ public class Cell {
     private static Font font = new Font();
 
     private Vector2 cartesianPosition;
-
     private Texture cellLook;
     private Texture cellLookDefault;
-
-    public Properties getCellProperties() {
-        return cellProperties;
-    }
-
-    public void setCellProperties(Properties cellProperties) {
-        if(cellProperties.getCellChar() == ' '){
-            clearCell();
-            return;
-        }
-        setCellLook(cellProperties.getCellChar(), cellProperties.getLetterType(), true, true);
-    }
-
-    public void setCellProperties(char letter, LetterType letterType) {
-
-        this.cellProperties = new Properties(letter, letterType);
-    }
-
     private Properties cellProperties;
+
 
     public Cell(){
         cellProperties = new Properties();
@@ -60,11 +38,13 @@ public class Cell {
 
     }
 
+
     public Cell( float x, float y){
         this();
         cartesianPosition.x = x;
         cartesianPosition.y = y;
     }
+
 
     public Cell( float x, float y, int row, int column){
         this(x, y);
@@ -72,26 +52,89 @@ public class Cell {
         cellProperties.setColumn(column);
     }
 
+
     public Cell(char letter,  LetterType letterType){
         this();
         setCellLook(letter, letterType, true, true);
 
     }
+
+
     public Texture getCellLook(){
         return this.cellLook;
     }
+
+
+    /**
+     * Changes the cell default char while
+     * keeping the LetterType the same
+     * @param newChar char to change to
+     */
+    public void setCellLook(char newChar){
+        setCellLook(newChar, this.getLetterType(), true, true);
+    }
+
+
+    /**
+     * Changes the LetterType of the cell
+     * while keeping the char the same
+     * @param letterType The type to set
+     */
+    public void setCellLook(LetterType letterType) {
+
+        this.setCellLook(cellProperties.getCellChar(), letterType, true, false);
+    }
+
+
+    /**
+     * Sets the default cell look with a properties objects.
+     * If the char is a space, clearCell() is called.
+     * @param cellProperties to assign look and LetterType
+     */
+    public void setCellLook(Properties cellProperties) {
+        if(cellProperties.getCellChar() == ' '){
+            clearCell();
+            return;
+        }
+        setCellLook(cellProperties.getCellChar(), cellProperties.getLetterType(), true, true);
+    }
+
+    /**
+     * Sets a new char and LetterType in Cell
+     * @param newChar char to set cell to
+     * @param letterType type to set newChar to
+     */
+    public void setCellLook(char newChar, LetterType letterType) {
+            this.setCellLook(newChar, letterType, true, true);
+    }
+
+    /**
+     * Method made for use in loops. Sets a new char and LetterType
+     * in Cell with the option to only change non gray LetterTypes
+     * @param newChar char to set cell to
+     * @param letterType type to set newChar to
+     * @param includeGrayFont if gray shall also be overwritten
+     */
+    public void setCellLook(char newChar, LetterType letterType, boolean includeGrayFont) {
+
+        if(this.cellProperties.getLetterType() != LetterType.GRAY
+                || includeGrayFont){
+            this.setCellLook(newChar, letterType, true, true);
+        }
+    }
+
 
     /**
      * Sets all cell fields.
      *
      * This main set method of cell. It handles setting
-     * of the char as well as the lettertype and has
+     * of the char as well as the LetterType and has
      * parameters to set both temporary and main types
      * of cellChar and LetterType
-     * @param cellChar Sets the char of Cell. Also functions as key
+     * @param cellChar Sets the char of Cell. Also, functions as key
      *                 in lookup-map
-     * @param type controls the color and is assositated with certain events
-     * @param isDefault if settings are permenet or temporary
+     * @param type controls the color and is associated with certain events
+     * @param isDefault if settings are permanent or temporary
      * @param replaceChar if char should be replaced
      */
     public void setCellLook(char cellChar, LetterType type, boolean isDefault, boolean replaceChar) {
@@ -151,9 +194,27 @@ public class Cell {
         if(isDefault) this.cellProperties.setLetterType(type);
     }
 
-    public void setLetter(char letter){
-        setCellLook(letter, this.getLetterType(), true, true);
+
+
+    /**
+     * Sets a temporary look of a cell
+     * that can be reversed by calling
+     * setCellLookToDefault()
+     * @param letterType type of color/LetterType to set to
+     */
+    public void setCellLookTemp(LetterType letterType){
+
+        setCellLook(cellProperties.getCellChar(), letterType, false, false);
+
     }
+
+    /**
+     * Resets the cell to its default look
+     */
+    public void setCellLookToDefault(){
+        this.cellLook = this.cellLookDefault;
+    }
+
 
     /**
      * Gets the cells associated char
@@ -173,36 +234,16 @@ public class Cell {
     }
 
     /**
-     * Sets the cells x and y posistion
+     * Sets the cells x and y position
      * on the map. NOTE: This should be
      * used sparingly if at all
-     * @param x the x-posistion to set
-     * @param y the y-posistion to set
+     * @param x the x-position to set
+     * @param y the y-position to set
      */
     public void setCartesianPosition(float x, float y) {
         this.cartesianPosition.x = x;
         this.cartesianPosition.y = y;
     }
-
-    /**
-     * Sets a temporary look of a cell
-     * that can be reversed by calling
-     * setCellLookToDefault()
-     * @param letterType type of color/lettertype to set to
-     */
-    public void setCellLookTemp(LetterType letterType){
-
-        setCellLook(cellProperties.getCellChar(), letterType, false, false);
-
-    }
-
-    /**
-     * Resets the cell to it's default look
-     */
-    public void setCellLookToDefault(){
-        this.cellLook = this.cellLookDefault;
-    }
-
 
     /**
      * Clears cell of all textures, sets
@@ -232,33 +273,16 @@ public class Cell {
         return cellProperties.getLetterType();
     }
 
-    /**
-     * Simple setter for letterType field
-     * that automaticly sets the other
-     * fields that are neccicary for the
-     * right key-value pair look-up etc.
-     * @param letterType The type to set
-     */
-    public void setLetterType(LetterType letterType) {
-
-        this.setCellLook(cellProperties.getCellChar(), letterType, true, false);
-    }
 
     /**
-     * "complex" setter to set an other
-     * letter in cell with more control
-     * over the diffrent values to be set
-     * @param letter char to set cell to
-     * @param letterType type to set letter to
-     * @param includeGrayFont if gray shall also be overwritten
+     * Simple getter for the cellProperties field
+     * @return the cellProperties field of the Cell
      */
-    public void setLetterType(char letter, LetterType letterType, boolean includeGrayFont) {
-
-        if(this.cellProperties.getLetterType() != LetterType.GRAY
-        || includeGrayFont){
-            this.setCellLook(letter, letterType, true, true);
-        }
+    public Properties getCellProperties() {
+        return cellProperties;
     }
+
+
 
     /**
      * Static class for texture search path

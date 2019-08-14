@@ -74,10 +74,10 @@ public class Builder implements InputProcessor {
 
         if(matched.contains(letterType)){
             int matchIndex = matched.indexOf(letterType);
-            cursor.getCurrentCell().setLetterType ((matchIndex < matched.size() - 1) ? matched.get(matchIndex + 1) : matched.get(0));
+            cursor.getCurrentCell().setCellLook((matchIndex < matched.size() - 1) ? matched.get(matchIndex + 1) : matched.get(0));
             return;
         }
-        cursor.getCurrentCell().setLetterType(matched.get(0));
+        cursor.getCurrentCell().setCellLook(matched.get(0));
     }
 
 

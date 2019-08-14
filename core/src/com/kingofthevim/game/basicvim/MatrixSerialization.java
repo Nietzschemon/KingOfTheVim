@@ -8,13 +8,11 @@ import com.kingofthevim.game.basicvim.Matrix.LetterManager;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.basicvim.VimObject.Cursor;
-import com.kingofthevim.game.basicvim.VimObject.Position;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 public class MatrixSerialization {
 
@@ -321,7 +319,7 @@ public class MatrixSerialization {
 
             for (int j = 0; j < cellMatrix.get(i).size(); j++) {
 
-                vimObject.getVimMatrix().getCellMatrix().get(i).get(j).setCellProperties(propList.get(i).get(j));
+                vimObject.getVimMatrix().getCellMatrix().get(i).get(j).setCellLook(propList.get(i).get(j));
 
             }
         }
@@ -345,7 +343,7 @@ public class MatrixSerialization {
 
             for (int j = 0; j < cellMatrix.get(i).size(); j++) {
 
-                matrix.getCellMatrix().get(i).get(j).setCellProperties(propList.get(i).get(j));
+                matrix.getCellMatrix().get(i).get(j).setCellLook(propList.get(i).get(j));
 
             }
         }
@@ -362,4 +360,8 @@ public class MatrixSerialization {
         vimObject.getPosition().setAbsoluteRow(save.cursorRow);
     }
 
+    public HashMap<String, HashMap<String, Integer>> getScore(){
+        loadScore();
+        return pointsData.data;
+    }
 }

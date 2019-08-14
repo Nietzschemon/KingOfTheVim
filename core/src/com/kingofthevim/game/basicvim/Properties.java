@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Properties {
 
+    //TODO rename to letterChar
     private char cellChar = ' ';
     private LetterType letterType = LetterType.EMPATHY;
     private int row;

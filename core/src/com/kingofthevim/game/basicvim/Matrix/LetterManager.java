@@ -5,9 +5,6 @@
 package com.kingofthevim.game.basicvim.Matrix;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 
 public class LetterManager {
@@ -247,7 +244,7 @@ public class LetterManager {
                 for (int k = 0; k < string.length() ; k++) {
 
                     if(cellMatrix.get(i).get(j).getCellChar() == string.charAt(k) ){
-                        cellMatrix.get(i).get(j).setLetterType(string.charAt(k), type, includeGray);
+                        cellMatrix.get(i).get(j).setCellLook(string.charAt(k), type, includeGray);
 
                     }
                 }
@@ -275,7 +272,7 @@ public class LetterManager {
 
             for (int j = startColumn; j <= endColumn ; j++) {
 
-                cellMatrix.get(i).get(j).setLetterType(type);
+                cellMatrix.get(i).get(j).setCellLook(type);
 
             }
         }

@@ -38,7 +38,7 @@ public class Operations extends Movement{
 
         for (int i = position; i < cellList.size() - 1; i++) {
 
-            cellList.get(i).setCellProperties(cellList.get( i + 1 ).getCellProperties());
+            cellList.get(i).setCellLook(cellList.get( i + 1 ).getCellProperties());
         }
 
         cellList.get(vimObj.getPosition().getColumnTotal() - 1).clearCell();

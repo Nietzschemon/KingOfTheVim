@@ -3,7 +3,6 @@ package com.kingofthevim.game.basicvim.Actions.Input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.basicvim.Matrix.Tools;
 import com.kingofthevim.game.basicvim.VimObject.VimObject;
 
 public class TextInput implements InputProcessor {
@@ -49,7 +48,7 @@ public class TextInput implements InputProcessor {
 
     private void changeLetter(char character){
         if(character > 32 && character < 126){
-            vimObject.getCurrentCell().setLetter(character);
+            vimObject.getCurrentCell().setCellLook(character);
             hasExecuted = true;
         }
     }
@@ -60,7 +59,7 @@ public class TextInput implements InputProcessor {
             if(! shiftHeld) keyString = keyString.toLowerCase();
 
             char key = keyString.charAt(0);
-            vimObject.getCurrentCell().setLetter(key);
+            vimObject.getCurrentCell().setCellLook(key);
             vimObject.getPosition().setRelativeColumn(1);
             return true;
         }

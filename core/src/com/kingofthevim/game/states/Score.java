@@ -5,13 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
+import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
 import com.kingofthevim.game.basicvim.PointSystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class Score extends Level {
+
+    HashMap<String, HashMap<String, Integer>> score;
 
     public Score(GameStateManager gsm) {
         super(gsm);
@@ -23,8 +29,58 @@ public class Score extends Level {
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
+        score = serial.getScore();
+        listScore();
     }
 
+    private String addSpacedIntToStr(String str, int integer, int spaces){
+        String returnStr = str;
+
+        int levelStrLen = returnStr.length();
+
+        levelStrLen = spaces - levelStrLen;
+
+        for (int i = 0; i < levelStrLen ; i++) {
+            returnStr = returnStr.concat(" ");
+        }
+
+        returnStr = returnStr.concat(String.valueOf(integer));
+
+        return returnStr;
+    }
+
+
+    private String formatScore(String level, int score, int steps, int time){
+        String endString;
+
+        int scorePos = 16;
+        int stepsPos = 26;
+        int timePos = 36;
+
+        endString = addSpacedIntToStr(level, score, scorePos);
+        endString = addSpacedIntToStr(endString, steps, stepsPos);
+        endString = addSpacedIntToStr(endString, time, timePos);
+
+        return endString;
+    }
+    private void listScore(){
+        ArrayList<String> levels = new ArrayList<>();
+
+        score.forEach((k, v) -> {
+            String str = k;
+            int x = str.lastIndexOf("/") + 1;
+            str = str.substring(x);
+
+            str = formatScore(str, v.get("points"), v.get("actualMoves"), 0);
+
+            levels.add(str);
+        });
+
+        Collections.sort(levels);
+
+        labyrinthText.setHorizontalStringArray(levels, 4, 2, 2, true, true, LetterType.WHITE );
+
+    }
     @Override
     protected void backgroundMusic() {
 
