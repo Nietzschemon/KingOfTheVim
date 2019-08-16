@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
-import com.kingofthevim.game.basicvim.PointSystem;
+import com.kingofthevim.game.basicvim.ScoreSystem;
 import com.kingofthevim.game.basicvim.GameSound;
 
 import java.util.Stack;
@@ -23,14 +23,14 @@ public class Labyrinth extends Level {
         levels.add("levels/game/Level_3");
         levels.add("levels/game/Level_2");
 
-        pointsSys = new PointSystem("levels/game/Level_1");
+        pointsSys = new ScoreSystem("levels/game/Level_1");
         serial = new MatrixSerialization();
 
         cursor = serial.loadLevel("levels/game/Level_1", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
-        cursor.setPointSystem(pointsSys);
+        cursor.setScoreSystem(pointsSys);
         cursor.getPosition().addListener(gameSound);
         backgroundMusic();
     }
@@ -85,7 +85,7 @@ public class Labyrinth extends Level {
                 String load = levels.pop();
 
                 cursor = serial.loadLevel(load, vimMatrix);
-                cursor.setPointSystem(pointsSys);
+                cursor.setScoreSystem(pointsSys);
                 pointsSys.newLevel(load);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();

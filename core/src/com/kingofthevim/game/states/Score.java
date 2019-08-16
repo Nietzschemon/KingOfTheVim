@@ -7,13 +7,11 @@ import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
-import com.kingofthevim.game.basicvim.MusicTracks;
-import com.kingofthevim.game.basicvim.PointSystem;
+import com.kingofthevim.game.basicvim.ScoreSystem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 public class Score extends Level {
 
@@ -22,7 +20,7 @@ public class Score extends Level {
     public Score(GameStateManager gsm) {
         super(gsm);
 
-        pointsSys = new PointSystem();
+        pointsSys = new ScoreSystem();
         serial = new MatrixSerialization();
 
         cursor = serial.loadLevel("gamedata/scoreBoard", vimMatrix);

@@ -27,7 +27,7 @@ public class Cursor implements VimObject {
 
     private InputManager inputManager;
 
-    private PointSystem pointSystem;
+    private ScoreSystem scoreSystem;
 
     //private GameSound gameSound;
     //</editor-fold desc="Fields">
@@ -87,7 +87,7 @@ public class Cursor implements VimObject {
     @Override
     public void doAfterPosiUpdate(){
         visualChanges();
-        if(pointSystem != null)pointSystem.onMove(this);
+        if(scoreSystem != null) scoreSystem.onMove(this);
     }
 
     /**
@@ -172,12 +172,12 @@ public class Cursor implements VimObject {
         this.position = position;
     }
 
-    public PointSystem getPointSystem() {
-        return pointSystem;
+    public ScoreSystem getScoreSystem() {
+        return scoreSystem;
     }
 
-    public void setPointSystem(PointSystem pointSystem) {
-        this.pointSystem = pointSystem;
+    public void setScoreSystem(ScoreSystem scoreSystem) {
+        this.scoreSystem = scoreSystem;
     }
     //</editor-fold desc="bla">
 }

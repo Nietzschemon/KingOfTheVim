@@ -8,7 +8,7 @@ import com.kingofthevim.game.basicvim.VimObject.VimObject;
 import java.util.HashMap;
 
 //TODO mark used up yellow letter with colorShift
-public class PointSystem {
+public class ScoreSystem {
 
     private int points = 10000;
 
@@ -25,17 +25,17 @@ public class PointSystem {
     private HashMap<String, HashMap<String, Integer>> pointHistory;
     private String levelName;
 
-    public PointSystem(){
+    public ScoreSystem(){
         time = new TimeUtils();
         pointHistory = new HashMap<>();
     }
 
-    public PointSystem(String levelName){
+    public ScoreSystem(String levelName){
         this();
         this.levelName = levelName;
     }
 
-    public PointSystem(int maxMoves, int redPoints, int yellowPoints, int grayPoints, long maxTime){
+    public ScoreSystem(int maxMoves, int redPoints, int yellowPoints, int grayPoints, long maxTime){
         this();
         this.redPoints = redPoints;
         this.yellowPoints = yellowPoints;

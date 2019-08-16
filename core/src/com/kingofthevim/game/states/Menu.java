@@ -5,10 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.Cell;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
-import com.kingofthevim.game.basicvim.PointSystem;
+import com.kingofthevim.game.basicvim.ScoreSystem;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ public class Menu extends Level{
     public Menu(GameStateManager gsm) {
         super(gsm);
 
-        pointsSys = new PointSystem();
+        pointsSys = new ScoreSystem();
         serial = new MatrixSerialization();
 
         cursor = serial.loadLevel("menu/menu1", vimMatrix);

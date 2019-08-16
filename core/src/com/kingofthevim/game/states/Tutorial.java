@@ -6,7 +6,7 @@ import com.kingofthevim.game.basicvim.GameSound;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
-import com.kingofthevim.game.basicvim.PointSystem;
+import com.kingofthevim.game.basicvim.ScoreSystem;
 
 import java.util.Stack;
 
@@ -22,14 +22,14 @@ public class Tutorial extends Level {
         levels.add("levels/tutorial/Tutorial_3");
         levels.add("levels/tutorial/Tutorial_2");
 
-        pointsSys = new PointSystem("levels/tutorial/Tutorial_1");
+        pointsSys = new ScoreSystem("levels/tutorial/Tutorial_1");
         serial = new MatrixSerialization();
 
         cursor = serial.loadLevel("levels/tutorial/Tutorial_1", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
-        cursor.setPointSystem(pointsSys);
+        cursor.setScoreSystem(pointsSys);
         cursor.getPosition().addListener(gameSound);
         backgroundMusic();
     }
@@ -62,7 +62,7 @@ public class Tutorial extends Level {
                 String load = levels.pop();
 
                 cursor = serial.loadLevel(load, vimMatrix);
-                cursor.setPointSystem(pointsSys);
+                cursor.setScoreSystem(pointsSys);
                 pointsSys.newLevel(load);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();

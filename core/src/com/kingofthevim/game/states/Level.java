@@ -31,7 +31,7 @@ public abstract class Level extends State {
     //Static to cary effectively between levels
     protected static Music backgroundMusic;
 
-    protected PointSystem pointsSys;
+    protected ScoreSystem pointsSys;
 
     protected Hud hud;
 

@@ -25,7 +25,7 @@ public class DevLevel extends Level{
         cursorStartRow = 2;
         cursorStartColumn = 0;
 
-        pointsSys = new PointSystem();
+        pointsSys = new ScoreSystem();
 
 
         prose();

@@ -102,7 +102,7 @@ public class MatrixSerialization {
     }
 
     /**
-     * To be used bit by a PointSystem object.
+     * To be used bit by a ScoreSystem object.
      * Saves a score-data hashmap and a level
      * name to a json file.
      * @param score a set of score values
@@ -115,7 +115,7 @@ public class MatrixSerialization {
 
 
     /**
-     * To be used bit by a PointSystem object.
+     * To be used bit by a ScoreSystem object.
      * Loads a score-data hashmap and a level
      * name from a json file.
      */
