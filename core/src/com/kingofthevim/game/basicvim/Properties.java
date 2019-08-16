@@ -1,37 +1,32 @@
 package com.kingofthevim.game.basicvim;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.VimObject.Size;
-
-import java.util.ArrayList;
 
 public class Properties {
 
-    //TODO rename to letterChar
-    private char cellChar = ' ';
+    private char keyChar = ' ';
     private LetterType letterType = LetterType.EMPATHY;
     private int row;
     private int column;
 
     public Properties(){}
-    public Properties(char cellChar, LetterType letterType){
-        this.cellChar = cellChar;
+    public Properties(char keyChar, LetterType letterType){
+        this.keyChar = keyChar;
         this.letterType = letterType;
 
     }
-    public Properties(char cellChar, LetterType letterType, int row, int column){
-        this(cellChar, letterType);
+    public Properties(char keyChar, LetterType letterType, int row, int column){
+        this(keyChar, letterType);
         this.row = row;
         this.column = column;
     }
 
-    public char getCellChar() {
-        return cellChar;
+    public char getKeyChar() {
+        return keyChar;
     }
 
-    public void setCellChar(char cellChar) {
-        this.cellChar = cellChar;
+    public void setKeyChar(char keyChar) {
+        this.keyChar = keyChar;
     }
 
     public LetterType getLetterType() {

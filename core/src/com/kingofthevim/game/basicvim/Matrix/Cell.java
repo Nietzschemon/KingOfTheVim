@@ -82,7 +82,7 @@ public class Cell {
      */
     public void setCellLook(LetterType letterType) {
 
-        this.setCellLook(cellProperties.getCellChar(), letterType, true, false);
+        this.setCellLook(cellProperties.getKeyChar(), letterType, true, false);
     }
 
 
@@ -92,11 +92,11 @@ public class Cell {
      * @param cellProperties to assign look and LetterType
      */
     public void setCellLook(Properties cellProperties) {
-        if(cellProperties.getCellChar() == ' '){
+        if(cellProperties.getKeyChar() == ' '){
             clearCell();
             return;
         }
-        setCellLook(cellProperties.getCellChar(), cellProperties.getLetterType(), true, true);
+        setCellLook(cellProperties.getKeyChar(), cellProperties.getLetterType(), true, true);
     }
 
     /**
@@ -190,7 +190,7 @@ public class Cell {
 
         }
 
-        if(replaceChar) this.cellProperties.setCellChar(cellChar);
+        if(replaceChar) this.cellProperties.setKeyChar(cellChar);
         if(isDefault) this.cellProperties.setLetterType(type);
     }
 
@@ -204,7 +204,7 @@ public class Cell {
      */
     public void setCellLookTemp(LetterType letterType){
 
-        setCellLook(cellProperties.getCellChar(), letterType, false, false);
+        setCellLook(cellProperties.getKeyChar(), letterType, false, false);
 
     }
 
@@ -221,7 +221,7 @@ public class Cell {
      * @return the char of the cell
      */
     public char getCellChar() {
-        return cellProperties.getCellChar();
+        return cellProperties.getKeyChar();
     }
 
     /**
