@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.VimObject;
+package com.kingofthevim.game.engine.vimobject;
 
 import com.badlogic.gdx.math.Vector2;
 import com.kingofthevim.game.engine.ChangedPosition;

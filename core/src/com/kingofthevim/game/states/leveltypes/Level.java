@@ -11,7 +11,7 @@ import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
-import com.kingofthevim.game.engine.VimObject.Cursor;
+import com.kingofthevim.game.engine.vimobject.Cursor;
 import com.kingofthevim.game.engine.sound.GameSound;
 import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.GameStateManager;

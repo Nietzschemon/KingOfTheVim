@@ -1,8 +1,8 @@
 package com.kingofthevim.game.engine.Actions;
 
 import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
-import com.kingofthevim.game.engine.VimObject.Position;
-import com.kingofthevim.game.engine.VimObject.VimObject;
+import com.kingofthevim.game.engine.vimobject.Position;
+import com.kingofthevim.game.engine.vimobject.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -280,10 +280,10 @@ public class Movement {
 
 
     /**
-     * Moves the VimObject to the first non-blank char in
+     * Moves the vimobject to the first non-blank char in
      * the row.
      *
-     * @param object VimObject to move
+     * @param object vimobject to move
      * @return true if success
      */
     public boolean goToFirstNonBlankChar(VimObject object){
@@ -303,13 +303,13 @@ public class Movement {
 
 
     /**
-     * Moves the VimObject to the index of a given pattern if it
+     * Moves the vimobject to the index of a given pattern if it
      * exists in the matrix.
      *
      * @param vimObject to move
      * @param pattern to search and move to
      * @param shiftHeld if true, it searces forward, false backward,
-     *                  from the VimObject
+     *                  from the vimobject
      * @return true if something was found and a move was performed
      */
     public boolean goToPattern(VimObject vimObject, String pattern, boolean shiftHeld){

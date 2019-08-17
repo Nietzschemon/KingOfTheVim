@@ -1,6 +1,6 @@
 package com.kingofthevim.game.engine;
 
-import com.kingofthevim.game.engine.VimObject.VimObject;
+import com.kingofthevim.game.engine.vimobject.VimObject;
 
 public interface ChangedPosition {
 

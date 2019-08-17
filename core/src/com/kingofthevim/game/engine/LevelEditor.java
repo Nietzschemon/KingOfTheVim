@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.VimObject.Cursor;
+import com.kingofthevim.game.engine.vimobject.Cursor;
 
 import java.util.ArrayList;
 

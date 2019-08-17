@@ -1,7 +1,7 @@
 package com.kingofthevim.game.engine.Actions;
 
 import com.kingofthevim.game.engine.matrix.Cell;
-import com.kingofthevim.game.engine.VimObject.VimObject;
+import com.kingofthevim.game.engine.vimobject.VimObject;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public class Operations extends Movement{
 
 
     /**
-     * "Deletes" the current occupied cell of the VimObject.
+     * "Deletes" the current occupied cell of the vimobject.
      *
      * This is done by moving all the cell data one cell
      * to the left and clearing the last cell in the row.
@@ -23,7 +23,7 @@ public class Operations extends Movement{
     }
 
     /**
-     * "Deletes" the current occupied cell of the VimObject.
+     * "Deletes" the current occupied cell of the vimobject.
      *
      * This is done by moving all the cell data one cell
      * to the left and clearing the last cell in the row.
@@ -47,7 +47,7 @@ public class Operations extends Movement{
 
 
     /**
-     * "Deletes" the current occupied cell of the VimObject
+     * "Deletes" the current occupied cell of the vimobject
      * and as many left to it as specified
      *
      * This is done by calling deleteCharHorizontal() that moves
@@ -67,7 +67,7 @@ public class Operations extends Movement{
 
     /**
      * "Deletes" a specified cell on the row that is occupied
-     * by the VimObject and as many left to it as specified
+     * by the vimobject and as many left to it as specified
      *
      * This is done by calling deleteCharHorizontal() that moves
      * all the cell data one cell to the left and
@@ -93,7 +93,7 @@ public class Operations extends Movement{
 
     /**
      * "Deletes" a specified cell on the row that is occupied by the
-     * VimObject and as many left or the right of it as specified
+     * vimobject and as many left or the right of it as specified
      *
      * This is done by calling deleteCharBatch() that moves
      * all the cell data one cell to the left and
