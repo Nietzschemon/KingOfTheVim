@@ -106,6 +106,7 @@ public class DevLevel extends Level{
     private boolean functionKeys(){
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
             serialization.saveAll();
             return true;
         }
@@ -127,6 +128,7 @@ public class DevLevel extends Level{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
             serialization.saveAll();
             serialization.listFiles();
             return true;
@@ -134,11 +136,13 @@ public class DevLevel extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
             serialization.loadPreviousFile();
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
             serialization.loadNextFile();
+            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             return true;
         }
 
@@ -154,6 +158,13 @@ public class DevLevel extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F12)){
             testMode = !testMode;
+
+            if(testMode){
+                cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            }
+            else {
+                cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            }
             return true;
         }
 
