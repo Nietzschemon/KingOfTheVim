@@ -65,7 +65,7 @@ public class Tutorial extends Level {
 
                 cursor = serial.loadLevel(load, vimMatrix);
                 cursor.setScoreSystem(pointsSys);
-                pointsSys.newLevel(load);
+                //pointsSys.newLevel(load);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();
 
