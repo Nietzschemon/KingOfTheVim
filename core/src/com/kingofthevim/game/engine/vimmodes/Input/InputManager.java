@@ -1,12 +1,12 @@
-package com.kingofthevim.game.engine.Actions.Input;
+package com.kingofthevim.game.engine.vimmodes.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.kingofthevim.game.engine.Actions.VimMove;
-import com.kingofthevim.game.engine.Actions.VimMovement;
+import com.kingofthevim.game.engine.vimmodes.VimMove;
+import com.kingofthevim.game.engine.vimmodes.VimMovement;
 import com.kingofthevim.game.engine.LevelEditor;
 import com.kingofthevim.game.engine.vimobject.Cursor;
 

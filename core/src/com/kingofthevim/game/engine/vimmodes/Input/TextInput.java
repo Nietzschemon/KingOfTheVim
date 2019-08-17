@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.Actions.Input;
+package com.kingofthevim.game.engine.vimmodes.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
