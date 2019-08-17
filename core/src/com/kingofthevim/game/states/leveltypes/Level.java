@@ -27,7 +27,6 @@ public abstract class Level extends State {
     protected final int fontWidth = 22;
     protected final int fontHeight = 44;
     protected Cursor cursor;
-    protected LetterManager backgroundText;
     protected LetterManager labyrinthText;
     protected CellMatrix vimMatrix;
 
@@ -52,13 +51,12 @@ public abstract class Level extends State {
     protected Level(GameStateManager gsm) {
         super(gsm);
 
-        //TODO use for bigger texts and levels use also for zooming in bigger levels
+        //use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
 
         vimMatrix = new CellMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
 
-        backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);
 
         hud = new Hud();

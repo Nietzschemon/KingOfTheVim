@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.matrix.Cell;
+import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.gametype.FallMechanic;
@@ -20,10 +21,12 @@ public class DevLevel extends Level{
     MatrixSerialization serialization;
     private boolean testMode = false;
     private boolean fallMode = false;
+    private LetterManager backgroundText;
 
     public DevLevel(GameStateManager gsm) {
         super(gsm);
 
+        backgroundText = new LetterManager(vimMatrix);
         cursorStartRow = 2;
         cursorStartColumn = 0;
 
