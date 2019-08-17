@@ -115,6 +115,11 @@ public class LetterManager {
         }
     }
 
+    public void setHorizontalStringArray(ArrayList<String> stringArray, int startRow, int startColumn, LetterType type){
+
+        setHorizontalStringArray(stringArray, startRow, startColumn, true, true, type);
+    }
+
     public void setHorizontalStringArray(ArrayList<String> stringArray, int startRow, int startColumn, boolean overwriteExisting, boolean replaceChar, LetterType type){
 
         for (int i = 0; i < stringArray.size(); i++) {

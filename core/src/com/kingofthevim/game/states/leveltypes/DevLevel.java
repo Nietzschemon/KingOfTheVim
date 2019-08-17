@@ -270,6 +270,6 @@ public class DevLevel extends Level{
                 "before.", false);
 
          */
-        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, false, true, LetterType.GRAY);
+        backgroundText.setHorizontalStringArray(conversionArray, 0, 0, LetterType.GRAY);
     }
 }
