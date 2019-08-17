@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.vimmodes;
+package com.kingofthevim.game.engine.vim_modes;
 
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.vimobject.VimObject;

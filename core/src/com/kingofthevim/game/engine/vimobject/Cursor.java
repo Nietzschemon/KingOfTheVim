@@ -2,7 +2,7 @@ package com.kingofthevim.game.engine.vimobject;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
-import com.kingofthevim.game.engine.vimmodes.input.InputManager;
+import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
