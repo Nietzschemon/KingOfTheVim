@@ -114,7 +114,8 @@ public class InputManager implements InputProcessor {
                 return integerMaker('0');
 
             case Input.Keys.R:
-                if(checkIfNormalMode()){
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
+                && checkIfNormalMode()){
                     inputMultiplexer.addProcessor(0, textInput);
                     inputMultiplexer.removeProcessor(moveInput);
                     textInput.hasExecuted = false;
