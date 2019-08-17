@@ -2,7 +2,6 @@ package com.kingofthevim.game.engine.matrix;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.kingofthevim.game.engine.Properties;
 
 import java.util.HashMap;
 import java.util.Map;
