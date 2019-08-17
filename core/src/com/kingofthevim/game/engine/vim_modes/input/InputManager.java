@@ -21,7 +21,7 @@ public class InputManager implements InputProcessor {
     Cursor cursor;
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
     MoveInput moveInput;
-    OperationInput operationInput;
+    DeleteModeInput deleteModeInput;
     LevelEditor levelEditor;
     TextInput textInput;
 
@@ -41,7 +41,7 @@ public class InputManager implements InputProcessor {
         this.cursor = cursor;
         inputHistory = new LinkedList<>();
         moveInput = new MoveInput(cursor);
-        operationInput = new OperationInput(cursor);
+        deleteModeInput = new DeleteModeInput(cursor);
         levelEditor = new LevelEditor(cursor);
         textInput = new TextInput(cursor);
         vimMoveList = new ArrayList<>();
@@ -60,10 +60,10 @@ public class InputManager implements InputProcessor {
 
             case Input.Keys.D:
                 inputMultiplexer.removeProcessor(moveInput);
-                inputMultiplexer.addProcessor(1, operationInput);
+                inputMultiplexer.addProcessor(1, deleteModeInput);
                 System.out.println("D pressed");
-                operationInput.hasExectued = false;
-                //operationInput.vimMove.operator = 'd';
+                deleteModeInput.hasExectued = false;
+                //deleteModeInput.vimMove.operator = 'd';
                 return true;
 
             case Input.Keys.TAB:
@@ -151,26 +151,26 @@ public class InputManager implements InputProcessor {
     }
 
     private void iterationSync(){
-        if(operationInput.hasExectued
+        if(deleteModeInput.hasExectued
         || moveInput.hasExectued
         || textInput.hasExecuted){
 
             addVimMove(moveInput);
-            addVimMove(operationInput);
+            addVimMove(deleteModeInput);
 
 
-            operationInput.iteration = 0;
+            deleteModeInput.iteration = 0;
             moveInput.iteration = 0;
             iterationInt = 0;
             iterationString = "0";
-            operationInput.hasExectued = false;
+            deleteModeInput.hasExectued = false;
             moveInput.hasExectued = false;
             textInput.hasExecuted = false;
 
         }
 
         if(iterationInt > 0){
-            operationInput.iteration = iterationInt;
+            deleteModeInput.iteration = iterationInt;
             moveInput.iteration = iterationInt;
         }
     }
@@ -222,15 +222,15 @@ public class InputManager implements InputProcessor {
         iterationString = "0";
         iterationInt = 0;
         moveInput.iteration = 0;
-        operationInput.iteration = 0;
+        deleteModeInput.iteration = 0;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         addToHistory = false;
 
-        if(operationInput.hasExectued){
-            inputMultiplexer.removeProcessor(operationInput);
+        if(deleteModeInput.hasExectued){
+            inputMultiplexer.removeProcessor(deleteModeInput);
             inputMultiplexer.addProcessor(1, moveInput);
         }
 

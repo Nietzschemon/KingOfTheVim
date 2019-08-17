@@ -5,7 +5,7 @@ import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.ArrayList;
 
-public class Operations extends Movement{
+public class DeleteMode extends Movement{
 
 
     /**

@@ -3,19 +3,19 @@ package com.kingofthevim.game.engine.vim_modes.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.engine.vim_modes.Operations;
+import com.kingofthevim.game.engine.vim_modes.DeleteMode;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 
-public class OperationInput extends Operations implements InputProcessor, VimMovement {
+public class DeleteModeInput extends DeleteMode implements InputProcessor, VimMovement {
 
     private Cursor cursor;
     int iteration = 1;
     boolean hasExectued = false;
     VimMove vimMove;
 
-    public OperationInput(Cursor cursor){
+    public DeleteModeInput(Cursor cursor){
 
         this.cursor = cursor;
         setObjectPosition(cursor.getPosition());
