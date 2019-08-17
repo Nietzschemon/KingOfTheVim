@@ -12,6 +12,7 @@ import com.kingofthevim.game.engine.Matrix.LetterManager;
 import com.kingofthevim.game.engine.Matrix.LetterType;
 import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
 import com.kingofthevim.game.engine.VimObject.Cursor;
+import com.kingofthevim.game.engine.sound.GameSound;
 import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.State;
