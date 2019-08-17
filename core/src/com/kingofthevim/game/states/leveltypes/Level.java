@@ -27,7 +27,7 @@ public abstract class Level extends State {
     protected final int fontWidth = 22;
     protected final int fontHeight = 44;
     protected Cursor cursor;
-    protected LetterManager labyrinthText;
+    protected LetterManager letterAdder;
     protected CellMatrix vimMatrix;
 
     //Static to cary effectively between levels
@@ -57,7 +57,7 @@ public abstract class Level extends State {
 
         vimMatrix = new CellMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
 
-        labyrinthText = new LetterManager(vimMatrix);
+        letterAdder = new LetterManager(vimMatrix);
 
         hud = new Hud();
 

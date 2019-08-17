@@ -78,7 +78,7 @@ public class Score extends Level {
 
         Collections.sort(levels);
 
-        labyrinthText.setHorizontalStringArray(levels, 4, 2, 2, true, true, LetterType.WHITE );
+        letterAdder.setHorizontalStringArray(levels, 4, 2, 2, true, true, LetterType.WHITE );
 
     }
     @Override
