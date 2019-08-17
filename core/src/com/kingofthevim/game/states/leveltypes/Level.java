@@ -10,7 +10,7 @@ import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.CellMatrix;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.engine.sound.GameSound;
 import com.kingofthevim.game.scens.Hud;
@@ -29,7 +29,7 @@ public abstract class Level extends State {
     protected Cursor cursor;
     protected LetterManager backgroundText;
     protected LetterManager labyrinthText;
-    protected VimWorldMatrix vimMatrix;
+    protected CellMatrix vimMatrix;
 
     //Static to cary effectively between levels
     protected static Music backgroundMusic;
@@ -56,7 +56,7 @@ public abstract class Level extends State {
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
 
-        vimMatrix = new VimWorldMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
+        vimMatrix = new CellMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
 
         backgroundText = new LetterManager(vimMatrix);
         labyrinthText = new LetterManager(vimMatrix);

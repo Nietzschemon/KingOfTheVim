@@ -14,12 +14,12 @@ public class LetterManager {
     private int colunmTotal;
     private ArrayList<ArrayList<Cell>> cellMatrix;
 
-    public LetterManager(VimWorldMatrix matrix){
+    public LetterManager(CellMatrix matrix){
 
     cellMatrix = matrix.getCellMatrix();
 
-    rowTotal = VimWorldMatrix.getRowTotal();
-    colunmTotal = VimWorldMatrix.getColunmTotal();
+    rowTotal = CellMatrix.getRowTotal();
+    colunmTotal = CellMatrix.getColunmTotal();
 
     }
 

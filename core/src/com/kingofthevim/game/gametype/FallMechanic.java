@@ -2,7 +2,7 @@ package com.kingofthevim.game.gametype;
 
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.CellMatrix;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
 public class FallMechanic {
@@ -96,9 +96,9 @@ public class FallMechanic {
 
         if( ! onGround() ){
 
-            VimWorldMatrix matrix = vimObject.getVimMatrix();
+            CellMatrix matrix = vimObject.getVimMatrix();
 
-            for (int i = 1; i < VimWorldMatrix.getRowTotal() - currRow; i++) {
+            for (int i = 1; i < CellMatrix.getRowTotal() - currRow; i++) {
 
                 Cell cell = matrix.getCell(currRow + i, currColumn);
 
@@ -109,7 +109,7 @@ public class FallMechanic {
                     return true;
                 }
             }
-            vimObject.getPosition().setAbsoluteRow(VimWorldMatrix.getRowTotal() - 1);
+            vimObject.getPosition().setAbsoluteRow(CellMatrix.getRowTotal() - 1);
         }
 
         return false;

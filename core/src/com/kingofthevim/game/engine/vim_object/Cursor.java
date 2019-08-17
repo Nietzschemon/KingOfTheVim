@@ -5,7 +5,7 @@ import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.CellMatrix;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class Cursor implements VimObject {
 
 
     //<editor-fold desc="Fields">
-    private VimWorldMatrix vimMatrix;
+    private CellMatrix vimMatrix;
 
     private int moveCounter = 0;
     private int movesLeft = 10;
@@ -34,7 +34,7 @@ public class Cursor implements VimObject {
 
 
     //TODO inherit from cell
-    public Cursor(VimWorldMatrix vimMatrix, int startRow, int startRowCell){
+    public Cursor(CellMatrix vimMatrix, int startRow, int startRowCell){
 
         cursorSize = new Size(22, 44);
 
@@ -42,7 +42,7 @@ public class Cursor implements VimObject {
         cellMatrix = vimMatrix.getCellMatrix();
 
 
-        position = new Position(this, startRow, startRowCell, VimWorldMatrix.getRowTotal(), VimWorldMatrix.getColunmTotal());
+        position = new Position(this, startRow, startRowCell, CellMatrix.getRowTotal(), CellMatrix.getColunmTotal());
 
         texture = new Texture("cursors/cursor_44purple.png");
 
@@ -152,7 +152,7 @@ public class Cursor implements VimObject {
     }
 
     @Override
-    public VimWorldMatrix getVimMatrix() {
+    public CellMatrix getVimMatrix() {
         return vimMatrix;
     }
 

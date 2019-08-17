@@ -10,7 +10,7 @@ import java.util.List;
  * number of cells and their sizes. All VIM actions are limited to
  * happen within the bounds set here by interaction with the cellMatrix
  */
-public class VimWorldMatrix  {
+public class CellMatrix {
 
     private static int rowTotal;
     private static int colunmTotal;
@@ -43,9 +43,9 @@ public class VimWorldMatrix  {
 
     //TODO make fontsize into an enum that enables a selection of
     // window sizes. OR warn when line is out of play area
-    private VimWorldMatrix(){
-        VimWorldMatrix.rowTotal =
-        VimWorldMatrix.colunmTotal = colunmTotal;
+    private CellMatrix(){
+        CellMatrix.rowTotal =
+        CellMatrix.colunmTotal = colunmTotal;
 
         //cellMatrix = new Cell[rowTotal][colunmTotal];
 
@@ -57,9 +57,9 @@ public class VimWorldMatrix  {
                 + " - Cell Height: " + fontHeight);
     }
 
-    public VimWorldMatrix(int rowTotal, int colunmTotal){
-        VimWorldMatrix.rowTotal = rowTotal;
-        VimWorldMatrix.colunmTotal = colunmTotal;
+    public CellMatrix(int rowTotal, int colunmTotal){
+        CellMatrix.rowTotal = rowTotal;
+        CellMatrix.colunmTotal = colunmTotal;
 
         //cellMatrix = new Cell[rowTotal][colunmTotal];
 
@@ -71,11 +71,11 @@ public class VimWorldMatrix  {
                 + " - Cell Height: " + fontHeight);
     }
 
-    public VimWorldMatrix(int rowTotal, int colunmTotal, int fontWidth, int fontHeight){
-        VimWorldMatrix.rowTotal = rowTotal;
-        VimWorldMatrix.colunmTotal = colunmTotal;
-        VimWorldMatrix.fontWidth = fontWidth;
-        VimWorldMatrix.fontHeight = fontHeight;
+    public CellMatrix(int rowTotal, int colunmTotal, int fontWidth, int fontHeight){
+        CellMatrix.rowTotal = rowTotal;
+        CellMatrix.colunmTotal = colunmTotal;
+        CellMatrix.fontWidth = fontWidth;
+        CellMatrix.fontHeight = fontHeight;
 
         //cellMatrix = new Cell[rowTotal][colunmTotal];
         setCellSize(fontWidth, fontHeight);

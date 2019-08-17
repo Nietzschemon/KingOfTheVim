@@ -279,7 +279,7 @@ public class MatrixSerialization {
      * @param matrix to load level into
      * @return Cursor connected given matrix
      */
-    public Cursor loadLevel(String filePath, VimWorldMatrix matrix){
+    public Cursor loadLevel(String filePath, CellMatrix matrix){
         Save save = loadSave(filePath);
         loadMatrix(save, matrix);
 
@@ -330,7 +330,7 @@ public class MatrixSerialization {
      * @param save to load from
      * @param matrix to load level into
      */
-    private void loadMatrix(Save save, VimWorldMatrix matrix){
+    private void loadMatrix(Save save, CellMatrix matrix){
 
         ArrayList<ArrayList<Cell>> cellMatrix = matrix.getCellMatrix();
 

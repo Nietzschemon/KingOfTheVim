@@ -1,6 +1,6 @@
 package com.kingofthevim.game.engine.vim_modes;
 
-import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.CellMatrix;
 import com.kingofthevim.game.engine.vim_object.Position;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
@@ -130,7 +130,7 @@ public class Movement {
      */
     protected boolean traverseWord(VimObject object, boolean shiftHeld, boolean wordBgn, int iterations){
 
-        VimWorldMatrix matrix = object.getVimMatrix();
+        CellMatrix matrix = object.getVimMatrix();
 
         Position position = object.getPosition();
         ArrayList<Integer> allMatches;
@@ -193,7 +193,7 @@ public class Movement {
      */
     protected boolean traversePreviousWord(VimObject object, boolean shiftHeld, int iterations){
 
-        VimWorldMatrix matrix = object.getVimMatrix();
+        CellMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
 
         Position position = object.getPosition();
@@ -424,7 +424,7 @@ public class Movement {
      */
     protected int traverseWord_Int(VimObject object, boolean shiftHeld,  boolean wordBgn, int iterations){
 
-        VimWorldMatrix matrix = object.getVimMatrix();
+        CellMatrix matrix = object.getVimMatrix();
 
         ArrayList<Integer> allMatches;
 
@@ -486,7 +486,7 @@ public class Movement {
      */
     protected int traversePreviousWord_Int(VimObject object, boolean shiftHeld, int iterations){
 
-        VimWorldMatrix matrix = object.getVimMatrix();
+        CellMatrix matrix = object.getVimMatrix();
         ArrayList<Integer> allMatches;
 
         int currColumn = object.getPosition().getCurrColumn();

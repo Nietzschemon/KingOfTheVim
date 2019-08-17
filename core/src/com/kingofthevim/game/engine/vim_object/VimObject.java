@@ -2,11 +2,11 @@ package com.kingofthevim.game.engine.vim_object;
 
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.CellMatrix;
 
 public interface VimObject {
 
-    VimWorldMatrix getVimMatrix();
+    CellMatrix getVimMatrix();
 
     Size getSize();
 
