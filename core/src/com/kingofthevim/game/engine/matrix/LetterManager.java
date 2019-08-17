@@ -25,6 +25,10 @@ public class LetterManager {
 
 
 
+    public void setVerticalString(String string, int startRow, int startColumn, LetterType type){
+        setVerticalString(string, startRow, startColumn, true, true, type);
+    }
+
     /**
      * Writes a VERTICAL string at the given location
      *
@@ -63,6 +67,10 @@ public class LetterManager {
 
             charNum++;
         }
+    }
+
+    public void setHorizontalString(String string, int startRow, int startColumn, LetterType type){
+        setHorizontalString(string, startRow, startColumn, true, true, type);
     }
 
     /**
