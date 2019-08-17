@@ -21,6 +21,8 @@ public class DevLevel extends Level{
     MatrixSerialization serialization;
     private boolean testMode = false;
     private boolean fallMode = false;
+    private int startColumn = 0;
+    private int startRow = 0;
     private LetterManager backgroundText;
 
     public DevLevel(GameStateManager gsm) {
@@ -81,7 +83,7 @@ public class DevLevel extends Level{
         if(testMode
         && (cursor.isOnType(LetterType.GRAY)
         || cursor.isOnType(LetterType.EMPATHY))){
-            cursor.getPosition().setAbsolutePosition(0, 0);
+            cursor.getPosition().setAbsolutePosition(startRow, startColumn);
 
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
@@ -107,18 +109,17 @@ public class DevLevel extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
             cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            int currColumn = cursor.getPosition().getCurrColumn();
+            int currRow = cursor.getPosition().getCurrRow();
+            cursor.getPosition().setAbsolutePosition(startRow, startColumn);
             serialization.saveAll();
-            return true;
-        }
-
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F3)){
-            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            cursor.getPosition().setAbsolutePosition(currRow, currColumn);
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
-            cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            startColumn = cursor.getPosition().getCurrColumn();
+            startRow = cursor.getPosition().getCurrRow();
             return true;
         }
 
@@ -129,6 +130,7 @@ public class DevLevel extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
             cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            cursor.getPosition().setAbsolutePosition(startRow, startColumn);
             serialization.saveAll();
             serialization.listFiles();
             return true;
