@@ -1,9 +1,9 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.VimObject.VimObject;
+import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.VimObject.VimObject;
 
 import java.util.HashMap;
 

@@ -1,7 +1,7 @@
-package com.kingofthevim.game.basicvim.VimObject;
+package com.kingofthevim.game.engine.VimObject;
 
 import com.badlogic.gdx.math.Vector2;
-import com.kingofthevim.game.basicvim.ChangedPosition;
+import com.kingofthevim.game.engine.ChangedPosition;
 
 import java.util.ArrayList;
 

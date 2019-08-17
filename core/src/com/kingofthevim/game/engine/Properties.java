@@ -1,6 +1,6 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.engine;
 
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
+import com.kingofthevim.game.engine.Matrix.LetterType;
 
 public class Properties {
 

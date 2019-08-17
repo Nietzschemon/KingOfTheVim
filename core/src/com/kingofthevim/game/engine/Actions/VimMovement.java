@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim.Actions;
+package com.kingofthevim.game.engine.Actions;
 
 public interface VimMovement {
 

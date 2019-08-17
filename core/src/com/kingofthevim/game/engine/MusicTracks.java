@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.engine;
 
 public enum MusicTracks {
     BUNNY("sound/music/laborintMusic/bunny.wav"),

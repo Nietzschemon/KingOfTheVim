@@ -1,8 +1,8 @@
-package com.kingofthevim.game.basicvim.Matrix;
+package com.kingofthevim.game.engine.Matrix;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.kingofthevim.game.basicvim.Properties;
+import com.kingofthevim.game.engine.Properties;
 
 import java.util.HashMap;
 import java.util.Map;

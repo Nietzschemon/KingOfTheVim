@@ -2,11 +2,11 @@ package com.kingofthevim.game.states.leveltypes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.MatrixSerialization;
-import com.kingofthevim.game.basicvim.MusicTracks;
-import com.kingofthevim.game.basicvim.ScoreSystem;
-import com.kingofthevim.game.basicvim.GameSound;
+import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.MatrixSerialization;
+import com.kingofthevim.game.engine.MusicTracks;
+import com.kingofthevim.game.engine.ScoreSystem;
+import com.kingofthevim.game.engine.GameSound;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Menu;
 

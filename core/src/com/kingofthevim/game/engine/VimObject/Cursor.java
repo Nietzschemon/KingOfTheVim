@@ -1,11 +1,11 @@
-package com.kingofthevim.game.basicvim.VimObject;
+package com.kingofthevim.game.engine.VimObject;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.kingofthevim.game.basicvim.*;
-import com.kingofthevim.game.basicvim.Actions.Input.InputManager;
-import com.kingofthevim.game.basicvim.Matrix.Cell;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.*;
+import com.kingofthevim.game.engine.Actions.Input.InputManager;
+import com.kingofthevim.game.engine.Matrix.Cell;
+import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
 
 import java.util.ArrayList;
 

@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.kingofthevim.game.basicvim.*;
-import com.kingofthevim.game.basicvim.Matrix.Cell;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.VimObject.Cursor;
+import com.kingofthevim.game.engine.*;
+import com.kingofthevim.game.engine.Matrix.Cell;
+import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.VimObject.Cursor;
 import com.kingofthevim.game.gametype.FallMechanic;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Menu;

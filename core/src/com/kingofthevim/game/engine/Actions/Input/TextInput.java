@@ -1,9 +1,9 @@
-package com.kingofthevim.game.basicvim.Actions.Input;
+package com.kingofthevim.game.engine.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.basicvim.VimObject.VimObject;
+import com.kingofthevim.game.engine.VimObject.VimObject;
 
 public class TextInput implements InputProcessor {
 

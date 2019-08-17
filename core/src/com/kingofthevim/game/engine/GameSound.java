@@ -1,13 +1,13 @@
 /*
 
  */
-package com.kingofthevim.game.basicvim;
+package com.kingofthevim.game.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.kingofthevim.game.basicvim.Matrix.LetterType;
-import com.kingofthevim.game.basicvim.VimObject.VimObject;
+import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.VimObject.VimObject;
 
 public class GameSound implements ChangedPosition {
 

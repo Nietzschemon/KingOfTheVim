@@ -1,4 +1,4 @@
-package com.kingofthevim.game.basicvim.VimObject;
+package com.kingofthevim.game.engine.VimObject;
 
 public class Size {
 

@@ -2,7 +2,7 @@
 //anno 2019-06-22
 //github RawNietzsche
 
-package com.kingofthevim.game.basicvim.Matrix;
+package com.kingofthevim.game.engine.Matrix;
 
 import java.util.*;
 

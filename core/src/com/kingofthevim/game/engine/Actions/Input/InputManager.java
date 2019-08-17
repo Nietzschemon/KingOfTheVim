@@ -1,19 +1,19 @@
-package com.kingofthevim.game.basicvim.Actions.Input;
+package com.kingofthevim.game.engine.Actions.Input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.kingofthevim.game.basicvim.Actions.VimMove;
-import com.kingofthevim.game.basicvim.Actions.VimMovement;
-import com.kingofthevim.game.basicvim.LevelEditor;
-import com.kingofthevim.game.basicvim.VimObject.Cursor;
+import com.kingofthevim.game.engine.Actions.VimMove;
+import com.kingofthevim.game.engine.Actions.VimMovement;
+import com.kingofthevim.game.engine.LevelEditor;
+import com.kingofthevim.game.engine.VimObject.Cursor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static com.kingofthevim.game.basicvim.Matrix.Tools.tryParseInt;
+import static com.kingofthevim.game.engine.Matrix.Tools.tryParseInt;
 
 public class InputManager implements InputProcessor {
 

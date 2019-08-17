@@ -1,7 +1,6 @@
-package com.kingofthevim.game.basicvim.Matrix;
+package com.kingofthevim.game.engine.Matrix;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public enum LetterType {
     BLACK("b"),
