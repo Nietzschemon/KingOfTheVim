@@ -3,7 +3,7 @@ package com.kingofthevim.game.gametype;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
-import com.kingofthevim.game.engine.vimobject.VimObject;
+import com.kingofthevim.game.engine.vim_object.VimObject;
 
 public class FallMechanic {
 

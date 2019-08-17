@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.vimobject;
+package com.kingofthevim.game.engine.vim_object;
 
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;

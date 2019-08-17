@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.vimobject;
+package com.kingofthevim.game.engine.vim_object;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;

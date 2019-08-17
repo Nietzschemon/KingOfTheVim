@@ -7,8 +7,8 @@ import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
-import com.kingofthevim.game.engine.vimobject.Cursor;
-import com.kingofthevim.game.engine.vimobject.VimObject;
+import com.kingofthevim.game.engine.vim_object.Cursor;
+import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -305,7 +305,7 @@ public class MatrixSerialization {
 
     /**
      * Loads level matrix into static grid of
-     * the constructor given vimobject
+     * the constructor given vim_object
      *
      * @param save to load from
      */
@@ -328,7 +328,7 @@ public class MatrixSerialization {
 
     /**
      * Loads level matrix into static grid of
-     * the given vimobject
+     * the given vim_object
      *
      * @param save to load from
      * @param matrix to load level into

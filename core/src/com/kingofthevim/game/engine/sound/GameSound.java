@@ -8,7 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.kingofthevim.game.engine.ChangedPosition;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.vimobject.VimObject;
+import com.kingofthevim.game.engine.vim_object.VimObject;
 
 public class GameSound implements ChangedPosition {
 
@@ -54,7 +54,7 @@ public class GameSound implements ChangedPosition {
         }
         /**
          * Handles the sounds the different letters make
-         * when a vimobject is over them
+         * when a vim_object is over them
          * @param vimObject the object that activates the sounds
          */
         private void letterSounds(VimObject vimObject){

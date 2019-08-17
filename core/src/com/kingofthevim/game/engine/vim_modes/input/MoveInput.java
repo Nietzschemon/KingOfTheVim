@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.engine.vim_modes.Movement;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
-import com.kingofthevim.game.engine.vimobject.Cursor;
+import com.kingofthevim.game.engine.vim_object.Cursor;
 
 public class MoveInput extends Movement implements InputProcessor, VimMovement {
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
 import com.kingofthevim.game.engine.LevelEditor;
-import com.kingofthevim.game.engine.vimobject.Cursor;
+import com.kingofthevim.game.engine.vim_object.Cursor;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

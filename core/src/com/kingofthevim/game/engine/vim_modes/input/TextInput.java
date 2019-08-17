@@ -3,7 +3,7 @@ package com.kingofthevim.game.engine.vim_modes.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.engine.vimobject.VimObject;
+import com.kingofthevim.game.engine.vim_object.VimObject;
 
 public class TextInput implements InputProcessor {
 

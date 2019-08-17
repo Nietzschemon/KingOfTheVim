@@ -3,7 +3,7 @@ package com.kingofthevim.game.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.vimobject.VimObject;
+import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.HashMap;
 
