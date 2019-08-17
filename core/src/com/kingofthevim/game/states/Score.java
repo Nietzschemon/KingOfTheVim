@@ -8,6 +8,8 @@ import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.Matrix.LetterType;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.ScoreSystem;
+import com.kingofthevim.game.states.leveltypes.DevLevel;
+import com.kingofthevim.game.states.leveltypes.Level;
 
 import java.util.ArrayList;
 import java.util.Collections;

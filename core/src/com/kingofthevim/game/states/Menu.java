@@ -8,10 +8,14 @@ import com.kingofthevim.game.basicvim.Matrix.Cell;
 import com.kingofthevim.game.basicvim.MatrixSerialization;
 import com.kingofthevim.game.basicvim.MusicTracks;
 import com.kingofthevim.game.basicvim.ScoreSystem;
+import com.kingofthevim.game.states.leveltypes.DevLevel;
+import com.kingofthevim.game.states.leveltypes.Labyrinth;
+import com.kingofthevim.game.states.leveltypes.Level;
+import com.kingofthevim.game.states.leveltypes.Tutorial;
 
 import java.util.ArrayList;
 
-public class Menu extends Level{
+public class Menu extends Level {
 
     public Menu(GameStateManager gsm) {
         super(gsm);
