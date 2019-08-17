@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.Matrix;
+package com.kingofthevim.game.engine.matrix;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;

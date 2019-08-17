@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.Matrix;
+package com.kingofthevim.game.engine.matrix;
 
 import java.util.ArrayList;
 

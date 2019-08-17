@@ -3,9 +3,9 @@ package com.kingofthevim.game.engine.VimObject;
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.Actions.Input.InputManager;
-import com.kingofthevim.game.engine.Matrix.Cell;
-import com.kingofthevim.game.engine.Matrix.LetterType;
-import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.Cell;
+import com.kingofthevim.game.engine.matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
 
 import java.util.ArrayList;
 

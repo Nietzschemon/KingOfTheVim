@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.engine.sound.GameSound;
-import com.kingofthevim.game.engine.Matrix.Cell;
+import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.MatrixSerialization;
 import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;

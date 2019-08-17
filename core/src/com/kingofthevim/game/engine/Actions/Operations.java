@@ -1,6 +1,6 @@
 package com.kingofthevim.game.engine.Actions;
 
-import com.kingofthevim.game.engine.Matrix.Cell;
+import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.VimObject.VimObject;
 
 import java.util.ArrayList;

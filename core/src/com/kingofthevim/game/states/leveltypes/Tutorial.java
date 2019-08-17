@@ -3,7 +3,7 @@ package com.kingofthevim.game.states.leveltypes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.engine.sound.GameSound;
-import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.MatrixSerialization;
 import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;

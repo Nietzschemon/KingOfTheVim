@@ -1,8 +1,8 @@
 package com.kingofthevim.game.gametype;
 
-import com.kingofthevim.game.engine.Matrix.Cell;
-import com.kingofthevim.game.engine.Matrix.LetterType;
-import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.Cell;
+import com.kingofthevim.game.engine.matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
 import com.kingofthevim.game.engine.VimObject.VimObject;
 
 public class FallMechanic {

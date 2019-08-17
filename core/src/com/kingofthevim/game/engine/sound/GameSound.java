@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.kingofthevim.game.engine.ChangedPosition;
-import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.VimObject.VimObject;
 
 public class GameSound implements ChangedPosition {

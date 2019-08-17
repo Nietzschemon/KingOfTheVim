@@ -13,7 +13,7 @@ import com.kingofthevim.game.engine.VimObject.Cursor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static com.kingofthevim.game.engine.Matrix.Tools.tryParseInt;
+import static com.kingofthevim.game.engine.matrix.Tools.tryParseInt;
 
 public class InputManager implements InputProcessor {
 

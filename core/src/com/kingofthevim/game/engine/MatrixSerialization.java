@@ -3,10 +3,10 @@ package com.kingofthevim.game.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.kingofthevim.game.engine.Matrix.Cell;
-import com.kingofthevim.game.engine.Matrix.LetterManager;
-import com.kingofthevim.game.engine.Matrix.LetterType;
-import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.Cell;
+import com.kingofthevim.game.engine.matrix.LetterManager;
+import com.kingofthevim.game.engine.matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
 import com.kingofthevim.game.engine.VimObject.Cursor;
 import com.kingofthevim.game.engine.VimObject.VimObject;
 

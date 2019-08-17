@@ -3,7 +3,7 @@ package com.kingofthevim.game.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.kingofthevim.game.engine.Matrix.LetterType;
+import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.VimObject.Cursor;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.kingofthevim.game.engine.Actions;
 
-import com.kingofthevim.game.engine.Matrix.VimWorldMatrix;
+import com.kingofthevim.game.engine.matrix.VimWorldMatrix;
 import com.kingofthevim.game.engine.VimObject.Position;
 import com.kingofthevim.game.engine.VimObject.VimObject;
 
