@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.vimmodes.Input;
+package com.kingofthevim.game.engine.vimmodes.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -71,7 +71,7 @@ public class InputManager implements InputProcessor {
                 return true;
 
                 /*
-            case Input.Keys.R:
+            case input.Keys.R:
                 if(oneBeforeLast() != 'r'){
                     textInput.operatorChar = 'r';
                     inputMultiplexer.removeProcessor(moveInput);
