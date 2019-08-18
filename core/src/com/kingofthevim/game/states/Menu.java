@@ -8,7 +8,7 @@ import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.MatrixSerialization;
 import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;
-import com.kingofthevim.game.states.leveltypes.DevLevel;
+import com.kingofthevim.game.states.leveltypes.LevelEditor;
 import com.kingofthevim.game.states.leveltypes.Labyrinth;
 import com.kingofthevim.game.states.leveltypes.Level;
 import com.kingofthevim.game.states.leveltypes.Tutorial;
@@ -43,7 +43,7 @@ public class Menu extends Level {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new DevLevel(gsm));
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new LevelEditor(gsm));
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             if(vimMatrix.isOnWord(cursor, "new game")){

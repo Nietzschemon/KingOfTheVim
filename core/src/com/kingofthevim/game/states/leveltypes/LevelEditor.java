@@ -15,7 +15,7 @@ import com.kingofthevim.game.states.Menu;
 
 import java.util.ArrayList;
 
-public class DevLevel extends Level{
+public class LevelEditor extends Level{
 
     FallMechanic fall;
     MatrixSerialization serialization;
@@ -25,7 +25,7 @@ public class DevLevel extends Level{
     private int startRow = 0;
     private LetterManager backgroundText;
 
-    public DevLevel(GameStateManager gsm) {
+    public LevelEditor(GameStateManager gsm) {
         super(gsm);
 
         backgroundText = new LetterManager(vimMatrix);

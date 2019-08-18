@@ -8,7 +8,7 @@ import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.MatrixSerialization;
 import com.kingofthevim.game.engine.ScoreSystem;
-import com.kingofthevim.game.states.leveltypes.DevLevel;
+import com.kingofthevim.game.states.leveltypes.LevelEditor;
 import com.kingofthevim.game.states.leveltypes.Level;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class Score extends Level {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new DevLevel(gsm));
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new LevelEditor(gsm));
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             /*
