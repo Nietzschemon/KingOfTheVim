@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class BuildMode implements InputProcessor {
 
     Cursor cursor;
-    LetterType letterType;
 
     public BuildMode(Cursor cursor){
         this.cursor = cursor;
