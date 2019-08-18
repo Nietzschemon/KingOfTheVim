@@ -24,8 +24,6 @@ public class InputManager implements InputProcessor {
     BuildMode buildMode;
     TextInput textInput;
 
-    private boolean builderActive = false;
-
     private LinkedList<Character> inputHistory;
 
     int iterationInt = 0;
