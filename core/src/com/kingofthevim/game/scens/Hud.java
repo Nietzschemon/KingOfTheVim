@@ -146,7 +146,7 @@ public class Hud {
     }
 
     public void addBackgroundGuide(int columns){
-        Texture texture = new Texture(Gdx.files.internal("PointBar.jpg"));
+        Texture texture = new Texture(Gdx.files.internal("gamedata/textures/PointBar.jpg"));
         texture.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
 
         TextureRegion textureRegion = new TextureRegion(texture);

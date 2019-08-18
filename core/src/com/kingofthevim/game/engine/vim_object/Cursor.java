@@ -44,7 +44,7 @@ public class Cursor implements VimObject {
 
         position = new Position(this, startRow, startRowCell, CellMatrix.getRowTotal(), CellMatrix.getColunmTotal());
 
-        texture = new Texture("cursors/cursor_44purple.png");
+        texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
 
 
         inputManager = new InputManager(this);
