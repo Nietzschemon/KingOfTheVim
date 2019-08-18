@@ -8,12 +8,12 @@ import com.kingofthevim.game.engine.vim_object.Cursor;
 
 import java.util.ArrayList;
 
-public class LevelEditor implements InputProcessor {
+public class BuildMode implements InputProcessor {
 
     Cursor cursor;
     LetterType letterType;
 
-    public LevelEditor(Cursor cursor){
+    public BuildMode(Cursor cursor){
         this.cursor = cursor;
     }
 

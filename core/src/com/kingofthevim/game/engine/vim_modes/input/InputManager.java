@@ -7,7 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
-import com.kingofthevim.game.engine.vim_modes.LevelEditor;
+import com.kingofthevim.game.engine.vim_modes.BuildMode;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class InputManager implements InputProcessor {
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
     MoveInput moveInput;
     DeleteModeInput deleteModeInput;
-    LevelEditor levelEditor;
+    BuildMode buildMode;
     TextInput textInput;
 
     private boolean builderActive = false;
@@ -42,7 +42,7 @@ public class InputManager implements InputProcessor {
         inputHistory = new LinkedList<>();
         moveInput = new MoveInput(cursor);
         deleteModeInput = new DeleteModeInput(cursor);
-        levelEditor = new LevelEditor(cursor);
+        buildMode = new BuildMode(cursor);
         textInput = new TextInput(cursor);
         vimMoveList = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class InputManager implements InputProcessor {
                 return true;
 
             case Input.Keys.TAB:
-                inputMultiplexer.addProcessor(0, levelEditor);
+                inputMultiplexer.addProcessor(0, buildMode);
                 return true;
 
                 /*
