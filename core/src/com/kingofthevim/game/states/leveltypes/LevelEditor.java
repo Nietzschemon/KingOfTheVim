@@ -160,6 +160,12 @@ public class LevelEditor extends Level{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)){
             fallMode = !fallMode;
+            if(fallMode){
+                cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+            }
+            else {
+                cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            }
             return true;
         }
 
