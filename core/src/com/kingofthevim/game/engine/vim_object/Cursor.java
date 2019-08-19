@@ -2,6 +2,7 @@ package com.kingofthevim.game.engine.vim_object;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
+import com.kingofthevim.game.engine.vim_modes.ReplaceModeListener;
 import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
@@ -9,7 +10,7 @@ import com.kingofthevim.game.engine.matrix.CellMatrix;
 
 import java.util.ArrayList;
 
-public class Cursor implements VimObject {
+public class Cursor implements VimObject, ReplaceModeListener {
 
 
     //<editor-fold desc="Fields">
@@ -178,6 +179,18 @@ public class Cursor implements VimObject {
 
     public void setScoreSystem(ScoreSystem scoreSystem) {
         this.scoreSystem = scoreSystem;
+    }
+
+    @Override
+    public void onReplaceModeEnter() {
+        texture.dispose();
+        texture = new Texture("gamedata/textures/cursors/cursor_44white.png");
+    }
+
+    @Override
+    public void onReplaceModeExit() {
+        texture.dispose();
+        texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
     }
     //</editor-fold desc="bla">
 }

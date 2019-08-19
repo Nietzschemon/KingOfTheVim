@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.kingofthevim.game.engine.vim_modes.ReplaceModeListener;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
 import com.kingofthevim.game.engine.vim_object.Cursor;
@@ -23,6 +24,7 @@ public class InputManager implements InputProcessor {
     DeleteModeInput deleteModeInput;
     BuildMode buildMode;
     TextInput textInput;
+    private ArrayList<ReplaceModeListener> replaceModeListeners = new ArrayList<>();
 
     private LinkedList<Character> inputHistory;
 
@@ -46,6 +48,7 @@ public class InputManager implements InputProcessor {
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(moveInput);
         Gdx.input.setInputProcessor(inputMultiplexer);
+        addListener(cursor);
     }
 
     @Override
@@ -115,6 +118,7 @@ public class InputManager implements InputProcessor {
                     inputMultiplexer.addProcessor(0, textInput);
                     inputMultiplexer.removeProcessor(moveInput);
                     textInput.hasExecuted = false;
+                    inReplaceModeChanged(true);
                     return true;
                 }
                 return false;
@@ -143,6 +147,7 @@ public class InputManager implements InputProcessor {
         if(textInput.hasExecuted){
             inputMultiplexer.removeProcessor(textInput);
             inputMultiplexer.addProcessor(1, moveInput);
+            inReplaceModeChanged(false);
         }
         return false;
     }
@@ -181,6 +186,7 @@ public class InputManager implements InputProcessor {
         inputMultiplexer.clear();
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(1, moveInput);
+        inReplaceModeChanged(false);
     }
 
     private void iterationSync(){
@@ -256,6 +262,31 @@ public class InputManager implements InputProcessor {
         iterationInt = 0;
         moveInput.iteration = 0;
         deleteModeInput.iteration = 0;
+    }
+
+
+    public void addListener(ReplaceModeListener listener){
+        replaceModeListeners.add(listener);
+    }
+
+    public void removeListener(ReplaceModeListener listener) {replaceModeListeners.remove(listener);}
+
+    /**
+     * Fires replaceMode enter- or exit-event depending
+     * on if modeActive is true or false
+     * @param modeActive controls which event is fired
+     */
+    private void inReplaceModeChanged(boolean modeActive){
+        if(modeActive){
+            for (ReplaceModeListener c : replaceModeListeners){
+                c.onReplaceModeEnter();
+            }
+        }
+        else {
+            for (ReplaceModeListener c : replaceModeListeners){
+                c.onReplaceModeExit();
+            }
+        }
     }
 
     @Override
