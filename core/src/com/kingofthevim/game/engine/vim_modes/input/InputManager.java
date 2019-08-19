@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.kingofthevim.game.engine.vim_modes.ReplaceModeListener;
+import com.kingofthevim.game.engine.vim_modes.listeners.ReplaceModeListener;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
 import com.kingofthevim.game.engine.vim_object.Cursor;

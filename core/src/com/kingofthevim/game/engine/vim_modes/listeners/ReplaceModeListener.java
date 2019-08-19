@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine.vim_modes;
+package com.kingofthevim.game.engine.vim_modes.listeners;
 
 /**
  * Listener for the replace-mode event
