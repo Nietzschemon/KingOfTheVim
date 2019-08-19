@@ -1,6 +1,7 @@
 package com.kingofthevim.game.engine.vim_object;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.vim_modes.listeners.ModeListener;
@@ -208,6 +209,26 @@ public class Cursor implements VimObject, ModeListener {
         texture.dispose();
         suspendVisual = false;
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
+    }
+
+    @Override
+    public void onDeleteModeEnter() {
+        texture.dispose();
+        suspendVisual = true;
+        this.getCurrentCell().setCellLookToDefault();
+        texture = new Texture("gamedata/textures/cursors/cursor_44purple_delete.png");
+        isInMode = true;
+    }
+
+    public boolean isInMode = false;
+
+    @Override
+    public void onDeleteModeExit() {
+        texture.dispose();
+        suspendVisual = false;
+        visualChanges();
+        texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
+        isInMode = false;
     }
     //</editor-fold desc="bla">
 }

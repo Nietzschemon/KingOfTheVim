@@ -88,9 +88,6 @@ public abstract class Level extends State {
 
         if(cursor.isOnType(LetterType.GRAY)
                 || cursor.isOnType(LetterType.EMPATHY)){
-            //cursor.dispose();
-            //cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
-            //cursor.doAfterPosiUpdate();
             cursor.getPosition().setAbsolutePosition(cursorStartRow, cursorStartColumn);
             Gdx.graphics.requestRendering();
         }else{
@@ -107,6 +104,9 @@ public abstract class Level extends State {
                             cell.getCartesianPosition().y);
                 }
             }
+        }
+        if(cursor.isInMode){
+            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
         }
 
         sb.end();

@@ -101,6 +101,11 @@ public class LevelEditor extends Level{
                 }
             }
         }
+
+        if(cursor.isInMode){
+            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
+        }
+
         sb.end();
 
     }

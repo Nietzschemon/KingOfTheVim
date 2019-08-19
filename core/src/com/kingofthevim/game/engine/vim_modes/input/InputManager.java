@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.kingofthevim.game.engine.vim_modes.listeners.DeleteModeListener;
 import com.kingofthevim.game.engine.vim_modes.listeners.InsertModeListener;
 import com.kingofthevim.game.engine.vim_modes.listeners.ModeListener;
 import com.kingofthevim.game.engine.vim_modes.listeners.ReplaceModeListener;
@@ -29,6 +30,7 @@ public class InputManager implements InputProcessor {
     InsertModeInput insertMode;
     private ArrayList<ReplaceModeListener> replaceModeListeners = new ArrayList<>();
     private ArrayList<InsertModeListener> insertModeListeners = new ArrayList<>();
+    private ArrayList<DeleteModeListener> deleteModeListeners = new ArrayList<>();
 
     private LinkedList<Character> inputHistory;
 
@@ -68,6 +70,7 @@ public class InputManager implements InputProcessor {
                 inputMultiplexer.addProcessor(1, deleteModeInput);
                 System.out.println("D pressed");
                 deleteModeInput.hasExectued = false;
+                inDeleteModeChanged(true);
                 return true;
 
             case Input.Keys.TAB:
@@ -154,6 +157,7 @@ public class InputManager implements InputProcessor {
         if(deleteModeInput.hasExectued){
             inputMultiplexer.removeProcessor(deleteModeInput);
             inputMultiplexer.addProcessor(1, moveInput);
+            inDeleteModeChanged(false);
         }
 
         if(textInput.hasExecuted){
@@ -200,6 +204,7 @@ public class InputManager implements InputProcessor {
         inputMultiplexer.addProcessor(1, moveInput);
         inReplaceModeChanged(false);
         inInsertModeChanged(false);
+        inDeleteModeChanged(false);
     }
 
     private void iterationSync(){
@@ -282,12 +287,14 @@ public class InputManager implements InputProcessor {
 
         insertModeListeners.add(listener);
         replaceModeListeners.add(listener);
+        deleteModeListeners.add(listener);
     }
 
 
     public void removeModeListener(ModeListener listener) {
         insertModeListeners.remove(listener);
         replaceModeListeners.remove(listener);
+        deleteModeListeners.remove(listener);
     }
 
     /**
@@ -326,6 +333,23 @@ public class InputManager implements InputProcessor {
         }
     }
 
+    /**
+     * Fires insert-mode enter- or exit-event depending
+     * on if modeActive is true or false
+     * @param modeActive controls which event is fired
+     */
+    private void inDeleteModeChanged(boolean modeActive){
+        if(modeActive){
+            for (DeleteModeListener d : deleteModeListeners){
+                d.onDeleteModeEnter();
+            }
+        }
+        else {
+            for (DeleteModeListener d : deleteModeListeners){
+                d.onDeleteModeExit();
+            }
+        }
+    }
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;

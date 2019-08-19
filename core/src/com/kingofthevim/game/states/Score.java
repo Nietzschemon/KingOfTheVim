@@ -88,6 +88,7 @@ public class Score extends Level {
 
     @Override
     public void render(SpriteBatch sb) {
+        super.render(sb);
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
@@ -95,16 +96,6 @@ public class Score extends Level {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5))gsm.push(new LevelEditor(gsm));
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            /*
-            if(vimMatrix.isOnWord(cursor, "new game")){
-
-                GameSound.scratch1.play();
-                gsm.push(new Labyrinth(gsm));
-                dispose();
-            }
-
-             */
-
 
             if(vimMatrix.isOnWord(cursor, "Back")){
 
@@ -114,22 +105,6 @@ public class Score extends Level {
             }
         }
 
-
-        else{
-            sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);
-        }
-
-        for(ArrayList<Cell> cellRow : vimMatrix.getCellMatrix()){
-
-            for(Cell cell : cellRow){
-
-                if(cell.getCellLook() != null){
-                    sb.draw(cell.getCellLook(),
-                            cell.getCartesianPosition().x,
-                            cell.getCartesianPosition().y);
-                }
-            }
-        }
         sb.end();
     }
 
