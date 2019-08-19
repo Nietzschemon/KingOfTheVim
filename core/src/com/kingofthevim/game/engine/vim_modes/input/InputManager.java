@@ -24,6 +24,7 @@ public class InputManager implements InputProcessor {
     DeleteModeInput deleteModeInput;
     BuildMode buildMode;
     TextInput textInput;
+    InsertModeInput insertMode;
     private ArrayList<ReplaceModeListener> replaceModeListeners = new ArrayList<>();
 
     private LinkedList<Character> inputHistory;
@@ -43,6 +44,7 @@ public class InputManager implements InputProcessor {
         deleteModeInput = new DeleteModeInput(cursor);
         buildMode = new BuildMode(cursor);
         textInput = new TextInput(cursor);
+        insertMode = new InsertModeInput(cursor);
         vimMoveList = new ArrayList<>();
 
         inputMultiplexer.addProcessor(this);
@@ -123,6 +125,12 @@ public class InputManager implements InputProcessor {
                 }
                 return false;
 
+
+            case Input.Keys.I:
+                inputMultiplexer.addProcessor(0, insertMode);
+                insertMode.muteInput = true;
+                return true;
+
             case Input.Keys.ESCAPE:
                 resetIteration();
                 resetInputProcessors();
@@ -156,6 +164,9 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         if(addToHistory) inputHistory.add(character);
+        if('i' == character){
+            return true;
+        }
 
         return false;
     }
