@@ -60,7 +60,6 @@ public class InputManager implements InputProcessor {
                 inputMultiplexer.addProcessor(1, deleteModeInput);
                 System.out.println("D pressed");
                 deleteModeInput.hasExectued = false;
-                //deleteModeInput.vimMove.operator = 'd';
                 return true;
 
             case Input.Keys.TAB:
@@ -131,6 +130,42 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
+
+    @Override
+    public boolean keyUp(int keycode) {
+        addToHistory = false;
+
+        if(deleteModeInput.hasExectued){
+            inputMultiplexer.removeProcessor(deleteModeInput);
+            inputMultiplexer.addProcessor(1, moveInput);
+        }
+
+        if(textInput.hasExecuted){
+            inputMultiplexer.removeProcessor(textInput);
+            inputMultiplexer.addProcessor(1, moveInput);
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean keyTyped(char character) {
+        if(addToHistory) inputHistory.add(character);
+
+        return false;
+    }
+
+
+    /**
+     * adds a legit VimMove to history
+     */
+    private void addVimMove(VimMovement vimMove){
+
+        if(vimMove.hasMove()){
+            vimMoveList.add(vimMove.getResetVimMove());
+        }
+    }
+
     private boolean checkIfNormalMode(){
         SnapshotArray<InputProcessor> processors = inputMultiplexer.getProcessors();
 
@@ -150,8 +185,8 @@ public class InputManager implements InputProcessor {
 
     private void iterationSync(){
         if(deleteModeInput.hasExectued
-        || moveInput.hasExectued
-        || textInput.hasExecuted){
+                || moveInput.hasExectued
+                || textInput.hasExecuted){
 
             addVimMove(moveInput);
             addVimMove(deleteModeInput);
@@ -222,42 +257,6 @@ public class InputManager implements InputProcessor {
         moveInput.iteration = 0;
         deleteModeInput.iteration = 0;
     }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        addToHistory = false;
-
-        if(deleteModeInput.hasExectued){
-            inputMultiplexer.removeProcessor(deleteModeInput);
-            inputMultiplexer.addProcessor(1, moveInput);
-        }
-
-        if(textInput.hasExecuted){
-            inputMultiplexer.removeProcessor(textInput);
-            inputMultiplexer.addProcessor(1, moveInput);
-        }
-        return false;
-    }
-
-
-    @Override
-    public boolean keyTyped(char character) {
-        if(addToHistory) inputHistory.add(character);
-
-        return false;
-    }
-
-
-    /**
-     * adds a legit VimMove to history
-     */
-    private void addVimMove(VimMovement vimMove){
-
-        if(vimMove.hasMove()){
-            vimMoveList.add(vimMove.getResetVimMove());
-        }
-    }
-
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
