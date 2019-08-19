@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.kingofthevim.game.engine.vim_modes.listeners.InsertModeListener;
+import com.kingofthevim.game.engine.vim_modes.listeners.ModeListener;
 import com.kingofthevim.game.engine.vim_modes.listeners.ReplaceModeListener;
 import com.kingofthevim.game.engine.vim_modes.VimMove;
 import com.kingofthevim.game.engine.vim_modes.VimMovement;
@@ -26,6 +28,7 @@ public class InputManager implements InputProcessor {
     TextInput textInput;
     InsertModeInput insertMode;
     private ArrayList<ReplaceModeListener> replaceModeListeners = new ArrayList<>();
+    private ArrayList<InsertModeListener> insertModeListeners = new ArrayList<>();
 
     private LinkedList<Character> inputHistory;
 
@@ -50,7 +53,7 @@ public class InputManager implements InputProcessor {
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(moveInput);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        addListener(cursor);
+        addModeListener(cursor);
     }
 
     @Override
@@ -129,6 +132,7 @@ public class InputManager implements InputProcessor {
             case Input.Keys.I:
                 inputMultiplexer.addProcessor(0, insertMode);
                 insertMode.muteInput = true;
+                inInsertModeChanged(true);
                 return true;
 
             case Input.Keys.ESCAPE:
@@ -164,9 +168,6 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         if(addToHistory) inputHistory.add(character);
-        if('i' == character){
-            return true;
-        }
 
         return false;
     }
@@ -198,6 +199,7 @@ public class InputManager implements InputProcessor {
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(1, moveInput);
         inReplaceModeChanged(false);
+        inInsertModeChanged(false);
     }
 
     private void iterationSync(){
@@ -276,11 +278,17 @@ public class InputManager implements InputProcessor {
     }
 
 
-    public void addListener(ReplaceModeListener listener){
+    public void addModeListener(ModeListener listener){
+
+        insertModeListeners.add(listener);
         replaceModeListeners.add(listener);
     }
 
-    public void removeListener(ReplaceModeListener listener) {replaceModeListeners.remove(listener);}
+
+    public void removeModeListener(ModeListener listener) {
+        insertModeListeners.remove(listener);
+        replaceModeListeners.remove(listener);
+    }
 
     /**
      * Fires replaceMode enter- or exit-event depending
@@ -296,6 +304,24 @@ public class InputManager implements InputProcessor {
         else {
             for (ReplaceModeListener c : replaceModeListeners){
                 c.onReplaceModeExit();
+            }
+        }
+    }
+
+    /**
+     * Fires insert-mode enter- or exit-event depending
+     * on if modeActive is true or false
+     * @param modeActive controls which event is fired
+     */
+    private void inInsertModeChanged(boolean modeActive){
+        if(modeActive){
+            for (InsertModeListener i : insertModeListeners){
+                i.onInsertModeEnter();
+            }
+        }
+        else {
+            for (InsertModeListener i : insertModeListeners){
+                i.onInsertModeExit();
             }
         }
     }

@@ -1,8 +1,9 @@
 package com.kingofthevim.game.engine.vim_object;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
-import com.kingofthevim.game.engine.vim_modes.listeners.ReplaceModeListener;
+import com.kingofthevim.game.engine.vim_modes.listeners.ModeListener;
 import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterType;
@@ -10,7 +11,7 @@ import com.kingofthevim.game.engine.matrix.CellMatrix;
 
 import java.util.ArrayList;
 
-public class Cursor implements VimObject, ReplaceModeListener {
+public class Cursor implements VimObject, ModeListener {
 
 
     //<editor-fold desc="Fields">
@@ -29,6 +30,7 @@ public class Cursor implements VimObject, ReplaceModeListener {
     private InputManager inputManager;
 
     private ScoreSystem scoreSystem;
+    private boolean suspendVisual = false;
 
     //private GameSound gameSound;
     //</editor-fold desc="Fields">
@@ -87,7 +89,7 @@ public class Cursor implements VimObject, ReplaceModeListener {
 
     @Override
     public void doAfterPosiUpdate(){
-        visualChanges();
+        if(! suspendVisual)visualChanges();
         if(scoreSystem != null) scoreSystem.onMove(this);
     }
 
@@ -190,6 +192,21 @@ public class Cursor implements VimObject, ReplaceModeListener {
     @Override
     public void onReplaceModeExit() {
         texture.dispose();
+        texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
+    }
+
+    @Override
+    public void onInsertModeEnter() {
+        texture.dispose();
+        suspendVisual = true;
+        this.getCurrentCell().setCellLookToDefault();
+        texture = new Texture("gamedata/textures/cursors/cursor_44green_insert.png");
+    }
+
+    @Override
+    public void onInsertModeExit() {
+        texture.dispose();
+        suspendVisual = false;
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
     }
     //</editor-fold desc="bla">
