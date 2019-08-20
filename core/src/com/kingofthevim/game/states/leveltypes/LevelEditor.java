@@ -147,17 +147,20 @@ public class LevelEditor extends Level{
         if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
             serialization.loadPreviousFile();
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            setCurrPosAsStartPos();
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
             serialization.loadNextFile();
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+            setCurrPosAsStartPos();
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
             serialization.loadAll();
+            setCurrPosAsStartPos();
             return true;
         }
 
@@ -185,6 +188,15 @@ public class LevelEditor extends Level{
         }
 
         return false;
+    }
+
+    /**
+     * Mainly used when loading levels to set
+     * starting position from save
+     */
+    private void setCurrPosAsStartPos(){
+        startColumn = cursor.getPosition().getCurrColumn();
+        startRow = cursor.getPosition().getCurrRow();
     }
 
     @Override
