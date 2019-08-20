@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
-public class TextInput implements InputProcessor {
+public class ReplaceModeInput implements InputProcessor {
 
     VimObject vimObject;
     char operatorChar;
@@ -14,7 +14,7 @@ public class TextInput implements InputProcessor {
     String keyString;
     boolean shiftHeld = false;
 
-    public TextInput(VimObject vimObject){
+    public ReplaceModeInput(VimObject vimObject){
         this.vimObject = vimObject;
     }
 

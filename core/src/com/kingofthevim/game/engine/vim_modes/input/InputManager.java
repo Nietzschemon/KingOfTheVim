@@ -26,7 +26,7 @@ public class InputManager implements InputProcessor {
     MoveInput moveInput;
     DeleteModeInput deleteModeInput;
     BuildMode buildMode;
-    TextInput textInput;
+    ReplaceModeInput replaceModeInput;
     InsertModeInput insertMode;
     private ArrayList<ReplaceModeListener> replaceModeListeners = new ArrayList<>();
     private ArrayList<InsertModeListener> insertModeListeners = new ArrayList<>();
@@ -48,7 +48,7 @@ public class InputManager implements InputProcessor {
         moveInput = new MoveInput(cursor);
         deleteModeInput = new DeleteModeInput(cursor);
         buildMode = new BuildMode(cursor);
-        textInput = new TextInput(cursor);
+        replaceModeInput = new ReplaceModeInput(cursor);
         insertMode = new InsertModeInput(cursor);
         vimMoveList = new ArrayList<>();
 
@@ -80,11 +80,11 @@ public class InputManager implements InputProcessor {
                 /*
             case input.Keys.R:
                 if(oneBeforeLast() != 'r'){
-                    textInput.operatorChar = 'r';
+                    replaceModeInput.operatorChar = 'r';
                     inputMultiplexer.removeProcessor(moveInput);
-                    inputMultiplexer.addProcessor(1, textInput);
+                    inputMultiplexer.addProcessor(1, replaceModeInput);
                     System.out.println("R pressed");
-                    textInput.hasExecuted = false;
+                    replaceModeInput.hasExecuted = false;
                 }
                 return true;
 
@@ -123,9 +123,9 @@ public class InputManager implements InputProcessor {
             case Input.Keys.R:
                 if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
                 && checkIfNormalMode()){
-                    inputMultiplexer.addProcessor(0, textInput);
+                    inputMultiplexer.addProcessor(0, replaceModeInput);
                     inputMultiplexer.removeProcessor(moveInput);
-                    textInput.hasExecuted = false;
+                    replaceModeInput.hasExecuted = false;
                     inReplaceModeChanged(true);
                     return true;
                 }
@@ -160,8 +160,8 @@ public class InputManager implements InputProcessor {
             inDeleteModeChanged(false);
         }
 
-        if(textInput.hasExecuted){
-            inputMultiplexer.removeProcessor(textInput);
+        if(replaceModeInput.hasExecuted){
+            inputMultiplexer.removeProcessor(replaceModeInput);
             inputMultiplexer.addProcessor(1, moveInput);
             inReplaceModeChanged(false);
         }
@@ -210,7 +210,7 @@ public class InputManager implements InputProcessor {
     private void iterationSync(){
         if(deleteModeInput.hasExectued
                 || moveInput.hasExectued
-                || textInput.hasExecuted){
+                || replaceModeInput.hasExecuted){
 
             addVimMove(moveInput);
             addVimMove(deleteModeInput);
@@ -222,7 +222,7 @@ public class InputManager implements InputProcessor {
             iterationString = "0";
             deleteModeInput.hasExectued = false;
             moveInput.hasExectued = false;
-            textInput.hasExecuted = false;
+            replaceModeInput.hasExecuted = false;
 
         }
 
