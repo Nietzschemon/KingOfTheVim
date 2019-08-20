@@ -127,6 +127,7 @@ public class InputManager implements InputProcessor {
                     inputMultiplexer.removeProcessor(moveInput);
                     replaceModeInput.hasExecuted = false;
                     inReplaceModeChanged(true);
+                    replaceModeInput.muteInput = true;
                     return true;
                 }
                 return false;

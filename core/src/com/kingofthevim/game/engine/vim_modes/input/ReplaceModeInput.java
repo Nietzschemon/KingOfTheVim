@@ -1,18 +1,19 @@
 package com.kingofthevim.game.engine.vim_modes.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.kingofthevim.game.engine.vim_modes.ReplaceMode;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
-public class ReplaceModeInput implements InputProcessor {
+/**
+ * InputProcessor for ReplaceMode class
+ */
+public class ReplaceModeInput extends ReplaceMode implements InputProcessor {
 
     VimObject vimObject;
     char operatorChar;
     boolean hasExecuted = false;
-    char currChar;
-    String keyString;
-    boolean shiftHeld = false;
+    boolean muteInput;
 
     public ReplaceModeInput(VimObject vimObject){
         this.vimObject = vimObject;
@@ -21,10 +22,7 @@ public class ReplaceModeInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        shiftHeld = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-        keyString = Input.Keys.toString(keycode);
-
-        return writeLetter(keycode);
+        return Input.Keys.ESCAPE != keycode;
 
     }
 
@@ -36,42 +34,13 @@ public class ReplaceModeInput implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
 
-        if(character == operatorChar){
-            operatorChar = 'ł';
-            return false;
-        }
+        if(!muteInput) replaceChar(vimObject, character);
 
-        //changeLetter(character);
+        muteInput = false;
 
-        return false;
+        return true;
     }
 
-    private void changeLetter(char character){
-        if(character > 32 && character < 126){
-            vimObject.getCurrentCell().setCellLook(character);
-            hasExecuted = true;
-        }
-    }
-
-    private boolean writeLetter(int keycode){
-        if(keyString.length() < 2) {
-
-            if(! shiftHeld) keyString = keyString.toLowerCase();
-
-            char key = keyString.charAt(0);
-            vimObject.getCurrentCell().setCellLook(key);
-            vimObject.getPosition().setRelativeColumn(1);
-            return true;
-        }
-
-        if(Input.Keys.SPACE == keycode){
-            vimObject.getCurrentCell().clearCell();
-            vimObject.getPosition().setRelativeColumn(1);
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
