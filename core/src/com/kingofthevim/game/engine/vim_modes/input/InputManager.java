@@ -77,19 +77,6 @@ public class InputManager implements InputProcessor {
                 inputMultiplexer.addProcessor(0, buildMode);
                 return true;
 
-                /*
-            case input.Keys.R:
-                if(oneBeforeLast() != 'r'){
-                    replaceModeInput.operatorChar = 'r';
-                    inputMultiplexer.removeProcessor(moveInput);
-                    inputMultiplexer.addProcessor(1, replaceModeInput);
-                    System.out.println("R pressed");
-                    replaceModeInput.hasExecuted = false;
-                }
-                return true;
-
-                 */
-
             case Input.Keys.NUM_1:
                 return integerMaker('1');
 
@@ -121,13 +108,20 @@ public class InputManager implements InputProcessor {
                 return integerMaker('0');
 
             case Input.Keys.R:
-                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
-                && checkIfNormalMode()){
+                if(checkIfNormalMode()){
                     inputMultiplexer.addProcessor(0, replaceModeInput);
                     inputMultiplexer.removeProcessor(moveInput);
                     replaceModeInput.hasExecuted = false;
                     inReplaceModeChanged(true);
                     replaceModeInput.muteInput = true;
+
+                    if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                        replaceModeInput.operatorChar = 'R';
+                    }
+                    else {
+                        replaceModeInput.operatorChar = 'r';
+                    }
+
                     return true;
                 }
                 return false;

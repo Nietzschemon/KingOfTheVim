@@ -14,17 +14,17 @@ public class ReplaceMode {
      * @param character to replace cell-character with
      * @return true if successful
      */
-    public boolean replaceChar(VimObject vimObject, char character){
+    public boolean replaceChar(VimObject vimObject, char character, boolean moveForward){
         if(Tools.isLetterNumberSymbol(character)) {
 
             vimObject.getCurrentCell().setCellLook(character);
-            vimObject.getPosition().setRelativeColumn(1);
+            if(moveForward)vimObject.getPosition().setRelativeColumn(1);
             return true;
         }
 
         if(character == ' '){
             vimObject.getCurrentCell().clearCell();
-            vimObject.getPosition().setRelativeColumn(1);
+            if(moveForward)vimObject.getPosition().setRelativeColumn(1);
             return true;
         }
 

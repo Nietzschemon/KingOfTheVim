@@ -11,7 +11,7 @@ import com.kingofthevim.game.engine.vim_object.VimObject;
 public class ReplaceModeInput extends ReplaceMode implements InputProcessor {
 
     VimObject vimObject;
-    char operatorChar;
+    char operatorChar = '\b';
     boolean hasExecuted = false;
     boolean muteInput;
 
@@ -34,7 +34,17 @@ public class ReplaceModeInput extends ReplaceMode implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
 
-        if(!muteInput) replaceChar(vimObject, character);
+        if(!muteInput){
+            if(operatorChar == 'r'){
+                replaceChar(vimObject, character, false);
+                hasExecuted = true;
+            }
+            else {
+                replaceChar(vimObject, character, true);
+            }
+
+            return true;
+        }
 
         muteInput = false;
 
