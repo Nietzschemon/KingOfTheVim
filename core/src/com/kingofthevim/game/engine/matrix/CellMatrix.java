@@ -271,6 +271,14 @@ public class CellMatrix {
         }
     }
 
+    public void clearAllCells(){
+        for (ArrayList<Cell> arrayList : cellMatrix){
+            for(Cell cell : arrayList){
+                cell.clearCell();
+            }
+        }
+    }
+
 
     public class WordPosition{
 
