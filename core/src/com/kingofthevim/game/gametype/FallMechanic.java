@@ -18,6 +18,16 @@ public class FallMechanic {
         currColumn = vimObject.getPosition().getCurrColumn();
     }
 
+    /**
+     * Overloaded constructor to set standardGround directly
+     * @param vimObject to apply fall-mechanic to
+     * @param stdGround array of LetterTypes that is ground
+     */
+    public FallMechanic(VimObject vimObject, LetterType[] stdGround){
+        this(vimObject);
+        this.stdGround = stdGround;
+    }
+
     private void updatePosition(){
         currRow = vimObject.getPosition().getCurrRow();
         currColumn = vimObject.getPosition().getCurrColumn();
@@ -137,6 +147,16 @@ public class FallMechanic {
             return true;
         }
         return false;
+    }
+
+
+    public void setStdGround(LetterType[] stdGround) {
+        this.stdGround = stdGround;
+    }
+
+
+    public LetterType[] getStdGround() {
+        return stdGround;
     }
 
 }
