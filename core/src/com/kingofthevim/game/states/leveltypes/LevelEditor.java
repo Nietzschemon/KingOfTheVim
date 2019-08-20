@@ -79,6 +79,9 @@ public class LevelEditor extends Level{
             if(! fall.onGround()){
                 fall.fall();
             }
+            if(cursor.isOnType(LetterType.GRAY)){
+                cursor.getPosition().setAbsolutePosition(startRow, startColumn);
+            }
         }
         if(testMode
         && (cursor.isOnType(LetterType.GRAY)

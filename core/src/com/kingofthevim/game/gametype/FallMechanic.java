@@ -7,9 +7,10 @@ import com.kingofthevim.game.engine.vim_object.VimObject;
 
 public class FallMechanic {
 
-    VimObject vimObject;
-    int currRow;
-    int currColumn;
+    private VimObject vimObject;
+    private int currRow;
+    private int currColumn;
+    private LetterType[] stdGround = {LetterType.WHITE, LetterType.RED, LetterType.YELLOW};
 
     public FallMechanic(VimObject vimObject){
         this.vimObject = vimObject;
@@ -30,7 +31,7 @@ public class FallMechanic {
      * @return true if on ground
      */
     public boolean onGround(){
-        return onGround(LetterType.WHITE);
+        return onGround(stdGround);
     }
 
 
@@ -104,7 +105,7 @@ public class FallMechanic {
 
                 if(changeCells)matrix.getCell(currRow + i - 1, currColumn).setCellLookTemp(changeTo);
 
-                if(cell.getLetterType() == LetterType.WHITE){
+                if(isGround(cell.getLetterType())){
                     vimObject.getPosition().setAbsoluteRow(currRow + i);
                     return true;
                 }
@@ -112,6 +113,13 @@ public class FallMechanic {
             vimObject.getPosition().setAbsoluteRow(CellMatrix.getRowTotal() - 1);
         }
 
+        return false;
+    }
+
+    private boolean isGround(LetterType letterType){
+        for (LetterType l : stdGround){
+            if(letterType == l)return true;
+        }
         return false;
     }
 
