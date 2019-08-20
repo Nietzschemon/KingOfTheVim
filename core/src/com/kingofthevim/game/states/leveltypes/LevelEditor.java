@@ -2,6 +2,7 @@ package com.kingofthevim.game.states.leveltypes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.kingofthevim.game.engine.*;
@@ -24,6 +25,8 @@ public class LevelEditor extends Level{
     private int startColumn = 0;
     private int startRow = 0;
     private LetterManager backgroundText;
+    private FileHandle[] texts;
+    private int fileIndex = 0;
 
     public LevelEditor(GameStateManager gsm) {
         super(gsm);
@@ -35,13 +38,13 @@ public class LevelEditor extends Level{
         pointsSys = new ScoreSystem();
 
 
-        prose();
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         fall = new FallMechanic(cursor);
 
         gameSound.stopMusic();
         serialization = new MatrixSerialization(cursor);
-        //vimWordObjectCourse();
+
+        texts = Gdx.files.internal("gamedata/texts").list();
     }
 
     @Override
@@ -112,6 +115,12 @@ public class LevelEditor extends Level{
         sb.end();
 
     }
+    private String nextText(){
+        if(texts.length <= fileIndex) fileIndex = 0;
+        String text = texts[fileIndex].readString();
+        fileIndex++;
+        return text;
+    }
 
     private boolean functionKeys(){
 
@@ -125,6 +134,10 @@ public class LevelEditor extends Level{
             return true;
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F3)){
+            prose();
+            return true;
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
             startColumn = cursor.getPosition().getCurrColumn();
             startRow = cursor.getPosition().getCurrRow();
@@ -229,23 +242,8 @@ public class LevelEditor extends Level{
 
         ArrayList<String> conversionArray;
 
-        conversionArray = backgroundText.makeStringArray(
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" +
-                        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                false
-        );
+        conversionArray = backgroundText.makeStringArray(nextText(), false);
+        vimMatrix.clearAllCells();
 
         /*
         conversionArray = backgroundText.makeStringArray("One morning, when Stefan Ekblom woke from troubled dreams, he found " +
@@ -279,37 +277,6 @@ public class LevelEditor extends Level{
 
          */
 
-        /*
-        conversionArray = backgroundText.makeStringArray("One morning, when Gregor Samsa woke from troubled dreams, he found " +
-                "himself transformed in his bed into a horrible vermin.  He lay on " +
-                "his armour-like back, and if he lifted his head a little he could " +
-                "see his brown belly, slightly domed and divided by arches into stiff " +
-                "sections.  The bedding was hardly able to cover it and seemed ready " +
-                "to slide off any moment.  His many legs, pitifully thin compared " +
-                "with the size of the rest of him, waved about helplessly as he " +
-                "looked. " +
-                "\"What's happened to me?\" he thought.  It wasn't a dream.  His room, " +
-                "a proper human room although a little too small, lay peacefully " +
-                "between its four familiar walls.  A collection of textile samples " +
-                "lay spread out on the table - Samsa was a travelling salesman - and " +
-                "above it there hung a picture that he had recently cut out of an " +
-                "illustrated magazine and housed in a nice, gilded frame.  It showed " +
-                "a lady fitted out with a fur hat and fur boa who sat upright, " +
-                "raising a heavy fur muff that covered the whole of her lower arm " +
-                "towards the viewer.  " +
-                "Gregor then turned to look out the window at the dull weather. " +
-                "Drops of rain could be heard hitting the pane, which made him feel " +
-                "quite sad. \"How about if I sleep a little bit longer and forget all " +
-                "this nonsense\", he thought, but that was something he was unable to " +
-                "do because he was used to sleeping on his right, and in his present " +
-                "state couldn't get into that position.  However hard he threw " +
-                "himself onto his right, he always rolled back to where he was.  He " +
-                "must have tried it a hundred times, shut his eyes so that he " +
-                "wouldn't have to look at the floundering legs, and only stopped when " +
-                "he began to feel a mild, dull pain there that he had never felt " +
-                "before.", false);
-
-         */
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, LetterType.GRAY);
     }
 }
