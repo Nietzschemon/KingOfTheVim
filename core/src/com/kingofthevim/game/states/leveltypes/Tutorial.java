@@ -21,13 +21,18 @@ public class Tutorial extends Level {
         super(gsm);
 
         levels = new Stack<>();
-        levels.add("levels/tutorial/Tutorial_3");
-        levels.add("levels/tutorial/Tutorial_2");
+        //levels.add("levels/tutorial/Tutorial_4.1.json");
+        levels.add("levels/tutorial/Tutorial_3.1.json");
+        levels.add("levels/tutorial/Tutorial_2.4.json");
+        levels.add("levels/tutorial/Tutorial_2.3.json");
+        levels.add("levels/tutorial/Tutorial_2.2.json");
+        levels.add("levels/tutorial/Tutorial_2.1.json");
+        levels.add("levels/tutorial/Tutorial_1.2.json");
 
-        pointsSys = new ScoreSystem("levels/tutorial/Tutorial_1");
+        pointsSys = new ScoreSystem("levels/tutorial/Tutorial_1.1.json");
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("levels/tutorial/Tutorial_1", vimMatrix);
+        cursor = serial.loadLevel("levels/tutorial/Tutorial_1.1.json", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
@@ -65,7 +70,7 @@ public class Tutorial extends Level {
 
                 cursor = serial.loadLevel(load, vimMatrix);
                 cursor.setScoreSystem(pointsSys);
-                //pointsSys.newLevel(load);
+                pointsSys.newLevel(load);
                 cursorStartColumn = cursor.getPosition().getCurrColumn();
                 cursorStartRow = cursor.getPosition().getCurrRow();
 
