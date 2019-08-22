@@ -253,6 +253,7 @@ public class MatrixSerialization {
         Save save = loadSave(filePath);
         loadObject(save);
         loadMatrix(save);
+        Gdx.graphics.setTitle("King of the Vim: " + filePath);
     }
 
     private void getFiles(){
