@@ -45,6 +45,7 @@ public class LevelEditor extends Level{
         serialization = new MatrixSerialization(cursor);
 
         texts = Gdx.files.internal("gamedata/texts").list();
+        vimMatrix.changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
     }
 
     @Override
