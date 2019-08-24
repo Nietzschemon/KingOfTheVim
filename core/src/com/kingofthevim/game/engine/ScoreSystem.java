@@ -11,9 +11,8 @@ import java.util.HashMap;
 //TODO mark used up yellow letter with colorShift
 public class ScoreSystem {
 
+    private String levelName;
     private int points = 10000;
-
-
     private int maxMoves = 0;
     private int actualMoves = 0;
     private int redPoints = -100;
@@ -22,14 +21,11 @@ public class ScoreSystem {
     private long maxTime = 0;
     private int yellowMultiplier = 1;
     private int redMultiplier = 1;
-    private HashMap<String, HashMap<String, Integer>> pointHistory;
-    private String levelName;
 
     private Timer timer;
 
     public ScoreSystem(){
         timer = new Timer();
-        pointHistory = new HashMap<>();
         timer.start();
     }
 
@@ -98,18 +94,11 @@ public class ScoreSystem {
         timer.start();
     }
 
-    private void storePreviousData(){
-        HashMap<String, Integer> data = new HashMap<>();
-
-        data.put("points", points);
-        data.put("actualMoves", actualMoves);
-        data.put("maxMoves", maxMoves);
-        pointHistory.put(levelName, data);
-        timer.stop();
-    }
-
     public void newLevel(String levelName){
-        storePreviousData();
+        timer.stop();
+        ScoreSerialization scoreSeri = new ScoreSerialization();
+        scoreSeri.saveScore(this.levelName, points, actualMoves, timer);
+
         resetAllButPoints();
         this.levelName = levelName;
     }
@@ -120,11 +109,6 @@ public class ScoreSystem {
 
     public int getActualMoves() {
         return actualMoves;
-    }
-
-
-    public HashMap<String, HashMap<String, Integer>> getPointHistory() {
-        return pointHistory;
     }
 
 }
