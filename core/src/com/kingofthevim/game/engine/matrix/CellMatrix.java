@@ -101,7 +101,7 @@ public class CellMatrix {
 
                 cellMatrix.get(i).add(new Cell(j * width, i * height, i, j));
 
-                System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
+                //System.out.println("cellX: " + (j * width) + " cellY: " + (i * height));
             }
         }
 

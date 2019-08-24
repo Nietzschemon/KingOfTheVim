@@ -52,7 +52,7 @@ public class LetterManager {
         for(int i = 0; i <= iterations; i++) {
             char charKey = string.charAt(charNum);
 
-            System.out.println("row: " + (startRow + i) + "  - startcell " + startColumn);
+            //System.out.println("row: " + (startRow + i) + "  - startcell " + startColumn);
 
             //TODO make so that letters of the same type are NEVER overwritten
             if((cellMatrix.get(startRow + i).get(startColumn).getCellLook() != null
@@ -98,7 +98,7 @@ public class LetterManager {
             char charKey = string.charAt(charNum);
 
             //overwrite existing cell
-            System.out.println("row: " + startRow + "  - startcell " + (startColumn + i));
+            //System.out.println("row: " + startRow + "  - startcell " + (startColumn + i));
 
             if((cellMatrix.get(startRow).get(startColumn + i).getCellLook() != null
             && ! overwriteExisting)
