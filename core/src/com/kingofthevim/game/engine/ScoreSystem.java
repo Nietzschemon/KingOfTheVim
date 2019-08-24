@@ -1,10 +1,11 @@
 package com.kingofthevim.game.engine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.files.FileHandle;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 //TODO mark used up yellow letter with colorShift
@@ -18,16 +19,18 @@ public class ScoreSystem {
     private int redPoints = -100;
     private int yellowPoints = 100;
     private int grayPoints = -500;
-    private TimeUtils time;
     private long maxTime = 0;
     private int yellowMultiplier = 1;
     private int redMultiplier = 1;
     private HashMap<String, HashMap<String, Integer>> pointHistory;
     private String levelName;
 
+    private Timer timer;
+
     public ScoreSystem(){
-        time = new TimeUtils();
+        timer = new Timer();
         pointHistory = new HashMap<>();
+        timer.start();
     }
 
     public ScoreSystem(String levelName){
@@ -91,6 +94,8 @@ public class ScoreSystem {
         redMultiplier = 1;
         maxTime = 0;
         maxMoves = 0;
+        timer.clear();
+        timer.start();
     }
 
     private void storePreviousData(){
@@ -100,8 +105,7 @@ public class ScoreSystem {
         data.put("actualMoves", actualMoves);
         data.put("maxMoves", maxMoves);
         pointHistory.put(levelName, data);
-        MatrixSerialization serialization = new MatrixSerialization();
-        serialization.saveScore(pointHistory);
+        timer.stop();
     }
 
     public void newLevel(String levelName){
@@ -118,9 +122,6 @@ public class ScoreSystem {
         return actualMoves;
     }
 
-    public TimeUtils getTime() {
-        return time;
-    }
 
     public HashMap<String, HashMap<String, Integer>> getPointHistory() {
         return pointHistory;
