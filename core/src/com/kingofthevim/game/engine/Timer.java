@@ -37,6 +37,11 @@ public class Timer {
         }
     }
 
+    public void clear(){
+        startTime = 0;
+        stopTime = 0;
+    }
+
     public String getDiffString(){
         return String.format("%02d:%02d", getDiffInMin(), getDiffInSec());
     }
