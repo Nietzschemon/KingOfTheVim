@@ -156,8 +156,9 @@ public class Tools {
      */
     public static int tryParseInt(String string){
         try{
-            return Integer.parseInt(string);
+            return Integer.parseInt(string.trim());
         } catch (NumberFormatException e){
+            System.out.println("tryParseInt failed to parse: \"" + string + "\"");
             return 0;
         }
     }
