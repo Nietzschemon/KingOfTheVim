@@ -47,14 +47,14 @@ public class Timer {
     }
 
     private int getDiffInSec(){
-        return (int) (getDiff() / 1000) % 60 ;
+        return (int) (getDiffMilli() / 1000) % 60 ;
     }
 
     private int getDiffInMin(){
-        return (int) ((getDiff() / (1000*60)) % 60);
+        return (int) ((getDiffMilli() / (1000*60)) % 60);
     }
 
-    private long getDiff(){
+    public long getDiffMilli(){
         return stopTime - startTime;
     }
 
