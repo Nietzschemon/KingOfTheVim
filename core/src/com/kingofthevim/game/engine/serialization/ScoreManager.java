@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine;
+package com.kingofthevim.game.engine.serialization;
 
 import com.kingofthevim.game.engine.matrix.Tools;
 

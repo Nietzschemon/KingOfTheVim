@@ -1,4 +1,4 @@
-package com.kingofthevim.game.engine;
+package com.kingofthevim.game.engine.serialization;
 
 import java.util.ArrayList;
 import java.util.Collections;

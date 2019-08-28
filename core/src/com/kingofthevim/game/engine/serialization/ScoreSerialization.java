@@ -1,13 +1,15 @@
-package com.kingofthevim.game.engine;
+package com.kingofthevim.game.engine.serialization;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.kingofthevim.game.engine.ScoreSystem;
+import com.kingofthevim.game.engine.Timer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class ScoreSerialization extends ScoreSystem{
+public class ScoreSerialization extends ScoreSystem {
 
     private String saveFileString;
 

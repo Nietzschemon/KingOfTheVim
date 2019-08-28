@@ -1,12 +1,9 @@
 package com.kingofthevim.game.engine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import com.kingofthevim.game.engine.serialization.ScoreSerialization;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.vim_object.VimObject;
-
-import java.util.Calendar;
-import java.util.HashMap;
 
 //TODO mark used up yellow letter with colorShift
 public class ScoreSystem {
