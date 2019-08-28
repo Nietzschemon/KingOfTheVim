@@ -9,7 +9,6 @@ import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 public class MatrixSerialization {
 
@@ -23,13 +22,11 @@ public class MatrixSerialization {
     private int numberOfSaves = 0;
     private int currentSave = 0;
     private ArrayList<String> filePaths;
-    private PointsData pointsData;
 
     public MatrixSerialization(){
         json = new Json();
         json.setUsePrototypes(false);
         save = new Save();
-        pointsData = new PointsData();
         filePaths = new ArrayList<>();
     }
 
@@ -90,36 +87,7 @@ public class MatrixSerialization {
         }
     }
 
-    private static class PointsData{
-        HashMap<String, HashMap<String, Integer>> data;
-        PointsData(){
-            data = new HashMap<>();
-        }
 
-    }
-
-    /**
-     * To be used bit by a ScoreSystem object.
-     * Saves a score-data hashmap and a level
-     * name to a json file.
-     * @param score a set of score values
-     */
-    public void saveScore(HashMap<String, HashMap<String, Integer>> score){
-        pointsData.data = score;
-        FileHandle file = Gdx.files.local("gamedata/score");
-        json.toJson(pointsData, file);
-    }
-
-
-    /**
-     * To be used bit by a ScoreSystem object.
-     * Loads a score-data hashmap and a level
-     * name from a json file.
-     */
-    public void loadScore(){
-        FileHandle file = Gdx.files.local("gamedata/score");
-        pointsData = json.fromJson(PointsData.class, file);
-    }
 
     /**
      * Saves all on screen in file with
@@ -358,8 +326,4 @@ public class MatrixSerialization {
         vimObject.getPosition().setAbsoluteRow(save.cursorRow);
     }
 
-    public HashMap<String, HashMap<String, Integer>> getScore(){
-        loadScore();
-        return pointsData.data;
-    }
 }
