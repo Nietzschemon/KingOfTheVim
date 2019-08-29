@@ -279,6 +279,24 @@ public class CellMatrix {
         }
     }
 
+    /**
+     * Gives back the current number of cell with the
+     * given LetterType
+     * @param letterType to check matrix for
+     * @return current number of given LetterType
+     */
+    public int numberOfLetterTypesInMatrix(LetterType letterType){
+        int numOfLT = 0;
+
+        for (ArrayList<Cell> row : cellMatrix){
+            for (Cell cell : row){
+                if(cell.getLetterType() == letterType) numOfLT++;
+
+            }
+        }
+
+        return numOfLT;
+    }
 
     public class WordPosition{
 
