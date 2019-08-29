@@ -5,7 +5,6 @@ import com.kingofthevim.game.engine.serialization.ScoreSerialization;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
-//TODO mark used up yellow letter with colorShift
 public class ScoreSystem {
 
     private String levelName;
@@ -54,7 +53,7 @@ public class ScoreSystem {
         actualMoves++;
 
         if(vimObject.isOnType(LetterType.WHITE)){
-            points = points - (20 * actualMoves);
+            points = points - (10 * actualMoves);
             yellowMultiplier = 1;
             redMultiplier = 1;
         }
@@ -77,11 +76,13 @@ public class ScoreSystem {
             redMultiplier = 1;
         }
 
+        if(points < 0) points = 0;
         Gdx.graphics.requestRendering();
 
     }
 
-    private void resetAllButPoints(){
+    private void resetAll(){
+        points = 10000;
         actualMoves = 0;
         yellowMultiplier = 1;
         redMultiplier = 1;
@@ -96,7 +97,7 @@ public class ScoreSystem {
         ScoreSerialization scoreSeri = new ScoreSerialization();
         scoreSeri.saveScore(this.levelName, points, actualMoves, timer);
 
-        resetAllButPoints();
+        resetAll();
         this.levelName = levelName;
     }
 
