@@ -1,20 +1,15 @@
 package com.kingofthevim.game.states.leveltypes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.serialization.MatrixSerialization;
 import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;
-import com.kingofthevim.game.engine.sound.GameSound;
 import com.kingofthevim.game.states.GameStateManager;
-import com.kingofthevim.game.states.Menu;
 
 import java.util.Stack;
 
 public class Labyrinth extends Level {
-
-    private Stack<String> levels;
 
     public Labyrinth(GameStateManager gsm) {
         super(gsm);
@@ -41,28 +36,6 @@ public class Labyrinth extends Level {
     protected void backgroundMusic() {
         gameSound.choseMusic(MusicTracks.BUNNY);
         gameSound.playMusic();
-        /*
-        if(backgroundMusic != null
-                && backgroundMusic.isPlaying()) backgroundMusic.stop();
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/bunny.wav"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
-
-        //
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                "sound/music/laborintMusic/labMusic1/labMusic1pcm.wav"));
-
-        if(backgroundMusic != null
-                && backgroundMusic.isPlaying()){
-            backgroundMusic.stop();
-            backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(
-                    "sound/music/laborintMusic/labMusic2pcm.wav"));
-            backgroundMusic.setLooping(true);
-            backgroundMusic.play();
-        }
-         */
     }
 
     @Override
@@ -74,34 +47,23 @@ public class Labyrinth extends Level {
     }
 
     @Override
-    protected void levelChange() {
+    protected void checkWinCondition() {
+
+        if(isDeleteLevel
+                && 0 >= vimMatrix.numberOfLetterTypesInMatrix(LetterType.GREEN)){
+            changeLevel();
+        }
 
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
-
-            if(levels.empty()){
-                GameSound.scratch1.play();
-                gsm.push(new Menu(gsm));
-                dispose();
-            }
-            else {
-                String load = levels.pop();
-
-                cursor = serial.loadLevel(load, vimMatrix);
-                cursor.setScoreSystem(pointsSys);
-                pointsSys.newLevel(load);
-                cursorStartColumn = cursor.getPosition().getCurrColumn();
-                cursorStartRow = cursor.getPosition().getCurrRow();
-
-                cursor.getPosition().addListener(gameSound);
-                Gdx.graphics.requestRendering();
-            }
+            changeLevel();
         }
+
     }
 
     @Override
     public void update(float dt) {
 
-        levelChange();
+        checkWinCondition();
 
         handleInput();
 

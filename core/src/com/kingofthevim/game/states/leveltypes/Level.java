@@ -16,9 +16,11 @@ import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.engine.sound.GameSound;
 import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.GameStateManager;
+import com.kingofthevim.game.states.Menu;
 import com.kingofthevim.game.states.State;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public abstract class Level extends State {
 
@@ -43,6 +45,10 @@ public abstract class Level extends State {
     protected MatrixSerialization serial;
 
     protected GameSound gameSound;
+
+    protected String levelName;
+    protected Stack<String> levels;
+    protected boolean isDeleteLevel = false;
 
     //TODO implement
     public Stage stage;
@@ -70,9 +76,39 @@ public abstract class Level extends State {
 
     protected abstract void backgroundMusic();
 
-    protected abstract void levelChange();
+    protected abstract void checkWinCondition();
 
 
+    protected void changeLevel(){
+
+        if(levels.empty()){
+            GameSound.scratch1.play();
+            pointsSys.saveScore();
+            gsm.push(new Menu(gsm));
+            dispose();
+        } else {
+
+            levelName = levels.pop();
+
+            loadLevel();
+
+            pointsSys.newLevel(levelName);
+
+            Gdx.graphics.requestRendering();
+        }
+    }
+
+    protected void loadLevel(){
+
+        cursor = serial.loadLevel(levelName, vimMatrix);
+        cursor.setScoreSystem(pointsSys);
+        cursorStartColumn = cursor.getPosition().getCurrColumn();
+        cursorStartRow = cursor.getPosition().getCurrRow();
+
+        cursor.getPosition().addListener(gameSound);
+
+        isDeleteLevel = 0 < vimMatrix.numberOfLetterTypesInMatrix(LetterType.GREEN);
+    }
 
 
     @Override
@@ -90,6 +126,9 @@ public abstract class Level extends State {
         if(cursor.isOnType(LetterType.GRAY)
                 || cursor.isOnType(LetterType.EMPATHY)){
             cursor.getPosition().setAbsolutePosition(cursorStartRow, cursorStartColumn);
+
+            if(isDeleteLevel) loadLevel();
+
             Gdx.graphics.requestRendering();
         }else{
             sb.draw(cursor.getTexture(), cursor.getPosition().getCartesianPosition().x, cursor.getPosition().getCartesianPosition().y);

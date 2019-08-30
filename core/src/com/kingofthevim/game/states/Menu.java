@@ -88,7 +88,7 @@ public class Menu extends Level {
     }
 
     @Override
-    protected void levelChange() {
+    protected void checkWinCondition() {
 
     }
 

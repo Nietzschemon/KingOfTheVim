@@ -57,7 +57,7 @@ public class Score extends Level {
     }
 
     @Override
-    protected void levelChange() {
+    protected void checkWinCondition() {
 
     }
 

@@ -215,7 +215,7 @@ public class LevelEditor extends Level{
     }
 
     @Override
-    protected void levelChange() {
+    protected void checkWinCondition() {
         /*
         if(cursor.isOnType(LetterType.WHITE_GREEN)) {
             dispose();
@@ -232,7 +232,8 @@ public class LevelEditor extends Level{
         //Tells GDX that cam been repositioned.
         cam.update();
 
-        levelChange();
+        System.out.println(vimMatrix.numberOfLetterTypesInMatrix(LetterType.RED));
+        checkWinCondition();
     }
 
     @Override
