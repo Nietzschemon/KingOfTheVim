@@ -218,6 +218,8 @@ public class Cursor implements VimObject, ModeListener {
 
     @Override
     public void onDeleteModeAction() {
+        isInMode = false;
+        doAfterPosiUpdate();
 
     }
 
@@ -239,7 +241,6 @@ public class Cursor implements VimObject, ModeListener {
         visualChanges();
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
         isInMode = false;
-        doAfterPosiUpdate();
     }
 
     public void muteSoundEffects(){
