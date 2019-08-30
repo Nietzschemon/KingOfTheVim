@@ -13,6 +13,8 @@ public class SoundEffectsManager implements ChangedPosition, ModeListener {
     public static Sound hitRed = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/fail2.wav"));
     public static Sound hitGray = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/fail.mp3"));
     public static Sound hitGoal = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/success.mp3"));
+    public static Sound inDeleteMode = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/shotgun_load.wav"));
+    public static Sound deletedThing = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/explosion.wav"));
 
     private boolean isInNormalMode = true;
 
@@ -54,12 +56,12 @@ public class SoundEffectsManager implements ChangedPosition, ModeListener {
     @Override
     public void onDeleteModeEnter() {
         isInNormalMode = false;
+        inDeleteMode.play();
     }
 
     @Override
     public void onDeleteModeExit() {
         isInNormalMode = true;
-
     }
 
     @Override
