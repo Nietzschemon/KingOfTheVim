@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kingofthevim.game.engine.serialization.ScoreManager;
-import com.kingofthevim.game.engine.sound.GameSound;
+import com.kingofthevim.game.engine.sound.MusicManager;
 import com.kingofthevim.game.engine.serialization.MatrixSerialization;
 import com.kingofthevim.game.engine.ScoreSystem;
 import com.kingofthevim.game.states.leveltypes.LevelEditor;
@@ -25,8 +25,7 @@ public class Score extends Level {
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
-        //scoreMgr = new ScoreManager();
-        //letterAdder.setHorizontalStringArray(scoreMgr.getHighScoreStringList(), 4, 2, 2, true, true, LetterType.WHITE );
+        cursor.muteSoundEffects();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class Score extends Level {
 
             if(vimMatrix.isOnWord(cursor, "Back")){
 
-                GameSound.scratch1.play();
+                MusicManager.scratch1.play();
                 gsm.push(new Menu(gsm));
                 dispose();
             }

@@ -13,7 +13,7 @@ import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
 import com.kingofthevim.game.engine.matrix.CellMatrix;
 import com.kingofthevim.game.engine.vim_object.Cursor;
-import com.kingofthevim.game.engine.sound.GameSound;
+import com.kingofthevim.game.engine.sound.MusicManager;
 import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Menu;
@@ -44,7 +44,7 @@ public abstract class Level extends State {
     protected int cursorStartColumn;
     protected MatrixSerialization serial;
 
-    protected GameSound gameSound;
+    protected MusicManager musicManager;
 
     protected String levelName;
     protected Queue<String> levels;
@@ -70,7 +70,7 @@ public abstract class Level extends State {
 
         stage = hud.stage;
 
-        gameSound = new GameSound();
+        musicManager = new MusicManager();
     }
 
 
@@ -82,7 +82,7 @@ public abstract class Level extends State {
     protected void changeLevel(){
 
         if(levels.isEmpty()){
-            GameSound.scratch1.play();
+            MusicManager.scratch1.play();
             pointsSys.saveScore();
             gsm.push(new Menu(gsm));
             dispose();
@@ -104,8 +104,6 @@ public abstract class Level extends State {
         cursor.setScoreSystem(pointsSys);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
-
-        cursor.getPosition().addListener(gameSound);
 
         isDeleteLevel = 0 < vimMatrix.numberOfLetterTypesInMatrix(LetterType.GREEN);
     }

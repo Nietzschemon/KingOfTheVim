@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
+import com.kingofthevim.game.engine.sound.SoundEffectsManager;
 import com.kingofthevim.game.engine.vim_modes.listeners.ModeListener;
 import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.matrix.Cell;
@@ -33,7 +34,7 @@ public class Cursor implements VimObject, ModeListener {
     private ScoreSystem scoreSystem;
     private boolean suspendVisual = false;
 
-    //private GameSound gameSound;
+    private SoundEffectsManager soundEffects;
     //</editor-fold desc="Fields">
 
 
@@ -53,9 +54,11 @@ public class Cursor implements VimObject, ModeListener {
 
         inputManager = new InputManager(this);
 
-        //gameSound = new GameSound();
+        soundEffects = new SoundEffectsManager();
 
-        //position.addListener(gameSound);
+        position.addListener(soundEffects);
+        inputManager.addModeListener(soundEffects);
+
     }
 
     public void dispose(){
@@ -229,6 +232,11 @@ public class Cursor implements VimObject, ModeListener {
         visualChanges();
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
         isInMode = false;
+    }
+
+    public void muteSoundEffects(){
+        position.removeListener(soundEffects);
+        inputManager.removeModeListener(soundEffects);
     }
     //</editor-fold desc="bla">
 }

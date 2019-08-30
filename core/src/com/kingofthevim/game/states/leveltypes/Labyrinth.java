@@ -24,14 +24,13 @@ public class Labyrinth extends Level {
         cursorStartRow = cursor.getPosition().getCurrRow();
 
         cursor.setScoreSystem(pointsSys);
-        cursor.getPosition().addListener(gameSound);
         backgroundMusic();
     }
 
     @Override
     protected void backgroundMusic() {
-        gameSound.choseMusic(MusicTracks.BUNNY);
-        gameSound.playMusic();
+        musicManager.choseMusic(MusicTracks.BUNNY);
+        musicManager.playMusic();
     }
 
     @Override

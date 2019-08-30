@@ -3,7 +3,7 @@ package com.kingofthevim.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kingofthevim.game.engine.sound.GameSound;
+import com.kingofthevim.game.engine.sound.MusicManager;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.serialization.MatrixSerialization;
 import com.kingofthevim.game.engine.sound.MusicTracks;
@@ -27,14 +27,15 @@ public class Menu extends Level {
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
+        cursor.muteSoundEffects();
         backgroundMusic();
     }
 
     @Override
     protected void backgroundMusic() {
 
-        gameSound.choseMusic(MusicTracks.TRUMPET);
-        gameSound.playMusic();
+        musicManager.choseMusic(MusicTracks.TRUMPET);
+        musicManager.playMusic();
     }
 
     @Override
@@ -48,21 +49,21 @@ public class Menu extends Level {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             if(vimMatrix.isOnWord(cursor, "new game")){
 
-                GameSound.scratch1.play();
+                MusicManager.scratch1.play();
                 gsm.push(new Labyrinth(gsm));
                 dispose();
             }
 
             if(vimMatrix.isOnWord(cursor, "tutorial")){
 
-                GameSound.scratch1.play();
+                MusicManager.scratch1.play();
                 gsm.push(new Tutorial(gsm));
                 dispose();
             }
 
             if(vimMatrix.isOnWord(cursor, "score")){
 
-                GameSound.scratch1.play();
+                MusicManager.scratch1.play();
                 gsm.push(new Score(gsm));
                 dispose();
             }

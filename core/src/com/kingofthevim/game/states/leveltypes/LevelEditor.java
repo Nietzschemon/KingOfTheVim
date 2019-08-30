@@ -42,7 +42,7 @@ public class LevelEditor extends Level{
         cursor = new Cursor(vimMatrix, cursorStartRow, cursorStartColumn);
         fall = new FallMechanic(cursor);
 
-        gameSound.stopMusic();
+        musicManager.stopMusic();
         serialization = new MatrixSerialization(cursor);
 
         texts = Gdx.files.internal("gamedata/texts").list();
