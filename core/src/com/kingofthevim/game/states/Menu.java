@@ -23,7 +23,7 @@ public class Menu extends Level {
         pointsSys = new ScoreSystem();
         serial = new MatrixSerialization();
 
-        cursor = serial.loadLevel("menu/menu1", vimMatrix);
+        cursor = serial.loadLevel("menu/menu1_noOptSco.json", vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 
