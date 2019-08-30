@@ -156,6 +156,10 @@ public class Cursor implements VimObject, ModeListener {
         this.movesLeft = movesLeft;
     }
 
+    public SoundEffectsManager getSoundEffects() {
+        return soundEffects;
+    }
+
     @Override
     public CellMatrix getVimMatrix() {
         return vimMatrix;

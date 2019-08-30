@@ -283,6 +283,7 @@ public class InputManager implements InputProcessor {
         insertModeListeners.add(listener);
         replaceModeListeners.add(listener);
         deleteModeListeners.add(listener);
+        deleteModeInput.addListener(listener);
     }
 
 
@@ -290,6 +291,7 @@ public class InputManager implements InputProcessor {
         insertModeListeners.remove(listener);
         replaceModeListeners.remove(listener);
         deleteModeListeners.remove(listener);
+        deleteModeInput.removeListener(listener);
     }
 
     /**

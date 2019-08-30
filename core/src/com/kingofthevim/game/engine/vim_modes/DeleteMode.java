@@ -1,12 +1,14 @@
 package com.kingofthevim.game.engine.vim_modes;
 
 import com.kingofthevim.game.engine.matrix.Cell;
+import com.kingofthevim.game.engine.vim_modes.listeners.DeleteModeListener;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.ArrayList;
 
 public class DeleteMode extends Movement{
 
+    private ArrayList<DeleteModeListener> listenerList = new ArrayList<>();
 
     /**
      * "Deletes" the current occupied cell of the vim_object.
@@ -62,6 +64,7 @@ public class DeleteMode extends Movement{
 
             deleteChar(vimObj);
         }
+        onChange();
     }
 
 
@@ -82,6 +85,7 @@ public class DeleteMode extends Movement{
 
             deleteChar(vimObj, position);
         }
+        onChange();
     }
 
     protected void deleteCharBatch(int startColumn, int endColumn, VimObject vimObj){
@@ -89,6 +93,7 @@ public class DeleteMode extends Movement{
 
             deleteChar(vimObj, startColumn);
         }
+        onChange();
     }
 
     /**
@@ -160,5 +165,19 @@ public class DeleteMode extends Movement{
 
         deleteCharBatch(startColumn, endColumn, vimObj);
 
+    }
+
+    public void addListener(DeleteModeListener listener){
+        listenerList.add(listener);
+    }
+
+    public void removeListener(DeleteModeListener listener){
+        listenerList.remove(listener);
+    }
+
+    private void onChange(){
+        for(DeleteModeListener listener : listenerList){
+            if(listener != null) listener.onDeleteModeAction();
+        }
     }
 }
