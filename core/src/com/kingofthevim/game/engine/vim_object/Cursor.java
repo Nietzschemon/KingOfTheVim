@@ -94,7 +94,7 @@ public class Cursor implements VimObject, ModeListener {
     @Override
     public void doAfterPosiUpdate(){
         if(! suspendVisual)visualChanges();
-        if(scoreSystem != null) scoreSystem.onMove(this);
+        if(scoreSystem != null && ! isInMode) scoreSystem.onMove(this);
     }
 
     /**
@@ -232,6 +232,7 @@ public class Cursor implements VimObject, ModeListener {
         visualChanges();
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
         isInMode = false;
+        doAfterPosiUpdate();
     }
 
     public void muteSoundEffects(){

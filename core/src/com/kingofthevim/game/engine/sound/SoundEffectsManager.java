@@ -14,6 +14,7 @@ public class SoundEffectsManager implements ChangedPosition, ModeListener {
     public static Sound hitGray = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/fail.mp3"));
     public static Sound hitGoal = Gdx.audio.newSound(Gdx.files.internal("sound/sound_effects/success.mp3"));
 
+    private boolean isInNormalMode = true;
 
 
     @Override
@@ -29,31 +30,35 @@ public class SoundEffectsManager implements ChangedPosition, ModeListener {
      */
     private void letterSounds(VimObject vimObject){
 
-        if(vimObject.isOnType(LetterType.RED)){
+        if(isInNormalMode) {
 
-            SoundEffectsManager.hitRed.play();
-        }
-        if(vimObject.isOnType(LetterType.YELLOW)){
-            SoundEffectsManager.hitYellow.play();
-        }
+            if (vimObject.isOnType(LetterType.RED)) {
 
-        if(vimObject.isOnType(LetterType.GRAY)
-                || vimObject.isOnType(LetterType.EMPATHY)){
-            SoundEffectsManager.hitGray.play();
-        }
+                SoundEffectsManager.hitRed.play();
+            }
+            if (vimObject.isOnType(LetterType.YELLOW)) {
+                SoundEffectsManager.hitYellow.play();
+            }
 
-        if(vimObject.isOnType(LetterType.WHITE_GREEN)){
-            SoundEffectsManager.hitGoal.play();
+            if (vimObject.isOnType(LetterType.GRAY)
+                    || vimObject.isOnType(LetterType.EMPATHY)) {
+                SoundEffectsManager.hitGray.play();
+            }
+
+            if (vimObject.isOnType(LetterType.WHITE_GREEN)) {
+                SoundEffectsManager.hitGoal.play();
+            }
         }
     }
 
     @Override
     public void onDeleteModeEnter() {
-
+        isInNormalMode = false;
     }
 
     @Override
     public void onDeleteModeExit() {
+        isInNormalMode = true;
 
     }
 
