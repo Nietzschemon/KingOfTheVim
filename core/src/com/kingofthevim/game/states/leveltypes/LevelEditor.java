@@ -47,6 +47,7 @@ public class LevelEditor extends Level{
 
         texts = Gdx.files.internal("gamedata/texts").list();
         vimMatrix.changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+        cursor.muteSoundEffects();
     }
 
     @Override
@@ -232,7 +233,6 @@ public class LevelEditor extends Level{
         //Tells GDX that cam been repositioned.
         cam.update();
 
-        System.out.println(vimMatrix.numberOfLetterTypesInMatrix(LetterType.RED));
         checkWinCondition();
     }
 
