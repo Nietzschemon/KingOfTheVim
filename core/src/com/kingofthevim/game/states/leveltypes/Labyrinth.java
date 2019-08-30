@@ -7,23 +7,19 @@ import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;
 import com.kingofthevim.game.states.GameStateManager;
 
-import java.util.Stack;
 
 public class Labyrinth extends Level {
 
     public Labyrinth(GameStateManager gsm) {
         super(gsm);
 
-        levels = new Stack<>();
-        levels.add("levels/game/Level_5");
-        levels.add("levels/game/Level_4");
-        levels.add("levels/game/Level_3");
-        levels.add("levels/game/Level_2");
-
-        pointsSys = new ScoreSystem("levels/game/Level_1");
         serial = new MatrixSerialization();
+        levels = serial.getFilePathsAsQueue("levels/game/");
 
-        cursor = serial.loadLevel("levels/game/Level_1", vimMatrix);
+        levelName = levels.poll();
+        pointsSys = new ScoreSystem(levelName);
+
+        cursor = serial.loadLevel(levelName, vimMatrix);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
 

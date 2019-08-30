@@ -8,9 +8,8 @@ import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.engine.vim_object.VimObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class MatrixSerialization {
+public class MatrixSerialization extends Serialization{
 
     private Cursor cursor;
     private VimObject vimObject;
@@ -225,11 +224,7 @@ public class MatrixSerialization {
     }
 
     private void getFiles(){
-
-        FileHandle[] files = Gdx.files.internal("levels/builder/").list();
-        filePaths = new ArrayList<>();
-        for(FileHandle f : files){ filePaths.add(f.name()); }
-        Collections.sort(filePaths);
+        filePaths = getFileNames("levels/builder/");
     }
 
     /**

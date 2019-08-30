@@ -20,7 +20,7 @@ import com.kingofthevim.game.states.Menu;
 import com.kingofthevim.game.states.State;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.Queue;
 
 public abstract class Level extends State {
 
@@ -47,7 +47,7 @@ public abstract class Level extends State {
     protected GameSound gameSound;
 
     protected String levelName;
-    protected Stack<String> levels;
+    protected Queue<String> levels;
     protected boolean isDeleteLevel = false;
 
     //TODO implement
@@ -81,14 +81,14 @@ public abstract class Level extends State {
 
     protected void changeLevel(){
 
-        if(levels.empty()){
+        if(levels.isEmpty()){
             GameSound.scratch1.play();
             pointsSys.saveScore();
             gsm.push(new Menu(gsm));
             dispose();
         } else {
 
-            levelName = levels.pop();
+            levelName = levels.poll();
 
             loadLevel();
 
