@@ -1,14 +1,9 @@
-/*
-
- */
 package com.kingofthevim.game.engine.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.kingofthevim.game.engine.ChangedPosition;
-import com.kingofthevim.game.engine.matrix.LetterType;
-import com.kingofthevim.game.engine.vim_object.VimObject;
+
 
 public class MusicManager {
 
