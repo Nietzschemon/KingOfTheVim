@@ -93,12 +93,16 @@ public class ScoreSystem {
     }
 
     public void newLevel(String levelName){
+        saveScore();
+        this.levelName = levelName;
+    }
+
+    public void saveScore(){
         timer.stop();
         ScoreSerialization scoreSeri = new ScoreSerialization();
         scoreSeri.saveScore(this.levelName, points, actualMoves, timer);
 
         resetAll();
-        this.levelName = levelName;
     }
 
     public int getPoints() {
