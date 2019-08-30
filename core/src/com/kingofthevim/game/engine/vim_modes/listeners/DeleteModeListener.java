@@ -10,6 +10,12 @@ public interface DeleteModeListener {
 
     /**
      * Handles events where
+     * delete-action occurred.
+     */
+    void onDeleteModeAction();
+
+    /**
+     * Handles events where
      * delete-mode is exited.
      */
     void onDeleteModeExit();

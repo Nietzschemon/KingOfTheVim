@@ -60,6 +60,11 @@ public class SoundEffectsManager implements ChangedPosition, ModeListener {
     }
 
     @Override
+    public void onDeleteModeAction() {
+        deletedThing.play();
+    }
+
+    @Override
     public void onDeleteModeExit() {
         isInNormalMode = true;
     }

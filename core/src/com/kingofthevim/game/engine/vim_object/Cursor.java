@@ -1,7 +1,5 @@
 package com.kingofthevim.game.engine.vim_object;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.kingofthevim.game.engine.*;
 import com.kingofthevim.game.engine.sound.SoundEffectsManager;
@@ -212,6 +210,11 @@ public class Cursor implements VimObject, ModeListener {
         texture.dispose();
         suspendVisual = false;
         texture = new Texture("gamedata/textures/cursors/cursor_44purple.png");
+    }
+
+    @Override
+    public void onDeleteModeAction() {
+
     }
 
     @Override
