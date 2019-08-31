@@ -51,15 +51,17 @@ public class Hud {
     Label movesNum;
     Label score;
     Label scoreNum;
+    Table table;
 
     public Hud(){
-
+        scoreInt = 0;
+        moveInt = 0;
 
         viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
 
         stage = new Stage(viewport);
+        table = new Table();
 
-        Table table = new Table();
 
         table.bottom();
         table.setFillParent(true);
@@ -86,29 +88,10 @@ public class Hud {
 
         table.setColor(Color.PURPLE);
 
-        stage = new Stage(new ScreenViewport());
         addBackgroundGuide(Help_Guides);
 
         stage.addActor(table);
 
-
-        //Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        /*
-
-        //Label label3 = new Label("This is a Label (skin) on  5 columns ",mySkin,"black");
-        label3.setSize(Gdx.graphics.getWidth()/Help_Guides,row_height);
-        label3.setPosition(col_width*2,Gdx.graphics.getHeight()-row_height*6);
-        stage.addActor(label3);
-
-        //Label label4 = new Label("This is a Label (skin) with a 5 columns width but WITH wrap",mySkin,"black");
-        label4.setSize(Gdx.graphics.getWidth()/Help_Guides*5,row_height);
-        label4.setPosition(col_width*2,Gdx.graphics.getHeight()-row_height*7);
-        label4.setWrap(true);
-        stage.addActor(label4);
-
-
-         */
-        //////////////////////////////////////////////
     }
 
     public Hud(SpriteBatch sb){
@@ -119,7 +102,7 @@ public class Hud {
         viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
-        Table table = new Table();
+        table = new Table();
 
         table.bottom();
         table.setColor(Color.PURPLE);
