@@ -10,14 +10,18 @@ import com.kingofthevim.game.engine.serialization.MatrixSerialization;
 import com.kingofthevim.game.engine.matrix.Cell;
 import com.kingofthevim.game.engine.matrix.LetterManager;
 import com.kingofthevim.game.engine.matrix.LetterType;
+import com.kingofthevim.game.engine.vim_modes.input.InputManager;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.gametype.FallMechanic;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Menu;
+import com.kingofthevim.game.states.levelsettings.LevelSettings;
+import com.kingofthevim.game.states.levelsettings.LevelSettingsDialog;
+import com.kingofthevim.game.states.levelsettings.LevelSettingsListener;
 
 import java.util.ArrayList;
 
-public class LevelEditor extends Level{
+public class LevelEditor extends Level implements LevelSettingsListener {
 
     FallMechanic fall;
     MatrixSerialization serialization;
@@ -28,9 +32,14 @@ public class LevelEditor extends Level{
     private LetterManager backgroundText;
     private FileHandle[] texts;
     private int fileIndex = 0;
+    private LevelSettings levelSettings;
+    private LevelSettingsDialog dialog;
 
     public LevelEditor(GameStateManager gsm) {
         super(gsm);
+
+        dialog = new LevelSettingsDialog();
+        levelSettings = new LevelSettings();
 
         backgroundText = new LetterManager(vimMatrix);
         cursorStartRow = 2;
@@ -48,6 +57,8 @@ public class LevelEditor extends Level{
         texts = Gdx.files.internal("gamedata/texts").list();
         vimMatrix.changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
         cursor.muteSoundEffects();
+
+        dialog.addListener(this);
     }
 
     @Override
@@ -76,6 +87,8 @@ public class LevelEditor extends Level{
 
     @Override
     public void render(SpriteBatch sb) {
+        stage.act();
+        stage.draw();
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
         functionKeys();
@@ -180,6 +193,10 @@ public class LevelEditor extends Level{
             return true;
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F10)){
+            dialog.showDialog(stage);
+        }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)){
             fallMode = !fallMode;
             if(fallMode){
@@ -281,5 +298,11 @@ public class LevelEditor extends Level{
          */
 
         backgroundText.setHorizontalStringArray(conversionArray, 0, 0, LetterType.GRAY);
+    }
+
+    @Override
+    public void settingsChanged() {
+        levelSettings = dialog.getLevelSettings();
+        new InputManager(cursor);
     }
 }
