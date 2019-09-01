@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.kingofthevim.game.engine.matrix.*;
 import com.kingofthevim.game.engine.vim_object.Cursor;
 import com.kingofthevim.game.engine.vim_object.VimObject;
+import com.kingofthevim.game.states.levelsettings.LevelSettings;
 
 import java.util.ArrayList;
 
@@ -46,9 +47,11 @@ public class MatrixSerialization extends Serialization{
         private ArrayList<ArrayList<Properties>> savedMatrix;
         private int cursorRow;
         private int cursorColumn;
+        private LevelSettings levelSettings;
 
         Save(){
             savedMatrix = new ArrayList<>();
+            levelSettings = new LevelSettings();
         }
 
 
@@ -107,8 +110,27 @@ public class MatrixSerialization extends Serialization{
 
 
     /**
-     * Saves all on screen in file with
-     * an user-generated name
+     * Saves everything on screen, and the settings
+     * in file with a custom name
+     */
+    public void saveAll(LevelSettings settings){
+
+        if(! Gdx.files.local("levels/builder/").exists()){
+            Gdx.files.local("levels/builder/").mkdirs();
+        }
+
+        while (Gdx.files.local(fileName).exists()){
+            fileName = "levels/builder/LevelBuilder_" + counter++;
+        }
+
+        save.levelSettings = settings;
+        saveAll(fileName);
+    }
+
+
+    /**
+     * Saves everything on screen in a file with
+     * a custom name
      */
     public void saveAll(String filePath){
         save.copyCurrentMatrix(vimObject);
@@ -321,4 +343,7 @@ public class MatrixSerialization extends Serialization{
         vimObject.getPosition().setAbsoluteRow(save.cursorRow);
     }
 
+    public LevelSettings getLevelSettings(){
+        return save.levelSettings;
+    }
 }
