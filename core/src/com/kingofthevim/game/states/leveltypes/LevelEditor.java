@@ -142,7 +142,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
             int currColumn = cursor.getPosition().getCurrColumn();
             int currRow = cursor.getPosition().getCurrRow();
             cursor.getPosition().setAbsolutePosition(startRow, startColumn);
-            serialization.saveAll();
+            serialization.saveAll(levelSettings);
             cursor.getPosition().setAbsolutePosition(currRow, currColumn);
             return true;
         }
@@ -165,13 +165,14 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
             cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
             cursor.getPosition().setAbsolutePosition(startRow, startColumn);
-            serialization.saveAll();
+            serialization.saveAll(levelSettings);
             serialization.listFiles();
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
             serialization.loadPreviousFile();
+            levelSettings = serialization.getLevelSettings();
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
             return true;
@@ -179,6 +180,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
             serialization.loadNextFile();
+            levelSettings = serialization.getLevelSettings();
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
             return true;
@@ -186,6 +188,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
             serialization.loadAll();
+            levelSettings = serialization.getLevelSettings();
             setCurrPosAsStartPos();
             return true;
         }
