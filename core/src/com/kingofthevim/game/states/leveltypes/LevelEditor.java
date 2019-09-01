@@ -84,8 +84,6 @@ public class LevelEditor extends Level implements LevelSettingsListener {
 
     @Override
     public void render(SpriteBatch sb) {
-        stage.act();
-        stage.draw();
         // Shows sprite-batch where to draw things on screen.
         sb.setProjectionMatrix(cam.combined);
         functionKeys();
@@ -127,6 +125,8 @@ public class LevelEditor extends Level implements LevelSettingsListener {
 
         sb.end();
 
+        stage.act();
+        stage.draw();
     }
     private String nextText(){
         if(texts.length <= fileIndex) fileIndex = 0;
