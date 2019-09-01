@@ -2,7 +2,6 @@ package com.kingofthevim.game.states.levelsettings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class LevelSettingsDialog  {
 
     private ArrayList<LevelSettingsListener> settingsListeners;
-    private LevelSettings levelSettings = new LevelSettings();
+    private LevelSettings levelSettings;
     private Skin skin = new Skin(Gdx.files.internal("default/skin/uiskin.json"));
 
     private Button cursorHasGravity = new CheckBox("Cursor", skin);
@@ -31,9 +30,10 @@ public class LevelSettingsDialog  {
         }
     };
 
-    public LevelSettingsDialog(){
-        loadButtons();
+    public LevelSettingsDialog(LevelSettings levelSettings){
         settingsListeners = new ArrayList<>();
+        this.levelSettings = levelSettings;
+        loadButtons();
     }
 
     private void checkRadioButtons(){
@@ -63,10 +63,18 @@ public class LevelSettingsDialog  {
     }
 
     public void showDialog(Stage stage){
+        syncSettingWithDialog();
         Gdx.input.setInputProcessor(stage);
         dialog.setVisible(true);
         dialog.toFront();
         dialog.show(stage);
+    }
+
+    private void syncSettingWithDialog(){
+        winOnGoal.setChecked(levelSettings.winOnGoal);
+        winOnDelete.setChecked(levelSettings.winOnDelete);
+        cursorHasGravity.setChecked(levelSettings.cursorHasGravity);
+        resetLevelAtDeath.setChecked(levelSettings.resetLevelAtDeath);
     }
 
 

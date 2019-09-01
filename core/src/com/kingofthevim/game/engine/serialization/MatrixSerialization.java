@@ -242,6 +242,7 @@ public class MatrixSerialization extends Serialization{
      */
     public void loadAll(String filePath){
         Save save = loadSave(filePath);
+        levelSettings = save.levelSettings;
         loadObject(save);
         loadMatrix(save);
         Gdx.graphics.setTitle("King of the Vim: " + filePath);

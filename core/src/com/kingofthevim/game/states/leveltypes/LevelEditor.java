@@ -36,7 +36,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
     public LevelEditor(GameStateManager gsm) {
         super(gsm);
 
-        dialog = new LevelSettingsDialog();
+        dialog = new LevelSettingsDialog(levelSettings);
 
         backgroundText = new LetterManager(vimMatrix);
         cursorStartRow = 2;
@@ -173,6 +173,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
             serialization.loadPreviousFile();
             levelSettings = serialization.getLevelSettings();
+            dialog.setLevelSettings(levelSettings);
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
             return true;
@@ -181,6 +182,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
             serialization.loadNextFile();
             levelSettings = serialization.getLevelSettings();
+            dialog.setLevelSettings(levelSettings);
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
             return true;
@@ -189,11 +191,13 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
             serialization.loadAll();
             levelSettings = serialization.getLevelSettings();
+            dialog.setLevelSettings(levelSettings);
             setCurrPosAsStartPos();
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F10)){
+            dialog.setLevelSettings(levelSettings);
             dialog.showDialog(stage);
         }
 
