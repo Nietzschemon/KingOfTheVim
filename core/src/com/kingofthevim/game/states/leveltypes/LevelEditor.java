@@ -32,14 +32,12 @@ public class LevelEditor extends Level implements LevelSettingsListener {
     private LetterManager backgroundText;
     private FileHandle[] texts;
     private int fileIndex = 0;
-    private LevelSettings levelSettings;
     private LevelSettingsDialog dialog;
 
     public LevelEditor(GameStateManager gsm) {
         super(gsm);
 
         dialog = new LevelSettingsDialog();
-        levelSettings = new LevelSettings();
 
         backgroundText = new LetterManager(vimMatrix);
         cursorStartRow = 2;

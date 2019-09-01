@@ -18,6 +18,7 @@ import com.kingofthevim.game.scens.Hud;
 import com.kingofthevim.game.states.GameStateManager;
 import com.kingofthevim.game.states.Menu;
 import com.kingofthevim.game.states.State;
+import com.kingofthevim.game.states.levelsettings.LevelSettings;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -32,6 +33,7 @@ public abstract class Level extends State {
     protected Cursor cursor;
     protected LetterManager letterAdder;
     protected CellMatrix vimMatrix;
+    protected LevelSettings levelSettings;
 
     //Static to cary effectively between levels
     protected static Music backgroundMusic;
@@ -61,6 +63,7 @@ public abstract class Level extends State {
         //use for bigger texts and levels use also for zooming in bigger levels
         cam.setToOrtho(true, KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT);
 
+        levelSettings = new LevelSettings();
 
         vimMatrix = new CellMatrix(rowTotal, columnTotal, fontWidth, fontHeight);
 
