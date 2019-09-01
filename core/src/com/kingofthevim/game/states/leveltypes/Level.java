@@ -50,7 +50,6 @@ public abstract class Level extends State {
 
     protected String levelName;
     protected Queue<String> levels;
-    protected boolean isDeleteLevel = false;
 
     //TODO implement
     public Stage stage;
@@ -107,8 +106,8 @@ public abstract class Level extends State {
         cursor.setScoreSystem(pointsSys);
         cursorStartColumn = cursor.getPosition().getCurrColumn();
         cursorStartRow = cursor.getPosition().getCurrRow();
+        levelSettings = serial.getLevelSettings();
 
-        isDeleteLevel = 0 < vimMatrix.numberOfLetterTypesInMatrix(LetterType.GREEN);
     }
 
 
@@ -128,7 +127,7 @@ public abstract class Level extends State {
                 || cursor.isOnType(LetterType.EMPATHY)){
             cursor.getPosition().setAbsolutePosition(cursorStartRow, cursorStartColumn);
 
-            if(isDeleteLevel) loadLevel();
+            if(levelSettings.resetLevelAtDeath) loadLevel();
 
             Gdx.graphics.requestRendering();
         }else{

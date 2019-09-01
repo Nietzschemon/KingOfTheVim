@@ -22,12 +22,14 @@ public class MatrixSerialization extends Serialization{
     private int numberOfSaves = 0;
     private int currentSave = 0;
     private ArrayList<String> filePaths;
+    private LevelSettings levelSettings;
 
     public MatrixSerialization(){
         json = new Json();
         json.setUsePrototypes(false);
         save = new Save();
         filePaths = new ArrayList<>();
+        levelSettings = new LevelSettings();
     }
 
     public MatrixSerialization(VimObject vimObject){
@@ -267,6 +269,8 @@ public class MatrixSerialization extends Serialization{
      */
     public Cursor loadLevel(String filePath, CellMatrix matrix){
         Save save = loadSave(filePath);
+
+        levelSettings = save.levelSettings;
         loadMatrix(save, matrix);
 
         cursor = new Cursor(matrix, save.cursorRow, save.cursorColumn);
@@ -344,6 +348,6 @@ public class MatrixSerialization extends Serialization{
     }
 
     public LevelSettings getLevelSettings(){
-        return save.levelSettings;
+        return levelSettings;
     }
 }

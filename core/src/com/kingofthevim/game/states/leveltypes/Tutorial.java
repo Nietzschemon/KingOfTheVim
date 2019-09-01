@@ -46,12 +46,13 @@ public class Tutorial extends Level {
     @Override
     protected void checkWinCondition() {
 
-        if(isDeleteLevel
+        if(levelSettings.winOnDelete
                 && 0 >= vimMatrix.numberOfLetterTypesInMatrix(LetterType.GREEN)){
             changeLevel();
         }
 
-        if(cursor.isOnType(LetterType.WHITE_GREEN)) {
+        if(levelSettings.winOnGoal
+                && cursor.isOnType(LetterType.WHITE_GREEN)) {
             changeLevel();
         }
 
