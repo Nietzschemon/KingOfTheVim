@@ -1,12 +1,19 @@
+/*
+Commodore 64 UI Ver. 1
+ Created by Raymond "Raeleus" Buckley
+Visit ray3k.com for games, tutorials, and much more!
+ Commodore 64 UI can be used under the CC BY license.
+http://creativecommons.org/licenses/by/4.0/
+ */
+
+
 package com.kingofthevim.game.states.levelsettings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 import java.util.ArrayList;
 
@@ -14,14 +21,14 @@ public class LevelSettingsDialog  {
 
     private ArrayList<LevelSettingsListener> settingsListeners;
     private LevelSettings levelSettings;
-    private Skin skin = new Skin(Gdx.files.internal("default/skin/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("gamedata/textures/UI/commodore64/skin/uiskin.json"));
 
-    private Button cursorHasGravity = new CheckBox("Cursor", skin);
-    private Button winOnDelete = new CheckBox("Delete all green letters", skin);
-    private Button winOnGoal = new CheckBox("Reach the goal (white_green)",  skin);
-    private Button resetLevelAtDeath = new CheckBox("Reset level at death",  skin);
+    private CheckBox cursorHasGravity = new CheckBox(" - Cursor", skin, "radio");
+    private CheckBox winOnDelete = new CheckBox(" - Delete all green letters", skin, "radio");
+    private CheckBox winOnGoal = new CheckBox(" - Reach whiteGreen letters",  skin, "radio");
+    private CheckBox resetLevelAtDeath = new CheckBox(" - Reset level at death",  skin, "radio");
 
-    private Dialog dialog = new Dialog("Level Settings", skin, "dialog") {
+    private Dialog dialog = new Dialog("Level Settings", skin, "default") {
         public void result(Object obj) {
             System.out.println("result " + obj);
             boolean ok = (boolean)obj;
@@ -43,22 +50,28 @@ public class LevelSettingsDialog  {
         levelSettings.resetLevelAtDeath = resetLevelAtDeath.isChecked();
     }
     private void loadButtons(){
-        dialog.getContentTable().add("Win conditions").left().padTop(10);
+        dialog.getTitleLabel().setStyle(new Label("Level Settings", skin, "optional").getStyle());
+        dialog.setColor(Color.DARK_GRAY);
+        dialog.getContentTable().setColor(Color.GREEN);
+        dialog.getContentTable().add("Win conditions").left().padTop(20).padBottom(10).padLeft(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add(winOnGoal).left();
+        dialog.getContentTable().add(winOnGoal).left().padLeft(10).padRight(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add(winOnDelete).left();
+        dialog.getContentTable().add(winOnDelete).left().padLeft(10).padRight(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add("Gravity").left().padTop(10);
+        dialog.getContentTable().add("Gravity").left().padTop(20).padBottom(10).padLeft(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add(cursorHasGravity).left();
+        dialog.getContentTable().add(cursorHasGravity).left().padLeft(10).padRight(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add("Resets").left().padTop(10);
+        dialog.getContentTable().add("Resets").left().padTop(20).padBottom(10).padLeft(5);
         dialog.getContentTable().row();
-        dialog.getContentTable().add(resetLevelAtDeath).left();
+        dialog.getContentTable().add(resetLevelAtDeath).left().padLeft(10).padRight(5);
+        dialog.getContentTable().row();
+        dialog.getContentTable().add(" ");
 
-        dialog.button("change", true).getContentTable().left();
-        dialog.button("cancel", false).getContentTable().right();
+
+        dialog.button("change", true);
+        dialog.button("cancel", false);
         dialog.key(Input.Keys.ENTER, true);
     }
 
