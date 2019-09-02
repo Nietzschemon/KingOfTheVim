@@ -1,3 +1,13 @@
+//code by Stefan Ekblom
+//anno 2019
+
+/*
+Commodore 64 UI Ver. 1
+ Created by Raymond "Raeleus" Buckley
+Visit ray3k.com for games, tutorials, and much more!
+ Commodore 64 UI can be used under the CC BY license.
+http://creativecommons.org/licenses/by/4.0/
+ */
 package com.kingofthevim.game.scens;
 
 import com.badlogic.gdx.Gdx;
@@ -9,7 +19,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kingofthevim.game.KingOfTheVimMain;
@@ -20,6 +29,8 @@ public class Hud {
 
     private Integer scoreInt;
     private Integer moveInt;
+
+    private Skin skin = new Skin(Gdx.files.internal("gamedata/textures/UI/commodore64/skin/uiskin.json"));
 
     int Help_Guides = 12;
     int row_height = Gdx.graphics.getWidth() / 12;
@@ -44,9 +55,6 @@ public class Hud {
         this.movesNum.setText(String.format("%01d", moveInt));
     }
 
-
-    //TODO use fonts to update hud
-
     Label moves;
     Label movesNum;
     Label score;
@@ -66,27 +74,21 @@ public class Hud {
         table.bottom();
         table.setFillParent(true);
 
+        score = new Label("score", skin, "commodore-64", "white");
+        scoreNum = new Label("%01d", skin, "commodore-64", "white");
+        moves = new Label("moves", skin, "commodore-64", "white");
+        movesNum = new Label("%01d", skin, "commodore-64", "white");
 
-        score = new Label("score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreNum = new Label(String.format("%01d", scoreInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        moves = new Label("moves", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        movesNum = new Label(String.format("%01d", moveInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-        score.setFontScale(3);
-        scoreNum.setFontScale(3);
-        moves.setFontScale(3);
-        movesNum.setFontScale(3);
-
-        table.setColor(Color.PURPLE);
+        score.setFontScale(2);
+        scoreNum.setFontScale(2);
+        moves.setFontScale(2);
+        movesNum.setFontScale(2);
 
         table.add(score).expandX().pad(10);
         table.add(scoreNum).expandX().pad(10);
         table.add(moves).expandX().pad(10);
         table.add(movesNum).expandX().pad(10);
 
-
-
-        table.setColor(Color.PURPLE);
 
         addBackgroundGuide(Help_Guides);
 
