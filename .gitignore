@@ -124,3 +124,4 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
 /core/assets/gamedata/scoreData.csv
+/core/assets/scoreData.csv
