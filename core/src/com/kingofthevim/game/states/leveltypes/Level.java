@@ -1,6 +1,7 @@
 package com.kingofthevim.game.states.leveltypes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -149,8 +150,16 @@ public abstract class Level extends State {
 
         sb.end();
 
+        quickKeys();
         stage.act();
         stage.draw();
+    }
+
+    public void quickKeys(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F1)){
+            loadLevel();
+            pointsSys.resetAll();
+        }
     }
 
     @Override

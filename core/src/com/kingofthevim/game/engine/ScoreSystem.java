@@ -81,7 +81,7 @@ public class ScoreSystem {
 
     }
 
-    private void resetAll(){
+    public void resetAll(){
         points = 10000;
         actualMoves = 0;
         yellowMultiplier = 1;
