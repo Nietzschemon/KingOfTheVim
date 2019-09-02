@@ -19,7 +19,7 @@ public class ScoreSerialization extends ScoreSystem {
     }
 
     private void writeFile(String newData){
-        FileHandle saveFile = new FileHandle("gamedata/scoreData.csv");
+        FileHandle saveFile = new FileHandle("scoreData.csv");
         if(! saveFile.exists()){
             saveFile.writeString("level, score, steps, timerMilliSec, date\n", false);
         }
@@ -33,7 +33,7 @@ public class ScoreSerialization extends ScoreSystem {
     }
 
     public boolean readScoreFile(){
-        FileHandle saveFile = new FileHandle("gamedata/scoreData.csv");
+        FileHandle saveFile = new FileHandle("scoreData.csv");
 
         if(saveFile.exists()){
             saveFileString = saveFile.readString();
