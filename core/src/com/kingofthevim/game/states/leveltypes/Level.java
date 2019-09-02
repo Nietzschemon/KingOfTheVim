@@ -113,8 +113,6 @@ public abstract class Level extends State {
 
     @Override
     public void render(SpriteBatch sb) {
-        stage.act();
-        stage.draw();
 
         sb.setProjectionMatrix(cam.combined);
 
@@ -150,6 +148,9 @@ public abstract class Level extends State {
         }
 
         sb.end();
+
+        stage.act();
+        stage.draw();
     }
 
     @Override
