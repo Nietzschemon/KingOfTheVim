@@ -4,15 +4,18 @@ Download here:
 <h2>What:s</h2>
 
 <h4> What is it?</h4>
-It is a game based on Vim. It is meant both to teach people new to Vim aswell as to sharpen the skills of people that already are vim-literate. <div> _So it basically a tool of propaganda in the never ending holy war of the text-editors._ </div>
+It is a game based on Vim. It is meant both to teach people new to Vim aswell as to sharpen the skills of people that already are vim-literate. 
+<div> <i>So it basically a tool of propaganda in the never ending holy war of the text-editors.</i> </div>
 
 <h4> What does it contain?</h4>
+
 * **Game-modes:** Several game-modes for learning and becoming better at vim. 
 * **Tracking:** Score, time and step-tracking. 
 * **Level Editor:** Make your own levels. It is just an other vim-mode!
 
 <h4> What moves and modes does it contain? </h4>
-Most of the basic moves that are hard for a beginner to master and for veterans not to get sloppy with. <div> _More will be added as the game evolves._</div>
+Most of the basic moves that are hard for a beginner to master and for veterans not to get sloppy with. 
+<div> <i>More will be added as the game evolves.</i></div>
 
 * **Moves**
     * char (hjkl)
@@ -34,19 +37,21 @@ All contributions are apprisiated. Make levels in the editor or give me some cod
 
 <h2>How:s</h2>
 
-<h4> "How do I play?"</h4>h4>
+<h4> "How do I play?"</h4>
+
 1. Download the zip and unzip the whole thing to where you want to store it. 
 2. Start "KingOfVim.jar" inside the folder. 
 3. Press enter when the menu screen has appeared. 
 
 <h4> How do I enter and exit the level editor?</h4>
+
 1. Go to the main menu
 2. Press F5 to enter the editor and F5 again to exit
 
 <h4> How do I use the level editor?</h4>
 The editor is used just like vim with an extra mode - called buildMode - and some editor-specific F-keys. 
-<div>A level is built by modifing letters with buildMode so certain events are triggerd when the cursor hits them in the game.
-These triggers are called "LetterTypes" and are the back-bone of the game engine.  </div>
+
+<div>A level is built by modifing letters with buildMode so certain events are triggerd when the cursor hits them in the game. These triggers are called "LetterTypes" and are the back-bone of the game engine.</div>
 
 
 * **Important notes**
