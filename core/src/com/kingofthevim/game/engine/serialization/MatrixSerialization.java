@@ -14,7 +14,7 @@ public class MatrixSerialization extends Serialization{
 
     private Cursor cursor;
     private VimObject vimObject;
-    private static String fileName = "levels/builder/LevelBuilder_0";
+    private static String fileName = "levels/builder/LevelBuilder_0.json";
     private static int counter;
     private Json json;
     private Save save;
@@ -109,7 +109,7 @@ public class MatrixSerialization extends Serialization{
         }
 
         while (Gdx.files.local(fileName).exists()){
-            fileName = "levels/builder/LevelBuilder_" + counter++;
+            fileName = "levels/builder/LevelBuilder_" + counter++ + ".json";
         }
 
         saveAll(fileName);
@@ -127,7 +127,7 @@ public class MatrixSerialization extends Serialization{
         }
 
         while (Gdx.files.local(fileName).exists()){
-            fileName = "levels/builder/LevelBuilder_" + counter++;
+            fileName = "levels/builder/LevelBuilder_" + counter++ + ".json";
         }
 
         save.levelSettings = settings;
