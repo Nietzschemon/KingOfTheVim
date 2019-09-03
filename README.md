@@ -1,5 +1,6 @@
 <h1>King of the Vim</h1>
-Download here:
+
+[Download here](./builds/)
 
 <h2>What:s</h2>
 
