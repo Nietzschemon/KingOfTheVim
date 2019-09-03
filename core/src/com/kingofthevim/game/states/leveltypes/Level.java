@@ -70,6 +70,8 @@ public abstract class Level extends State {
         letterAdder = new LetterManager(vimMatrix);
 
         hud = new Hud();
+        hud.setText("score", 0);
+        hud.setText("steps", 2);
 
         stage = hud.stage;
 
@@ -117,8 +119,8 @@ public abstract class Level extends State {
 
         sb.setProjectionMatrix(cam.combined);
 
-        hud.setMoveInt(updateSteps());
-        hud.setScoreInt(updatePoints());
+        hud.setInt(updateSteps(), 3, "%03d");
+        hud.setInt(updatePoints(), 1, "%08d");
 
         sb.begin();
 

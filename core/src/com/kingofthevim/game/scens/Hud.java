@@ -27,8 +27,11 @@ public class Hud {
     public Stage stage;
     private Viewport viewport;
 
-    private Integer scoreInt;
-    private Integer moveInt;
+    Label moves;
+    Label movesNum;
+    Label score;
+    Label scoreNum;
+    Table table;
 
     private Skin skin = new Skin(Gdx.files.internal("gamedata/textures/UI/commodore64/skin/uiskin.json"));
 
@@ -37,33 +40,8 @@ public class Hud {
     int col_width = Gdx.graphics.getWidth() / 12;
 
 
-    public Integer getScoreInt() {
-        return scoreInt;
-    }
-
-    public void setScoreInt(Integer scoreInt) {
-
-        this.scoreNum.setText(String.format("%01d", scoreInt));
-    }
-
-    public Integer getMoveInt() {
-        return moveInt;
-    }
-
-    public void setMoveInt(Integer moveInt) {
-
-        this.movesNum.setText(String.format("%01d", moveInt));
-    }
-
-    Label moves;
-    Label movesNum;
-    Label score;
-    Label scoreNum;
-    Table table;
 
     public Hud(){
-        scoreInt = 0;
-        moveInt = 0;
 
         viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
 
@@ -74,10 +52,10 @@ public class Hud {
         table.bottom();
         table.setFillParent(true);
 
-        score = new Label("score", skin, "commodore-64", "white");
-        scoreNum = new Label("%01d", skin, "commodore-64", "white");
-        moves = new Label("moves", skin, "commodore-64", "white");
-        movesNum = new Label("%01d", skin, "commodore-64", "white");
+        score = new Label("", skin, "commodore-64", "white");
+        scoreNum = new Label("", skin, "commodore-64", "white");
+        moves = new Label("", skin, "commodore-64", "white");
+        movesNum = new Label("", skin, "commodore-64", "white");
 
         score.setFontScale(2);
         scoreNum.setFontScale(2);
@@ -97,40 +75,12 @@ public class Hud {
     }
 
     public Hud(SpriteBatch sb){
-
-        scoreInt = 0;
-        moveInt = 0;
-
-        viewport = new StretchViewport(KingOfTheVimMain.WIDTH, KingOfTheVimMain.HEIGHT, new OrthographicCamera());
+        this();
         stage = new Stage(viewport, sb);
-
-        table = new Table();
-
-        table.bottom();
-        table.setColor(Color.PURPLE);
-        table.setFillParent(true);
-
-
-        score = new Label("score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreNum = new Label(String.format("%03d", scoreInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        moves = new Label("moves", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        movesNum = new Label(String.format("%03d", moveInt), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-        score.setFontScale(2);
-        scoreNum.setFontScale(2);
-        moves.setFontScale(2);
-        movesNum.setFontScale(2);
-
-
-        table.add(score).expandX().pad(10);
-        table.add(scoreNum).expandX().pad(10);
-        table.add(moves).expandX().pad(10);
-        table.add(movesNum).expandX().pad(10);
-
         stage.addActor(table);
     }
 
-    public void addBackgroundGuide(int columns){
+    private void addBackgroundGuide(int columns){
         Texture texture = new Texture(Gdx.files.internal("gamedata/textures/PointBar.jpg"));
         texture.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
 
@@ -145,5 +95,63 @@ public class Hud {
 
     public void dispose(){
         stage.dispose();
+    }
+
+
+    public Table getTable(){
+        return table;
+    }
+
+    public void setInt(int intToSet, int column){
+
+        setInt(intToSet, column, "%03d");
+    }
+
+    public void setInt(int intToSet, int column, String format){
+
+        switch (column){
+            case 0:
+                this.score.setText(String.format(format, intToSet));
+                break;
+
+            case 1:
+                this.scoreNum.setText(String.format(format, intToSet));
+                break;
+
+            case 2:
+                this.moves.setText(String.format(format, intToSet));
+                break;
+
+            case 3:
+                this.movesNum.setText(String.format(format, intToSet));
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void setText(String text, int column){
+
+        switch (column){
+            case 0:
+                score.setText(text);
+                break;
+
+            case 1:
+                scoreNum.setText(text);
+                break;
+
+            case 2:
+                moves.setText(text);
+                break;
+
+            case 3:
+                movesNum.setText(text);
+                break;
+
+            default:
+                break;
+        }
     }
 }
