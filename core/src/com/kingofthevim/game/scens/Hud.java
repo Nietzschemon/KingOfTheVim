@@ -25,10 +25,10 @@ public class Hud {
     public Stage stage;
     private Viewport viewport;
 
-    Label moves;
-    Label movesNum;
-    Label score;
-    Label scoreNum;
+    Label column2;
+    Label column3;
+    Label column0;
+    Label column1;
     Table table;
 
     private Skin skin = new Skin(Gdx.files.internal("gamedata/textures/UI/commodore64/skin/uiskin.json"));
@@ -50,20 +50,20 @@ public class Hud {
         table.bottom();
         table.setFillParent(true);
 
-        score = new Label("", skin, "commodore-64", "white");
-        scoreNum = new Label("", skin, "commodore-64", "white");
-        moves = new Label("", skin, "commodore-64", "white");
-        movesNum = new Label("", skin, "commodore-64", "white");
+        column0 = new Label("", skin, "commodore-64", "white");
+        column1 = new Label("", skin, "commodore-64", "white");
+        column2 = new Label("", skin, "commodore-64", "white");
+        column3 = new Label("", skin, "commodore-64", "white");
 
-        score.setFontScale(2);
-        scoreNum.setFontScale(2);
-        moves.setFontScale(2);
-        movesNum.setFontScale(2);
+        column0.setFontScale(2);
+        column1.setFontScale(2);
+        column2.setFontScale(2);
+        column3.setFontScale(2);
 
-        table.add(score).expandX().pad(10);
-        table.add(scoreNum).expandX().pad(10);
-        table.add(moves).expandX().pad(10);
-        table.add(movesNum).expandX().pad(10);
+        table.add(column0).expandX().pad(10);
+        table.add(column1).expandX().pad(10);
+        table.add(column2).expandX().pad(10);
+        table.add(column3).expandX().pad(10);
 
 
         addBackgroundGuide(Help_Guides);
@@ -109,19 +109,19 @@ public class Hud {
 
         switch (column){
             case 0:
-                this.score.setText(String.format(format, intToSet));
+                this.column0.setText(String.format(format, intToSet));
                 break;
 
             case 1:
-                this.scoreNum.setText(String.format(format, intToSet));
+                this.column1.setText(String.format(format, intToSet));
                 break;
 
             case 2:
-                this.moves.setText(String.format(format, intToSet));
+                this.column2.setText(String.format(format, intToSet));
                 break;
 
             case 3:
-                this.movesNum.setText(String.format(format, intToSet));
+                this.column3.setText(String.format(format, intToSet));
                 break;
 
             default:
@@ -133,19 +133,19 @@ public class Hud {
 
         switch (column){
             case 0:
-                score.setText(text);
+                column0.setText(text);
                 break;
 
             case 1:
-                scoreNum.setText(text);
+                column1.setText(text);
                 break;
 
             case 2:
-                moves.setText(text);
+                column2.setText(text);
                 break;
 
             case 3:
-                movesNum.setText(text);
+                column3.setText(text);
                 break;
 
             default:
@@ -153,17 +153,17 @@ public class Hud {
         }
     }
 
-    public void setFontScale(int scale){
-        score.setFontScale(scale);
-        scoreNum.setFontScale(scale);
-        moves.setFontScale(scale);
-        movesNum.setFontScale(scale);
+    public void setFontScale(float scale){
+        column0.setFontScale(scale);
+        column1.setFontScale(scale);
+        column2.setFontScale(scale);
+        column3.setFontScale(scale);
     }
 
     public void clearHud(){
-        scoreNum.setText("");
-        score.setText("");
-        moves.setText("");
-        movesNum.setText("");
+        column1.setText("");
+        column0.setText("");
+        column2.setText("");
+        column3.setText("");
     }
 }
