@@ -58,6 +58,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         dialog.addListener(this);
         hud.clearHud();
         hud.setFontScale(1.5f);
+        cursor.getInputManager().setBuildModeEnabled(true);
     }
 
     @Override
@@ -319,7 +320,7 @@ public class LevelEditor extends Level implements LevelSettingsListener {
     @Override
     public void settingsChanged() {
         levelSettings = dialog.getLevelSettings();
-        new InputManager(cursor);
+        new InputManager(cursor).setBuildModeEnabled(true);
         hud.setText("Settings set", 0);
     }
 }

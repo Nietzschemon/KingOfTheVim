@@ -41,6 +41,8 @@ public class InputManager implements InputProcessor {
     ArrayList<VimMove> vimMoveList;
 
 
+    private boolean buildModeEnabled = false;
+
 
     public InputManager(Cursor cursor){
         this.cursor = cursor;
@@ -58,6 +60,11 @@ public class InputManager implements InputProcessor {
         addModeListener(cursor);
     }
 
+    public InputManager(Cursor cursor, boolean buildMOdeEnabled){
+        this(cursor);
+        this.buildModeEnabled = buildMOdeEnabled;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         addToHistory = true;
@@ -73,7 +80,16 @@ public class InputManager implements InputProcessor {
                 inDeleteModeChanged(true);
                 return true;
 
+            case Input.Keys.F12:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
+                        && Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+                    buildModeEnabled = true;
+                    return true;
+                }
+                return false;
+
             case Input.Keys.TAB:
+                if(buildModeEnabled)
                 inputMultiplexer.addProcessor(0, buildMode);
                 return true;
 
@@ -347,6 +363,15 @@ public class InputManager implements InputProcessor {
             }
         }
     }
+
+    public boolean isBuildModeEnabled() {
+        return buildModeEnabled;
+    }
+
+    public void setBuildModeEnabled(boolean buildModeEnabled) {
+        this.buildModeEnabled = buildModeEnabled;
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
