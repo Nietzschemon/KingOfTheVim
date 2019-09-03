@@ -56,6 +56,8 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         cursor.muteSoundEffects();
 
         dialog.addListener(this);
+        hud.clearHud();
+        hud.setFontScale(1.5f);
     }
 
     @Override
@@ -131,6 +133,8 @@ public class LevelEditor extends Level implements LevelSettingsListener {
     private String nextText(){
         if(texts.length <= fileIndex) fileIndex = 0;
         String text = texts[fileIndex].readString();
+        hud.setText("Text: ", 0);
+        hud.setText(texts[fileIndex].name(), 1);
         fileIndex++;
         return text;
     }
@@ -143,12 +147,17 @@ public class LevelEditor extends Level implements LevelSettingsListener {
             int currRow = cursor.getPosition().getCurrRow();
             cursor.getPosition().setAbsolutePosition(startRow, startColumn);
 
+            hud.clearHud();
+
             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
                     || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
                 serialization.saveAll(serialization.getCurrentFilePath(), levelSettings);
+                hud.setText("\"" + serialization.getCurrentFileName() + "\" was overwritten", 0);
             }else{
                  serialization.saveAll(levelSettings);
+                 hud.setText("saved as \"" + serialization.getCurrentFileName() + "\"", 0);
             }
+
 
             cursor.getPosition().setAbsolutePosition(currRow, currColumn);
             return true;
@@ -161,47 +170,39 @@ public class LevelEditor extends Level implements LevelSettingsListener {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F4)){
             startColumn = cursor.getPosition().getCurrColumn();
             startRow = cursor.getPosition().getCurrRow();
+            hud.setText("start position set to row "
+                    + startRow + " column: " + startColumn, 0);
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F5)){
+            hud.clearHud();
             gsm.push(new Menu(gsm));
             return true;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F6)){
-            cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
-            cursor.getPosition().setAbsolutePosition(startRow, startColumn);
-            serialization.saveAll(levelSettings);
-            serialization.listFiles();
-            return true;
-        }
-
         if(Gdx.input.isKeyJustPressed(Input.Keys.F7)){
+            hud.clearHud();
             serialization.loadPreviousFile();
             levelSettings = serialization.getLevelSettings();
             dialog.setLevelSettings(levelSettings);
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
+            hud.setText("current file: " + serialization.getCurrentFileName(), 0);
             return true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F8)){
+            hud.clearHud();
             serialization.loadNextFile();
             levelSettings = serialization.getLevelSettings();
             dialog.setLevelSettings(levelSettings);
             cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
             setCurrPosAsStartPos();
+            hud.setText("current file: " + serialization.getCurrentFileName(), 0);
             return true;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F9)){
-            serialization.loadAll();
-            levelSettings = serialization.getLevelSettings();
-            dialog.setLevelSettings(levelSettings);
-            setCurrPosAsStartPos();
-            return true;
-        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F10)){
             dialog.setLevelSettings(levelSettings);
@@ -212,9 +213,11 @@ public class LevelEditor extends Level implements LevelSettingsListener {
             fallMode = !fallMode;
             if(fallMode){
                 cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+                hud.setText("entered fall-mode", 0);
             }
             else {
                 cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+                hud.setText("exited fall-mode", 0);
             }
             return true;
         }
@@ -224,9 +227,11 @@ public class LevelEditor extends Level implements LevelSettingsListener {
 
             if(testMode){
                 cursor.getVimMatrix().changeAllCellTypes(LetterType.WHITE, ' ', LetterType.EMPATHY);
+                hud.setText("entered test-mode", 0);
             }
             else {
                 cursor.getVimMatrix().changeAllCellTypes(LetterType.EMPATHY, LetterType.WHITE);
+                hud.setText("exited test-mode", 0);
             }
             return true;
         }
@@ -315,5 +320,6 @@ public class LevelEditor extends Level implements LevelSettingsListener {
     public void settingsChanged() {
         levelSettings = dialog.getLevelSettings();
         new InputManager(cursor);
+        hud.setText("Settings set", 0);
     }
 }
