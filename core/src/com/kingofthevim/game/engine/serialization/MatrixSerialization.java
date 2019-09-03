@@ -21,7 +21,7 @@ public class MatrixSerialization extends Serialization{
     private LetterManager letterManager;
     private int numberOfSaves = 0;
     private int currentSave = 0;
-    private ArrayList<String> filePaths;
+    private ArrayList<String> fileNames;
     private LevelSettings levelSettings;
     private String currentFilePath;
 
@@ -29,7 +29,7 @@ public class MatrixSerialization extends Serialization{
         json = new Json();
         json.setUsePrototypes(false);
         save = new Save();
-        filePaths = new ArrayList<>();
+        fileNames = new ArrayList<>();
         levelSettings = new LevelSettings();
     }
 
@@ -39,9 +39,6 @@ public class MatrixSerialization extends Serialization{
         letterManager = new LetterManager(vimObject.getVimMatrix());
     }
 
-    public String getCurrentFilePath() {
-        return currentFilePath;
-    }
 
 
     /**
@@ -221,20 +218,20 @@ public class MatrixSerialization extends Serialization{
 
         if(currentSave < 0) {
             currentSave = numberOfSaves - 1;
-            loadAll("levels/builder/" + filePaths.get( currentSave));
-            currentFilePath = "levels/builder/" + filePaths.get( currentSave);
+            loadAll("levels/builder/" + fileNames.get( currentSave));
+            currentFilePath = "levels/builder/" + fileNames.get( currentSave);
             return;
         }
 
         if(currentSave < numberOfSaves) {
-            loadAll("levels/builder/" + filePaths.get( currentSave));
-            currentFilePath = "levels/builder/" + filePaths.get( currentSave);
+            loadAll("levels/builder/" + fileNames.get( currentSave));
+            currentFilePath = "levels/builder/" + fileNames.get( currentSave);
         }
 
         if(currentSave >= numberOfSaves){
             currentSave = 0;
-            loadAll("levels/builder/" + filePaths.get( currentSave));
-            currentFilePath = "levels/builder/" + filePaths.get( currentSave);
+            loadAll("levels/builder/" + fileNames.get( currentSave));
+            currentFilePath = "levels/builder/" + fileNames.get( currentSave);
         }
 
 
@@ -248,9 +245,9 @@ public class MatrixSerialization extends Serialization{
      * @return true if files exist
      */
     private boolean updateFileNum(){
-        if(filePaths.isEmpty()) return false;
+        if(fileNames.isEmpty()) return false;
 
-        if(filePaths.size() > numberOfSaves) numberOfSaves = filePaths.size();
+        if(fileNames.size() > numberOfSaves) numberOfSaves = fileNames.size();
         return true;
     }
 
@@ -268,7 +265,7 @@ public class MatrixSerialization extends Serialization{
     }
 
     private void getFiles(){
-        filePaths = getFileNames("levels/builder/");
+        fileNames = getFileNames("levels/builder/");
     }
 
     /**
@@ -276,7 +273,7 @@ public class MatrixSerialization extends Serialization{
      */
     public void listFiles(){
 
-        letterManager.setHorizontalStringArray(filePaths, 2, 2, 2, true, true, LetterType.WHITE);
+        letterManager.setHorizontalStringArray(fileNames, 2, 2, 2, true, true, LetterType.WHITE);
     }
 
     /**
@@ -369,5 +366,9 @@ public class MatrixSerialization extends Serialization{
 
     public LevelSettings getLevelSettings(){
         return levelSettings;
+    }
+
+    public String getCurrentFilePath() {
+        return currentFilePath;
     }
 }
