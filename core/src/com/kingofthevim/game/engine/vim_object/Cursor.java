@@ -175,6 +175,11 @@ public class Cursor implements VimObject, ModeListener {
         return position;
     }
 
+    public InputManager getInputManager() {
+        return inputManager;
+    }
+
+
     @Override
     public void setPosition(Position position) {
 
