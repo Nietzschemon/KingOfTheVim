@@ -24,6 +24,7 @@ public class MatrixSerialization extends Serialization{
     private ArrayList<String> fileNames;
     private LevelSettings levelSettings;
     private String currentFilePath;
+    private String currentFileName;
 
     public MatrixSerialization(){
         json = new Json();
@@ -150,6 +151,7 @@ public class MatrixSerialization extends Serialization{
 
         FileHandle file = Gdx.files.local(filePath);
         json.toJson(save,  file);
+        currentFileName = file.name();
     }
 
 
@@ -216,22 +218,27 @@ public class MatrixSerialization extends Serialization{
      */
     private void safeLoadCurrentSave(){
 
+        if(! updateFileNum()) return;
+
         if(currentSave < 0) {
             currentSave = numberOfSaves - 1;
             loadAll("levels/builder/" + fileNames.get( currentSave));
             currentFilePath = "levels/builder/" + fileNames.get( currentSave);
+            currentFileName = fileNames.get(currentSave);
             return;
         }
 
         if(currentSave < numberOfSaves) {
             loadAll("levels/builder/" + fileNames.get( currentSave));
             currentFilePath = "levels/builder/" + fileNames.get( currentSave);
+            currentFileName = fileNames.get(currentSave);
         }
 
         if(currentSave >= numberOfSaves){
             currentSave = 0;
             loadAll("levels/builder/" + fileNames.get( currentSave));
             currentFilePath = "levels/builder/" + fileNames.get( currentSave);
+            currentFileName = fileNames.get(currentSave);
         }
 
 
@@ -370,5 +377,9 @@ public class MatrixSerialization extends Serialization{
 
     public String getCurrentFilePath() {
         return currentFilePath;
+    }
+
+    public String getCurrentFileName() {
+        return currentFileName;
     }
 }
