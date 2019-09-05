@@ -33,7 +33,7 @@ Most of the basic moves that are hard for a beginner to master and for veterans 
     * Everything mentioned except f-move.
     
 <h4> "What can I do to help out?"</h4>
-All contributions are apprisiated. Make levels in the editor or give me some code to implement more vim-moves and -modes. 
+All contributions are appreciated. Make levels in the editor or give me some code to implement more vim-moves and -modes. 
 <div>A project board will be up soon! </div>
 
 <h2>How:s</h2>
