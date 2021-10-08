@@ -106,7 +106,11 @@ public class BuildMode implements InputProcessor {
     }
 
     @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return true;
+    }
+
     public boolean scrolled(int amount) {
-        return false;
+        return true;
     }
 }

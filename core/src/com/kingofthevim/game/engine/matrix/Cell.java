@@ -404,7 +404,7 @@ public class Cell {
             blackFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/2_42black_bg_none.png"));
             blackFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/1_42black_bg_none.png"));
             blackFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/singleQuote_42black_bg_none.png"));
-            blackFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/graveAccent_42black_bg_none.png"));
+            blackFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/`_42black_bg_none.png"));
             blackFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_black_bg_none/doubleQuote_42black_bg_none.png"));
 
         }
@@ -501,7 +501,7 @@ public class Cell {
             greenFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/2_42green_bg_none.png"));
             greenFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/1_42green_bg_none.png"));
             greenFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/singleQuote_42green_bg_none.png"));
-            greenFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/graveAccent_42green_bg_none.png"));
+            greenFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/`_42green_bg_none.png"));
             greenFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_green_bg_none/doubleQuote_42green_bg_none.png"));
 
         }
@@ -597,7 +597,7 @@ public class Cell {
             redFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/2_42red_bg_none.png"));
             redFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/1_42red_bg_none.png"));
             redFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/singleQuote_42red_bg_none.png"));
-            redFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/graveAccent_42red_bg_none.png"));
+            redFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/`_42red_bg_none.png"));
             redFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_red_bg_none/doubleQuote_42red_bg_none.png"));
         }
         private static void getGrayTextures(){
@@ -691,7 +691,7 @@ public class Cell {
             grayFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/2_42gray_bg_none.png"));
             grayFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/1_42gray_bg_none.png"));
             grayFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/singleQuote_42gray_bg_none.png"));
-            grayFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/graveAccent_42gray_bg_none.png"));
+            grayFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/`_42gray_bg_none.png"));
             grayFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_gray_bg_none/doubleQuote_42gray_bg_none.png"));
 
         }
@@ -786,7 +786,7 @@ public class Cell {
             yellowFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/2_42yellow_bg_none.png"));
             yellowFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/1_42yellow_bg_none.png"));
             yellowFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/singleQuote_42yellow_bg_none.png"));
-            yellowFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/graveAccent_42yellow_bg_none.png"));
+            yellowFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/`_42yellow_bg_none.png"));
             yellowFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_yellow_bg_none/doubleQuote_42yellow_bg_none.png"));
         }
         private static void getWhiteTextures(){
@@ -881,7 +881,7 @@ public class Cell {
             whiteFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/2_42white_bg_none.png"));
             whiteFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/1_42white_bg_none.png"));
             whiteFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/singleQuote_42white_bg_none.png"));
-            whiteFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/graveAccent_42white_bg_none.png"));
+            whiteFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/`_42white_bg_none.png"));
             whiteFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_white_bg_none/doubleQuote_42white_bg_none.png"));
         }
         private static void getWhiteGreenTextures(){
@@ -976,7 +976,7 @@ public class Cell {
             whiteGreenFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/2_42white_bg_green.png"));
             whiteGreenFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/1_42white_bg_green.png"));
             whiteGreenFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/singleQuote_42white_bg_green.png"));
-            whiteGreenFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/graveAccent_42white_bg_green.png"));
+            whiteGreenFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/`_42white_bg_green.png"));
             whiteGreenFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_white_bg_green/doubleQuote_42white_bg_green.png"));
         }
         private static void getWhitePurpleTextures(){
@@ -1071,7 +1071,7 @@ public class Cell {
             whitePurpleFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/2_42white_bg_purple.png"));
             whitePurpleFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/1_42white_bg_purple.png"));
             whitePurpleFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/singleQuote_42white_bg_purple.png"));
-            whitePurpleFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/graveAccent_42white_bg_purple.png"));
+            whitePurpleFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/`_42white_bg_purple.png"));
             whitePurpleFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_white_bg_purple/doubleQuote_42white_bg_purple.png"));
         }
         private static void getWhiteRedTextures(){
@@ -1166,7 +1166,7 @@ public class Cell {
             whiteRedFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/2_42white_bg_red.png"));
             whiteRedFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/1_42white_bg_red.png"));
             whiteRedFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/singleQuote_42white_bg_red.png"));
-            whiteRedFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/graveAccent_42white_bg_red.png"));
+            whiteRedFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/`_42white_bg_red.png"));
             whiteRedFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_white_bg_red/doubleQuote_42white_bg_red.png"));
         }
         private static void getBlackYellowTextures(){
@@ -1261,7 +1261,7 @@ public class Cell {
             blackYellowFont.put('2', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/2_42black_bg_yellow.png"));
             blackYellowFont.put('1', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/1_42black_bg_yellow.png"));
             blackYellowFont.put('\'', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/singleQuote_42black_bg_yellow.png"));
-            blackYellowFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/graveAccent_42black_bg_yellow.png"));
+            blackYellowFont.put('`', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/`_42black_bg_yellow.png"));
             blackYellowFont.put('\"', new Texture("gamedata/textures/fonts/size_42_f_black_bg_yellow/doubleQuote_42black_bg_yellow.png"));
         }
     }

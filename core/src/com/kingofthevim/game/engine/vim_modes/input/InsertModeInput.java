@@ -55,7 +55,10 @@ public class InsertModeInput extends InsertMode implements InputProcessor {
         return false;
     }
 
-    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
     public boolean scrolled(int amount) {
         return false;
     }

@@ -1,7 +1,5 @@
 package com.kingofthevim.game.engine.matrix;
 
-import com.kingofthevim.game.engine.matrix.LetterType;
-
 public class Properties {
 
     private char keyChar = ' ';

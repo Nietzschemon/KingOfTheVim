@@ -153,7 +153,8 @@ public class DeleteModeInput extends DeleteMode implements InputProcessor, VimMo
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public boolean scrolled(float amountX, float amountY) {
+        return true;
     }
+
 }

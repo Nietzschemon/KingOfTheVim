@@ -73,6 +73,10 @@ public class ReplaceModeInput extends ReplaceMode implements InputProcessor {
     }
 
     @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
     public boolean scrolled(int amount) {
         return false;
     }

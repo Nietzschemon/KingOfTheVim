@@ -188,8 +188,11 @@ public class MoveInput extends Movement implements InputProcessor, VimMovement {
         return false;
     }
 
-    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return true;
+    }
+
     public boolean scrolled(int amount) {
-        return false;
+        return true;
     }
 }

@@ -3,14 +3,15 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
-	<inherits name='com.badlogic.ashley_gwt' />
-	<inherits name='Box2DLights' />
 
     <inherits name='com.kingofthevim.game.GdxDefinition' />
-    
+
+	<extend-configuration-property name="gdx.reflect.include" value="com.kingofthevim.game.engine.serialization" />
+
     <collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
-	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>	
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
+
 </module>

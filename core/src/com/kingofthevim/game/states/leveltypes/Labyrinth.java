@@ -7,6 +7,8 @@ import com.kingofthevim.game.engine.sound.MusicTracks;
 import com.kingofthevim.game.engine.ScoreSystem;
 import com.kingofthevim.game.states.GameStateManager;
 
+import java.util.LinkedList;
+
 
 public class Labyrinth extends Level {
 
@@ -14,7 +16,19 @@ public class Labyrinth extends Level {
         super(gsm);
 
         serial = new MatrixSerialization();
-        levels = serial.getFilePathsAsQueue("levels/game/");
+
+        /*TODO make two files for listing levels.
+            One for in-game and one for appending files made by the level editor
+         */
+        //levels = serial.getFilePathsAsQueue("./levels/game/");
+
+        levels = new LinkedList<String>();
+        levels.add("levels/game/Level_1.1.json");
+        levels.add("levels/game/Level_1.2.json");
+        levels.add("levels/game/Level_3.1.json");
+        levels.add("levels/game/Level_3.2.json");
+        levels.add("levels/game/Puzzle_1.0.json");
+        levels.add("levels/game/Puzzle_1.1.json");
 
         levelName = levels.poll();
         pointsSys = new ScoreSystem(levelName);
