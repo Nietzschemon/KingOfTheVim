@@ -63,9 +63,6 @@ project(":html") {
     dependencies {
         implementation project(":core")
 
-        compile 'net.dermetfan.libgdx-utils:libgdx-utils:0.7.2:sources'
-        compile 'net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.7.2:sources'
-
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
